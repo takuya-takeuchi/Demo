@@ -78,14 +78,6 @@ namespace OneDrive1.ViewModels
 
         private async void ExecuteSingIn()
         {
-            if (this._OneDriveClient != null)
-            {
-                if (this._OneDriveClient.IsAuthenticated)
-                {
-                    await this._OneDriveClient.SignOutAsync();
-                }
-            }
-
             if (this._OneDriveClient == null)
             {
                 this._OneDriveClient = OneDriveClient.GetMicrosoftAccountClient(
