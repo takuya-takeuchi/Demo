@@ -1,0 +1,44 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.40629.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OpenCV2", "OpenCV2\OpenCV2.csproj", "{1462071A-F555-4135-A51E-38D4B1E8DA27}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenCV2Lib", "OpenCV2Lib\OpenCV2Lib.vcxproj", "{38CFE7D7-1B59-4884-8A8A-89B129521814}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Debug|Mixed Platforms = Debug|Mixed Platforms
+		Debug|Win32 = Debug|Win32
+		Release|Any CPU = Release|Any CPU
+		Release|Mixed Platforms = Release|Mixed Platforms
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{1462071A-F555-4135-A51E-38D4B1E8DA27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1462071A-F555-4135-A51E-38D4B1E8DA27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1462071A-F555-4135-A51E-38D4B1E8DA27}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{1462071A-F555-4135-A51E-38D4B1E8DA27}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{1462071A-F555-4135-A51E-38D4B1E8DA27}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{1462071A-F555-4135-A51E-38D4B1E8DA27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1462071A-F555-4135-A51E-38D4B1E8DA27}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1462071A-F555-4135-A51E-38D4B1E8DA27}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{1462071A-F555-4135-A51E-38D4B1E8DA27}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{1462071A-F555-4135-A51E-38D4B1E8DA27}.Release|Win32.ActiveCfg = Release|Any CPU
+		{38CFE7D7-1B59-4884-8A8A-89B129521814}.Debug|Any CPU.ActiveCfg = Debug|x64
+		{38CFE7D7-1B59-4884-8A8A-89B129521814}.Debug|Mixed Platforms.ActiveCfg = Debug|Win32
+		{38CFE7D7-1B59-4884-8A8A-89B129521814}.Debug|Mixed Platforms.Build.0 = Debug|Win32
+		{38CFE7D7-1B59-4884-8A8A-89B129521814}.Debug|Win32.ActiveCfg = Debug|Win32
+		{38CFE7D7-1B59-4884-8A8A-89B129521814}.Debug|Win32.Build.0 = Debug|Win32
+		{38CFE7D7-1B59-4884-8A8A-89B129521814}.Release|Any CPU.ActiveCfg = Release|x64
+		{38CFE7D7-1B59-4884-8A8A-89B129521814}.Release|Mixed Platforms.ActiveCfg = Release|Win32
+		{38CFE7D7-1B59-4884-8A8A-89B129521814}.Release|Mixed Platforms.Build.0 = Release|Win32
+		{38CFE7D7-1B59-4884-8A8A-89B129521814}.Release|Win32.ActiveCfg = Release|Win32
+		{38CFE7D7-1B59-4884-8A8A-89B129521814}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
