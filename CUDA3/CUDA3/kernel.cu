@@ -144,8 +144,8 @@ cudaError_t addWithCuda(float *c, const float *a, const float *b)
 	start = std::chrono::high_resolution_clock::now();
 
 	// Launch a kernel on the GPU with one thread for each element.
-	dim3 threadsPerBlock(SIZE, SIZE);
-	dim3 numBlocks((MATRIX_SIZE + threadsPerBlock.x - 1) / threadsPerBlock.x, (MATRIX_SIZE + threadsPerBlock.y - 1) / threadsPerBlock.y);
+	dim3 threadsPerBlock(32, 32); // 32 x 32 threads / per block
+	dim3 numBlocks(256, 256);     // 256 x 256 blocks / per grid
 
 	printf("threadsPerBlock.X =%d, threadsPerBlock.y = %d\n", threadsPerBlock.x, threadsPerBlock.y);
 	printf("numBlocks.X =%d, numBlocks.y = %d\n", numBlocks.x, numBlocks.y);
