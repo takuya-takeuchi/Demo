@@ -40,16 +40,6 @@ namespace CNTK6.ViewModels
                         // Report error here
                         return;
                     }
-
-                    this.ModelFilePath = @"D:\Works\Lib\Microsoft\CNTK\CNTK\Examples\Image\Miscellaneous\CIFAR-100\Output\Models\01_Convolution";
-                    this.ConfigFilePath = @"D:\Works\Lib\Microsoft\CNTK\CNTK\Examples\Image\Miscellaneous\CIFAR-100\01_Conv2.cntk";
-                    this.LabelMappingFilePath = @"D:\Works\Lib\Microsoft\CNTK\CNTK\Examples\Image\Miscellaneous\CIFAR-100\fine_label_names.txt.bak";
-                    this.OutputNodeName = "OutputNodes";
-
-                    this.ModelFilePath = @"D:\Works\Lib\Microsoft\CNTK\CNTK\Examples\Image\MNIST\Output\Models\01_OneHidden";
-                    this.ConfigFilePath = @"D:\Works\Lib\Microsoft\CNTK\CNTK\Examples\Image\MNIST\Config\01_OneHidden.cntk";
-                    this.LabelMappingFilePath = @"D:\Works\Lib\Microsoft\CNTK\CNTK\Examples\Image\MNIST\Config\labels.txt";
-                    this.OutputNodeName = "ol";
                 });
         }
 
