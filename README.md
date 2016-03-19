@@ -53,3 +53,4 @@ Demo
 > 
 > **Author:** Grabacr07
 > 
+> **Principal Use:** Add theme like Visual Studio to WPF window
