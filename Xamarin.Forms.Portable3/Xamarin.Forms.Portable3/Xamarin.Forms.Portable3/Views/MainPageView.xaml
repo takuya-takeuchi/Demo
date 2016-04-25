@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage x:Class="Xamarin.Forms.Portable3.Views.MainPageView"
+            xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:pages="clr-namespace:Xamarin.Forms.Portable3.Views.Pages;assembly=Xamarin.Forms.Portable3">
+
+  <TabbedPage.Children>
+    <pages:StopwatchPageView Title="Stopwatch" />
+    <ContentPage Title="Timer" />
+    <TabbedPage Title="Many">
+      <TabbedPage.Children>
+        <ContentPage Title="Test1"/>
+        <ContentPage Title="Test2"/>
+        <ContentPage Title="Test3"/>
+      </TabbedPage.Children>
+    </TabbedPage>
+  </TabbedPage.Children>
+</TabbedPage>
