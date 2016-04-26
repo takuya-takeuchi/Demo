@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage x:Class="Xamarin.Forms.Portable4.Views.MainPageView"
+            xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:controls="clr-namespace:Xamarin.Forms.Portable4.Controls;assembly=Xamarin.Forms.Portable4"
+            xmlns:viewModels="clr-namespace:Xamarin.Forms.Portable4.ViewModels;assembly=Xamarin.Forms.Portable4"
+            ItemsSource="{Binding TabbedPages}">
+
+  <TabbedPage.BindingContext>
+    <viewModels:MainPageViewModel />
+  </TabbedPage.BindingContext>
+
+  <TabbedPage.ItemTemplate>
+    <controls:TabbedPageDataTemplateSelector>
+      <controls:TabbedPageDataTemplateSelector.TabbedPage1>
+        <DataTemplate>
+          <ContentPage Title="1">
+            <Label Text="{Binding Title}" TextColor="Red" VerticalOptions="Center" HorizontalOptions="Center"/>
+          </ContentPage>
+        </DataTemplate>
+      </controls:TabbedPageDataTemplateSelector.TabbedPage1>
+      <controls:TabbedPageDataTemplateSelector.TabbedPage2>
+        <DataTemplate>
+          <ContentPage Title="2">
+            <Label Text="{Binding Title}" TextColor="Blue" VerticalOptions="Center" HorizontalOptions="Center"/>
+          </ContentPage>
+        </DataTemplate>
+      </controls:TabbedPageDataTemplateSelector.TabbedPage2>
+    </controls:TabbedPageDataTemplateSelector>
+  </TabbedPage.ItemTemplate>
+
+</TabbedPage>
