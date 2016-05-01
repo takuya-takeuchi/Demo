@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Xamarin.Forms.Portable6.Views.PhonePage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Xamarin.Forms.Portable6.ViewModels;assembly=Xamarin.Forms.Portable6">
+    <ContentPage.BindingContext>
+        <viewModels:PhonePageViewModel />
+    </ContentPage.BindingContext>
+    <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+        <Editor HeightRequest="50"
+                Text="{Binding Number}"
+                WidthRequest="200" />
+        <Button Command="{Binding CallCommand}" Text="Call" />
+    </StackLayout>
+</ContentPage>
