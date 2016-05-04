@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage x:Class="Xamarin.Forms.Portable8.Views.MainPage"
+            xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+            xmlns:views="clr-namespace:Xamarin.Forms.Portable8.Views;assembly=Xamarin.Forms.Portable8"
+            mvvm:ViewModelLocator.AutowireViewModel="True">
+
+    <TabbedPage.Padding>
+        <OnPlatform x:TypeArguments="Thickness"
+                    Android="0"
+                    WinPhone="0"
+                    iOS="0, 20, 0, 0" />
+    </TabbedPage.Padding>
+
+    <TabbedPage.Children>
+        <views:NavigationPage Title="Tab1">
+            <x:Arguments>
+                <views:FirstPage />
+            </x:Arguments>
+        </views:NavigationPage>
+        <views:NavigationPage Title="Tab2">
+            <x:Arguments>
+                <views:FirstPage />
+            </x:Arguments>
+        </views:NavigationPage>
+        <views:NavigationPage Title="Tab3">
+            <x:Arguments>
+                <views:FirstPage />
+            </x:Arguments>
+        </views:NavigationPage>
+    </TabbedPage.Children>
+</TabbedPage>

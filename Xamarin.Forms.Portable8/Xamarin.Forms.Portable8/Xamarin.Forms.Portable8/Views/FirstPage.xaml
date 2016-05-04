@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Xamarin.Forms.Portable8.Views.FirstPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:mvvm="clr-namespace:Prism.Mvvm;assembly=Prism.Forms"
+             Title="First"
+             mvvm:ViewModelLocator.AutowireViewModel="True">
+    <Button Command="{Binding NextCommand}"
+            HorizontalOptions="Center"
+            Text="Next"
+            VerticalOptions="Center" />
+</ContentPage>
