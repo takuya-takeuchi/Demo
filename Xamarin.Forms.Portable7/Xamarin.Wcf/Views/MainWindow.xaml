@@ -1,0 +1,76 @@
+﻿<Window x:Class="Xamarin.Wcf.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:local="clr-namespace:Xamarin.Wcf"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mvvm="http://prismlibrary.com/"
+        xmlns:viewModels="clr-namespace:Xamarin.Wcf.ViewModels"
+        Title="MainWindow"
+        Width="525"
+        Height="350"
+        mvvm:ViewModelLocator.AutoWireViewModel="True"
+        mc:Ignorable="d">
+    <d:Window.DataContext>
+        <viewModels:MainWindowViewModel />
+    </d:Window.DataContext>
+    
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="White"/>
+        </Style>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ListBox Grid.Row="0" ItemsSource="{Binding Messages}" HorizontalContentAlignment="Stretch">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border Background="DarkBlue">
+                        <Grid Margin="10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition />
+                                <RowDefinition />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <Label Grid.Row="0"
+                               Grid.Column="0"
+                               Content="Sender :" />
+
+                            <Label Grid.Row="0"
+                               Grid.Column="1"
+                               Content="{Binding Message.Sender}" />
+                            <Label Grid.Row="1"
+                               Grid.Column="0"
+                               Content="Message :" />
+                            <Label Grid.Row="1"
+                               Grid.Column="1"
+                               Content="{Binding Message.Message}" />
+                            <Label Grid.Row="2"
+                               Grid.Column="0"
+                               Content="Received Time :" />
+                            <Label Grid.Row="2"
+                               Grid.Column="1"
+                               Content="{Binding DateTime}" />
+                        </Grid>
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Button Grid.Row="1"
+                Margin="10"
+                HorizontalAlignment="Right"
+                Content="Clear Messages"
+                Padding="5"
+                Command="{Binding ClearCommand}"/>
+    </Grid>
+</Window>

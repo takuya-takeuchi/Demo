@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:Xamarin.Forms.Portable7.ViewModels;assembly=Xamarin.Forms.Portable7"
+             x:Class="Xamarin.Forms.Portable7.Views.MainPage">
+  
+  <ContentPage.BindingContext>
+    <viewModels:MainPageViewModel/>
+  </ContentPage.BindingContext>
+
+  <Grid VerticalOptions="Center" HorizontalOptions="FillAndExpand">
+    
+    <Grid.RowDefinitions>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+      <RowDefinition/>
+    </Grid.RowDefinitions>
+    
+    <Label Grid.Row="0" Text="Address :" VerticalOptions="Center" HorizontalOptions="Start" Margin="20,0,20,0" />
+    <Entry Grid.Row="1" Text="{Binding IpAddress}" VerticalOptions="Center" HorizontalOptions="Fill" Margin="20,0,20,0" />
+    <Label Grid.Row="2" Text="Message :" VerticalOptions="Center" HorizontalOptions="Start" Margin="20,0,20,0" />
+    <Entry Grid.Row="3" Text="{Binding Message}" VerticalOptions="Center" HorizontalOptions="Fill" Margin="20,0,20,0"/>
+    
+    <Button Grid.Row="4" Text="Send Message" VerticalOptions="Center" HorizontalOptions="Center" Command="{Binding SendCommand}"/>
+    
+  </Grid>
+</ContentPage>
