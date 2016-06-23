@@ -1,4 +1,4 @@
-Set-Location (Split-Path $MyInvocation.MyCommand.Path -parent)
+[System.IO.Directory]::SetCurrentDirectory((Get-Location -PSProvider FileSystem).Path)
 
 # It must specify relative path
 $trains = "figs_0",
