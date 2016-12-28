@@ -22,14 +22,10 @@ namespace Image2
 
         private static void FromRgb(byte r, byte g, byte b, out float h, out float s, out float v)
         {
-            var fr = r / 255f;
-            var fg = g / 255f;
-            var fb = b / 255f;
-
             var max = Math.Max(r, Math.Max(g, b));
             var min = Math.Min(r, Math.Min(g, b));
 
-            var brightness = max;
+            var brightness = max / 255f;
             float hue, saturation;
             if (Math.Abs(max - min) < float.Epsilon)
             {
@@ -39,12 +35,12 @@ namespace Image2
             else
             {
                 float c = max - min;
-                if (Math.Abs(max - fr) < float.Epsilon)
-                    hue = (fg - fb) / c;
-                else if (Math.Abs(max - fg) < float.Epsilon)
-                    hue = (fb - fr) / c + 2f;
+                if (Math.Abs(max - r) < float.Epsilon)
+                    hue = (g - b) / c;
+                else if (Math.Abs(max - g) < float.Epsilon)
+                    hue = (b - r) / c + 2f;
                 else
-                    hue = (fr - fg) / c + 4f;
+                    hue = (r - g) / c + 4f;
 
                 hue *= 60f;
                 if (hue < 0f)
