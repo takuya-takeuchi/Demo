@@ -1,0 +1,96 @@
+﻿<Window x:Class="WPF3.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:behaviors="clr-namespace:WPF3.Behaviors"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        Title="MainView"
+        Width="525"
+        Height="350"
+        DataContext="{Binding Source={StaticResource Locator},
+                              Path=Main}"
+        mc:Ignorable="d">
+    <i:Interaction.Behaviors>
+        <behaviors:BooleanVisualStateBehavior x:Name="State1Change"
+                                              FalseState="False1"
+                                              State="{Binding State1}"
+                                              TrueState="True1" />
+    </i:Interaction.Behaviors>
+    <Grid>
+
+        <i:Interaction.Behaviors>
+            <behaviors:BooleanVisualStateBehavior x:Name="State2Change"
+                                                  FalseState="False2"
+                                                  State="{Binding State2}"
+                                                  TrueState="True2" />
+        </i:Interaction.Behaviors>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+        </Grid.ColumnDefinitions>
+
+        <Rectangle x:Name="_Rectangle"
+                   Margin="10"
+                   HorizontalAlignment="Stretch"
+                   VerticalAlignment="Stretch"
+                   Fill="Black" />
+
+        <StackPanel Grid.Column="1" Margin="10">
+            <CheckBox Margin="0 5 0 0" Content="Switch State1" IsChecked="{Binding State1}" />
+            <CheckBox Margin="0 5 0 0" Content="Switch State2 (Fail)" IsChecked="{Binding State2}" />
+        </StackPanel>
+    </Grid>
+
+    <VisualStateManager.VisualStateGroups>
+        <VisualStateGroup x:Name="State1">
+            <VisualState x:Name="True1">
+                <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="_Rectangle" Storyboard.TargetProperty="Fill">
+                        <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                            <DiscreteObjectKeyFrame.Value>
+                                <SolidColorBrush>Red</SolidColorBrush>
+                            </DiscreteObjectKeyFrame.Value>
+                        </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </VisualState>
+            <VisualState x:Name="False1">
+                <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="_Rectangle" Storyboard.TargetProperty="Fill">
+                        <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                            <DiscreteObjectKeyFrame.Value>
+                                <SolidColorBrush>Blue</SolidColorBrush>
+                            </DiscreteObjectKeyFrame.Value>
+                        </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </VisualState>
+        </VisualStateGroup>
+        <VisualStateGroup x:Name="State2">
+            <VisualState x:Name="True2">
+                <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="_Rectangle" Storyboard.TargetProperty="Fill">
+                        <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                            <DiscreteObjectKeyFrame.Value>
+                                <SolidColorBrush>DarkRed</SolidColorBrush>
+                            </DiscreteObjectKeyFrame.Value>
+                        </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </VisualState>
+            <VisualState x:Name="False2">
+                <Storyboard>
+                    <ObjectAnimationUsingKeyFrames Storyboard.TargetName="_Rectangle" Storyboard.TargetProperty="Fill">
+                        <DiscreteObjectKeyFrame KeyTime="00:00:00">
+                            <DiscreteObjectKeyFrame.Value>
+                                <SolidColorBrush>DarkBlue</SolidColorBrush>
+                            </DiscreteObjectKeyFrame.Value>
+                        </DiscreteObjectKeyFrame>
+                    </ObjectAnimationUsingKeyFrames>
+                </Storyboard>
+            </VisualState>
+        </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
+</Window>
