@@ -1,0 +1,9 @@
+﻿<Application x:Class="WPFPython.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:wpfPython="clr-namespace:WPFPython"
+             StartupUri="Views/MainView.xaml">
+    <Application.Resources>
+        <wpfPython:ViewModelLocator x:Key="Locator" />
+    </Application.Resources>
+</Application>
