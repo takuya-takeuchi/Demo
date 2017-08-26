@@ -1,0 +1,34 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.25420.1
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CppApp", "CppApp", "{696BBF5E-75F6-4EF3-9AFB-A5B4C10047C8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "PythonMod", "PythonMod", "{F2585BB7-0891-4B0A-9015-156FC3106359}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ConsoleApplication", "ConsoleApplication\ConsoleApplication.vcxproj", "{8B32788C-4F71-4466-87F8-237AA1D5BDA7}"
+EndProject
+Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "PythonMod", "PythonMod\PythonMod.pyproj", "{834B3123-85E4-4B5C-82A5-9D145E903B9D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Release|x64 = Release|x64
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8B32788C-4F71-4466-87F8-237AA1D5BDA7}.Debug|x64.ActiveCfg = Debug|x64
+		{8B32788C-4F71-4466-87F8-237AA1D5BDA7}.Debug|x64.Build.0 = Debug|x64
+		{8B32788C-4F71-4466-87F8-237AA1D5BDA7}.Release|x64.ActiveCfg = Release|x64
+		{8B32788C-4F71-4466-87F8-237AA1D5BDA7}.Release|x64.Build.0 = Release|x64
+		{834B3123-85E4-4B5C-82A5-9D145E903B9D}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{834B3123-85E4-4B5C-82A5-9D145E903B9D}.Release|x64.ActiveCfg = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{8B32788C-4F71-4466-87F8-237AA1D5BDA7} = {696BBF5E-75F6-4EF3-9AFB-A5B4C10047C8}
+		{834B3123-85E4-4B5C-82A5-9D145E903B9D} = {F2585BB7-0891-4B0A-9015-156FC3106359}
+	EndGlobalSection
+EndGlobal
