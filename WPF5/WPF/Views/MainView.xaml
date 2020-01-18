@@ -1,0 +1,77 @@
+﻿<Window x:Class="WPF.Views.MainView"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:models="clr-namespace:WPF.Models"
+        Title="MainView"
+        Width="525"
+        Height="350"
+        x:Name="_Root"
+        DataContext="{Binding Source={StaticResource Locator},
+                              Path=Main}"
+        mc:Ignorable="d">
+    <Grid VerticalAlignment="Stretch"
+          HorizontalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <ItemsControl Grid.Row="0" 
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"
+                      ItemsSource="{Binding GridSizes}"
+                      Margin="10">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="models:GridSizeModel">
+                    <Grid>
+                        <RadioButton GroupName="GridSize"
+                                     Margin="0 0 20 0"
+                                     VerticalContentAlignment="Center"
+                                     Content="{Binding}"
+                                     Command="{Binding DataContext.SelectGridSizeCommand, ElementName=_Root}"
+                                     CommandParameter="{Binding}"/>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+        <ItemsControl Grid.Row="1" 
+                      VerticalAlignment="Stretch"
+                      HorizontalAlignment="Stretch"
+                      Margin="10 10 10 0"
+                      ItemsSource="{Binding Items.View}">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate DataType="models:ItemModel">
+                    <Grid HorizontalAlignment="Stretch"
+                          VerticalAlignment="Stretch"
+                          Margin="10">
+                        <Viewbox VerticalAlignment="Stretch"
+                                 HorizontalAlignment="Stretch">
+                            <Border Background="Gray"
+                                    Width="400"
+                                    Height="300">
+                                <TextBlock Text="{Binding Number}"
+                                           VerticalAlignment="Center"
+                                           HorizontalAlignment="Center"
+                                           FontWeight="ExtraBold"
+                                           FontSize="48"/>
+                            </Border>
+                        </Viewbox>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <UniformGrid Columns="{Binding Column}"
+                                 Rows="{Binding Row}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+        </ItemsControl>
+    </Grid>
+</Window>
