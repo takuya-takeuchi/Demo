@@ -2,6 +2,7 @@ Demo
 ====
 
 デモ、実験、テスト用
+Demo, Experiment and Test
 
 ## License (ライセンス)
 
