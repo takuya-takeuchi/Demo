@@ -157,7 +157,9 @@ int main(int argc, char* argv[])
     // 256bit = 32byte
     unsigned char key[crypto_secretstream_xchacha20poly1305_KEYBYTES];
 
-    crypto_secretstream_xchacha20poly1305_keygen(key);
+    //crypto_secretstream_xchacha20poly1305_keygen(key);
+    memcpy(&key[0], password, crypto_secretstream_xchacha20poly1305_KEYBYTES);
+
     if (encrypt(std::string(encryptedFile), std::string(fileToEncrypt), key) != 0)
     {
         std::cout << "[Error] Failed to encrypt" << std::endl;
