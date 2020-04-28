@@ -69,13 +69,11 @@ static int decrypt(std::string & target_file, std::string & source_file,
     crypto_secretstream_xchacha20poly1305_state st;
     bool           eof;
     int            ret = -1;
+    unsigned char* buffer = nullptr;
 
     std::ofstream ofs;
     std:: ifstream ifs;
     ifs.open(source_file.c_str(), std::ios::in | std::ios::binary);
-    if (!ofs.good())
-        goto ret;
-    ofs.open(target_file.c_str(), std::ios::trunc | std::ios::binary);
     if (!ofs.good())
         goto ret;
 
@@ -92,6 +90,8 @@ static int decrypt(std::string & target_file, std::string & source_file,
         goto ret; /* incomplete header */
     }
 
+    size_t total = 0;
+    buffer = (unsigned char*)calloc(filesize - sizeof header, sizeof(unsigned char));
     do {
         ifs.read((char*)buf_in, sizeof buf_in);
         auto rlen = ifs.gcount();
@@ -114,14 +114,21 @@ static int decrypt(std::string & target_file, std::string & source_file,
             goto ret; /* premature end (end of file reached before the end of the stream) */
         }
 
-        ofs.write((char*)(&buf_out[0]), (size_t)out_len);
-        ofs.flush();
+        memcpy(&buffer[total], &buf_out[0], out_len);
+        total += out_len;
     } while (! eof);
+
+    ofs.open(target_file.c_str(), std::ios::trunc | std::ios::binary);
+    if (!ofs.good())
+        goto ret;
+    
+    ofs.write((char*)&buffer[0], total);
 
     ret = 0;
 ret:
     ifs.close();
     ofs.close();
+    if (buffer) free(buffer);
     return ret;
 }
 
