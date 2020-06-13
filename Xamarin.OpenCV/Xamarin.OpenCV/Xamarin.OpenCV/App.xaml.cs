@@ -1,13 +1,12 @@
 using Prism;
 using Prism.Ioc;
-using Xamarin.OpenCV.ViewModels;
-using Xamarin.OpenCV.Views;
-using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials.Implementation;
+using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Xamarin.OpenCV.Services;
-using Xamarin.OpenCV.Services.Interfaces;
+using Xamarin.OpenCV.ViewModels;
+using Xamarin.OpenCV.Views;
 
 [assembly: XamlCompilation(XamlCompilationOptions.Compile)]
 namespace Xamarin.OpenCV

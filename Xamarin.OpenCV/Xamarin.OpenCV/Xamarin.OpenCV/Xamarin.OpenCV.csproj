@@ -10,6 +10,15 @@
     <PackageReference Include="Prism.Unity.Forms" Version="7.2.0.1422" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\InfoPage.xaml.cs">
+      <DependentUpon>InfoPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Update="Views\PhotoPage.xaml.cs">
+      <DependentUpon>PhotoPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
   <Import Project="..\Xamarin.OpenCV.Shared\Xamarin.OpenCV.Shared.projitems" Label="Shared" />
 
 </Project>

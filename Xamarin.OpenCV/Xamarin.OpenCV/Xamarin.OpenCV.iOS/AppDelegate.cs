@@ -2,7 +2,8 @@
 using Prism;
 using Prism.Ioc;
 using UIKit;
-
+using Xamarin.OpenCV.iOS.Services;
+using Xamarin.OpenCV.Services;
 
 namespace Xamarin.OpenCV.iOS
 {
@@ -32,7 +33,8 @@ namespace Xamarin.OpenCV.iOS
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // Register any platform specific implementations
+            // Services
+            containerRegistry.RegisterSingleton<IPhotoPickerService, PhotoPickerService>();
         }
     }
 }

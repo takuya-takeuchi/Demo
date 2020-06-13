@@ -1,6 +1,7 @@
 # Xamarin.OpenCV
 
-
+* Show the build information of OpenCV
+* Select photo
 
 ## Requirements
 

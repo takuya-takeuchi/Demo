@@ -1,6 +1,4 @@
-﻿using Xamarin.OpenCV.Services.Interfaces;
-
-namespace Xamarin.OpenCV.Services
+﻿namespace Xamarin.OpenCV.Services
 {
 
     public sealed class OpenCvService : IOpenCVService

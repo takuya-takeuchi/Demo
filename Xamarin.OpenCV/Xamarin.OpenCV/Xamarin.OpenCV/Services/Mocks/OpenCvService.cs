@@ -1,6 +1,4 @@
-﻿using Xamarin.OpenCV.Services.Interfaces;
-
-namespace Xamarin.OpenCV.Services.Mocks
+﻿namespace Xamarin.OpenCV.Services.Mocks
 {
 
     public sealed class OpenCvService : IOpenCVService

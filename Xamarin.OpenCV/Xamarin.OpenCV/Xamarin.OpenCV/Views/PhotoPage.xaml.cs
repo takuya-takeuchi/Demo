@@ -2,9 +2,9 @@
 
 namespace Xamarin.OpenCV.Views
 {
-    public partial class MainPage : TabbedPage
+    public partial class PhotoPage : ContentPage
     {
-        public MainPage()
+        public PhotoPage()
         {
             InitializeComponent();
         }

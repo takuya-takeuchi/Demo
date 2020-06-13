@@ -9,6 +9,17 @@ namespace Xamarin.OpenCV
 
         #region Methods
 
+        //public static IntPtr DrawMark(IntPtr image)
+        //{
+        //    var str = NativeMethods.opencv_get_version();
+        //    var cstr = NativeMethods.string_c_str(str);
+        //    var ret = Marshal.PtrToStringAnsi(cstr);
+        //    if (str != IntPtr.Zero)
+        //        NativeMethods.string_delete(str);
+
+        //    return ret;
+        //}
+
         public static string GetBuildInformation()
         {
             var str = NativeMethods.opencv_getBuildInformation();

@@ -1,4 +1,4 @@
-﻿namespace Xamarin.OpenCV.Services.Interfaces
+﻿namespace Xamarin.OpenCV.Services
 {
 
     public interface IOpenCVService

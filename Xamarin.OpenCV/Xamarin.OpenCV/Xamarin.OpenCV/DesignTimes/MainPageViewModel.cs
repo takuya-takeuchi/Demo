@@ -1,6 +1,4 @@
-﻿using System.Windows.Input;
-using Prism.Commands;
-using Xamarin.OpenCV.ViewModels.Interfaces;
+﻿using Xamarin.OpenCV.ViewModels.Interfaces;
 
 namespace Xamarin.OpenCV.DesignTimes
 {
@@ -12,38 +10,14 @@ namespace Xamarin.OpenCV.DesignTimes
 
         public MainPageViewModel()
         {
-            this.Title = "Main Page";
-            this.BuildInformation = "BuildInformation";
-            this.Version ="4.3.0";
+            this.Title = "Info";
         }
 
         #endregion
 
         #region Properties
 
-        private DelegateCommand _ShowBuildInformation;
-
-        public ICommand ShowBuildInformation
-        {
-            get
-            {
-                return this._ShowBuildInformation ?? (this._ShowBuildInformation = new DelegateCommand(() =>
-                {
-                }));
-            }
-        }
-
-        public string BuildInformation
-        {
-            get;
-        }
-
         public string Title
-        {
-            get;
-        }
-
-        public string Version
         {
             get;
         }
