@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<payload>
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.iOS\x86\Debug\OpenCV.iOS.xcodeproj\project.pbxproj" changed="2020-05-30T20:21:17.9513714+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.iOS\ARM\Debug\OpenCV.iOS.xcodeproj\project.pbxproj" changed="2020-05-30T20:21:11.4849585+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.iOS\ARM64\Debug\OpenCV.iOS.xcodeproj\project.pbxproj" changed="2020-05-30T20:21:05.005891+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.iOS\x64\Debug\OpenCV.iOS.xcodeproj\project.pbxproj" changed="2020-05-30T20:20:56.8604629+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.iOS\x86\Release\OpenCV.iOS.xcodeproj\project.pbxproj" changed="2020-05-30T20:20:48.9654638+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.iOS\ARM\Release\OpenCV.iOS.xcodeproj\project.pbxproj" changed="2020-05-30T20:20:42.4700539+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.iOS\ARM64\Release\OpenCV.iOS.xcodeproj\project.pbxproj" changed="2020-05-30T20:20:36.0153475+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.iOS\x64\Release\OpenCV.iOS.xcodeproj\project.pbxproj" changed="2020-05-30T20:20:27.9089727+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.Shared\OpenCV.cpp" changed="2020-05-30T16:10:21.3253711+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.iOS\OpenCV_iOS.cpp" changed="2020-05-30T20:20:23.914791+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.Shared\OpenCV.h" changed="2020-05-30T20:20:10.1348997+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.Shared\OpenCV.c" changed="2020-05-30T16:10:21.3253711+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.iOS\OpenCV_iOS.c" changed="2020-05-30T16:11:19.6486265+09:00" />
+  <file path="D:\Works\OpenSource\Demo\Xamarin.OpenCV\Xamarin.OpenCV\OpenCV.iOS\OpenCV_iOS.h" changed="2020-05-30T04:39:35.6353914+09:00" />
+</payload>

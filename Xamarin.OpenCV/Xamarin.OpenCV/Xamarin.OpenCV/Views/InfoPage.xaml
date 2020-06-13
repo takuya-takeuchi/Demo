@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Xamarin.OpenCV.Views.InfoPage"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:designTimes="clr-namespace:Xamarin.OpenCV.DesignTimes;assembly=Xamarin.OpenCV"
+             mc:Ignorable="d"
+             Title="{Binding Title}">
+    <d:ContentPage.BindingContext>
+        <designTimes:InfoPageViewModel />
+    </d:ContentPage.BindingContext>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0" Text="{Binding Version}" />
+        <Button Grid.Row="1" Command="{Binding ShowBuildInformation}" Text="Show BuildInformation"/>
+        <Label Grid.Row="2" Text="BuildInformation" />
+        <ScrollView Grid.Row="3">
+            <Label Text="{Binding BuildInformation}"/>
+        </ScrollView>
+    </Grid>
+
+</ContentPage>

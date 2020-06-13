@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Xamarin.OpenCV.Views.MainPage"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:designTimes="clr-namespace:Xamarin.OpenCV.DesignTimes;assembly=Xamarin.OpenCV"
+             xmlns:views="clr-namespace:Xamarin.OpenCV.Views;assembly=Xamarin.OpenCV"
+             mc:Ignorable="d"
+             Title="{Binding Title}">
+    <d:ContentPage.BindingContext>
+        <designTimes:MainPageViewModel />
+    </d:ContentPage.BindingContext>
+
+    <views:PhotoPage/>
+    <views:InfoPage/>
+
+</TabbedPage>

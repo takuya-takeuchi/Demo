@@ -1,0 +1,17 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <MSBuildAllProjects>$(MSBuildAllProjects);$(MSBuildThisFileFullPath)</MSBuildAllProjects>
+    <HasSharedItems>true</HasSharedItems>
+    <SharedGUID>2e893dd4-20f9-4581-be47-49f35ca25283</SharedGUID>
+  </PropertyGroup>
+  <PropertyGroup Label="Configuration">
+    <Import_RootNamespace>Xamarin.OpenCV.Shared</Import_RootNamespace>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="$(MSBuildThisFileDirectory)NativeObject.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)OpenCV.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)PInvoke\NativeMethods.cs" />
+    <Compile Include="$(MSBuildThisFileDirectory)Utils\StringHelper.cs" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Xamarin.Camera.Views.ScreenPage"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:designTimes="clr-namespace:Xamarin.Camera.DesignTimes;assembly=Xamarin.Camera"
+             xmlns:controls="clr-namespace:Xamarin.Camera.Controls;assembly=Xamarin.Camera"
+             mc:Ignorable="d"
+             Title="{Binding Title}">
+    <d:ContentPage.BindingContext>
+        <designTimes:ScreenPageViewModel />
+    </d:ContentPage.BindingContext>
+
+    <Grid VerticalOptions="Fill"
+          HorizontalOptions="Fill">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <controls:CameraPreview IsPreviewing="true"
+                                x:Name="_CameraPreview"
+                                Camera="Rear"
+                                HorizontalOptions="Fill"
+                                VerticalOptions="Fill"
+                                AbsoluteLayout.LayoutFlags="All"
+                                AbsoluteLayout.LayoutBounds="0,0,1,1" />
+        <controls:OverlayView VerticalOptions="Fill"
+                              HorizontalOptions="Fill"/>
+    </Grid>
+</ContentPage>
