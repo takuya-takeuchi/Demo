@@ -17,6 +17,6 @@ lipo -info Release-iphoneos/libNative.a
 Write-Host "Build iOS Managed Library" -Foreground Green
 Set-Location $curret
 Set-Location NativeSharp
-# dotnet build -c "Release_Xamarin.iOS"
+dotnet build -c "Release_Xamarin.iOS"
 
 Set-Location $curret
