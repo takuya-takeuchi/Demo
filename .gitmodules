@@ -1,0 +1,4 @@
+[submodule "Xamarin.Native.Nuget/ios-cmake"]
+	path = Xamarin.Native.Nuget/ios-cmake
+	url = https://github.com/leetal/ios-cmake
+        ignore = dirty

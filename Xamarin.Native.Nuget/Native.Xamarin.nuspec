@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Native.Xamarin</id>
+    <version>1.0.0.0</version>
+    <title>Native.Xamarin</title>
+    <authors>Takuya Takeuchi</authors>
+    <owners>Takuya Takeuchi</owners>
+    <copyright>© Takuya Takeuchi 2020</copyright>
+    <description>Example</description>
+    <serviceable>true</serviceable>
+  </metadata>
+  
+  <files>
+    <file src="Native.Xamarin.targets" target="Native.Xamarin.targets" />
+
+    <file src="NativeSharp\bin\Release_Xamarin.iOS\netstandard2.0\NativeSharp.dll" target="lib\XamariniOS" />
+
+    <file src="Native\build_ios\Release-iphoneos\libNative.a" target="native\ios\libNative.a" />
+  </files>
+
+</package>
