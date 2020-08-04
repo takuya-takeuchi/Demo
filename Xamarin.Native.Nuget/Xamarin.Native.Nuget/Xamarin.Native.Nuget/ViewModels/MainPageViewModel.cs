@@ -7,11 +7,19 @@ namespace Xamarin.Native.Nuget.ViewModels
     public class MainPageViewModel : ViewModelBase, IMainPageViewModel
     {
 
+        #region Fields
+
+        private readonly INativeService _NativeService;
+
+        #endregion
+
         #region Constructors
 
-        public MainPageViewModel(INavigationService navigationService)
+        public MainPageViewModel(INavigationService navigationService,
+                                 INativeService nativeService)
             : base(navigationService)
         {
+            this._NativeService = nativeService;
             this.Title = "Main Page";
         }
 
