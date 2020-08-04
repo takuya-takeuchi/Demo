@@ -1,8 +1,18 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <NativeReference Include="$(MSBuildThisFileDirectory)\..\..\native\ios\libNative.a">
+	<PropertyGroup>
+		<_YourPkgItemsFolder>native.xamarin-1.0.0</_YourPkgItemsFolder>
+		<_YourPkgSDKBaseFolder>$(XamarinBuildDownloadDir)$(_YourPkgItemsFolder)\</_YourPkgSDKBaseFolder>
+	</PropertyGroup>
+	<ItemGroup Condition="('$(OutputType)'!='Library' OR '$(IsAppExtension)'=='True')">
+		<XamarinBuildDownload Include="$(_YourPkgItemsFolder)">
+			<Url>http://192.168.11.17:50505/v3/package/native.xamarin/1.0.0/native.xamarin.1.0.0.nupkg</Url>
+			<Kind>Zip</Kind>
+		</XamarinBuildDownload>
+		<NativeReference Include="$(_YourPkgSDKBaseFolder)native\ios\libNative.a">
       <Kind>Static</Kind>
       <ForceLoad>True</ForceLoad>
-    </NativeReference>
-  </ItemGroup>
+      <SmartLink>True</SmartLink>
+      <IsCxx>True</IsCxx>
+		</NativeReference>
+	</ItemGroup>
 </Project>
