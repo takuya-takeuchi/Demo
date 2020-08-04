@@ -1,6 +1,6 @@
 ﻿using Xamarin.Native.Nuget.Services.Interfaces;
 
-namespace Xamarin.Native.Nuget.Services
+namespace Xamarin.Native.Nuget.iOS.Services
 {
 
     public sealed class NativeService : INativeService
@@ -8,7 +8,7 @@ namespace Xamarin.Native.Nuget.Services
 
         public int Add(int x, int y)
         {
-            throw new System.NotImplementedException();
+            return NativeSharp.Native.Add(x, y);
         }
 
     }

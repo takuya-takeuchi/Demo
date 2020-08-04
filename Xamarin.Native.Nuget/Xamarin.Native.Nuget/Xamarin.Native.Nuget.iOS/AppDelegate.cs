@@ -2,7 +2,8 @@
 using Prism;
 using Prism.Ioc;
 using UIKit;
-
+using Xamarin.Native.Nuget.iOS.Services;
+using Xamarin.Native.Nuget.Services.Interfaces;
 
 namespace Xamarin.Native.Nuget.iOS
 {
@@ -32,7 +33,8 @@ namespace Xamarin.Native.Nuget.iOS
     {
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // Register any platform specific implementations
+            // Services
+            containerRegistry.RegisterSingleton<INativeService, NativeService>();
         }
     }
 }

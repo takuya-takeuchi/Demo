@@ -36,9 +36,6 @@ namespace Xamarin.Native.Nuget
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
 
-            // Services
-            containerRegistry.RegisterSingleton<INativeService, NativeService>();
-
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
         }

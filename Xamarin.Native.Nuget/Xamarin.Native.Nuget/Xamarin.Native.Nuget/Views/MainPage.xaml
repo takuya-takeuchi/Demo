@@ -4,8 +4,37 @@
              x:Class="Xamarin.Native.Nuget.Views.MainPage"
              Title="{Binding Title}">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
+    <StackLayout HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="CenterAndExpand">
+        <StackLayout HorizontalOptions="CenterAndExpand" 
+                     VerticalOptions="CenterAndExpand"
+                     Orientation="Horizontal">
+            <Label Text="Left: " />
+            <Entry Text="{Binding Left}"/>
+        </StackLayout>
+
+        <StackLayout HorizontalOptions="CenterAndExpand" 
+                     VerticalOptions="CenterAndExpand"
+                     Orientation="Horizontal">
+            <Label Text="Right: " />
+            <Entry Text="{Binding Right}"/>
+        </StackLayout>
+
+        <Button Text="Calc" Command="{Binding CalcCommand}"/>
+
+        <StackLayout HorizontalOptions="CenterAndExpand" 
+                     VerticalOptions="CenterAndExpand"
+                     Orientation="Horizontal">
+            <Label Text="AddResult: " />
+            <Entry Text="{Binding AddResult}"/>
+        </StackLayout>
+
+        <StackLayout HorizontalOptions="CenterAndExpand" 
+                     VerticalOptions="CenterAndExpand"
+                     Orientation="Horizontal">
+            <Label Text="MulResult: " />
+            <Entry Text="{Binding MulResult}"/>
+        </StackLayout>
     </StackLayout>
 
 </ContentPage>
