@@ -9,20 +9,17 @@
     <copyright>© Takuya Takeuchi 2020</copyright>
     <description>Example</description>
     <serviceable>true</serviceable>
-    <dependencies>
-      <group targetFramework="Xamarin.iOS1.0">
-        <dependency id="Xamarin.Build.Download" version="0.10.0" include="All" />
-      </group>
-    </dependencies>
     <frameworkAssemblies>
       <frameworkAssembly assemblyName="Xamarin.iOS" targetFramework="Xamarin.iOS1.0" />
     </frameworkAssemblies>
   </metadata>
   <files>
+    <file src="Native.Xamarin.targets" target="build\XamariniOS\Native.Xamarin.targets" />
+
     <file src="NativeSharp\bin\Release_Xamarin.iOS\netstandard2.0\NativeSharp.dll" target="lib\XamariniOS" />
 
-    <file src="Native\install_device\lib\Native.framework\*" target="build\ios-device\Native.framework" />
-    <file src="Native\install_simulator\lib\Native.framework\*" target="build\ios-simulator\Native.framework" />
+    <file src="Native\install_device\lib\Native.framework\*" target="build\XamariniOS\ios-device\Native.framework" />
+    <file src="Native\install_simulator\lib\Native.framework\*" target="build\XamariniOS\ios-simulator\Native.framework" />
   </files>
 
 </package>

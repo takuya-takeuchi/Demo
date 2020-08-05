@@ -26,3 +26,12 @@ $ pwsh BuildIOS.ps1
 ````shell
 $ pwsh CreatePackage.ps1 https://localserver:5000 apikey
 ````
+
+## How to provisioning to device/simulator
+
+Open [Xcode.Xamarin.Native.Nuget/Native/Native.xcodeproj](Xcode.Xamarin.Native.Nuget/Native/Native.xcodeproj) in OSX.  
+Then build and deploy it to device.
+
+## How to use nuget package
+
+Add **Native.Xamarin** to [Xamarin.Native.Nuget/Xamarin.Native.Nuget.iOS](Xamarin.Native.Nuget/Xamarin.Native.Nuget.iOS)
