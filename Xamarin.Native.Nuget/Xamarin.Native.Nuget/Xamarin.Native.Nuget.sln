@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30320.27
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Native.Nuget", "Xamarin.Native.Nuget\Xamarin.Native.Nuget.csproj", "{9EC9A231-3B22-4747-85E6-AB32F66C6D8C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Xamarin.Native.Nuget", "Xamarin.Native.Nuget\Xamarin.Native.Nuget.csproj", "{9EC9A231-3B22-4747-85E6-AB32F66C6D8C}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Xamarin.Native.Nuget.Android", "Xamarin.Native.Nuget.Android\Xamarin.Native.Nuget.Android.csproj", "{64E477BB-7E52-43CC-9F98-991D91DB69DE}"
 EndProject
@@ -98,11 +98,13 @@ Global
 		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Debug|Any CPU.ActiveCfg = Debug|iPhone
 		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Debug|iPhone.ActiveCfg = Debug|iPhone
 		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Debug|iPhone.Build.0 = Debug|iPhone
+		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Debug|iPhone.Deploy.0 = Debug|iPhone
 		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
 		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
 		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Release|Any CPU.ActiveCfg = Release|iPhone
 		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Release|iPhone.ActiveCfg = Release|iPhone
 		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Release|iPhone.Build.0 = Release|iPhone
+		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Release|iPhone.Deploy.0 = Release|iPhone
 		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
 		{E2A584CE-B566-4856-BBEA-B54FABAAA991}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
 	EndGlobalSection
