@@ -1,4 +1,6 @@
-﻿namespace Xamarin.Native.Nuget.ViewModels.Interfaces
+﻿using System.Windows.Input;
+
+namespace Xamarin.Native.Nuget.ViewModels.Interfaces
 {
 
     public interface IMainPageViewModel

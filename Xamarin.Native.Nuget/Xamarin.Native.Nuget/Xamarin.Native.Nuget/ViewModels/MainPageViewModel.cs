@@ -7,7 +7,7 @@ using Xamarin.Native.Nuget.ViewModels.Interfaces;
 namespace Xamarin.Native.Nuget.ViewModels
 {
 
-    public class MainPageViewModel : ViewModelBase, IMainPageViewModel
+    public class MainPageViewModel : ViewModelBase,  IMainPageViewModel
     {
 
         #region Fields
