@@ -10,6 +10,11 @@ namespace NativeSharp
             return NativeSharp.NativeMethods.native_add(x, y);
         }
 
+        public static int Mul(int x, int y)
+        {
+            return NativeSharp.NativeMethods.native_mul(x, y);
+        }
+
     }
 
 }

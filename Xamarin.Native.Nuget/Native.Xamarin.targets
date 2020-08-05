@@ -1,13 +1,23 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
     <ItemGroup Condition="(('$(Platform)' == 'iPhone'))">
-        <NativeReference Include="$(MSBuildThisFileDirectory)ios-device\Native.framework">
+        <NativeReference Include="$(MSBuildThisFileDirectory)ios-device\NativeAdd.framework">
+            <Kind>Framework</Kind>
+            <ForceLoad>True</ForceLoad>
+            <SmartLink>True</SmartLink>
+        </NativeReference>
+        <NativeReference Include="$(MSBuildThisFileDirectory)ios-device\NativeMul.framework">
             <Kind>Framework</Kind>
             <ForceLoad>True</ForceLoad>
             <SmartLink>True</SmartLink>
         </NativeReference>
     </ItemGroup>
     <ItemGroup Condition="(('$(Platform)' == 'iPhoneSimulator'))">
-        <NativeReference Include="$(MSBuildThisFileDirectory)ios-simulator\Native.framework">
+        <NativeReference Include="$(MSBuildThisFileDirectory)ios-simulator\NativeAdd.framework">
+            <Kind>Framework</Kind>
+            <ForceLoad>True</ForceLoad>
+            <SmartLink>True</SmartLink>
+        </NativeReference>
+        <NativeReference Include="$(MSBuildThisFileDirectory)ios-simulator\NativeMul.framework">
             <Kind>Framework</Kind>
             <ForceLoad>True</ForceLoad>
             <SmartLink>True</SmartLink>
