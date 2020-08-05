@@ -565,3 +565,4 @@ DerivedData/
 
 .DS_Store
 Native/build_*
+Native/install_*

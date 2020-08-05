@@ -19,12 +19,10 @@
     </frameworkAssemblies>
   </metadata>
   <files>
-    <file src="Native.Xamarin.targets" target="build\XamariniOS\Native.Xamarin.targets" />
-
     <file src="NativeSharp\bin\Release_Xamarin.iOS\netstandard2.0\NativeSharp.dll" target="lib\XamariniOS" />
 
-    <file src="Native\build_ios\Release-iphoneos\libNative.a" target="native\ios\libNative.a" />
-    <!-- <file src="Native\install\lib\libNative.a" target="native\ios\libNative.a" /> -->
+    <file src="Native\install_device\lib\Native.framework\*" target="build\ios-device\Native.framework" />
+    <file src="Native\install_simulator\lib\Native.framework\*" target="build\ios-simulator\Native.framework" />
   </files>
 
 </package>

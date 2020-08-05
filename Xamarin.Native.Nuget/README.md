@@ -7,6 +7,7 @@
 * Visual Studio 2019 16.5.4 or later
 * CMake 3.15 or later
 * PowerShell Core 6.2 or later
+* Xcode 11.6 or higher
 
 ## Dependencies
 
@@ -20,9 +21,8 @@ $ git submodule update --init --recursive
 $ pwsh BuildIOS.ps1
 ````
 
-[Install NuGet client tools](https://docs.microsoft.com/ja-jp/nuget/install-nuget-client-tools#macoslinux)
+## How to create nuget package and publish to server
 
 ````shell
-$ sudo curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-$ alias nuget="mono /usr/local/bin/nuget.exe"
+$ pwsh CreatePackage.ps1 https://localserver:5000 apikey
 ````

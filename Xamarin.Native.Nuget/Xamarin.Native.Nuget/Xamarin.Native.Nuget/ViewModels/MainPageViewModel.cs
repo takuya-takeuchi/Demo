@@ -43,7 +43,7 @@ namespace Xamarin.Native.Nuget.ViewModels
         public int Left
         {
             get => this._Left;
-            private set => this.SetProperty(ref this._Left, value);
+            set => this.SetProperty(ref this._Left, value);
         }
 
         private int _Right;
@@ -51,7 +51,7 @@ namespace Xamarin.Native.Nuget.ViewModels
         public int Right
         {
             get => this._Right;
-            private set => this.SetProperty(ref this._Right, value);
+            set => this.SetProperty(ref this._Right, value);
         }
 
         private int _AddResult;

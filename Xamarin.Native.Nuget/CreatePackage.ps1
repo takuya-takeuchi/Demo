@@ -1,3 +1,21 @@
+#***************************************
+#Arguments
+#%1: Url of nuget server (https://localserver:5000)
+#%2: Key of nuget server's APIKEY 
+#***************************************
+Param([Parameter(
+      Mandatory=$True,
+      Position = 1
+      )][string]
+      $Url,
+
+      [Parameter(
+      Mandatory=$True,
+      Position = 2
+      )][string]
+      $Key
+)
+
 $nuspec = "Native.Xamarin.nuspec"
 if (!(Test-Path ${nuspec}))
 {
@@ -17,12 +35,14 @@ Write-Host "${nuspec}" -ForegroundColor Green
 if ($global:IsWindows)
 {
    Invoke-Expression "${nugetPath} pack ${nuspec}"
+   Invoke-Expression "dotnet nuget delete Native.Xamarin 1.0.0 -s ${Url}/v3/index.json -k ${Key} --non-interactive "
+   Invoke-Expression "dotnet nuget push Native.Xamarin.1.0.0.nupkg -s ${Url}/v3/index.json -k ${Key} --skip-duplicate"
 }
 else
 {
    Invoke-Expression "mono ${nugetPath} pack ${nuspec}"
-   Invoke-Expression "dotnet nuget delete Native.Xamarin 1.0.0 -s http://192.168.11.17:50505/v3/index.json -k demonbane --non-interactive "
-   Invoke-Expression "dotnet nuget push Native.Xamarin.1.0.0.nupkg -s http://192.168.11.17:50505/v3/index.json -k demonbane --skip-duplicate"
+   Invoke-Expression "dotnet nuget delete Native.Xamarin 1.0.0 -s ${Url}/v3/index.json -k ${Key} --non-interactive "
+   Invoke-Expression "dotnet nuget push Native.Xamarin.1.0.0.nupkg -s ${Url}/v3/index.json -k ${Key} --skip-duplicate"
 }
 
 if ($lastexitcode -ne 0)
