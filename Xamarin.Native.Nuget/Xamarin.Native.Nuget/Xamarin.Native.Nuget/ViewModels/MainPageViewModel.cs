@@ -79,6 +79,7 @@ namespace Xamarin.Native.Nuget.ViewModels
                 return this._CalcCommand ?? (this._CalcCommand = new DelegateCommand(() =>
                 {
                     this.AddResult = this._NativeService.Add(this._Left, this._Right);
+                    this.MulResult = this._NativeService.Mul(this._Left, this._Right);
                 }));
 
             }

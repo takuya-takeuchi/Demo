@@ -11,6 +11,11 @@ namespace Xamarin.Native.Nuget.iOS.Services
             return NativeSharp.Native.Add(x, y);
         }
 
+        public int Mul(int x, int y)
+        {
+            return NativeSharp.Native.Mul(x, y);
+        }
+
     }
 
 }
