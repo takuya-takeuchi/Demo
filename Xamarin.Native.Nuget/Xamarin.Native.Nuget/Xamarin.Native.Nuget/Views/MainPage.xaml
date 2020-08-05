@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Xamarin.Native.Nuget.Views.MainPage"
+             Title="{Binding Title}">
+
+    <StackLayout HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="CenterAndExpand">
+        <StackLayout HorizontalOptions="CenterAndExpand" 
+                     VerticalOptions="CenterAndExpand"
+                     Orientation="Horizontal">
+            <Label Text="Left: " />
+            <Entry Text="{Binding Left}"/>
+        </StackLayout>
+
+        <StackLayout HorizontalOptions="CenterAndExpand" 
+                     VerticalOptions="CenterAndExpand"
+                     Orientation="Horizontal">
+            <Label Text="Right: " />
+            <Entry Text="{Binding Right}"/>
+        </StackLayout>
+
+        <Button Text="Calc" Command="{Binding CalcCommand}"/>
+
+        <StackLayout HorizontalOptions="CenterAndExpand" 
+                     VerticalOptions="CenterAndExpand"
+                     Orientation="Horizontal">
+            <Label Text="AddResult: " />
+            <Entry Text="{Binding AddResult}"/>
+        </StackLayout>
+
+        <StackLayout HorizontalOptions="CenterAndExpand" 
+                     VerticalOptions="CenterAndExpand"
+                     Orientation="Horizontal">
+            <Label Text="MulResult: " />
+            <Entry Text="{Binding MulResult}"/>
+        </StackLayout>
+    </StackLayout>
+
+</ContentPage>
