@@ -21,7 +21,7 @@ function Build()
          -D CMAKE_OSX_DEPLOYMENT_TARGET=9.3 `
          -D CMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=$CMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH `
          -D CMAKE_IOS_INSTALL_COMBINED=$CMAKE_IOS_INSTALL_COMBINED `
-         -D CMAKE_INSTALL_PREFIX=${installDir} ` `
+         -D CMAKE_INSTALL_PREFIX=${installDir} `
          -D BUILD_FRAMEWORK=ON `
          ..
    cmake --build . --config Release --target install
@@ -43,7 +43,7 @@ function Build()
          -D CMAKE_OSX_DEPLOYMENT_TARGET=9.3 `
          -D CMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=$CMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH `
          -D CMAKE_IOS_INSTALL_COMBINED=$CMAKE_IOS_INSTALL_COMBINED `
-         -D CMAKE_INSTALL_PREFIX=${installDir} ` `
+         -D CMAKE_INSTALL_PREFIX=${installDir} `
          -D BUILD_FRAMEWORK=ON `
          ..
    cmake --build . --config Release --target install
@@ -58,7 +58,10 @@ function BuildStatic()
    # device
    Write-Host "Build iOS $target Device Library" -Foreground Green
    $buildDir = Join-Path $target build_ios_device_static
-   $lib = Join-Path "Release-iphoneos" lib"$target".a
+   $installDir = Join-Path $curret $target | `
+                 Join-Path -ChildPath install_device
+   $lib = Join-Path $installDir lib | `
+          Join-Path -ChildPath lib"$target".a
    New-Item -ItemType Directory -Force $buildDir | Out-Null
    Push-Location $buildDir
    $CMAKE_OSX_ARCHITECTURES="arm64;arm64e"
@@ -70,16 +73,20 @@ function BuildStatic()
          -D CMAKE_OSX_DEPLOYMENT_TARGET=9.3 `
          -D CMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=$CMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH `
          -D CMAKE_IOS_INSTALL_COMBINED=$CMAKE_IOS_INSTALL_COMBINED `
+         -D CMAKE_INSTALL_PREFIX=${installDir} `
          -D BUILD_FRAMEWORK=OFF `
          ..
-   cmake --build . --config Release
+   cmake --build . --config Release --target install
    lipo -info $lib
    Pop-Location
 
    # simulator
    Write-Host "Build iOS $target Simulator Library" -Foreground Green
    $buildDir = Join-Path $target build_ios_simulator_static
-   $lib = Join-Path "Release-iphonesimulator" lib"$target".a
+   $installDir = Join-Path $curret $target | `
+                 Join-Path -ChildPath install_simulator
+   $lib = Join-Path $installDir lib | `
+          Join-Path -ChildPath lib"$target".a
    New-Item -ItemType Directory -Force $buildDir | Out-Null
    Push-Location $buildDir
    $CMAKE_OSX_ARCHITECTURES="x86_64"
@@ -91,10 +98,11 @@ function BuildStatic()
          -D CMAKE_OSX_ARCHITECTURES=$CMAKE_OSX_ARCHITECTURES `
          -D CMAKE_OSX_DEPLOYMENT_TARGET=9.3 `
          -D CMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH=$CMAKE_XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH `
-         -D CMAKE_IOS_INSTALL_COMBINED=$CMAKE_IOS_INSTALL_COMBINED ` `
+         -D CMAKE_IOS_INSTALL_COMBINED=$CMAKE_IOS_INSTALL_COMBINED `
+         -D CMAKE_INSTALL_PREFIX=${installDir} `
          -D BUILD_FRAMEWORK=OFF `
          ..
-   cmake --build . --config Release
+   cmake --build . --config Release --target install
    lipo -info $lib
    Pop-Location
 }

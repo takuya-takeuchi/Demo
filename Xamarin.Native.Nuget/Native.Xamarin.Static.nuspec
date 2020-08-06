@@ -18,10 +18,10 @@
 
     <file src="NativeSharp\bin\Release_Xamarin.iOS\netstandard2.0\NativeSharp.dll" target="lib\XamariniOS" />
 
-    <file src="NativeAdd\install_device\lib\NativeAdd.framework\*" target="build\XamariniOS\ios-device\NativeAdd.framework" />
-    <file src="NativeAdd\install_simulator\lib\NativeAdd.framework\*" target="build\XamariniOS\ios-simulator\NativeAdd.framework" />
-    <file src="NativeMul\install_device\lib\NativeMul.framework\*" target="build\XamariniOS\ios-device\NativeMul.framework" />
-    <file src="NativeMul\install_simulator\lib\NativeMul.framework\*" target="build\XamariniOS\ios-simulator\NativeMul.framework" />
+    <file src="NativeAdd\install_device\lib\libNativeAdd.a" target="native\ios-device\libNativeAdd.a" />
+    <file src="NativeAdd\install_simulator\lib\libNativeAdd.a" target="native\ios-simulator\libNativeAdd.a" />
+    <file src="NativeMul\install_device\lib\libNativeMul.a" target="native\ios-device\libNativeMul.a" />
+    <file src="NativeMul\install_simulator\lib\libNativeMul.a" target="native\ios-simulator\libNativeMul.a" />
   </files>
 
 </package>
