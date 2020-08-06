@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Native.Xamarin.Static</id>
+    <version>1.0.0.0</version>
+    <title>Native.Xamarin</title>
+    <authors>Takuya Takeuchi</authors>
+    <owners>Takuya Takeuchi</owners>
+    <copyright>© Takuya Takeuchi 2020</copyright>
+    <description>Example</description>
+    <serviceable>true</serviceable>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Xamarin.iOS" targetFramework="Xamarin.iOS1.0" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="Native.Xamarin.Static.targets" target="build\XamariniOS\Native.Xamarin.Static.targets" />
+
+    <file src="NativeSharp\bin\Release_Xamarin.iOS\netstandard2.0\NativeSharp.dll" target="lib\XamariniOS" />
+
+    <file src="NativeAdd\install_device\lib\NativeAdd.framework\*" target="build\XamariniOS\ios-device\NativeAdd.framework" />
+    <file src="NativeAdd\install_simulator\lib\NativeAdd.framework\*" target="build\XamariniOS\ios-simulator\NativeAdd.framework" />
+    <file src="NativeMul\install_device\lib\NativeMul.framework\*" target="build\XamariniOS\ios-device\NativeMul.framework" />
+    <file src="NativeMul\install_simulator\lib\NativeMul.framework\*" target="build\XamariniOS\ios-simulator\NativeMul.framework" />
+  </files>
+
+</package>
