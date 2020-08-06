@@ -34,4 +34,4 @@ Then build and deploy it to device.
 
 ## How to use nuget package
 
-Add **Native.Xamarin** to [Xamarin.Native.Nuget/Xamarin.Native.Nuget.iOS](Xamarin.Native.Nuget/Xamarin.Native.Nuget.iOS)
+Add **Native.Xamarin** or **Native.Xamarin.Static** to [Xamarin.Native.Nuget/Xamarin.Native.Nuget.iOS](Xamarin.Native.Nuget/Xamarin.Native.Nuget.iOS)

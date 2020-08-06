@@ -6,6 +6,8 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(${PROJ_NAME} VERSION 1.0.0)
 
+option(BUILD_FRAMEWORK "Build as framrwork" OFF)
+
 # OS info
 message("-------------------------------------------------------")
 message("-- CMAKE_SYSTEM_INFO_FILE: ${CMAKE_SYSTEM_INFO_FILE}")
@@ -20,8 +22,8 @@ message("-- Project: ${CMAKE_CURRENT_SOURCE_DIR}")
 message("-- Binaries: ${CMAKE_CURRENT_BINARY_DIR}")
 message("-------------------------------------------------------")
 
-FILE(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/*.h)
-FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
+FILE(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/src/*.h)
+FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
 add_library(${PROJ_NAME} ${HEADERS}
                          ${SOURCES})
@@ -41,14 +43,16 @@ include(CPack)
 
 install(TARGETS ${PROJ_NAME} DESTINATION lib)
 
-set_target_properties(${PROJ_NAME} PROPERTIES
-    FRAMEWORK TRUE
-    FRAMEWORK_VERSION C
-    #MACOSX_FRAMEWORK_IDENTIFIER com.cmake.dynamicFramework
-    #MACOSX_FRAMEWORK_INFO_PLIST Info.plist
-    # "current version" in semantic format in Mach-O binary file
-    VERSION 1.0.0
-    # "compatibility version" in semantic format in Mach-O binary file
-    SOVERSION 1.0.0
-    XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
-)
+if (BUILD_FRAMEWORK)
+    set_target_properties(${PROJ_NAME} PROPERTIES
+        FRAMEWORK TRUE
+        FRAMEWORK_VERSION C
+        #MACOSX_FRAMEWORK_IDENTIFIER com.cmake.dynamicFramework
+        #MACOSX_FRAMEWORK_INFO_PLIST Info.plist
+        # "current version" in semantic format in Mach-O binary file
+        VERSION 1.0.0
+        # "compatibility version" in semantic format in Mach-O binary file
+        SOVERSION 1.0.0
+        XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "iPhone Developer"
+    )
+endif()
