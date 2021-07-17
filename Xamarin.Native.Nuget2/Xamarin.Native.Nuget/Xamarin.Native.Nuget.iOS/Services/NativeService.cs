@@ -6,14 +6,9 @@ namespace Xamarin.Native.Nuget.iOS.Services
     public sealed class NativeService : INativeService
     {
 
-        public int Add(int x, int y)
+        public int GetPrimeCount(int n)
         {
-            return NativeSharp.Native.Add(x, y);
-        }
-
-        public int Mul(int x, int y)
-        {
-            return NativeSharp.Native.Mul(x, y);
+            return NativeSharp.Native.GetPrimeCount(n);
         }
 
     }

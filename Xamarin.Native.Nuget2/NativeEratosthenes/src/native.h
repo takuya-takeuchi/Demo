@@ -20,7 +20,7 @@ DLLEXPORT int32_t native_get_prime_count(const int32_t N)
         }
     }
 
-    return P.size();
+    return (int32_t)P.size();
 }
 
 #endif

@@ -22,10 +22,10 @@ $ git submodule update --init --recursive
 $ pwsh BuildIOS.ps1
 ````
 
-## How to create nuget package and publish to server
+## How to create nuget package
 
 ````shell
-$ pwsh CreatePackage.ps1 https://localserver:5000 apikey
+$ pwsh CreatePackage.ps1
 ````
 
 ## How to provisioning to device/simulator
