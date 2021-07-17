@@ -8,6 +8,11 @@ project(${PROJ_NAME} VERSION 1.0.0)
 
 option(BUILD_FRAMEWORK "Build as framrwork" OFF)
 
+set(CMAKE_C_COMPILER "clang")
+set(CMAKE_CXX_COMPILER "clang++")
+set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 # OS info
 message("-------------------------------------------------------")
 message("-- CMAKE_SYSTEM_INFO_FILE: ${CMAKE_SYSTEM_INFO_FILE}")

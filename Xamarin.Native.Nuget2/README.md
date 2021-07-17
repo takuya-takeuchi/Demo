@@ -36,3 +36,11 @@ Then build and deploy it to device.
 ## How to use nuget package
 
 Add **Native.Xamarin** or **Native.Xamarin.Static** to [Xamarin.Native.Nuget/Xamarin.Native.Nuget.iOS](Xamarin.Native.Nuget/Xamarin.Native.Nuget.iOS)
+
+<img src="images/simulator.png" />
+
+## One point!
+
+This setting is important to avoid build error.
+
+<img src="images/setting.png" />
