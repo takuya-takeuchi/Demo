@@ -11,24 +11,13 @@ namespace Xamarin.Native.Nuget.ViewModels.Interfaces
             get;
         }
 
-        int Left
+        int Max
         {
             get;
             set;
         }
 
-        int Right
-        {
-            get;
-            set;
-        }
-
-        int AddResult
-        {
-            get;
-        }
-
-        int MulResult
+        int Count
         {
             get;
         }

@@ -564,7 +564,5 @@ DerivedData/
 # End of https://www.toptal.com/developers/gitignore/api/csharp,visualstudio,visualstudiocode,xcode
 
 .DS_Store
-NativeAdd/build_*
-NativeAdd/install_*
-NativeMul/build_*
-NativeMul/install_*
+NativeEratosthenes/build_*
+NativeEratosthenes/install_*

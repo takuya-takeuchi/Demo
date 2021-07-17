@@ -4,9 +4,7 @@
     public interface INativeService
     {
 
-        int Add(int x, int y);
-
-        int Mul(int x, int y);
+        int GetPrimeCount(int n);
 
     }
 

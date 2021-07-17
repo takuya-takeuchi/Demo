@@ -8,10 +8,7 @@ namespace NativeSharp
     {
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int native_add(int x, int y);
-
-        [DllImport(NativeLibrary, CallingConvention = CallingConvention)]
-        public static extern int native_mul(int x, int y);
+        public static extern int native_get_prime_count(int n);
 
     }
 

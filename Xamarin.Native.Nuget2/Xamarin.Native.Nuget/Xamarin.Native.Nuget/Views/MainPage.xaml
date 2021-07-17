@@ -9,31 +9,17 @@
         <StackLayout HorizontalOptions="CenterAndExpand" 
                      VerticalOptions="CenterAndExpand"
                      Orientation="Horizontal">
-            <Label Text="Left: " />
-            <Entry Text="{Binding Left}"/>
+            <Label Text="Max: " />
+            <Entry Text="{Binding Max}"/>
         </StackLayout>
+
+        <Button Text="Get count of prime numbers" Command="{Binding CalcCommand}"/>
 
         <StackLayout HorizontalOptions="CenterAndExpand" 
                      VerticalOptions="CenterAndExpand"
                      Orientation="Horizontal">
-            <Label Text="Right: " />
-            <Entry Text="{Binding Right}"/>
-        </StackLayout>
-
-        <Button Text="Calc" Command="{Binding CalcCommand}"/>
-
-        <StackLayout HorizontalOptions="CenterAndExpand" 
-                     VerticalOptions="CenterAndExpand"
-                     Orientation="Horizontal">
-            <Label Text="AddResult: " />
-            <Entry Text="{Binding AddResult}"/>
-        </StackLayout>
-
-        <StackLayout HorizontalOptions="CenterAndExpand" 
-                     VerticalOptions="CenterAndExpand"
-                     Orientation="Horizontal">
-            <Label Text="MulResult: " />
-            <Entry Text="{Binding MulResult}"/>
+            <Label Text="Count: " />
+            <Entry Text="{Binding Count}"/>
         </StackLayout>
     </StackLayout>
 

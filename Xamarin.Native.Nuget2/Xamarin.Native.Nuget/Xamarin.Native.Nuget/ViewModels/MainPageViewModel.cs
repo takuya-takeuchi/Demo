@@ -38,36 +38,20 @@ namespace Xamarin.Native.Nuget.ViewModels
             private set => this.SetProperty(ref this._Title, value);
         }
 
-        private int _Left;
+        private int _Max;
 
-        public int Left
+        public int Max
         {
-            get => this._Left;
-            set => this.SetProperty(ref this._Left, value);
+            get => this._Max;
+            set => this.SetProperty(ref this._Max, value);
         }
 
-        private int _Right;
+        private int _Count;
 
-        public int Right
+        public int Count
         {
-            get => this._Right;
-            set => this.SetProperty(ref this._Right, value);
-        }
-
-        private int _AddResult;
-
-        public int AddResult
-        {
-            get => this._AddResult;
-            private set => this.SetProperty(ref this._AddResult, value);
-        }
-
-        private int _MulResult;
-
-        public int MulResult
-        {
-            get => this._MulResult;
-            private set => this.SetProperty(ref this._MulResult, value);
+            get => this._Count;
+            private set => this.SetProperty(ref this._Count, value);
         }
 
         private ICommand _CalcCommand;
@@ -78,8 +62,7 @@ namespace Xamarin.Native.Nuget.ViewModels
             {
                 return this._CalcCommand ?? (this._CalcCommand = new DelegateCommand(() =>
                 {
-                    this.AddResult = this._NativeService.Add(this._Left, this._Right);
-                    this.MulResult = this._NativeService.Mul(this._Left, this._Right);
+                    this.Count = this._NativeService.GetPrimeCount(this._Max);
                 }));
 
             }

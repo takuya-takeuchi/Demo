@@ -107,10 +107,8 @@ function BuildStatic()
    Pop-Location
 }
 
-Build NativeAdd
-Build NativeMul
-BuildStatic NativeAdd
-BuildStatic NativeMul
+Build NativeEratosthenes
+BuildStatic NativeEratosthenes
 
 Write-Host "Build iOS Managed Library" -Foreground Green
 Set-Location $curret
