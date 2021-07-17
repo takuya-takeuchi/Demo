@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>Native.Xamarin</id>
+    <version>1.0.0.0</version>
+    <title>Native.Xamarin</title>
+    <authors>Takuya Takeuchi</authors>
+    <owners>Takuya Takeuchi</owners>
+    <copyright>© Takuya Takeuchi 2020</copyright>
+    <description>Example</description>
+    <serviceable>true</serviceable>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Xamarin.iOS" targetFramework="Xamarin.iOS1.0" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="Native.Xamarin.targets" target="build\XamariniOS\Native.Xamarin.targets" />
+
+    <file src="NativeSharp\bin\Release_Xamarin.iOS\netstandard2.0\NativeSharp.dll" target="lib\XamariniOS" />
+
+    <file src="NativeEratosthenes\install_device\lib\NativeEratosthenes.framework\*" target="build\XamariniOS\ios-device\NativeEratosthenes.framework" />
+    <file src="NativeEratosthenes\install_simulator\lib\NativeEratosthenes.framework\*" target="build\XamariniOS\ios-simulator\NativeEratosthenes.framework" />
+  </files>
+
+</package>

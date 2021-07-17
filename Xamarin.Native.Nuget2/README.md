@@ -1,6 +1,7 @@
-# Xamarin.Native.Nuget
+# Xamarin.Native.Nuget2
 
 * Use native library as nuget
+* Link libc++ instead of libstdc++
 
 ## Requirements
 
@@ -21,10 +22,10 @@ $ git submodule update --init --recursive
 $ pwsh BuildIOS.ps1
 ````
 
-## How to create nuget package and publish to server
+## How to create nuget package
 
 ````shell
-$ pwsh CreatePackage.ps1 https://localserver:5000 apikey
+$ pwsh CreatePackage.ps1
 ````
 
 ## How to provisioning to device/simulator
@@ -35,3 +36,11 @@ Then build and deploy it to device.
 ## How to use nuget package
 
 Add **Native.Xamarin** or **Native.Xamarin.Static** to [Xamarin.Native.Nuget/Xamarin.Native.Nuget.iOS](Xamarin.Native.Nuget/Xamarin.Native.Nuget.iOS)
+
+<img src="images/simulator.png" />
+
+## One point!
+
+This setting is important to avoid build error.
+
+<img src="images/setting.png" />
