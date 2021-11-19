@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Onvif1": {
+      "commandName": "Project",
+      "commandLineArgs": "http://192.168.11.40/onvif/services root password",
+      "nativeDebugging": true
+    }
+  }
+}
