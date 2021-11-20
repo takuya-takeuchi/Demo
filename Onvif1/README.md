@@ -11,9 +11,9 @@
 ### Preparation
 
 ````shell
-$ dotnet tool install --global dotnet-svcutil
-$ dotnet svcutil https://raw.githubusercontent.com/onvif/specs/21.12/wsdl/ver10/media/wsdl/media.wsdl -n "*,Onvif.Media" -o Service\Media.cs
-$ dotnet svcutil https://raw.githubusercontent.com/onvif/specs/21.12/wsdl/ver10/device/wsdl/devicemgmt.wsdl -n "*,Onvif.DeviceManagement" -o Service\DeviceManagement.cs
+dotnet tool install --global dotnet-svcutil
+dotnet svcutil https://raw.githubusercontent.com/onvif/specs/21.12/wsdl/ver10/media/wsdl/media.wsdl -n "*,Onvif.Media" -o Service\Media.cs
+dotnet svcutil https://raw.githubusercontent.com/onvif/specs/21.12/wsdl/ver10/device/wsdl/devicemgmt.wsdl -n "*,Onvif.DeviceManagement" -o Service\DeviceManagement.cs
 ````
 
 ### Build and Run
