@@ -21,7 +21,7 @@ dotnet svcutil https://raw.githubusercontent.com/onvif/specs/21.12/wsdl/ver10/de
 The following command demonstates how to connect to axis camera.
 
 ````shell
-$ dotnet run -c Release -- http://192.168.11.40/onvif/services root password
+dotnet run -c Release -- http://192.168.11.40/onvif/services root password
 [Info]      Url: http://192.168.11.40/onvif/services
 [Info]     User: root
 [Info] Password: password

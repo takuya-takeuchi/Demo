@@ -5,11 +5,6 @@
     <TargetFramework>net5.0</TargetFramework>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Remove="tmep\**" />
-    <EmbeddedResource Remove="tmep\**" />
-    <None Remove="tmep\**" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="System.ServiceModel.Duplex" Version="4.8.*" />
     <PackageReference Include="System.ServiceModel.Http" Version="4.8.*" />
     <PackageReference Include="System.ServiceModel.NetTcp" Version="4.8.*" />
