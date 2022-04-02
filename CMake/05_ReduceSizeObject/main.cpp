@@ -1,11 +1,20 @@
 #include <stdio.h>
-#include "Test.h"
+#include <opencv2/opencv.hpp>
 
 int main(int argc, char* argv[])
 {
-    Test test;
-    int a = 10;
-    int b = 1;
-    auto sum = test.Sum(10, 1);
-    printf("%d + %d = %d\n", a, b, sum);
+    std::string pattern = "*.jpg";
+    std::vector<cv::String> files;
+    cv::glob(pattern, files);
+
+    if(files.size() == 0) {
+        std::cout << "erorr" <<std::endl;
+        exit(-1);   
+    }
+
+    cv::Mat image = cv::imread(files[0]);
+    std::cout << files[0] << std::endl;
+    std::cout << image.size () << std::endl;
+    cv::imshow("show", image);
+    cv::waitKey (0);
 }

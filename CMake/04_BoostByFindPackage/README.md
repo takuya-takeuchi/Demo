@@ -8,7 +8,7 @@
 ## Build
 
 ````sh
-$ pwsh BuildBo:ost.psq
+$ pwsh BuildBoost.ps1
 $ pwsh Build.ps1
 ````
 
