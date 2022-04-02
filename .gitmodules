@@ -2,3 +2,19 @@
 	path = Xamarin.Native.Nuget/ios-cmake
 	url = https://github.com/leetal/ios-cmake
         ignore = dirty
+[submodule "TensorRT1/TensorRT"]
+	path = TensorRT1/TensorRT
+	url = https://github.com/NVIDIA/TensorRT
+        ignore = dirty
+[submodule "TensorRT1/spdlog"]
+	path = TensorRT1/spdlog
+	url = https://github.com/gabime/spdlog
+        ignore = dirty
+[submodule "TensorRT1/onnx-tensorrt"]
+	path = TensorRT1/onnx-tensorrt
+	url = https://github.com/onnx/onnx-tensorrt.git
+        ignore = dirty
+[submodule "CMake/05_ReduceSizeObject/opencv"]
+	path = CMake/05_ReduceSizeObject/opencv
+	url = https://github.com/opencv/opencv
+        ignore = dirty
