@@ -48,20 +48,16 @@ def plot_all_frames(elev=90, azim=270, swapYZ=False):
             ax.set_xlim(-5, 5); ax.set_ylim(-5, 5); ax.set_zlim(-5, 5)
             ax.set_xlabel("x"); ax.set_ylabel("y"); ax.set_zlabel("z")
 
-        # if swapYZ:
-        #     x, y, z = XYZ[t]
-        #     ux, vx, wx = V_x[t]
-        #     uy, vy, wy = V_z[t]
-        #     uz, vz, wz = V_y[t]
-        # else:
-        #     x, y, z = XYZ[t]
-        #     ux, vx, wx = V_x[t]
-        #     uy, vy, wy = V_y[t]
-        #     uz, vz, wz = V_z[t]
         x, y, z = XYZ[t]
         ux, vx, wx = V_x[t]
         uy, vy, wy = V_y[t]
         uz, vz, wz = V_z[t]
+
+        if swapYZ:
+            z, y = y, z
+            uz, uy = uy, uz
+            vz, vy = vy, vz
+            wz, wy = vy, wz
 
         # draw marker
         ax.scatter(0, 0, 0, color="k")
@@ -78,14 +74,6 @@ def plot_all_frames(elev=90, azim=270, swapYZ=False):
 
         # draw camera
         if swapYZ:
-            # if t < 5:
-            #     ax.quiver(x, z, y, ux, vx, wx, length=0.5, color="k")
-            #     ax.quiver(x, z, y, uz, vz, wz, length=0.5, color="k")
-            #     ax.quiver(x, z, y, uy, vy, wy, length=0.5, color="k")
-            # else:
-            #     ax.quiver(x, z, y, ux, vx, wx, length=0.5, color="r")
-            #     ax.quiver(x, z, y, uz, vz, wz, length=0.5, color="g")
-            #     ax.quiver(x, z, y, uy, vy, wy, length=0.5, color="b")
             if t < 5:
                 ax.quiver(x, y, z, ux, vx, wx, length=0.5, color="k")
                 ax.quiver(x, y, z, uy, vy, wy, length=0.5, color="k")
@@ -224,9 +212,9 @@ if __name__ == '__main__':
     args = parse_command_args()
     main(args)
 
-    # frames = plot_all_frames(elev=105, azim=270)
-    # npy_to_gif(frames, "sample1.gif");
-    # frames = plot_all_frames(elev=165, azim=270)
-    # npy_to_gif(frames, "sample2.gif");
+    frames = plot_all_frames(elev=105, azim=270)
+    npy_to_gif(frames, "sample1.gif");
+    frames = plot_all_frames(elev=165, azim=270)
+    npy_to_gif(frames, "sample2.gif");
     frames = plot_all_frames(elev=None, azim=None, swapYZ=True)
     npy_to_gif(frames, "sample3.gif");
