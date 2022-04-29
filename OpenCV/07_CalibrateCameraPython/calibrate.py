@@ -1,6 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import sys
 import os
 import datetime
 import argparse
@@ -24,18 +23,16 @@ def main(args):
     objpoints = []
     imgpoints = []
 
-    capture = cv2.VideoCapture(0, cv2.CAP_MSMF)
-    capture.set(cv2.CAP_PROP_FRAME_WIDTH, 1920)
-    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, 1080)
+    height = 1080
+    width = 1920
 
-    height = 0
-    width = 0
+    capture = cv2.VideoCapture(0, cv2.CAP_MSMF)
+    capture.set(cv2.CAP_PROP_FRAME_WIDTH, width)
+    capture.set(cv2.CAP_PROP_FRAME_HEIGHT, height)
 
     while len(objpoints) < reference_img:
         now = datetime.datetime.now()
         ret, img = capture.read()
-        height = img.shape[0]
-        width = img.shape[1]
 
         ret, corner = cv2.findChessboardCorners(img, pattern_size)
         cv2.drawChessboardCorners(img, pattern_size, corner, ret)
