@@ -58,10 +58,15 @@ namespace Demo
         private static void Run(Options option)
         {
             // setup camera
-            using var videoCapture = new VideoCapture();
-            videoCapture.Set(VideoCaptureProperties.FrameWidth, 1920);
-            videoCapture.Set(VideoCaptureProperties.FrameHeight, 1080);
-            videoCapture.Open(0);
+            // DSHOW is slow
+            using var videoCapture = new VideoCapture(0, VideoCaptureAPIs.MSMF);
+
+            // But MSFM has problem that startup is slow
+            // https://github.com/opencv/opencv/pull/20327#issue-680368052
+            Environment.SetEnvironmentVariable("OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS", "0");
+
+            videoCapture.FrameWidth = 1920;
+            videoCapture.FrameHeight = 1080;
             if (!videoCapture.IsOpened())
                 throw new Exception("VideoCapture initialization failed");
 
