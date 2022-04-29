@@ -1,24 +1,14 @@
-# ArUco Marker
+# Calibration and Detect ArUco Marker
 
 ## Abstacts
 
+* How to calibrate camera
 * How to detect ArUco marker
+* Base code is [https://github.com/naruya/aruco](https://github.com/naruya/aruco)
 
 ## Requirements
 
-* Visual Studio 2022
-* .NET 6.0
-
-## Dependencies
-
-* [OpenCVSharp](https://github.com/shimat/opencvsharp)
-  * Apache License 2.0
-* [NLog](https://github.com/NLog/NLog)
-  * BSD-3-Clause License
-* [CommandLineParser](https://github.com/commandlineparser/commandline)
-  * MIT License
-* [Fluent Validation](https://github.com/FluentValidation/FluentValidation)
-  * Apache License 2.0
+* Python 3
 
 ## How to usage?
 
