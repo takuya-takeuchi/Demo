@@ -4,7 +4,7 @@ import sys
 import os
 import datetime
 import argparse
-from logging import getLogger
+import logging
 
 import numpy as np
 import cv2
@@ -15,6 +15,13 @@ import moviepy.editor as mpy
 from tqdm import tqdm
 from mpl_toolkits.mplot3d import axes3d, Axes3D
 from IPython.display import Image
+
+logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(sys.stdout)
+logger.setLevel(logging.INFO)
+fmt = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s", "%Y-%m-%dT%H:%M:%S")
+handler.setFormatter(fmt)
+logger.addHandler(handler)
 
 XYZ = []
 RPY = []
@@ -123,7 +130,7 @@ def main(args):
 
             xyz = np.dot(R_T, - T).squeeze()
             XYZ.append(xyz)
-            #print(xyz)
+            logger.info(xyz)
 
             rpy = np.deg2rad(cv2.RQDecomp3x3(R_T)[0])
             RPY.append(rpy)

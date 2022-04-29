@@ -1,14 +1,20 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+import sys
 import os
 import datetime
 import argparse
-from logging import getLogger
+import logging
 
 import numpy as np
 import cv2
 
-logger = getLogger(__name__)
+logger = logging.getLogger(__name__)
+handler = logging.StreamHandler(sys.stdout)
+logger.setLevel(logging.INFO)
+fmt = logging.Formatter("%(asctime)s - %(name)s - %(levelname)s - %(message)s", "%Y-%m-%dT%H:%M:%S")
+handler.setFormatter(fmt)
+logger.addHandler(handler)
 
 def main(args):
     pattern_size = (args.horizontal, args.vertical)
