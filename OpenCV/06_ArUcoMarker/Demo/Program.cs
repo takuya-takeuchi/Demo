@@ -97,6 +97,8 @@ namespace Demo
                 try
                 {
                     var now = DateTime.Now;
+                    
+                    // Shall input only 1 ArUco marker!!
                     videoCapture.Read(frame);
                     if (frame.Empty())
                         break;
@@ -107,8 +109,8 @@ namespace Demo
                     {
                         CvAruco.DrawDetectedMarkers(undistorted, corners, ids, new Scalar(0, 255, 0));
 
-                        using var rotationVectors = new Mat();    // 1*1*CV_64FC3
-                        using var translationVectors = new Mat(); // 1*1*CV_64FC3
+                        using var rotationVectors = new Mat();    // N*1*CV_64FC3
+                        using var translationVectors = new Mat(); // N*1*CV_64FC3
                         using var objPoints = new Mat();
                         CvAruco.EstimatePoseSingleMarkers(corners,
                                                           size,
@@ -117,6 +119,8 @@ namespace Demo
                                                           rotationVectors,
                                                           translationVectors,
                                                           objPoints);
+                        Logger.Info($"rotationVectors: {rotationVectors}");
+                        Logger.Info($"translationVectors: {translationVectors}");
 
                         float length = size / 2f;
                         for(var index = 0; index < ids.Length; index++)
@@ -148,13 +152,14 @@ namespace Demo
                             Cv2.Line(undistorted, point0, point3, new Scalar(255, 0, 0), 3);
                         }
 
+                        // https://mozyanari.hatenablog.com/entry/2019/06/04/153249
                         var x = translationVectors.Get<Vec3d>(0)[0];
                         var y = translationVectors.Get<Vec3d>(0)[1];
                         var z = translationVectors.Get<Vec3d>(0)[2];
                         var roll = rotationVectors.Get<Vec3d>(0)[0] * 180 / Math.PI;
                         var pitch = rotationVectors.Get<Vec3d>(0)[1] * 180 / Math.PI;
                         var yaw = rotationVectors.Get<Vec3d>(0)[2] * 180 / Math.PI;
-                        // Logger.Info($"x: {x}, y: {y}, z: {z}, roll: {roll}, pitch: {pitch}, yaw: {yaw}");
+                        Logger.Info($"x: {x}, y: {y}, z: {z}, roll: {roll}, pitch: {pitch}, yaw: {yaw}");
 
                         // convert to Rodrigues
                         // 3*3*CV_64FC1
@@ -170,13 +175,13 @@ namespace Demo
                         // 3*3*CV_64FC1
                         using var transposedRotationExpr = rotationVectorsMatrix.T();
                         using var transposedRotation = transposedRotationExpr.ToMat();
+                        Logger.Info($"{transposedRotation}");
                         
                         // compose
                         // 3*1*CV_64FC1
                         using var cameraPositionExpr = transposedRotation * -T;
                         using var cameraPosition  = cameraPositionExpr.ToMat();
-                        // Logger.Info($"{cameraPosition}");
-                        // Logger.Info($"{R}");
+                        Logger.Info($"{cameraPosition}");
 
                         var cameraX = cameraPosition.Get<double>(0, 0);
                         var cameraY = cameraPosition.Get<double>(1, 0);
