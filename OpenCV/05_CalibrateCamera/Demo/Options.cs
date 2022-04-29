@@ -18,6 +18,9 @@ namespace Demo
         [Option('c', "count", Required = true, HelpText = "Reference count")]
         public int Count { get; set; }
 
+        [Option('o', "output", Required = false, HelpText = "Output captured image")]
+        public bool Output { get; set; }
+
     }
 
 }

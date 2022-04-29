@@ -1,6 +1,4 @@
-﻿using System;
-
-using CommandLine;
+﻿using CommandLine;
 using NLog;
 using OpenCvSharp;
 
@@ -33,6 +31,7 @@ namespace Demo
                     Logger.Info($"{nameof(Options.VerticalPatternSize),25}: {option.VerticalPatternSize}");
                     Logger.Info($"{nameof(Options.Size),25}: {option.Size}");
                     Logger.Info($"{nameof(Options.Count),25}: {option.Count}");
+                    Logger.Info($"{nameof(Options.Output),25}: {option.Output}");
 
                     // check parameter
                     var validator = new OptionsValidator();
@@ -48,7 +47,7 @@ namespace Demo
                     break;
                 case ParserResultType.NotParsed:
                     var notParsed = parseResult as NotParsed<Options>;
-                    Logger.Error($"{nameof(Demo)} --horizontal <value> --vertical <value> --size <value> --count <value>");
+                    Logger.Error($"{nameof(Demo)} --horizontal <value> --vertical <value> --size <value> --count <value> [--output]");
                     break;
             }
         }
@@ -70,6 +69,7 @@ namespace Demo
             if (!videoCapture.IsOpened())
                 throw new Exception("VideoCapture initialization failed");
 
+            var output = option.Output;
             var size = option.Size;
             var referenceCount = option.Count;
             var patternSize = new Size(option.HorizontalPatternSize, option.VerticalPatternSize);
@@ -94,6 +94,7 @@ namespace Demo
             {
                 try
                 {
+                    var now = DateTime.Now;
                     videoCapture.Read(frame);
                     if (frame.Empty())
                         break;
@@ -107,6 +108,13 @@ namespace Demo
 
                     Cv2.ImShow(windowName, frame);
                     Cv2.WaitKey(10);
+
+                    if (output)
+                    {
+                        var directory = "outputs";
+                        Directory.CreateDirectory("outputs");
+                        Cv2.ImWrite(Path.Combine(directory, $"{now.ToString("yyyyMMddHHmmssfff")}.jpg"), frame);
+                    }
 
                     if (!result)
                     {
