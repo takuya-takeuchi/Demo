@@ -107,8 +107,8 @@ namespace Demo
                     {
                         CvAruco.DrawDetectedMarkers(undistorted, corners, ids, new Scalar(0, 255, 0));
 
-                        using var rotationVectors = new Mat();
-                        using var translationVectors = new Mat();
+                        using var rotationVectors = new Mat();    // 1*1*CV_64FC3
+                        using var translationVectors = new Mat(); // 1*1*CV_64FC3
                         using var objPoints = new Mat();
                         CvAruco.EstimatePoseSingleMarkers(corners,
                                                           size,
@@ -147,6 +147,45 @@ namespace Demo
                             Cv2.Line(undistorted, point0, point2, new Scalar(0, 255, 0), 3);
                             Cv2.Line(undistorted, point0, point3, new Scalar(255, 0, 0), 3);
                         }
+
+                        var x = translationVectors.Get<Vec3d>(0)[0];
+                        var y = translationVectors.Get<Vec3d>(0)[1];
+                        var z = translationVectors.Get<Vec3d>(0)[2];
+                        var roll = rotationVectors.Get<Vec3d>(0)[0] * 180 / Math.PI;
+                        var pitch = rotationVectors.Get<Vec3d>(0)[1] * 180 / Math.PI;
+                        var yaw = rotationVectors.Get<Vec3d>(0)[2] * 180 / Math.PI;
+                        // Logger.Info($"x: {x}, y: {y}, z: {z}, roll: {roll}, pitch: {pitch}, yaw: {yaw}");
+
+                        // convert to Rodrigues
+                        // 3*3*CV_64FC1
+                        using var rotationVectorsMatrix = new Mat();
+                        Cv2.Rodrigues(rotationVectors, rotationVectorsMatrix);                        
+
+                        // transpose
+                        using var T = new Mat<double>(Mat.Eye(3, 1, MatType.CV_64FC1));
+                        T.Set(0, 0, x);
+                        T.Set(1, 0, y);
+                        T.Set(2, 0, z);
+
+                        // 3*3*CV_64FC1
+                        using var transposedRotationExpr = rotationVectorsMatrix.T();
+                        using var transposedRotation = transposedRotationExpr.ToMat();
+                        
+                        // compose
+                        // 3*1*CV_64FC1
+                        using var cameraPositionExpr = transposedRotation * -T;
+                        using var cameraPosition  = cameraPositionExpr.ToMat();
+                        // Logger.Info($"{cameraPosition}");
+                        // Logger.Info($"{R}");
+
+                        var cameraX = cameraPosition.Get<double>(0, 0);
+                        var cameraY = cameraPosition.Get<double>(1, 0);
+                        var cameraZ = cameraPosition.Get<double>(2, 0);
+                        var cameraRoll = Math.Atan2(-transposedRotation.Get<Vec3d>(2, 1)[0], transposedRotation.Get<Vec3d>(2, 2)[0]) * 180 / Math.PI;
+                        var cameraPitch = Math.Asin(transposedRotation.Get<Vec3d>(2, 0)[0]) * 180 / Math.PI;
+                        var cameraYaw = Math.Atan2(-transposedRotation.Get<Vec3d>(1, 0)[0], transposedRotation.Get<Vec3d>(0, 0)[0]) * 180 / Math.PI;
+                        Logger.Info($"x: {cameraX}, y: {cameraY}, z: {cameraZ}, roll: {cameraRoll}, pitch: {cameraPitch}, yaw: {cameraYaw}");
+
 
                         // // convert to Rodrigues
                         // using var rotationVectorsMatrix = new Mat();
