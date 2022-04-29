@@ -1,0 +1,4 @@
+.venv
+*.npy
+*.gif
+outputs
