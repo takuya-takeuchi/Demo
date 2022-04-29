@@ -36,22 +36,24 @@ This program outputs calibration.yaml.
 ---
 Count: 40
 ChessSize: 2.5000000000000000e+00
+FrameWidth: 1920
+FrameHeight: 1080
 PatternRow: 7
 PatternColumn: 10
-RMS: 4.0276109697102624e+00
+RMS: 9.3106933225963417e-01
 CameraIntrinsicMatrix: !!opencv-matrix
    rows: 3
    cols: 3
    dt: d
-   data: [ 1., 0., 5.0812033903546955e-30, 0., 1.,
-       2.6269863510665807e-30, 0., 0., 1. ]
+   data: [ 8.4569559630144831e+03, 0., 1.1819343208144614e+03, 0.,
+       6.5932463583830449e+03, 7.6336698447080073e+02, 0., 0., 1. ]
 DistortionCoefficients: !!opencv-matrix
    rows: 1
    cols: 5
    dt: d
-   data: [ 4.6844699607907627e-21, 3.3044584353649073e-15,
-       6.8826085680269663e-24, 1.3492452503084928e-23,
-       -2.2444162298396161e-21 ]
+   data: [ -5.9896389638189911e+00, 1.7054778558550743e+02,
+       -1.7805915240619394e-01, -1.3186931420483941e-01,
+       -2.6837063125151612e+03 ]
 ````
 
 [![captured](./images/captured.jpg "captured")](./images/captured.jpg)
