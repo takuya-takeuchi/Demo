@@ -76,8 +76,8 @@ namespace Demo
             // read camera intrinsic matrix and distortion coefficients
             ReadFromFile(parameter, out var cameraIntrinsicMatrix, out var distortionCoefficients);
 
-            // setup ArUco dictinary and parameters
-            using var arucoDictinary = CvAruco.GetPredefinedDictionary(dictionary);
+            // setup ArUco dictionary and parameters
+            using var arucoDictionary = CvAruco.GetPredefinedDictionary(dictionary);
             var detectorParameters = DetectorParameters.Create();
 
             // camera buffer frame
@@ -104,7 +104,7 @@ namespace Demo
                         break;
 
                     Cv2.Undistort(frame, undistorted, cameraIntrinsicMatrix, distortionCoefficients, newCamera);
-                    CvAruco.DetectMarkers(undistorted, arucoDictinary, out var corners, out var ids, detectorParameters, out var rejectedImagePoints);
+                    CvAruco.DetectMarkers(undistorted, arucoDictionary, out var corners, out var ids, detectorParameters, out var rejectedImagePoints);
                     if (ids.Length > 0)
                     {
                         CvAruco.DrawDetectedMarkers(undistorted, corners, ids, new Scalar(0, 255, 0));
