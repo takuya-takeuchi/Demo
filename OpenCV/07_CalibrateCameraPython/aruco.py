@@ -33,7 +33,7 @@ def npy_to_gif(npy, filename):
     clip = mpy.ImageSequenceClip(list(npy), fps=10)
     clip.write_gif(filename)
 
-def plot_all_frames(elev=90, azim=270, swapYZ=False):
+def plot_all_frames(elev=90, azim=270, max=1, swapYZ=False):
     frames = []
 
     for t in tqdm(range(len(XYZ))):
@@ -42,10 +42,10 @@ def plot_all_frames(elev=90, azim=270, swapYZ=False):
         ax.view_init(elev=elev, azim=azim)
 
         if swapYZ:
-            ax.set_xlim(-5, 5); ax.set_ylim(5, -5); ax.set_zlim(-5, 5)
+            ax.set_xlim(-max, max); ax.set_ylim(max, -max); ax.set_zlim(-max, max)
             ax.set_xlabel("x"); ax.set_ylabel("z"); ax.set_zlabel("y")
         else:
-            ax.set_xlim(-5, 5); ax.set_ylim(-5, 5); ax.set_zlim(-5, 5)
+            ax.set_xlim(-max, max); ax.set_ylim(-max, max); ax.set_zlim(-max, max)
             ax.set_xlabel("x"); ax.set_ylabel("y"); ax.set_zlabel("z")
 
         x, y, z = XYZ[t]

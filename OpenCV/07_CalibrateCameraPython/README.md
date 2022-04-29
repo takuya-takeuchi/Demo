@@ -47,6 +47,10 @@ $ python aruco.py --size 0.15 --dictionary DICT_7X7_50 --output
 
 [![detect](./images/detect.jpg "detect")](./images/detect.jpg)
 
+[![view1](./images/sample1.gif "view1")](./images/sample1.gif)
+[![view2](./images/sample2.gif "view2")](./images/sample2.gif)
+[![view3](./images/sample3.gif "view3")](./images/sample3.gif)
+
 ## Misc
 
 You can download chess pattern from [chesspattern_7x10.pdf](http://opencv.jp/sample/pics/chesspattern_7x10.pdf).
