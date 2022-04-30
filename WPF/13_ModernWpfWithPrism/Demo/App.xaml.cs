@@ -1,7 +1,13 @@
 ﻿using System.Windows;
+using System.Windows.Threading;
 
 using Prism.Ioc;
 using Prism.Unity;
+
+using Demo.Services;
+using Demo.Services.Interfaces;
+using Demo.ViewModels;
+using Demo.Views;
 
 namespace Demo
 {
@@ -22,14 +28,31 @@ namespace Demo
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
+            this.RegisterServices(containerRegistry);
+            this.RegisterViewModels(containerRegistry);
+
             //containerRegistry.RegisterForNavigation<Views.UserControl1>();
             //containerRegistry.RegisterForNavigation<Views.UserControl2>();
         }
 
         #endregion
 
+        #region Helpers
+
+        private void RegisterServices(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterInstance<IDispatcherService>(new DispatcherService(Dispatcher.CurrentDispatcher));
+        }
+
+        private void RegisterViewModels(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.Register<MainWindowViewModel>();
+        }
+
         #endregion
-        
+
+        #endregion
+
     }
 
 }

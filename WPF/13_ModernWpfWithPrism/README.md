@@ -21,6 +21,8 @@
 * [The C#/WinRT Language Projection](https://github.com/microsoft/cswinrt)
   * MIT License
   * Install to resolve issue [ModernWpf.dll cannot be referenced because it uses built-in support for WinRT](https://github.com/Kinnara/ModernWpf/issues/442)
+* [Microsoft.Xaml.Behaviors.Wpf](https://github.com/Microsoft/XamlBehaviorsWpf)
+  * MIT License
 
 ## Result
 
