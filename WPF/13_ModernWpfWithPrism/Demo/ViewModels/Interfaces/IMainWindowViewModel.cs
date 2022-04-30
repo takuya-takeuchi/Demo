@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Windows.Input;
 
 using ModernWpf.Controls;
 using Prism.Commands;
-using Prism.Mvvm;
+
+using Demo.Models;
 
 namespace Demo.ViewModels.Interfaces
 {
@@ -18,7 +14,12 @@ namespace Demo.ViewModels.Interfaces
 
         #region Properties
 
-        DelegateCommand<SelectionChangedEventArgs> PageListSelectionChanged
+        IEnumerable<ModuleItem> Modules
+        {
+            get;
+        }
+
+        DelegateCommand<ModuleItem> PageListSelectionChanged
         {
             get;
         }

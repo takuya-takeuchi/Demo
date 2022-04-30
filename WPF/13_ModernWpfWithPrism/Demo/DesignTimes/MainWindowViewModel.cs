@@ -1,8 +1,11 @@
-﻿using System.Windows.Controls;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
 
-using Demo.ViewModels.Interfaces;
 using ModernWpf.Controls;
 using Prism.Commands;
+
+using Demo.Models;
+using Demo.ViewModels.Interfaces;
 
 namespace Demo.DesignTimes
 {
@@ -12,7 +15,19 @@ namespace Demo.DesignTimes
 
         #region IMainWindowViewModel Membbers
 
-        public DelegateCommand<SelectionChangedEventArgs> PageListSelectionChanged
+        public IEnumerable<ModuleItem> Modules
+        {
+            get
+            {
+                return new[]
+                {
+                    new ModuleItem(nameof(Demo.Views.Modules.ModuleAView), "Module A"),
+                    new ModuleItem(nameof(Demo.Views.Modules.ModuleBView), "Module B")
+                };
+            }
+        }
+
+        public DelegateCommand<ModuleItem> PageListSelectionChanged
         {
             get;
         }

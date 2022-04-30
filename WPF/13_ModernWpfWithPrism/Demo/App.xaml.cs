@@ -1,13 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Threading;
-
-using Prism.Ioc;
-using Prism.Unity;
-
 using Demo.Services;
 using Demo.Services.Interfaces;
 using Demo.ViewModels;
 using Demo.Views;
+using Prism.Ioc;
+using Prism.Unity;
 
 namespace Demo
 {
@@ -30,9 +28,7 @@ namespace Demo
         {
             this.RegisterServices(containerRegistry);
             this.RegisterViewModels(containerRegistry);
-
-            //containerRegistry.RegisterForNavigation<Views.UserControl1>();
-            //containerRegistry.RegisterForNavigation<Views.UserControl2>();
+            this.RegisterViews(containerRegistry);
         }
 
         #endregion
@@ -47,6 +43,12 @@ namespace Demo
         private void RegisterViewModels(IContainerRegistry containerRegistry)
         {
             containerRegistry.Register<MainWindowViewModel>();
+        }
+
+        private void RegisterViews(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.RegisterForNavigation<Views.Modules.ModuleAView>();
+            containerRegistry.RegisterForNavigation<Views.Modules.ModuleBView>();
         }
 
         #endregion

@@ -1,17 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Controls;
 
-using Prism.Mvvm;
-using Prism.Commands;
-using ModernWpf.Controls;
-
-using Demo.ViewModels.Interfaces;
-using Demo.Services.Interfaces;
 using ModernWpf;
+using ModernWpf.Controls;
+using Prism.Commands;
+using Prism.Mvvm;
+using Prism.Regions;
+
+using Demo.Models;
+using Demo.Services.Interfaces;
+using Demo.ViewModels.Interfaces;
 
 namespace Demo.ViewModels
 {
@@ -21,14 +20,17 @@ namespace Demo.ViewModels
 
         #region Fields
 
+        private readonly IRegionManager _RegionManager;
+
         private readonly IDispatcherService _DispatcherService;
 
         #endregion
 
         #region Constructors
 
-        public MainWindowViewModel(IDispatcherService dispatcherService)
+        public MainWindowViewModel(IRegionManager regionManager, IDispatcherService dispatcherService)
         {
+            this._RegionManager = regionManager;
             this._DispatcherService = dispatcherService;
         }
 
@@ -52,18 +54,28 @@ namespace Demo.ViewModels
 
         #region IMainWindowViewModel Membbers
 
-        private DelegateCommand<SelectionChangedEventArgs> _PageListSelectionChanged;
-
-        public DelegateCommand<SelectionChangedEventArgs> PageListSelectionChanged
+        public IEnumerable<ModuleItem> Modules
         {
             get
             {
-                return this._PageListSelectionChanged ??= new DelegateCommand<SelectionChangedEventArgs>((args) =>
+                return new[]
                 {
-                    //if (!_ignoreSelectionChange)
-                    //{
-                    //    NavigateToSelectedPage();
-                    //}
+                    new ModuleItem(nameof(Demo.Views.Modules.ModuleAView), "Module A"),
+                    new ModuleItem(nameof(Demo.Views.Modules.ModuleBView), "Module B")
+                };
+            }
+        }
+
+        private DelegateCommand<ModuleItem> _PageListSelectionChanged;
+
+        public DelegateCommand<ModuleItem> PageListSelectionChanged
+        {
+            get
+            {
+                return this._PageListSelectionChanged ??= new DelegateCommand<ModuleItem>(args =>
+                {
+                    if (args != null)
+                        this._RegionManager.RequestNavigate("ContentRegion", args.ModuleName);
                 });
             }
         }
@@ -74,7 +86,7 @@ namespace Demo.ViewModels
         {
             get
             {
-                return this._QuerySubmittedCommand ??= new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>((args) =>
+                return this._QuerySubmittedCommand ??= new DelegateCommand<AutoSuggestBoxQuerySubmittedEventArgs>(args =>
                 {
                     //if (args.ChosenSuggestion != null && args.ChosenSuggestion is ControlInfoDataItem)
                     //{
@@ -99,7 +111,7 @@ namespace Demo.ViewModels
         {
             get
             {
-                return this._QueryTextChangedCommand ??= new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>((args) =>
+                return this._QueryTextChangedCommand ??= new DelegateCommand<AutoSuggestBoxTextChangedEventArgs>(args =>
                 {
                     //var suggestions = new List<ControlInfoDataItem>();
 

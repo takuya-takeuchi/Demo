@@ -4,7 +4,6 @@
         xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:designTimes="clr-namespace:Demo.DesignTimes"
-        xmlns:local="clr-namespace:Demo"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:mvvm="http://prismlibrary.com/"
         xmlns:ui="http://schemas.modernwpf.com/2019"
@@ -33,101 +32,17 @@
                 <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
-            <!--<Menu>
-                <MenuItem Header="Theme">
-                    <ui:RadioMenuItem
-                        Header="Default"
-                        IsChecked="{Binding ApplicationTheme, Source={x:Static sc:ThemeManagerProxy.Current}, Mode=OneWay, Converter={StaticResource IsDefaultConverter}}"
-                        Checked="Default_Checked" />
-                    <ui:RadioMenuItem
-                        Header="Light"
-                        IsChecked="{Binding ApplicationTheme, Source={x:Static sc:ThemeManagerProxy.Current}, Mode=OneWay, Converter={StaticResource IsLightConverter}}"
-                        Checked="Light_Checked" />
-                    <ui:RadioMenuItem
-                        Header="Dark"
-                        IsChecked="{Binding ApplicationTheme, Source={x:Static sc:ThemeManagerProxy.Current}, Mode=OneWay, Converter={StaticResource IsDarkConverter}}"
-                        Checked="Dark_Checked" />
+            <Menu>
+                <MenuItem DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}" Header="Title Bar">
+                    <MenuItem Header="IsBackButtonVisible"
+                              IsCheckable="True"
+                              IsChecked="{Binding Path=(ui:TitleBar.IsBackButtonVisible), Mode=OneWay}"
+                              IsEnabled="False" />
+                    <MenuItem Header="IsIconVisible"
+                              IsCheckable="True"
+                              IsChecked="{Binding Path=(ui:TitleBar.IsIconVisible)}" />
                 </MenuItem>
-                <MenuItem
-                    x:Name="PresetsMenu"
-                    Header="Presets"
-                    MenuItem.Click="PresetMenuItem_Click">
-                    <ui:RadioMenuItem
-                        Header="Default"
-                        IsChecked="True" />
-                    <ui:RadioMenuItem Header="Forest" />
-                    <ui:RadioMenuItem Header="Lavender" />
-                    <ui:RadioMenuItem Header="Nighttime" />
-                </MenuItem>
-                <MenuItem
-                    Header="Sizing"
-                    MenuItem.Click="SizingMenuItem_Click">
-                    <ui:RadioMenuItem
-                        Header="Standard"
-                        IsChecked="True" />
-                    <ui:RadioMenuItem
-                        Header="Compact"
-                        Tag="Compact" />
-                </MenuItem>
-                <MenuItem
-                    Header="Title Bar"
-                    DataContext="{Binding RelativeSource={RelativeSource AncestorType=Window}}">
-                    <MenuItem
-                        Header="IsBackButtonVisible"
-                        IsEnabled="False"
-                        IsCheckable="True"
-                        IsChecked="{Binding Path=(ui:TitleBar.IsBackButtonVisible), Mode=OneWay}" />
-                    <MenuItem
-                        Header="IsIconVisible"
-                        IsCheckable="True"
-                        IsChecked="{Binding Path=(ui:TitleBar.IsIconVisible)}" />
-                </MenuItem>
-                <MenuItem Header="Shadows">
-                    <ui:RadioMenuItem
-                        x:Name="ShadowsAuto"
-                        Header="Use system setting"
-                        IsChecked="True"
-                        Checked="ShadowsAuto_Checked" />
-                    <ui:RadioMenuItem
-                        x:Name="ShadowsEnabled"
-                        Header="Enabled"
-                        Checked="ShadowsEnabled_Checked" />
-                    <ui:RadioMenuItem
-                        x:Name="ShadowsDisabled"
-                        Header="Disabled"
-                        Checked="ShadowsDisabled_Checked" />
-                </MenuItem>
-                <MenuItem Header="Settings">
-                    <MenuItem Header="Automatically hide scroll bars">
-                        <ui:RadioMenuItem
-                            x:Name="AutoHideScrollBarsAuto"
-                            Header="Use system setting"
-                            IsChecked="True"
-                            Checked="AutoHideScrollBarsAuto_Checked" />
-                        <ui:RadioMenuItem
-                            x:Name="AutoHideScrollBarsOn"
-                            Header="On"
-                            Checked="AutoHideScrollBarsOn_Checked" />
-                        <ui:RadioMenuItem
-                            x:Name="AutoHideScrollBarsOff"
-                            Header="Off"
-                            Checked="AutoHideScrollBarsOff_Checked" />
-                    </MenuItem>
-                </MenuItem>
-                <MenuItem
-                    x:Name="DebugMenuItem"
-                    Header="Debug"
-                    Visibility="Collapsed">
-                    <MenuItem
-                        Header="Force GC"
-                        Click="ForceGC" />
-                    <MenuItem
-                        x:Name="NewWindowMenuItem"
-                        Header="New window"
-                        Visibility="Collapsed"
-                        Click="NewWindow" />
-                </MenuItem>
-            </Menu>-->
+            </Menu>
 
             <ui:CommandBar x:Name="TopCommandBar"
                            Grid.Column="1"
@@ -161,19 +76,32 @@
             </ui:AutoSuggestBox>
 
             <ui:ListView x:Name="PagesList"
-                         DisplayMemberPath="Title"
                          DockPanel.Dock="Top"
-                         SelectedIndex="0"
-                         SelectedValuePath="PageType">
+                         ItemsSource="{Binding Modules}"
+                         SelectedIndex="0">
                 <b:Interaction.Triggers>
                     <b:EventTrigger EventName="SelectionChanged">
-                        <b:InvokeCommandAction Command="{Binding PageListSelectionChanged}" />
+                        <b:InvokeCommandAction Command="{Binding PageListSelectionChanged}" CommandParameter="{Binding ElementName=PagesList, Path=SelectedItem}" />
                     </b:EventTrigger>
                 </b:Interaction.Triggers>
-                <!--<ui:ListView.ItemsSource>
-                    <local:ControlPagesData />
-                </ui:ListView.ItemsSource>-->
+
+                <ui:ListView.ItemTemplate>
+                    <DataTemplate>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="32" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <TextBlock Grid.Column="1" Text="{Binding Text}" />
+                        </Grid>
+                    </DataTemplate>
+                </ui:ListView.ItemTemplate>
             </ui:ListView>
         </DockPanel>
+
+        <ContentControl Grid.Row="1"
+                        Grid.Column="1"
+                        mvvm:RegionManager.RegionName="ContentRegion" />
     </Grid>
 </Window>
