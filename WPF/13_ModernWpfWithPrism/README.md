@@ -1,8 +1,8 @@
-# Modern WPF
+# Modern WPF with Prism
 
 ## Abstacts
 
-* Try ModernWpfUI
+* Try ModernWpfUI and use Prism
 
 ## Requirements
 
@@ -13,6 +13,10 @@
 ## Dependencies
 
 * [ModernWpfUI](https://github.com/Kinnara/ModernWpf)
+  * MIT License
+* [Prism.Wpf](https://github.com/PrismLibrary/Prism)
+  * MIT License
+* [Prism.Unity](https://github.com/PrismLibrary/Prism)
   * MIT License
 * [The C#/WinRT Language Projection](https://github.com/microsoft/cswinrt)
   * MIT License
