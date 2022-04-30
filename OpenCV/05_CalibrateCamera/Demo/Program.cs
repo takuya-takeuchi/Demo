@@ -161,12 +161,34 @@ namespace Demo
             Logger.Info($"        Camera Intrinsic Matrix: {cameraIntrinsicMatrix}");
             Logger.Info($"        Distortion Coefficients: {distortionCoefficients}");
 
+            // https://qiita.com/harmegiddo/items/1d287c9a02e4b061287f
+            // Camera Intrinsic Matrix (Camera Parameter) A is
+            //     | fx 0  cx |
+            // A = | 0  fy cy |
+            //     | 0  0  1  |
+            // fx = pixel focal length (horizontal)
+            // fy = pixel focal length (vertical)
+            // cx = offsets of the principal point from the top-left corner of the image frame (horizontal)
+            // cy = offsets of the principal point from the top-left corner of the image frame (vertical)
+            // Hence,
+            // fovx = 2 * arctan (w / 2fx) # w is pixel frame size (horizontal) and unit is pixel. otherwise, unit is mm if image sensor size
+            // fovy = 2 * arctan (h / 2fy) # h is pixel frame size (vertical) and unit is pixel. otherwise, unit is mm if image sensor size
+            // fovd = 2 * arctan (sqrt(w^2 + h^2) / 2f) # Where is f from?
+            var fovx = 2 * Math.Atan(frame.Width / (2 * cameraIntrinsicMatrix.Get<double>(0, 0))) * 180 / Math.PI;
+            var fovy = 2 * Math.Atan(frame.Height / (2 * cameraIntrinsicMatrix.Get<double>(1, 1))) * 180 / Math.PI;
+            // var fovd = 2 * Math.Atan(Math.Sqrt(frame.Width * frame.Width  + frame.Height * frame.Height) / (2 * cameraIntrinsicMatrix.Get<double>(1, 1)));
+
+            Logger.Info($"       Horizontal Field of View: {fovx}");
+            Logger.Info($"         Vertical Field of View: {fovy}");
+
             var dictionary = new Dictionary<string, object>
             {
                 { "Count", referenceCount },
                 { "ChessSize", size },
                 { "FrameWidth", frame.Width },
                 { "FrameHeight", frame.Height },
+                { "FoVx", fovx },
+                { "FoVy", fovy },
                 { "PatternRow", patternSize.Height },
                 { "PatternColumn", patternSize.Width },
                 { "RMS", overallRmsReProjectionError },
