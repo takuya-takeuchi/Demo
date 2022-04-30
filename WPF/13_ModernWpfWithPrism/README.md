@@ -3,6 +3,8 @@
 ## Abstacts
 
 * Try ModernWpfUI and use Prism
+  * Use Region and AutoWireViewModel
+  * No use of code behind
 
 ## Requirements
 
@@ -26,4 +28,6 @@
 
 ## Result
 
-[![window](./images/demo.png "window")](./images/demo.png)
+<img src="images/demo1.png?raw=true" width="300" title="Select Module A"/>
+
+<img src="images/demo2.png?raw=true" width="300" title="Select Module B"/>
