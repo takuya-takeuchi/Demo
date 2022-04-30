@@ -10,7 +10,7 @@ namespace Demo
 
         #region Fields
 
-        private static Logger Logger = LogManager.GetCurrentClassLogger();
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
 
         #endregion
 
@@ -19,13 +19,12 @@ namespace Demo
         private static void Main(string[] args)
         {
             var parseResult = Parser.Default.ParseArguments<Options>(args);
-            Options option = null;
 
             switch (parseResult.Tag)
             {
                 case ParserResultType.Parsed:
                     var parsed = parseResult as Parsed<Options>;
-                    option = parsed.Value;
+                    var option = parsed.Value;
 
                     Logger.Info($"{nameof(Options.HorizontalPatternSize),25}: {option.HorizontalPatternSize}");
                     Logger.Info($"{nameof(Options.VerticalPatternSize),25}: {option.VerticalPatternSize}");
@@ -46,7 +45,6 @@ namespace Demo
                     Run(option);
                     break;
                 case ParserResultType.NotParsed:
-                    var notParsed = parseResult as NotParsed<Options>;
                     Logger.Error($"{nameof(Demo)} --horizontal <value> --vertical <value> --size <value> --count <value> [--output]");
                     break;
             }
@@ -82,7 +80,7 @@ namespace Demo
                 points.Add(new Point3f(h * size, v * size, 0.0f));
 
             for (var count = 0; count < referenceCount; count++)
-                objectPoints.Add(Mat<Point3f>.FromArray(points));
+                objectPoints.Add(Mat.FromArray(points));
 
             // camera buffer frame
             using var frame = new Mat();
@@ -113,7 +111,7 @@ namespace Demo
                     {
                         var directory = "outputs";
                         Directory.CreateDirectory("outputs");
-                        Cv2.ImWrite(Path.Combine(directory, $"{now.ToString("yyyyMMddHHmmssfff")}.jpg"), frame);
+                        Cv2.ImWrite(Path.Combine(directory, $"{now:yyyyMMddHHmmssfff}.jpg"), frame);
                     }
 
                     if (!result)
@@ -149,15 +147,15 @@ namespace Demo
             Logger.Info("CalibrateCamera...");
             using var cameraIntrinsicMatrix = new Mat<double>(Mat.Eye(3, 3, MatType.CV_64FC1));
             using var distortionCoefficients = new Mat<double>();
-            var calibrationFlags = CalibrationFlags.UseIntrinsicGuess | CalibrationFlags.FixK5;
+            // ToDo: CalibrationFlags.UseIntrinsicGuess | CalibrationFlags.FixK5 occurs issue when drawing axis of ArUco
+            // var calibrationFlags = CalibrationFlags.UseIntrinsicGuess | CalibrationFlags.FixK5;
             var overallRmsReProjectionError = Cv2.CalibrateCamera(objectPoints,
                                                                   detectedCorners,
                                                                   frame.Size(),
                                                                   cameraIntrinsicMatrix,
                                                                   distortionCoefficients,
                                                                   out var rotationVectors,
-                                                                  out var translationVectors,
-                                                                  calibrationFlags);
+                                                                  out var translationVectors);
 
             Logger.Info($"Overall RMS re-projection error: {overallRmsReProjectionError}");
             Logger.Info($"        Camera Intrinsic Matrix: {cameraIntrinsicMatrix}");
@@ -167,6 +165,8 @@ namespace Demo
             {
                 { "Count", referenceCount },
                 { "ChessSize", size },
+                { "FrameWidth", frame.Width },
+                { "FrameHeight", frame.Height },
                 { "PatternRow", patternSize.Height },
                 { "PatternColumn", patternSize.Width },
                 { "RMS", overallRmsReProjectionError },
@@ -183,12 +183,6 @@ namespace Demo
         {
             foreach (var item in collection)
                 item.Dispose();
-        }
-
-        private static void Dispose(IEnumerable<IEnumerable<IDisposable>> collections)
-        {
-            foreach (var collection in collections)
-                Dispose(collection);
         }
 
         private static void WriteToFile(Dictionary<string, object> dictionary, string filename)
