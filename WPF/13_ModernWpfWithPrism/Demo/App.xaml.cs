@@ -1,17 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows;
+﻿using System.Windows;
+
+using Prism.Ioc;
+using Prism.Unity;
 
 namespace Demo
 {
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : Application
+    public partial class App : PrismApplication
     {
+
+        #region Methods
+
+        #region Overrids
+
+        protected override Window CreateShell()
+        {
+            return Container.Resolve<MainWindow>();
+        }
+
+        protected override void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            //containerRegistry.RegisterForNavigation<Views.UserControl1>();
+            //containerRegistry.RegisterForNavigation<Views.UserControl2>();
+        }
+
+        #endregion
+
+        #endregion
+        
     }
+
 }
