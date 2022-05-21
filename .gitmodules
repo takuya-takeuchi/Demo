@@ -2,3 +2,7 @@
 	path = Xamarin.Native.Nuget/ios-cmake
 	url = https://github.com/leetal/ios-cmake
         ignore = dirty
+[submodule "Sentry/01_Simple/docker/sentry"]
+	path = Sentry/01_Simple/docker/sentry
+	url = https://github.com/getsentry/self-hosted
+        ignore = dirty
