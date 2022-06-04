@@ -47,7 +47,7 @@ You can see program fails to generate OCR engine if language pack is not install
 ````cmd
 $ sources\Demo\bin\Release\Demo.exe en testdata\en.png
 2022-06-04 23:01:11.8062 [ERROR] Failed to create ocr engine because it could be lack of language pack.
-$ 2022-06-04 23:01:11.8357 [INFO ] TrySetupOcrEngine: 31 ms
+2022-06-04 23:01:11.8357 [INFO ] TrySetupOcrEngine: 31 ms
 ````
 
 ### Use Japanese OCR engine for English text
