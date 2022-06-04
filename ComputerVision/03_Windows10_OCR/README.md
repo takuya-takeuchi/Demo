@@ -56,7 +56,7 @@ You can use OCR engine for other Language.
 But it should generate bad result like this.
 
 ````cmd
-sources\Demo\bin\Release\Demo.exe ja testdata\en.png
+$ sources\Demo\bin\Release\Demo.exe ja testdata\en.png
 2022-06-04 23:07:14.7779 [INFO ] TrySetupOcrEngine: 2 ms
 2022-06-04 23:07:14.8040 [INFO ] GetImageBinary: 0 ms
 2022-06-04 23:07:14.8375 [INFO ] ConvertToSoftwareBitmap: 29 ms
@@ -67,7 +67,7 @@ sources\Demo\bin\Release\Demo.exe ja testdata\en.png
 ### After install English Language Pack
 
 ````cmd
-sources\Demo\bin\Release\Demo.exe en testdata\en.png
+$ sources\Demo\bin\Release\Demo.exe en testdata\en.png
 2022-06-04 23:05:57.2636 [INFO ] TrySetupOcrEngine: 5 ms
 2022-06-04 23:05:57.2906 [INFO ] GetImageBinary: 0 ms
 2022-06-04 23:05:57.3296 [INFO ] ConvertToSoftwareBitmap: 34 ms
