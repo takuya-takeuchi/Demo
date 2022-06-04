@@ -20,8 +20,8 @@ def get_args():
     return parser.parse_args()
 
 def train(args):
-    epoch           = args.epoch
-    batchsize       = args.batchsize
+    epoch     = args.epoch
+    batchsize = args.batchsize
 
     # check whether gpu is available
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")

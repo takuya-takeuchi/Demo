@@ -7,4 +7,4 @@ def get_labels(label_path: str):
                 continue
             label.append(line)
     
-    return label,
+    return label

@@ -1,10 +1,14 @@
 import argparse
+from re import L
 
 import torch
 import torchvision
 import torchvision.transforms as transforms
-
+from pycm import ConfusionMatrix
 from tqdm import tqdm
+import pandas as pd
+import seaborn as sns
+import matplotlib.pyplot as plt
 
 from models.net import Net
 import utils
@@ -13,11 +17,13 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--pretrained", required=True, type=str)
     parser.add_argument("--label", required=True, type=str)
+    parser.add_argument("--batchsize", required=True, type=int)
     return parser.parse_args()
 
 def train(args):
     pretrained = args.pretrained
     label      = args.label
+    batchsize  = args.batchsize
 
     # check whether gpu is available
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -46,30 +52,63 @@ def train(args):
 
     print("Start Evaluation")
 
-    accuracy = 0
+    classes = utils.get_labels(label)
+    class_correct = list(0. for i in range(len(classes)))
+    class_total = list(0. for i in range(len(classes)))
+        
+    predict_vector = list()
+    actual_vector = list()
+
     with tqdm(testloader) as pbar:
         for images, labels in pbar:                
             images = images.to(device)
             labels = labels.to(device)
 
-            out = model(images)
-            preds = out.argmax(axis=1)
+            outputs = model(images)
 
-            accuracy += torch.sum(preds == labels).item() / len(labels)
+            pred = outputs.argmax(dim=1, keepdim=True)
+
+            # for i in range(batchsize):
+            #     l = labels[i]
+            #     class_correct[l] += c[i].data.cpu()
+            #     class_total[l] += 1
+            predict_vector.extend(pred.cpu().numpy().reshape(-1).tolist())
+            actual_vector.extend(labels.cpu().numpy().reshape(-1).tolist())
     
     print("Finished Evaluation")
 
     print("Results")
-    print(f"Accuracy: {accuracy / len(testloader)}")
+    cm = ConfusionMatrix(actual_vector=actual_vector,
+                         predict_vector=predict_vector)
+    mapping = {i: classes[i] for i in range(0, len(classes))}
+    cm.relabel(mapping=mapping)                       
+    plt.figure()
+    data = cm.matrix
+    title = "Confusion matrix"
+    normalize = False
+    if normalize:
+        title += '(Normalized)'
+        data = cm.normalized_matrix
+    df = pd.DataFrame(data).T.fillna(0)
+    ax = sns.heatmap(df, annot=True, cmap="YlGnBu", fmt='d')
+    ax.set_title(title)
+    ax.set(xlabel='Predict', ylabel='Actual')
+    plt.savefig('confusion_mat.png', bbox_inches='tight')
+    
+    print(cm)
+    # for c in range(len(classes)):
+    #     print(f"\t{classes[c]}: {class_correct[c] / class_total[c]}")
 
 if __name__ == '__main__':
     # parse args
     args = get_args()
     pretrained = args.pretrained
     label      = args.label
+    batchsize  = args.batchsize
 
     print("Arguments")
     print("     pretrained: {}".format(pretrained))
     print("          label: {}".format(label))
+    print("      batchsize: {}".format(batchsize))
 
     train(args)
