@@ -6,3 +6,9 @@
 	path = Sentry/01_Simple/docker/sentry
 	url = https://github.com/getsentry/self-hosted
         ignore = dirty
+[submodule "ComputerVision/05_Tesseract/tessdata_fast"]
+	path = ComputerVision/05_Tesseract/tessdata_fast
+	url = https://github.com/tesseract-ocr/tessdata_fast
+[submodule "ComputerVision/05_Tesseract/tessdata"]
+	path = ComputerVision/05_Tesseract/tessdata
+	url = https://github.com/tesseract-ocr/tessdata

@@ -14,6 +14,11 @@
 * Language Pack
   * e.g. Install english language if you want to recognize english text
 
+## Dependencies
+
+* [NLog](https://github.com/NLog/NLog)
+  * BSD-3-Clause license
+
 ## How to usage?
 
 You can build demo program by Visual Studio.
