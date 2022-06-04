@@ -23,6 +23,9 @@ def train(args):
     epoch           = args.epoch
     batchsize       = args.batchsize
 
+    # check whether gpu is available
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+
     # setup transform
     transform = transforms.Compose([
         transforms.ToTensor(),
@@ -41,6 +44,7 @@ def train(args):
 
     # setup network, optimizer, scheduler and criterion
     model = Net()
+    model.to(device)
     model.train()
     optimizer = optim.SGD(params=model.parameters(),
                           lr=1e-3)
@@ -60,6 +64,9 @@ def train(args):
             for images, labels in pbar:
                 optimizer.zero_grad()
                 
+                images = images.to(device)
+                labels = labels.to(device)
+
                 out = model(images)
                 loss = criterion(out, labels)
 

@@ -23,3 +23,9 @@ $ python -m pip install -r requirements.txt
 ````cmd
 $ python train.py --epoch 100 --batchsize 128
 ````
+
+### Evaluation
+
+````cmd
+$ python eval.py --pretrained trained.pth --label label.txt
+````

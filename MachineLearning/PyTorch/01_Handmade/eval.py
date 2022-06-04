@@ -1,26 +1,26 @@
-import os
 import argparse
 
 import torch
-import torch.nn as nn
-import torch.optim as optim
 import torchvision
 import torchvision.transforms as transforms
 
 from tqdm import tqdm
-from typing import OrderedDict
 
 from models.net import Net
 import utils
 
 def get_args():
     parser = argparse.ArgumentParser()
+    parser.add_argument("--pretrained", required=True, type=str)
     parser.add_argument("--label", required=True, type=str)
     return parser.parse_args()
 
 def train(args):
     pretrained = args.pretrained
     label      = args.label
+
+    # check whether gpu is available
+    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
 
     # setup transform
     transform = transforms.Compose([
@@ -41,13 +41,17 @@ def train(args):
     # setup network
     model = Net()
     model.load_state_dict(torch.load(pretrained))
+    model.to(device)
     model.eval()
 
     print("Start Evaluation")
 
     accuracy = 0
     with tqdm(testloader) as pbar:
-        for images, labels in pbar:
+        for images, labels in pbar:                
+            images = images.to(device)
+            labels = labels.to(device)
+
             out = model(images)
             preds = out.argmax(axis=1)
 
