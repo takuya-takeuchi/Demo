@@ -7,7 +7,6 @@
 
 ## Requirements
 
-* Visual Studio 2022
 * .NET 6.0
 * Windows 10
   * 19041 or later
@@ -16,11 +15,9 @@
 
 ## How to usage?
 
-You can build demo program by Visual Studio.
-After build it, you can run from command prompt.
-
 ````cmd
-$ sources\Demo\bin\Release\Demo.exe ja testdata\ja.png
+$ sources\Demo
+$ dotnet run -c Release -- ja ..\..\testdata\ja.png
 2022-06-04 22:51:54.4947 [INFO ] TrySetupOcrEngine: 2 ms
 2022-06-04 22:51:54.5227 [INFO ] GetImageBinary: 0 ms
 2022-06-04 22:51:54.5584 [INFO ] ConvertToSoftwareBitmap: 28 ms
@@ -45,7 +42,8 @@ Author uses Windows 10 Japanese and English Language Pack is not installed defau
 You can see program fails to generate OCR engine if language pack is not installed.
 
 ````cmd
-$ sources\Demo\bin\Release\Demo.exe en testdata\en.png
+$ sources\Demo
+$ dotnet run -c Release -- en testdata\en.png
 2022-06-04 23:01:11.8062 [ERROR] Failed to create ocr engine because it could be lack of language pack.
 2022-06-04 23:01:11.8357 [INFO ] TrySetupOcrEngine: 31 ms
 ````
@@ -56,7 +54,8 @@ You can use OCR engine for other Language.
 But it should generate bad result like this.
 
 ````cmd
-$ sources\Demo\bin\Release\Demo.exe ja testdata\en.png
+$ sources\Demo
+$ dotnet run -c Release -- ja ..\..\testdata\en.png
 2022-06-04 23:07:14.7779 [INFO ] TrySetupOcrEngine: 2 ms
 2022-06-04 23:07:14.8040 [INFO ] GetImageBinary: 0 ms
 2022-06-04 23:07:14.8375 [INFO ] ConvertToSoftwareBitmap: 29 ms
@@ -67,7 +66,8 @@ $ sources\Demo\bin\Release\Demo.exe ja testdata\en.png
 ### After install English Language Pack
 
 ````cmd
-$ sources\Demo\bin\Release\Demo.exe en testdata\en.png
+$ sources\Demo
+$ dotnet run -c Release -- en ..\..\testdata\en.png
 2022-06-04 23:05:57.2636 [INFO ] TrySetupOcrEngine: 5 ms
 2022-06-04 23:05:57.2906 [INFO ] GetImageBinary: 0 ms
 2022-06-04 23:05:57.3296 [INFO ] ConvertToSoftwareBitmap: 34 ms
