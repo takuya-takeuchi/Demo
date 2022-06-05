@@ -3,7 +3,7 @@
 ## Abstacts
 
 * Simple Neural Network for classification
-  * Train Cifar10
+  * Train MNIST
 
 ## Requirements
 
@@ -21,7 +21,7 @@ $ python -m pip install -r requirements.txt --extra-index-url https://download.p
 ### Train
 
 ````cmd
-$ python train.py --epoch 100 --batchsize 128
+$ python train.py --epoch 100 --batchsize 512 --tensorboard-logdir ..\00_Tensorboard\log
 ````
 
 ### Evaluation

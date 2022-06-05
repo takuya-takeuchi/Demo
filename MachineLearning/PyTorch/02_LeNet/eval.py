@@ -10,7 +10,7 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from models.net import Net
+from models.lenet import LeNet
 import utils
 
 def get_args():
@@ -31,21 +31,21 @@ def train(args):
     # setup transform
     transform = transforms.Compose([
         transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+        transforms.Normalize((0.5), (0.5))
     ])
 
     # setup data loader for test
-    testset = torchvision.datasets.CIFAR10(root='../data',
-                                           train=False,
-                                           download=True,
-                                           transform=transform)
+    testset = torchvision.datasets.MNIST(root='../data',
+                                         train=False,
+                                         download=True,
+                                         transform=transform)
     testloader = torch.utils.data.DataLoader(testset,
                                              batch_size=1,
                                              shuffle=False,
                                              num_workers=2)
 
     # setup network
-    model = Net()
+    model = LeNet()
     model.load_state_dict(torch.load(pretrained))
     model.to(device)
     model.eval()
