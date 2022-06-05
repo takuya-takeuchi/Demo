@@ -13,7 +13,7 @@ from models.lenet import LeNet
 import utils
 
 # setup logger
-logger = utils.get_logger()
+logger = utils.get_logger("eval")
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -69,11 +69,7 @@ def train(args):
             outputs = model(images)
 
             pred = outputs.argmax(dim=1, keepdim=True)
-
-            # for i in range(batchsize):
-            #     l = labels[i]
-            #     class_correct[l] += c[i].data.cpu()
-            #     class_total[l] += 1
+            
             predict_vector.extend(pred.cpu().numpy().reshape(-1).tolist())
             actual_vector.extend(labels.cpu().numpy().reshape(-1).tolist())
     

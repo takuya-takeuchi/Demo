@@ -20,7 +20,7 @@ import utils
 program_name = "02_LeNet"
 
 # setup logger
-logger = utils.get_logger()
+logger = utils.get_logger("train")
 
 def get_args():
     parser = argparse.ArgumentParser()

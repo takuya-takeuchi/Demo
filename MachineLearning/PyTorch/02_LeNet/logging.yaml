@@ -1,15 +1,23 @@
 version: 1
-root:
-  level: DEBUG
-  handlers: [console, file]
+loggers:
+  eval:
+    level: DEBUG
+    handlers: [console, fileEval]
+  train:
+    level: DEBUG
+    handlers: [console, fileTrain]
 handlers:
   console:
     class: logging.StreamHandler
     stream: ext://sys.stderr
     formatter: console
-  file:
+  fileEval:
     class: logging.FileHandler
-    filename: logs/application.log
+    filename: logs/eval.log
+    formatter: file
+  fileTrain:
+    class: logging.FileHandler
+    filename: logs/train.log
     formatter: file
 formatters:
   console:

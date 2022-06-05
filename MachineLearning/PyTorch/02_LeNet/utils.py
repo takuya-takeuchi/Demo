@@ -13,9 +13,9 @@ def get_labels(label_path: str):
     
     return label
 
-def get_logger():
+def get_logger(logger_name: str):
     os.makedirs("logs", exist_ok=True)
     with open("./logging.yaml", encoding='utf-8') as f:
         logconfig = yaml.safe_load(f)
         config.dictConfig(logconfig)
-    return getLogger("__name__")
+    return getLogger(logger_name)
