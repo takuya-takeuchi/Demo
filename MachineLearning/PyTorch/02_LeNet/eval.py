@@ -1,5 +1,4 @@
 import argparse
-from re import L
 
 import torch
 import torchvision
@@ -10,8 +9,11 @@ import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
-from models.net import Net
+from models.lenet import LeNet
 import utils
+
+# setup logger
+logger = utils.get_logger("eval")
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -31,26 +33,26 @@ def train(args):
     # setup transform
     transform = transforms.Compose([
         transforms.ToTensor(),
-        transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+        transforms.Normalize((0.5), (0.5))
     ])
 
     # setup data loader for test
-    testset = torchvision.datasets.CIFAR10(root='../data',
-                                           train=False,
-                                           download=True,
-                                           transform=transform)
+    testset = torchvision.datasets.MNIST(root='../data',
+                                         train=False,
+                                         download=True,
+                                         transform=transform)
     testloader = torch.utils.data.DataLoader(testset,
                                              batch_size=1,
                                              shuffle=False,
                                              num_workers=2)
 
     # setup network
-    model = Net()
+    model = LeNet()
     model.load_state_dict(torch.load(pretrained))
     model.to(device)
     model.eval()
 
-    print("Start Evaluation")
+    logger.info("Start Evaluation")
 
     classes = utils.get_labels(label)
     class_correct = list(0. for i in range(len(classes)))
@@ -67,17 +69,13 @@ def train(args):
             outputs = model(images)
 
             pred = outputs.argmax(dim=1, keepdim=True)
-
-            # for i in range(batchsize):
-            #     l = labels[i]
-            #     class_correct[l] += c[i].data.cpu()
-            #     class_total[l] += 1
+            
             predict_vector.extend(pred.cpu().numpy().reshape(-1).tolist())
             actual_vector.extend(labels.cpu().numpy().reshape(-1).tolist())
     
-    print("Finished Evaluation")
+    logger.info("Finished Evaluation")
 
-    print("Results")
+    logger.info("Results")
     cm = ConfusionMatrix(actual_vector=actual_vector,
                          predict_vector=predict_vector)
     mapping = {i: classes[i] for i in range(0, len(classes))}
@@ -95,9 +93,7 @@ def train(args):
     ax.set(xlabel='Predict', ylabel='Actual')
     plt.savefig('confusion_mat.png', bbox_inches='tight')
     
-    print(cm)
-    # for c in range(len(classes)):
-    #     print(f"\t{classes[c]}: {class_correct[c] / class_total[c]}")
+    logger.info(f"\n{str(cm)}")
 
 if __name__ == '__main__':
     # parse args
@@ -106,9 +102,9 @@ if __name__ == '__main__':
     label      = args.label
     batchsize  = args.batchsize
 
-    print("Arguments")
-    print("     pretrained: {}".format(pretrained))
-    print("          label: {}".format(label))
-    print("      batchsize: {}".format(batchsize))
+    logger.info("Arguments")
+    logger.info("     pretrained: {}".format(pretrained))
+    logger.info("          label: {}".format(label))
+    logger.info("      batchsize: {}".format(batchsize))
 
     train(args)
