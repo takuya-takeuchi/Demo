@@ -3,7 +3,7 @@
 	url = https://github.com/leetal/ios-cmake
 	ignore = dirty
 [submodule "Sentry/01_Simple/docker/sentry"]
-	path = Sentry/01_Simple/docker/sentry
+	path = ErrorTracking/Sentry/01_Simple/docker/sentry
 	url = https://github.com/getsentry/self-hosted
 	ignore = dirty
 [submodule "ComputerVision/05_Tesseract/tessdata_fast"]
