@@ -1,8 +1,8 @@
-# Handmade Neural Network
+# LeNet
 
 ## Abstacts
 
-* Simple Neural Network for classification
+* LeNet for classification
   * Train MNIST
 
 ## Requirements

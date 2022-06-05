@@ -1,6 +1,8 @@
 import os
 import argparse
 import datetime
+from logging import config, getLogger
+import yaml
 
 import torch
 import torch.nn as nn
@@ -15,6 +17,12 @@ from collections import OrderedDict
 from models.lenet import LeNet
 
 program_name = "02_LeNet"
+
+# setup logger    
+with open("./logging.yaml", encoding='utf-8') as f:
+    logconfig = yaml.safe_load(f)
+    config.dictConfig(logconfig)
+logger = getLogger("__name__")
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -62,10 +70,10 @@ def train(args):
     if os.path.exists(tensorboard_logdir):
         now = datetime.datetime.now()
         d = f"{now:%Y%m%d_%H%M%S}"
-        print(f"Setup Tensorboard Summary Writer: {tensorboard_logdir} for {program_name}_{d}")
+        logger.info(f"Setup Tensorboard Summary Writer: {tensorboard_logdir} for {program_name}_{d}")
         writer = SummaryWriter(log_dir=tensorboard_logdir, comment=f"{program_name}_{d}")
 
-    print("Start Training")
+    logger.info("Start Training")
 
     for e in range(epoch):
         accuracy = 0.0
@@ -102,7 +110,7 @@ def train(args):
             writer.add_scalar("accuracy", accuracy / len(trainset), e)     
             writer.add_scalar("lr", scheduler.get_last_lr()[0], e)  
     
-    print("Finished Training")
+    logger.info("Finished Training")
 
     torch.save(model.state_dict(), "trained.pth")
 
@@ -113,9 +121,9 @@ if __name__ == '__main__':
     batchsize          = args.batchsize
     tensorboard_logdir = args.tensorboard_logdir
 
-    print("Arguments")
-    print("               epoch: {}".format(epoch))
-    print("           batchsize: {}".format(batchsize))
-    print("  tensorboard_logdir: {}".format(tensorboard_logdir))
+    logger.info("Arguments")
+    logger.info("               epoch: {}".format(epoch))
+    logger.info("           batchsize: {}".format(batchsize))
+    logger.info("  tensorboard_logdir: {}".format(tensorboard_logdir))
 
     train(args)
