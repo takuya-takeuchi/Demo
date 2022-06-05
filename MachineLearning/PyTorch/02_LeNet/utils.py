@@ -1,3 +1,7 @@
+import os
+from logging import config, getLogger
+import yaml
+
 def get_labels(label_path: str):
     label = list()
     with open(label_path, mode='rt', encoding='utf-8') as f:
@@ -8,3 +12,10 @@ def get_labels(label_path: str):
             label.append(line)
     
     return label
+
+def get_logger():
+    os.makedirs("logs", exist_ok=True)
+    with open("./logging.yaml", encoding='utf-8') as f:
+        logconfig = yaml.safe_load(f)
+        config.dictConfig(logconfig)
+    return getLogger("__name__")

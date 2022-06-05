@@ -1,6 +1,4 @@
 import argparse
-from logging import config, getLogger
-import yaml
 
 import torch
 import torchvision
@@ -14,11 +12,8 @@ import matplotlib.pyplot as plt
 from models.lenet import LeNet
 import utils
 
-# setup logger    
-with open("./logging.yaml", encoding='utf-8') as f:
-    logconfig = yaml.safe_load(f)
-    config.dictConfig(logconfig)
-logger = getLogger("__name__")
+# setup logger
+logger = utils.get_logger()
 
 def get_args():
     parser = argparse.ArgumentParser()

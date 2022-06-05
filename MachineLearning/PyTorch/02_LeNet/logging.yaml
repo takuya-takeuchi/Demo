@@ -1,14 +1,21 @@
 version: 1
 root:
   level: DEBUG
-  handlers: [console]
+  handlers: [console, file]
 handlers:
   console:
     class: logging.StreamHandler
     stream: ext://sys.stderr
-    formatter: myformatter
+    formatter: console
+  file:
+    class: logging.FileHandler
+    filename: logs/application.log
+    formatter: file
 formatters:
-  myformatter:
+  console:
     '()': 'colorlog.ColoredFormatter'
     format: "{log_color}{asctime} [{levelname:.4}] {message}"
+    style: "{"
+  file:
+    format: "{asctime} [{levelname:.4}] {message}"
     style: "{"

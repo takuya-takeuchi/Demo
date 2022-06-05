@@ -1,2 +1,3 @@
 *.pth
 confusion_mat.png
+logs

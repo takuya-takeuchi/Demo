@@ -15,14 +15,12 @@ from tqdm import tqdm
 from collections import OrderedDict
 
 from models.lenet import LeNet
+import utils
 
 program_name = "02_LeNet"
 
-# setup logger    
-with open("./logging.yaml", encoding='utf-8') as f:
-    logconfig = yaml.safe_load(f)
-    config.dictConfig(logconfig)
-logger = getLogger("__name__")
+# setup logger
+logger = utils.get_logger()
 
 def get_args():
     parser = argparse.ArgumentParser()
