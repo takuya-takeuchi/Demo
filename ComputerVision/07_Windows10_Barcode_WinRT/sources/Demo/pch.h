@@ -4,9 +4,6 @@
 #include <iostream>
 
 #include <winrt/Windows.Foundation.h>
-#include <winrt/Windows.Foundation.Collections.h>
-#include <winrt/Windows.Globalization.h>
-#include <winrt/Windows.Media.Ocr.h>
 
 #include <opencv2/core/mat.hpp>
 #include <opencv2/core/hal/interface.h>
