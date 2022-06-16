@@ -14,3 +14,15 @@
 	path = ComputerVision/05_Tesseract/tessdata
 	url = https://github.com/tesseract-ocr/tessdata
 	ignore = dirty
+[submodule "ComputerVision/08_Windows10_/sources/zxing-cpp"]
+	path = ComputerVision/07_Windows10_Barcode_WinRT/sources/zxing-cpp
+	url = https://github.com/nu-book/zxing-cpp
+	ignore = dirty
+[submodule "ComputerVision/08_Windows10_/sources/opencv"]
+	path = ComputerVision/07_Windows10_Barcode_WinRT/sources/opencv
+	url = https://github.com/opencv/opencv
+	ignore = dirty
+[submodule "ComputerVision/08_Windows10_/sources/spdlog"]
+	path = ComputerVision/07_Windows10_Barcode_WinRT/sources/spdlog
+	url = https://github.com/gabime/spdlog
+	ignore = dirty
