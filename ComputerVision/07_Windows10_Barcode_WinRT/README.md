@@ -8,6 +8,10 @@
 ## Requirements
 
 * Visual Studio 2022
+  * You must install `C++/WinRT` on Visual Studio Installer
+
+[![workload](./images/workload.png "workload")](./images/workload.png)
+
 * Windows 10
 * CMake version 3.14 or newer
   * You can install it via `winget install -e --id Kitware.CMake`
