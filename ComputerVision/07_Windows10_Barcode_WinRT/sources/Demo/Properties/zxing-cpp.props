@@ -9,7 +9,7 @@
       <AdditionalDependencies>ZXing.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <ClCompile>
-      <AdditionalIncludeDirectories>$(SolutionDir)\sources\zxing-cpp\install\$(Platform)\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)\sources\zxing-cpp\install\$(Platform)\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
   </ItemDefinitionGroup>
   <ItemGroup />
