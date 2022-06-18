@@ -3,9 +3,10 @@
 
 #include <iostream>
 
-// enable std::wstring
+// It occurs compile error
 //#define SPDLOG_WCHAR_FILENAMES
-//#define SPDLOG_WCHAR_TO_UTF8_SUPPORT
+// enable std::wstring
+#define SPDLOG_WCHAR_TO_UTF8_SUPPORT
 #include <spdlog_setup/conf.h>
 
 int main()
@@ -21,7 +22,7 @@ int main()
 	    // setup logger
 	    auto logger = spdlog::get("root");
 
-	    logger->info("Hello World!");
+	    logger->info(L"Hello World!");
     }
     catch (const spdlog_setup::setup_error& e)
     {
