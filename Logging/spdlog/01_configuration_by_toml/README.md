@@ -15,7 +15,7 @@
 
 * [spdlog](https://github.com/gabime/spdlog)
   * MIT License
-` [spdlog_setup](https://github.com/guangie88/spdlog_setup)
+* [spdlog_setup](https://github.com/guangie88/spdlog_setup)
   * MIT License
 
 ## How to usage?
