@@ -4,28 +4,31 @@
 #include <iostream>
 
 // enable std::wstring
-#define SPDLOG_WCHAR_FILENAMES
-#define SPDLOG_WCHAR_TO_UTF8_SUPPORT
-#include <spdlog/spdlog.h>
-#include <spdlog/sinks/basic_file_sink.h>
-#include <spdlog/sinks/stdout_color_sinks.h>
-#include <spdlog/sinks/rotating_file_sink.h>
+//#define SPDLOG_WCHAR_FILENAMES
+//#define SPDLOG_WCHAR_TO_UTF8_SUPPORT
+#include <spdlog_setup/conf.h>
 
 int main()
 {
-    // Consoled can not output as UTF-8 if comment out it
-    SetConsoleOutputCP(CP_UTF8);
+    try
+    {
+	    // Consoled can not output as UTF-8 if comment out it
+	    SetConsoleOutputCP(CP_UTF8);
 
-    // setup logger
-    auto console_sink = std::make_shared<spdlog::sinks::stdout_color_sink_mt>();
-    console_sink->set_level(spdlog::level::info);
-    console_sink->set_pattern("[%^%l%$] %v");
+	    // spdlog_setup::setup_error thrown if file not found
+	    spdlog_setup::from_file("logging.toml");
 
-    auto file_sink = std::make_shared<spdlog::sinks::basic_file_sink_mt>(L"logs/application.log", true);
-    file_sink->set_level(spdlog::level::info);
+	    // setup logger
+	    auto logger = spdlog::get("root");
 
-    spdlog::logger logger("multi_sink", { console_sink, file_sink });
-    logger.set_level(spdlog::level::info);
-
-    logger.info(L"Hello World!");
+	    logger->info("Hello World!");
+    }
+    catch (const spdlog_setup::setup_error& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
+    catch (const std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
 }
