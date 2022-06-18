@@ -30,3 +30,11 @@
 	path = ComputerVision/08_Windows10_OCR_WinRT/sources/spdlog
 	url = https://github.com/gabime/spdlog
 	ignore = dirty
+[submodule "Logging/spdlog/01_configuration_by_json/sources/spdlog"]
+	path = Logging/spdlog/01_configuration_by_json/sources/spdlog
+	url = https://github.com/gabime/spdlog
+	ignore = dirty
+[submodule "Logging/spdlog/01_configuration_by_json/sources/spdlog_setup"]
+	path = Logging/spdlog/01_configuration_by_json/sources/spdlog_setup
+	url = https://github.com/guangie88/spdlog_setup
+	ignore = dirty
