@@ -13,16 +13,16 @@ int main()
 {
     try
     {
-	    // Consoled can not output as UTF-8 if comment out it
-	    SetConsoleOutputCP(CP_UTF8);
+        // Consoled can not output as UTF-8 if comment out it
+        SetConsoleOutputCP(CP_UTF8);
 
-	    // spdlog_setup::setup_error thrown if file not found
-	    spdlog_setup::from_file("logging.toml");
+        // spdlog_setup::setup_error thrown if file not found
+        spdlog_setup::from_file("logging.toml");
 
-	    // setup logger
-	    auto logger = spdlog::get("root");
+        // setup logger
+        auto logger = spdlog::get("root");
 
-	    logger->info(L"Hello World!");
+        logger->info(L"Hello World!");
     }
     catch (const spdlog_setup::setup_error& e)
     {
