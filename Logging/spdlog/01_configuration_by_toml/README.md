@@ -24,7 +24,7 @@ You must execute `Build.ps1` to build dependencies and demo program.<br>
 This script builds all project and you need not to launch Visual Studio.
 
 ````cmd
-$ cd sources\Demo\bin\x64\Release\Demo.exe
+$ cd sources\Demo\bin\x64\Release
 $ Demo.exe
 [2022-06-18 22:32:55.047] [root] [info] Hello World!
 ````
