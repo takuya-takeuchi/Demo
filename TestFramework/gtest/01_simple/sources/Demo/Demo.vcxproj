@@ -157,9 +157,6 @@
   <ItemGroup>
     <ClCompile Include="Demo.cpp" />
   </ItemGroup>
-  <ItemGroup>
-    <None Include="logging.toml" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
