@@ -13,9 +13,9 @@ foreach ($arch in $archs)
 {
     $googletestSourceDir = Join-Path $sourceDir googletest
     $googletestBuildDir = Join-Path $googletestSourceDir build | `
-                      Join-Path -ChildPath $arch
+                          Join-Path -ChildPath $arch
     $googletestInstallDir = Join-Path $googletestSourceDir installs | `
-                        Join-Path -ChildPath $arch
+                            Join-Path -ChildPath $arch
     
     New-Item -Type Directory $googletestBuildDir -Force | Out-Null
     New-Item -Type Directory $googletestInstallDir -Force | Out-Null
@@ -23,6 +23,7 @@ foreach ($arch in $archs)
     Push-Location $googletestBuildDir
     cmake -G "${VisualStudioVersion}" -A $arch `
           -D CMAKE_BUILD_TYPE=Release `
+          -D BUILD_SHARED_LIBS=True `
           -D CMAKE_INSTALL_PREFIX="${googletestInstallDir}" `
           "${googletestSourceDir}"
     cmake --build . --config Release --target install

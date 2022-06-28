@@ -1,8 +1,11 @@
 ﻿#include <iostream>
 #include <gtest/gtest.h>
 
-TEST() 
+TEST(TestTarget, CalcAdd) 
 {
+    int a = 10;
+    int b = 10;
+    EXPECT_TRUE(a, b);
 }
 
 int main(int argc, char **argv)
