@@ -42,3 +42,6 @@
 	path = TestFramework/gtest/01_simple/sources/googletest
 	url = https://github.com/google/googletest
 	ignore = dirty
+[submodule "TestFramework/gtest/02_opencppcoverage/sources/googletest"]
+	path = TestFramework/gtest/02_opencppcoverage/sources/googletest
+	url = https://github.com/google/googletest
