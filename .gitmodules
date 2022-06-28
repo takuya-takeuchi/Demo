@@ -38,3 +38,7 @@
 	path = Logging/spdlog/01_configuration_by_toml/sources/spdlog_setup
 	url = https://github.com/guangie88/spdlog_setup
 	ignore = dirty
+[submodule "TestFramework/gtest/01_simple/sources/googletest"]
+	path = TestFramework/gtest/01_simple/sources/googletest
+	url = https://github.com/google/googletest
+	ignore = dirty
