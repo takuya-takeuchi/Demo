@@ -1,22 +1,19 @@
-# spdlog with configuration toml file
+# simple usage of googletest
 
 ## Abstacts
 
-* How to control behavior of spdlog by toml configuration file
+* How to use googletest from source code
 
 ## Requirements
 
 * Visual Studio 2022
-* Windows 10
 * CMake version 3.10 or newer
   * You can install it via `winget install -e --id Kitware.CMake`
 
 ## Dependencies
 
-* [spdlog](https://github.com/gabime/spdlog)
-  * MIT License
-* [spdlog_setup](https://github.com/guangie88/spdlog_setup)
-  * MIT License
+* [googletest](https://github.com/google/googletest)
+  * BSD-3-Clause license
 
 ## How to usage?
 
@@ -26,5 +23,14 @@ This script builds all project and you need not to launch Visual Studio.
 ````cmd
 $ cd sources\Demo\bin\x64\Release
 $ Demo.exe
-[2022-06-18 22:32:55.047] [root] [info] Hello World!
+[==========] Running 1 test from 1 test suite.
+[----------] Global test environment set-up.
+[----------] 1 test from TestTarget
+[ RUN      ] TestTarget.CalcAdd
+[       OK ] TestTarget.CalcAdd (0 ms)
+[----------] 1 test from TestTarget (0 ms total)
+
+[----------] Global test environment tear-down
+[==========] 1 test from 1 test suite ran. (29 ms total)
+[  PASSED  ] 1 test.
 ````
