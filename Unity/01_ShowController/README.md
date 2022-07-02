@@ -18,7 +18,7 @@
 
 ## How to build
 
-1. Import Oculus Integration from Package Manager
+1. Run `git sumobule update --init --recursive .` to Restore Oculus Integration
 2. Open Assets\ShowController.unity
 3. Go to Build Settings
    * Change Texture Compression to ASTC
