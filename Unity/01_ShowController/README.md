@@ -18,8 +18,12 @@
 
 ## How to build
 
-You must import Oculus Integration from Package Manager before build.
-
+1. Import Oculus Integration from Package Manager
+2. Open Assets\ShowController.unity
+3. Go to Build Settings
+   * Change Texture Compression to ASTC
+   * Switch Platform 
+4. Build And Run
 
 ## Screen shots
 
