@@ -656,3 +656,4 @@ UnityCrashHandler64.exe
 UnityPlayer.dll
 .vsconfig
 *.exe
+WinPixEventRuntime.dll

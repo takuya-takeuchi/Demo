@@ -88,13 +88,6 @@ public class LaserPointerBehaviour : MonoBehaviour
                     }
                     
                     this._PreviousControllerPosition = controllerPosition;
-                    
-                    // Remember that GetComponent is expensive!!
-                    // https://github.com/JetBrains/resharper-unity/wiki/Avoid-usage-of-GetComponent-methods-in-performance-critical-context
-                    // Set 0 to velocity because grabbed object will drop suddenly with high speed.
-                    // Gravitational acceleration is growing when grabbed object is lifted in the air.
-                    var rigidBody = this._GrabbedObject.GetComponent<Rigidbody>();
-                    rigidBody.velocity = Vector3.zero;
                 }
             }
         }
