@@ -34,8 +34,6 @@ public class LaserPointerBehaviour : MonoBehaviour
 
     private GameObject _GrabbedObject = null;
     
-    private Vector3 _GrabbedPrevFramePos;
-    
     private Vector3? _PreviousControllerPosition;
 
     #endregion
@@ -72,7 +70,6 @@ public class LaserPointerBehaviour : MonoBehaviour
                 if (hitObj.name != "Plane")
                 {
                     this._GrabbedObject = hitObj;
-                    this._GrabbedPrevFramePos = hitObj.transform.position;
                     this._IsGrabbedObject = true;
                 }
 
