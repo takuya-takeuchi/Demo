@@ -1,9 +1,9 @@
-# Show Controller
+# Grab Cube
 
 ## Abstacts
 
-* How to show oculus controller
-* How to show line objects like lazer
+* How to grab game object
+  * No use of OVRGrabber and OVRGrabbable
 
 ## Hardware Requirements
 
@@ -20,7 +20,7 @@
 
 1. Run `git sumobule update --init --recursive .` to Restore Oculus Integration
 2. Open project
-3. Open Assets\ShowController.unity
+3. Open Assets\GrabCube.unity
 4. Go to Build Settings
    * Change Texture Compression to ASTC
    * Switch Platform
@@ -30,4 +30,4 @@
 
 ## Screen shots
 
-[![result](./images/image.jpg "result")](./images/image.jpg)
+[![result](./images/image.webp "result")](./images/image.webp)
