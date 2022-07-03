@@ -50,3 +50,6 @@
 	path = Unity/Oculus/01_ShowController/Assets/Oculus
 	url = https://github.com/takuya-takeuchi/OculusIntegration
 	ignore = dirty
+[submodule "Unity/Oculus/02_GrabCube/Assets/Oculus"]
+	path = Unity/Oculus/02_GrabCube/Assets/Oculus
+	url = https://github.com/takuya-takeuchi/OculusIntegration

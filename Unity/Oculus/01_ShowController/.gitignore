@@ -649,10 +649,11 @@ crashlytics-build.properties
 # custom
 
 ## ignore Oculus Integration
-Assets/Oculus
 Assets/Oculus.meta
 ## tmp
 MonoBleedingEdge
 UnityCrashHandler64.exe
 UnityPlayer.dll
 .vsconfig
+*.exe
+WinPixEventRuntime.dll
