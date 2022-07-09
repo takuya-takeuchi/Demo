@@ -1,0 +1,92 @@
+﻿<Page x:Class="Demo.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:designTimeData="using:Demo.DesignTimeData"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:mvvm="using:Prism.Windows.Mvvm"
+      mvvm:ViewModelLocator.AutoWireViewModel="True"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      mc:Ignorable="d">
+
+    <d:Page.DataContext>
+        <designTimeData:MainPageViewModel />
+    </d:Page.DataContext>
+
+    <Page.Resources>
+        <ResourceDictionary>
+            <Style TargetType="TextBox">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="32" />
+            </Style>
+            <Style TargetType="TextBlock">
+                <Setter Property="HorizontalAlignment" Value="Center" />
+                <Setter Property="VerticalAlignment" Value="Center" />
+                <Setter Property="FontSize" Value="32" />
+            </Style>
+        </ResourceDictionary>
+    </Page.Resources>
+
+    <Page.BottomAppBar>
+        <CommandBar>
+            <AppBarButton AutomationProperties.Name="AddCommand"
+                          Command="{Binding AddCommand}"
+                          Label="Add">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE948;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+
+            <AppBarButton AutomationProperties.Name="SubtractCommand"
+                          Command="{Binding SubtractCommand}"
+                          Label="Subtract">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE949;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+
+            <AppBarButton AutomationProperties.Name="MultiplyCommand"
+                          Command="{Binding MultiplyCommand}"
+                          Label="Multiply">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE947;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+
+            <AppBarButton AutomationProperties.Name="DivideCommand"
+                          Command="{Binding DivideCommand}"
+                          Label="Divide">
+                <AppBarButton.Icon>
+                    <FontIcon Glyph="&#xE94A;" />
+                </AppBarButton.Icon>
+            </AppBarButton>
+        </CommandBar>
+    </Page.BottomAppBar>
+
+    <Grid VerticalAlignment="Center">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="2*" />
+        </Grid.ColumnDefinitions>
+
+        <TextBox Grid.Column="0"
+                 AutomationProperties.Name="LeftOperand"
+                 Text="{Binding LeftOperand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock Grid.Column="1"
+                   AutomationProperties.Name="Operator"
+                   Text="{Binding Operator}" />
+        <TextBox Grid.Column="2"
+                 AutomationProperties.Name="RightOperand"
+                 Text="{Binding RightOperand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <TextBlock Grid.Column="3"
+                   Text="=" />
+        <TextBox Grid.Column="4"
+                 AutomationProperties.Name="Result"
+                 IsReadOnly="True"
+                 Text="{Binding Result}" />
+    </Grid>
+</Page>
