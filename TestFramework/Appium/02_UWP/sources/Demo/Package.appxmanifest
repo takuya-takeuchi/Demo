@@ -7,7 +7,7 @@
   IgnorableNamespaces="uap mp">
 
   <Identity
-    Name="f5474d04-dc34-46ff-8ce2-2b1bee87a545"
+    Name="Demo"
     Publisher="CN=TAKUYA"
     Version="1.0.0.0" />
 

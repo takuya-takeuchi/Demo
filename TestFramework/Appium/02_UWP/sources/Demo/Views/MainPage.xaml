@@ -30,28 +30,32 @@
 
     <Page.BottomAppBar>
         <CommandBar>
-            <AppBarButton Command="{Binding AddCommand}"
+            <AppBarButton AutomationProperties.Name="AddCommand"
+                          Command="{Binding AddCommand}"
                           Label="Add">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE948;" />
                 </AppBarButton.Icon>
             </AppBarButton>
 
-            <AppBarButton Command="{Binding SubtractCommand}"
+            <AppBarButton AutomationProperties.Name="SubtractCommand"
+                          Command="{Binding SubtractCommand}"
                           Label="Subtract">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE949;" />
                 </AppBarButton.Icon>
             </AppBarButton>
 
-            <AppBarButton Command="{Binding MultiplyCommand}"
+            <AppBarButton AutomationProperties.Name="MultiplyCommand"
+                          Command="{Binding MultiplyCommand}"
                           Label="Multiply">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE947;" />
                 </AppBarButton.Icon>
             </AppBarButton>
 
-            <AppBarButton Command="{Binding DivideCommand}"
+            <AppBarButton AutomationProperties.Name="DivideCommand"
+                          Command="{Binding DivideCommand}"
                           Label="Divide">
                 <AppBarButton.Icon>
                     <FontIcon Glyph="&#xE94A;" />
@@ -70,14 +74,18 @@
         </Grid.ColumnDefinitions>
 
         <TextBox Grid.Column="0"
+                 AutomationProperties.Name="LeftOperand"
                  Text="{Binding LeftOperand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock Grid.Column="1"
+                   AutomationProperties.Name="Operator"
                    Text="{Binding Operator}" />
         <TextBox Grid.Column="2"
+                 AutomationProperties.Name="RightOperand"
                  Text="{Binding RightOperand, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <TextBlock Grid.Column="3"
                    Text="=" />
         <TextBox Grid.Column="4"
+                 AutomationProperties.Name="Result"
                  IsReadOnly="True"
                  Text="{Binding Result}" />
     </Grid>
