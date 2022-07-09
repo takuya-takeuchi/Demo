@@ -3,7 +3,7 @@
 namespace Demo.Services.Interfaces
 {
 
-    [ServiceContract]
+    [ServiceContract(Namespace = "http://demo.com/helloservice/")]
     public interface IHelloService
     {
 
