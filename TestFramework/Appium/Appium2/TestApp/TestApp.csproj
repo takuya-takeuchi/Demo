@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>netcoreapp5.0</TargetFramework>
+    <AssemblyName>TestApp</AssemblyName>
+    <TargetPlatformVersion>10.0.18362.0</TargetPlatformVersion>
+    <TargetPlatformMinVersion>10.0.17134.0</TargetPlatformMinVersion>
+    <RootNamespace>TestApp</RootNamespace>
+
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>AnyCPU;x86;x64</Platforms>
+    <SelfContained>true</SelfContained>
+    <RuntimeIdentifiers>win-x86;win-x64</RuntimeIdentifiers>
+    <RuntimeIdentifier>win-$(Platform)</RuntimeIdentifier>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.UI.Xaml" Version="2.7.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.0.0" />
+    <PackageReference Include="Prism.Unity" Version="8.0.0.1909" />
+  </ItemGroup>
+</Project>
