@@ -1,27 +1,39 @@
-﻿using Prism.Commands;
-using Prism.Mvvm;
+﻿using Prism.Mvvm;
 using Prism.Navigation;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Demo.ViewModels
 {
-    public class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible
-    {
-        protected INavigationService NavigationService { get; private set; }
 
-        private string _title;
+    public abstract class ViewModelBase : BindableBase, IInitialize, INavigationAware, IDestructible
+    {
+
+        #region Constructors
+
+        protected ViewModelBase(INavigationService navigationService)
+        {
+            this.NavigationService = navigationService;
+        }
+
+        #endregion
+
+        #region Properties
+
+        protected INavigationService NavigationService
+        {
+            get;
+        }
+
+        private string _Title;
+
         public string Title
         {
-            get { return _title; }
-            set { SetProperty(ref _title, value); }
+            get => this._Title;
+            set => SetProperty(ref this._Title, value);
         }
 
-        public ViewModelBase(INavigationService navigationService)
-        {
-            NavigationService = navigationService;
-        }
+        #endregion
+
+        #region Methods
 
         public virtual void Initialize(INavigationParameters parameters)
         {
@@ -42,5 +54,9 @@ namespace Demo.ViewModels
         {
 
         }
+        
+        #endregion
+
     }
+
 }

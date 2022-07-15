@@ -1,15 +1,19 @@
 ﻿using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Prism;
-using Prism.Ioc;
 
 namespace Demo.Droid
 {
+
     [Activity(Theme = "@style/MainTheme",
               ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
-    public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
+    public sealed class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
+
+        #region Methods
+
+        #region Overrids
+
         protected override void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
@@ -24,14 +28,12 @@ namespace Demo.Droid
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+
+        #endregion
+
+        #endregion
+
     }
 
-    public class AndroidInitializer : IPlatformInitializer
-    {
-        public void RegisterTypes(IContainerRegistry containerRegistry)
-        {
-            // Register any platform specific implementations
-        }
-    }
 }
 
