@@ -3,7 +3,7 @@
 namespace Demo.Services.Interfaces
 {
 
-    internal interface IZeroMQSubscribeService
+    public interface IZeroMQSubscribeService
     {
 
         void Connect(string address, Action<string> callback);
