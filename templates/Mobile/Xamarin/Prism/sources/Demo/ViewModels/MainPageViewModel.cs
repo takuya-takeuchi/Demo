@@ -1,9 +1,10 @@
-﻿using Prism.Navigation;
+﻿using Demo.ViewModels.Interfaces;
+using Prism.Navigation;
 
 namespace Demo.ViewModels
 {
 
-    public sealed class MainPageViewModel : ViewModelBase
+    public sealed class MainPageViewModel : ViewModelBase, IMainPageViewModel
     {
 
         #region Constructors
