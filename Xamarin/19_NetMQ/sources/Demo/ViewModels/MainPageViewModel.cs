@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 
 using Prism.Navigation;
 using Prism.Commands;
@@ -25,6 +26,7 @@ namespace Demo.ViewModels
             : base(navigationService)
         {
             this.Title = "Main Page";
+            this.Address = "tcp://192.168.11.21:12345";
 
             this._ZeroMqSubscribeService = zeroMqSubscribeService;
         }
@@ -57,8 +59,10 @@ namespace Demo.ViewModels
                     }
                     catch (Exception e)
                     {
+                        this._ZeroMqSubscribeService.Disconnect();
                     }
-                }, s => !string.IsNullOrWhiteSpace(s)).ObservesProperty(() => this.Address));
+                }, s => !string.IsNullOrWhiteSpace(s) && !this.IsConnected).ObservesProperty(() => this.Address)
+                                                                           .ObservesProperty(() => this.IsConnected));
             }
         }
 
@@ -71,6 +75,7 @@ namespace Demo.ViewModels
                 return this._DisconnectCommand ?? (this._DisconnectCommand = new DelegateCommand(() =>
                 {
                     this._ZeroMqSubscribeService.Disconnect();
+                    this.IsConnected = false;
                 }, () => this.IsConnected).ObservesProperty(() => this.IsConnected));
             }
         }
@@ -81,6 +86,13 @@ namespace Demo.ViewModels
         {
             get => this._IsConnected;
             private set => SetProperty(ref this._IsConnected, value);
+        }
+
+        private readonly ObservableCollection<string> _Messages = new ObservableCollection<string>();
+
+        public ObservableCollection<string> Messages
+        {
+            get => this._Messages;
         }
 
         private string _Title;
@@ -99,12 +111,9 @@ namespace Demo.ViewModels
 
         private void Callback(string obj)
         {
-            throw new NotImplementedException();
+            this._Messages.Add(obj);
         }
 
-        #endregion
-
-        #region Helpers
         #endregion
 
         #endregion

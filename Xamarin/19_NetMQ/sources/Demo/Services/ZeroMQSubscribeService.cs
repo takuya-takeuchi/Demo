@@ -48,7 +48,10 @@ namespace Demo.Services
             this._SubscriberSocket.ReceiveReady -= this.ReceiveReady;
 
             this._NetMqPoller.RemoveAndDispose(this._SubscriberSocket);
-            this._NetMqPoller.Dispose();
+            this._NetMqPoller?.Dispose();
+
+            this._NetMqPoller = null;
+            this._SubscriberSocket = null;
         }
 
         #region Event Handlers

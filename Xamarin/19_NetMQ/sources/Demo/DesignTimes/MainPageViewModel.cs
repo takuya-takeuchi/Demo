@@ -1,4 +1,6 @@
-﻿using Prism.Commands;
+﻿using System.Collections.ObjectModel;
+
+using Prism.Commands;
 
 using Demo.ViewModels.Interfaces;
 
@@ -25,6 +27,11 @@ namespace Demo.DesignTimes
         }
 
         public bool IsConnected
+        {
+            get;
+        }
+
+        public ObservableCollection<string> Messages
         {
             get;
         }

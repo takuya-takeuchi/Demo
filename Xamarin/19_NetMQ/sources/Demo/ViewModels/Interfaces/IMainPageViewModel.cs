@@ -1,4 +1,6 @@
-﻿using Prism.Commands;
+﻿using System.Collections.ObjectModel;
+
+using Prism.Commands;
 
 namespace Demo.ViewModels.Interfaces
 {
@@ -23,6 +25,11 @@ namespace Demo.ViewModels.Interfaces
         }
 
         bool IsConnected
+        {
+            get;
+        }
+
+        ObservableCollection<string> Messages
         {
             get;
         }
