@@ -52,13 +52,13 @@ namespace Demo.ViewModels
                     try
                     {
                         this.IsConnected = false;
-                        this._ZeroMqSubscribeService.Connect(this.Address, this.Callback);
+                        this._ZeroMqSubscribeService.Connect(s, this.Callback);
                         this.IsConnected = true;
                     }
                     catch (Exception e)
                     {
                     }
-                }, string.IsNullOrWhiteSpace).ObservesProperty(() => nameof(this.Address)));
+                }, s => !string.IsNullOrWhiteSpace(s)).ObservesProperty(() => this.Address));
             }
         }
 
@@ -71,7 +71,7 @@ namespace Demo.ViewModels
                 return this._DisconnectCommand ?? (this._DisconnectCommand = new DelegateCommand(() =>
                 {
                     this._ZeroMqSubscribeService.Disconnect();
-                }, () => this.IsConnected).ObservesProperty(() => nameof(this.IsConnected)));
+                }, () => this.IsConnected).ObservesProperty(() => this.IsConnected));
             }
         }
 

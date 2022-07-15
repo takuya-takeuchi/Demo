@@ -5,7 +5,7 @@ using Demo.ViewModels.Interfaces;
 namespace Demo.DesignTimes
 {
 
-    internal sealed class MainPageViewModel : IMainPageViewModel
+    public sealed class MainPageViewModel : IMainPageViewModel
     {
 
         public string Address

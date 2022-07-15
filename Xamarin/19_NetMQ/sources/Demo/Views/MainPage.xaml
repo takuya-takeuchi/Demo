@@ -11,18 +11,21 @@
         <designTimes:MainPageViewModel />
     </d:ContentPage.BindingContext>
 
-    <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <Entry Grid.Row="0" Text="{Binding Address}" />
-        <StackLayout Grid.Row="1" Orientation="Horizontal">
-            <Button Command="{Binding ConnectCommand}"
-                    CommandParameter="{Binding Address}"
-                    Text="Connect" />
-            <Button Command="{Binding DisconnectCommand}" Text="Disconnect" />
-        </StackLayout>
-    </Grid>
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <Label Text="Welcome to Xamarin Forms and Prism!" />
+        <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <Entry Grid.Row="0" Text="{Binding Address}" />
+            <StackLayout Grid.Row="1" Orientation="Horizontal">
+                <Button Command="{Binding ConnectCommand}"
+                        CommandParameter="{Binding Address}"
+                        Text="Connect" />
+                <Button Command="{Binding DisconnectCommand}" Text="Disconnect" />
+            </StackLayout>
+        </Grid>
+    </StackLayout>
 
 </ContentPage>
