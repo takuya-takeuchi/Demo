@@ -22,8 +22,8 @@
     </ContentPage.ToolbarItems>
 
     <StackLayout Padding="10"
-                 HorizontalOptions="CenterAndExpand"
-                 VerticalOptions="CenterAndExpand">
+                 HorizontalOptions="FillAndExpand"
+                 VerticalOptions="FillAndExpand">
         <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
             <Label Text="{Binding Logs}" />
         </ScrollView>

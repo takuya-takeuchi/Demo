@@ -1,5 +1,4 @@
-﻿using System.IO;
-using Prism.Commands;
+﻿using Prism.Commands;
 using Prism.Navigation;
 
 using Demo.Services.Interfaces;
@@ -63,36 +62,18 @@ namespace Demo.ViewModels
                     }, s => true));
             }
         }
-        
-        private DelegateCommand _LoadCommand;
 
-        public DelegateCommand LoadCommand
+        private DelegateCommand _ShowLogCommand;
+
+        public DelegateCommand ShowLogCommand
         {
             get
             {
-                return this._LoadCommand ?? (this._LoadCommand = new DelegateCommand(() =>
+                return this._ShowLogCommand ?? (this._ShowLogCommand = new DelegateCommand(() =>
                 {
-                    var path = this._LoggingService.GetCurrentLogFilePath();
-                    if (!string.IsNullOrWhiteSpace(path) && File.Exists(path))
-                        this.Log = File.ReadAllText(path);
-                }, () => true));
+                    this.NavigationService.NavigateAsync("ShowLogs");
+                }));
             }
-        }
-
-        private string _Log;
-
-        public string Log
-        {
-            get => this._Log;
-            set => SetProperty(ref this._Log, value);
-        }
-
-        private string _Title;
-
-        public string Title
-        {
-            get => this._Title;
-            set => SetProperty(ref this._Title, value);
         }
 
         #endregion

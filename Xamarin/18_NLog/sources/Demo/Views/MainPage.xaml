@@ -11,40 +11,35 @@
         <designTimes:MainPageViewModel />
     </d:ContentPage.BindingContext>
 
-    <Grid Padding="10"
-          HorizontalOptions="FillAndExpand"
-          VerticalOptions="FillAndExpand">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
-        <StackLayout Grid.Row="0" Orientation="Vertical">
-            <Button Command="{Binding LoggingCommand}"
-                    CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                    Text="Trace" />
-            <Button Command="{Binding LoggingCommand}"
-                    CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                    Text="Debug" />
-            <Button Command="{Binding LoggingCommand}"
-                    CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                    Text="Info" />
-            <Button Command="{Binding LoggingCommand}"
-                    CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                    Text="Warn" />
-            <Button Command="{Binding LoggingCommand}"
-                    CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                    Text="Error" />
-            <Button Command="{Binding LoggingCommand}"
-                    CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                    Text="Fatal" />
-        </StackLayout>
-        <ScrollView Grid.Row="1">
-            <Label Text="{Binding Log}" VerticalOptions="FillAndExpand" />
-        </ScrollView>
-        <Button Grid.Row="2"
-                Command="{Binding LoadCommand}"
-                Text="Load log file" />
-    </Grid>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding ShowLogCommand}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="FontAwesome6Solid"
+                                 Glyph="&#xf15c;"
+                                 Color="Black" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Padding="10" Orientation="Vertical">
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Trace" />
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Debug" />
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Info" />
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Warn" />
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Error" />
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Fatal" />
+    </StackLayout>
 
 </ContentPage>

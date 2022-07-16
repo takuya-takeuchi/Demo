@@ -1,5 +1,4 @@
-﻿using System.Collections.ObjectModel;
-using Prism.Commands;
+﻿using Prism.Commands;
 
 namespace Demo.ViewModels.Interfaces
 {
@@ -12,12 +11,7 @@ namespace Demo.ViewModels.Interfaces
             get;
         }
 
-        DelegateCommand LoadCommand
-        {
-            get;
-        }
-
-        string Log
+        DelegateCommand ShowLogCommand
         {
             get;
         }
