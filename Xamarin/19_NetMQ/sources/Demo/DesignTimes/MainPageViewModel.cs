@@ -10,12 +10,6 @@ namespace Demo.DesignTimes
     public sealed class MainPageViewModel : IMainPageViewModel
     {
 
-        public string Address
-        {
-            get;
-            set;
-        }
-
         public DelegateCommand<string> ConnectCommand
         {
             get;
@@ -32,6 +26,11 @@ namespace Demo.DesignTimes
         }
 
         public ObservableCollection<string> Messages
+        {
+            get;
+        }
+
+        public DelegateCommand ShowLogCommand
         {
             get;
         }

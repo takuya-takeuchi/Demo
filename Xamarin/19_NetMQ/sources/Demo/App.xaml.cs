@@ -39,10 +39,12 @@ namespace Demo
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
 
+            containerRegistry.RegisterInstance<ILoggingService>(new LoggingService());
             containerRegistry.RegisterInstance<IZeroMQSubscribeService>(new ZeroMQSubscribeService());
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+            containerRegistry.RegisterForNavigation<ShowLogs, ShowLogsViewModel>();
         }
 
         #endregion

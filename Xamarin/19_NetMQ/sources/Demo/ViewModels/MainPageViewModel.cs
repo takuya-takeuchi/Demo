@@ -95,6 +95,19 @@ namespace Demo.ViewModels
             get => this._Messages;
         }
 
+        private DelegateCommand _ShowLogCommand;
+
+        public DelegateCommand ShowLogCommand
+        {
+            get
+            {
+                return this._ShowLogCommand ?? (this._ShowLogCommand = new DelegateCommand(() =>
+                {
+                    this.NavigationService.NavigateAsync("ShowLogs");
+                }));
+            }
+        }
+
         private string _Title;
 
         public string Title

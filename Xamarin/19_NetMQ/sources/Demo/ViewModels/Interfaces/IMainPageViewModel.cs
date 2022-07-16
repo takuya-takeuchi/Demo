@@ -8,12 +8,6 @@ namespace Demo.ViewModels.Interfaces
     public interface IMainPageViewModel
     {
 
-        string Address
-        {
-            get;
-            set;
-        }
-
         DelegateCommand<string> ConnectCommand
         {
             get;
@@ -30,6 +24,11 @@ namespace Demo.ViewModels.Interfaces
         }
 
         ObservableCollection<string> Messages
+        {
+            get;
+        }
+
+        DelegateCommand ShowLogCommand
         {
             get;
         }

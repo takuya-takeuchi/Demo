@@ -106,6 +106,7 @@
     <None Include="Info.plist" />
     <LinkDescription Include="LinkerSettings.xml" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="NLog.config" />
   </ItemGroup>
   <ItemGroup>
     <ImageAsset Include="Assets.xcassets\Contents.json">

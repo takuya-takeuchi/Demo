@@ -11,7 +11,19 @@
         <designTimes:MainPageViewModel />
     </d:ContentPage.BindingContext>
 
-    <StackLayout Padding="10" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding ShowLogCommand}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="FontAwesome6Solid"
+                                 Glyph="&#xf15c;"
+                                 Color="Black" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Padding="10"
+                 HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="CenterAndExpand">
         <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto" />
@@ -25,7 +37,10 @@
                         Text="Connect" />
                 <Button Command="{Binding DisconnectCommand}" Text="Disconnect" />
             </StackLayout>
-            <CollectionView Grid.Row="2" ItemsSource="{Binding Messages}" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+            <CollectionView Grid.Row="2"
+                            HorizontalOptions="CenterAndExpand"
+                            ItemsSource="{Binding Messages}"
+                            VerticalOptions="CenterAndExpand">
                 <CollectionView.ItemTemplate>
                     <DataTemplate>
                         <Grid>
