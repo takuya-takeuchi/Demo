@@ -2,12 +2,13 @@
 using System.Linq;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+
 using NLog;
 using NLog.Config;
+using NLog.Layouts;
 using Xamarin.Forms;
 
 using Demo.Services.Interfaces;
-using NLog.Layouts;
 
 namespace Demo.Services
 {
@@ -38,7 +39,7 @@ namespace Demo.Services
 
         public string GetCurrentLogFilePath()
         {
-            if (this._Logger.Factory.Configuration.AllTargets.Count <= 0) 
+            if (this._Logger.Factory.Configuration.AllTargets.Count <= 0)
                 return null;
 
             foreach (var target in LogManager.Configuration.AllTargets)
@@ -163,7 +164,7 @@ namespace Demo.Services
         }
 
         #region Helpers
-        
+
         private void Write(LogLevel logLevel, string message,
                            string callerMemberName,
                            string callerFilePath,
