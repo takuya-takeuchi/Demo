@@ -38,6 +38,8 @@
 2022-07-17 02:02:44.0994 [INFO ] Sending message : TopicB msg-3
 ````
 
+And you have to expose port `12345` by configure firewall.
+
 ### 2. Launch Mobile App
 
 Input Pub server endpoint.
