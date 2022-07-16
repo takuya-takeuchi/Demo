@@ -1,13 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Threading;
+
 using NetMQ;
 using NetMQ.Sockets;
 using NLog;
 
-namespace Demo
+namespace Demo.Server
 {
 
     internal sealed class Program
@@ -21,11 +19,10 @@ namespace Demo
 
         #region Methods
 
-        private static void Main(string[] args)
+        private static void Main()
         {
             var rand = new Random(50);
             using var pubSocket = new PublisherSocket();
-
             Logger.Info("Publisher socket binding...");
             pubSocket.Options.SendHighWatermark = 1000;
             pubSocket.Bind("tcp://*:12345");
@@ -48,14 +45,7 @@ namespace Demo
 
                 Thread.Sleep(500);
             }
-
         }
-
-        #region Event Handlers
-        #endregion
-
-        #region Helpers
-        #endregion
 
         #endregion
 
