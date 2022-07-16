@@ -1,8 +1,11 @@
-﻿using Android.App;
+﻿using System;
+using System.Threading.Tasks;
+using Android.App;
 using Android.Content.PM;
 using Android.OS;
-using Demo.Services.Interfaces;
 using Prism.Ioc;
+
+using Demo.Services.Interfaces;
 
 namespace Demo.Droid
 {
@@ -22,6 +25,9 @@ namespace Demo.Droid
 
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
 
+            AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
+            TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
+
             // App invoke RegisterTypes
             var app = new App(new AndroidInitializer());
             
@@ -39,6 +45,22 @@ namespace Demo.Droid
 
         #endregion
 
+        #region Event Handlers
+
+        private static void TaskSchedulerOnUnobservedTaskException(object sender, UnobservedTaskExceptionEventArgs unobservedTaskExceptionEventArgs)
+        {
+            var newExc = new Exception("TaskSchedulerOnUnobservedTaskException", unobservedTaskExceptionEventArgs.Exception);
+            LogUnhandledException(newExc);
+        }
+
+        private static void CurrentDomainOnUnhandledException(object sender, UnhandledExceptionEventArgs unhandledExceptionEventArgs)
+        {
+            var newExc = new Exception("CurrentDomainOnUnhandledException", unhandledExceptionEventArgs.ExceptionObject as Exception);
+            LogUnhandledException(newExc);
+        }
+
+        #endregion
+
         #region Helpers
 
         private void InitializeLogger()
@@ -46,6 +68,19 @@ namespace Demo.Droid
             var loggingService = App.Current.Container.Resolve<ILoggingService>();
             var assembly = this.GetType().Assembly;
             loggingService.Initialize(assembly);
+        }
+
+        internal static void LogUnhandledException(Exception exception)
+        {
+            try
+            {
+                var loggingService = App.Current.Container.Resolve<ILoggingService>();
+                loggingService.Fatal(exception, null, "error");
+            }
+            catch
+            {
+                // just suppress any error logging exceptions
+            }
         }
 
         #endregion
