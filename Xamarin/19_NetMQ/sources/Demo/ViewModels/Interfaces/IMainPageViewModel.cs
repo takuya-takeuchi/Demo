@@ -5,7 +5,7 @@ using Prism.Commands;
 namespace Demo.ViewModels.Interfaces
 {
 
-    public interface IMainPageViewModel
+    public interface IMainPageViewModel : IViewModel
     {
 
         DelegateCommand<string> ConnectCommand
@@ -29,11 +29,6 @@ namespace Demo.ViewModels.Interfaces
         }
 
         DelegateCommand ShowLogCommand
-        {
-            get;
-        }
-
-        string Title
         {
             get;
         }

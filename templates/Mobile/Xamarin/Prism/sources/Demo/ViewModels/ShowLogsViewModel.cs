@@ -3,6 +3,7 @@ using Prism.Navigation;
 
 using Demo.Services.Interfaces;
 using Demo.ViewModels.Interfaces;
+using Prism.Commands;
 
 namespace Demo.ViewModels
 {
@@ -30,6 +31,22 @@ namespace Demo.ViewModels
         #endregion
 
         #region Properties
+
+        private DelegateCommand _ClearCommand;
+
+        public DelegateCommand ClearCommand
+        {
+            get
+            {
+                return this._ClearCommand ?? (this._ClearCommand = new DelegateCommand(() =>
+                {
+                    var path = this._LoggingService.GetCurrentLogFilePath();
+                    if (!string.IsNullOrEmpty(path) && File.Exists(path))
+                        File.Delete(path);
+                    this.Logs = "";
+                }));
+            }
+        }
 
         private string _Logs;
 

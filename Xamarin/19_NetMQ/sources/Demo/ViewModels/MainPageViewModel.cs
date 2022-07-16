@@ -108,14 +108,6 @@ namespace Demo.ViewModels
             }
         }
 
-        private string _Title;
-
-        public string Title
-        {
-            get => this._Title;
-            private set => SetProperty(ref this._Title, value);
-        }
-
         #endregion
 
         #region Methods

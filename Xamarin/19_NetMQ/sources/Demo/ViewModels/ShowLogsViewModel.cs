@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using Prism.Navigation;
+using Prism.Commands;
 
 using Demo.Services.Interfaces;
 using Demo.ViewModels.Interfaces;
@@ -31,20 +32,28 @@ namespace Demo.ViewModels
 
         #region Properties
 
+        private DelegateCommand _ClearCommand;
+
+        public DelegateCommand ClearCommand
+        {
+            get
+            {
+                return this._ClearCommand ?? (this._ClearCommand = new DelegateCommand(() =>
+                {
+                    var path = this._LoggingService.GetCurrentLogFilePath();
+                    if (!string.IsNullOrEmpty(path) && File.Exists(path))
+                        File.Delete(path);
+                    this.Logs = "";
+                }));
+            }
+        }
+
         private string _Logs;
 
         public string Logs
         {
             get => this._Logs;
             private set => SetProperty(ref this._Logs, value);
-        }
-
-        private string _Title;
-
-        public string Title
-        {
-            get => this._Title;
-            private set => SetProperty(ref this._Title, value);
         }
 
         #endregion

@@ -1,8 +1,15 @@
-﻿namespace Demo.ViewModels.Interfaces
+﻿using Prism.Commands;
+
+namespace Demo.ViewModels.Interfaces
 {
 
     public interface IShowLogsViewModel : IViewModel
     {
+
+        DelegateCommand ClearCommand
+        {
+            get;
+        }
 
         string Logs
         {
