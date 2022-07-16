@@ -1,7 +1,8 @@
-﻿using Demo.ViewModels.Interfaces;
+﻿using Prism.Commands;
 using Prism.Navigation;
 
 using Demo.Services.Interfaces;
+using Demo.ViewModels.Interfaces;
 
 namespace Demo.ViewModels
 {
@@ -29,12 +30,17 @@ namespace Demo.ViewModels
 
         #region Properties
 
-        private string _Title;
+        private DelegateCommand _ShowLogCommand;
 
-        public string Title
+        public DelegateCommand ShowLogCommand
         {
-            get => this._Title;
-            set => SetProperty(ref this._Title, value);
+            get
+            {
+                return this._ShowLogCommand ?? (this._ShowLogCommand = new DelegateCommand(() =>
+                {
+                    this.NavigationService.NavigateAsync("ShowLogs");
+                }));
+            }
         }
 
         #endregion

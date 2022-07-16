@@ -3,10 +3,10 @@
 namespace Demo.ViewModels.Interfaces
 {
 
-    public interface IMainPageViewModel : IViewModel
+    public interface IViewModel
     {
 
-        DelegateCommand ShowLogCommand
+        string Title
         {
             get;
         }
