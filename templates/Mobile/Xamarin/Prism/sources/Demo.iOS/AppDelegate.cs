@@ -1,5 +1,8 @@
 ﻿using Foundation;
+using Prism.Ioc;
 using UIKit;
+
+using Demo.Services.Interfaces;
 
 namespace Demo.iOS
 {
@@ -22,12 +25,29 @@ namespace Demo.iOS
         //
         // You have 17 seconds to return from this method, or iOS will terminate your application.
         //
-        public override bool FinishedLaunching(UIApplication app, NSDictionary options)
+        public override bool FinishedLaunching(UIApplication application, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            LoadApplication(new App(new iOSInitializer()));
 
-            return base.FinishedLaunching(app, options);
+            // App invoke RegisterTypes
+            var app = new App(new iOSInitializer());
+            
+            this.InitializeLogger();
+
+            LoadApplication(app);
+
+            return base.FinishedLaunching(application, options);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private void InitializeLogger()
+        {
+            var loggingService = App.Current.Container.Resolve<ILoggingService>();
+            var assembly = this.GetType().Assembly;
+            loggingService.Initialize(assembly);
         }
 
         #endregion
