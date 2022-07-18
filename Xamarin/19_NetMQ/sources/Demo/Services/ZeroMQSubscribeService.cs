@@ -13,6 +13,12 @@ namespace Demo.Services
         
         #region Fields
 
+        public event EventHandler<bool> StateChanged;
+
+        #endregion
+        
+        #region Fields
+
         private Action<string> _Callback;
 
         private NetMQPoller _NetMqPoller;
@@ -37,7 +43,9 @@ namespace Demo.Services
 
             this._NetMqPoller = new NetMQPoller();
             this._NetMqPoller.Add(this._SubscriberSocket);
-            this._NetMqPoller.RunAsync();
+            this._NetMqPoller.RunAsync("test", true);
+
+            this.OnStateChanged(true);
         }
 
         public void Disconnect()
@@ -52,7 +60,20 @@ namespace Demo.Services
 
             this._NetMqPoller = null;
             this._SubscriberSocket = null;
+
+            this.OnStateChanged(false);
         }
+
+        #region Helpers
+
+        private void OnStateChanged(bool state)
+        {
+            var @event = this.StateChanged;
+            if (@event != null)
+                @event.Invoke(this, state);
+        }
+
+        #endregion
 
         #region Event Handlers
 

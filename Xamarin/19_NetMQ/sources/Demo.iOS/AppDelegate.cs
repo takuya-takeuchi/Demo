@@ -42,6 +42,25 @@ namespace Demo.iOS
             LoadApplication(app);
 
             return base.FinishedLaunching(application, options);
+        }        
+        
+        public override void DidEnterBackground(UIApplication application)
+        {
+            var loggingService = App.Current.Container.Resolve<ILoggingService>();
+            loggingService.Info("Enter to DidEnterBackground");
+
+            var zeroMQSubscribeService = App.Current.Container.Resolve<IZeroMQSubscribeService>();
+            zeroMQSubscribeService.Disconnect();
+
+            nint taskID = UIApplication.SharedApplication.BeginBackgroundTask( () =>
+            {
+                loggingService.Info("BeginBackgroundTask");
+            });
+            new Task ( () => {
+                // DoWork();
+                loggingService.Info("EndBackgroundTask");
+                UIApplication.SharedApplication.EndBackgroundTask(taskID);
+            }).Start();
         }
 
         #endregion
