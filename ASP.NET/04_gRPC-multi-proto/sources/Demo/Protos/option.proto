@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+option csharp_namespace = "Demo";
+
+package greet;
+
+enum TimeZone {
+  morning = 0;
+  afternoon = 1;
+  evening = 2;
+  night = 3;
+}
