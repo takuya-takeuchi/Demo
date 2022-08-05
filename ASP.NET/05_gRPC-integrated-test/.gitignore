@@ -726,3 +726,5 @@ FodyWeavers.xsd
 
 # custom
 internal-nlog.txt
+coveragereport
+log*.txt

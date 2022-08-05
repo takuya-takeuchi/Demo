@@ -1,98 +1,37 @@
-using Grpc.Net.Client;
+using Xunit.Abstractions;
 
-namespace Demo.Test
+using Demo.IntegratedTest.Helpers;
+
+namespace Demo.IntegratedTest
 {
 
-    [TestClass]
-    public sealed class GreeterServiceTest : TestBase<Greeter.GreeterClient>
+    public sealed class GreeterServiceTest : IntegrationTestBase
     {
 
-        #region Fields
+        #region Constructors
 
-        private GrpcChannel _GrpcChannel;
-
-        #endregion
-
-        #region Methods
-
-        #region Helpers
-
-        [TestInitialize]
-        public void Initialize()
+        public GreeterServiceTest(GrpcTestFixture<Startup> fixture, ITestOutputHelper outputHelper)
+            : base(fixture, outputHelper)
         {
-            var httpHandler = new HttpClientHandler();
-            httpHandler.ServerCertificateCustomValidationCallback = HttpClientHandler.DangerousAcceptAnyServerCertificateValidator;
-
-            Environment.SetEnvironmentVariable("NO_PROXY", "localhost");
-            this._GrpcChannel = GrpcChannel.ForAddress("https://localhost:5001", new GrpcChannelOptions { HttpHandler = httpHandler });
-            this.Client = new Greeter.GreeterClient(this._GrpcChannel);
-        }
-
-        [TestCleanup]
-        public void Cleanup()
-        {
-            this.Client = null!;
-            this._GrpcChannel?.Dispose();
-            this._GrpcChannel = null;
         }
 
         #endregion
 
-        #endregion
-
-        [TestMethod]
-        public void SayHelloMorning()
+        [Fact]
+        public async void SayHello()
         {
-            const string name = "John";
-            const string greet = "Good Morning,";
-            var ret = this.Client.SayHello(new HelloRequest
+            // Arrange
+            var client = new Greeter.GreeterClient(this.Channel);
+
+            // Act
+            var response = await client.SayHelloAsync(new HelloRequest
             {
-                Name = name, TimeZone = TimeZone.Morning
-            });
-
-            Assert.AreEqual($"{greet} {name}", ret.Message);
-        }
-
-        [TestMethod]
-        public void SayHelloAfternoon()
-        {
-            const string name = "John";
-            const string greet = "Hello";
-            var ret = this.Client.SayHello(new HelloRequest
-            {
-                Name = name,
+                Name = "Joe",
                 TimeZone = TimeZone.Afternoon
             });
 
-            Assert.AreEqual($"{greet} {name}", ret.Message);
-        }
-
-        [TestMethod]
-        public void SayHelloEvening()
-        {
-            const string name = "John";
-            const string greet = "Good Evening,";
-            var ret = this.Client.SayHello(new HelloRequest
-            {
-                Name = name,
-                TimeZone = TimeZone.Evening
-            });
-
-            Assert.AreEqual($"{greet} {name}", ret.Message);
-        }
-
-        [TestMethod]
-        public void SayHelloNight()
-        {
-            const string name = "John";
-            const string greet = "Good Night,";
-            var ret = this.Client.SayHello(new HelloRequest
-            {
-                Name = name,
-                TimeZone = TimeZone.Night
-            });
-
-            Assert.AreEqual($"{greet} {name}", ret.Message);
+            // Assert
+            Assert.Equal("Hello Joe", response.Message);
         }
 
     }

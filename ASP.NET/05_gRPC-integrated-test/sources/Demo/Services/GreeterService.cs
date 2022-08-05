@@ -3,6 +3,9 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using Microsoft.Extensions.Logging;
 
+using Demo.Grpc;
+using TimeZone = Demo.Grpc.TimeZone;
+
 namespace Demo.Services
 {
 
