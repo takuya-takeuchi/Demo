@@ -40,7 +40,6 @@
 
 ## How to use
 
-
 ````bat
 $ dotnet run -c Release --project sources\Demo\Demo.csproj
 ````
