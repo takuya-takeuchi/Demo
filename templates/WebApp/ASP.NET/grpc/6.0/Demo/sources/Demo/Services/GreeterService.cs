@@ -1,13 +1,8 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-
+using Grpc.Core;
 using Microsoft.Extensions.Logging;
 
-using Grpc.Core;
-
-namespace Demo
+namespace Demo.Services
 {
 
     public sealed class GreeterService : Greeter.GreeterBase

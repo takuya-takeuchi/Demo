@@ -56,7 +56,7 @@ At first, launch service and then,
 
 ````bat
 $ pwsh GeneratePrrotoCode.ps1
-$ cd tests\Demo
+$ cd tests\Demo.Test
 $ dotnet test -c Release
   復元対象のプロジェクトを決定しています...
   復元対象のすべてのプロジェクトは最新です。
