@@ -61,6 +61,9 @@ Write-Host "Self-sign client certificate:" -ForegroundColor Green
 Write-Host "Remove passphrase from client key:" -ForegroundColor Green
 & "${openssl}" rsa -passin pass:"${password}" -in client.key -out client.key
 
+Write-Host "Generate pfx:" -ForegroundColor Green
+& "${openssl}" pkcs12 -export -out server.pfx -inkey server.key -in server.crt -password pass:"${password}"
+
 $clients = @(
     "Client",
     "LegacyClient"
@@ -103,7 +106,8 @@ foreach ($server in $servers)
     $certificates = @(
         "ca.crt",
         "server.key",
-        "server.crt"
+        "server.crt",
+        "server.pfx"
     )
 
     foreach ($certificate in $certificates)
