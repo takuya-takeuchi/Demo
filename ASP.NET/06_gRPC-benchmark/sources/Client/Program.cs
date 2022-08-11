@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Diagnostics;
+using System.IO;
 
 using Google.Protobuf;
 using Grpc.Net.Client;
+using Grpc.Core;
 
 using Demo;
 
@@ -24,8 +26,8 @@ namespace Client
 
             var targets = new[]
             {
-                new { Url = "https://localhost:5001" },
-                new { Url = "http://localhost:5000" },
+                new { Url = "https://localhost:5001", UseSsl = true },
+                new { Url = "http://localhost:5000", UseSsl = false },
             };
 
             var content = new SendRequest
@@ -35,7 +37,26 @@ namespace Client
 
             foreach (var target in targets)
             {
-                var channel = GrpcChannel.ForAddress(target.Url);
+                GrpcChannel channel;
+                if (target.UseSsl)
+                {
+                    var rootCert = File.ReadAllText(Path.Combine("certificates", "ca.crt"));
+                    var clientCert = File.ReadAllText(Path.Combine("certificates", "client.crt"));
+                    var clientKey = File.ReadAllText(Path.Combine("certificates", "client.key"));
+
+                    var keyPair = new KeyCertificatePair(clientCert, clientKey);
+                    var credentials = new SslCredentials(rootCert, keyPair);
+
+                    channel = GrpcChannel.ForAddress(target.Url, new GrpcChannelOptions
+                    {
+                        Credentials = credentials
+                    });
+                }
+                else
+                {
+                    channel = GrpcChannel.ForAddress(target.Url);
+                }
+
                 var client = new Test.TestClient(channel);
 
                 var stopwatch = new Stopwatch();

@@ -60,3 +60,56 @@ Write-Host "Self-sign client certificate:" -ForegroundColor Green
 
 Write-Host "Remove passphrase from client key:" -ForegroundColor Green
 & "${openssl}" rsa -passin pass:"${password}" -in client.key -out client.key
+
+$clients = @(
+    "Client",
+    "LegacyClient"
+)
+
+$sourceRoot = Join-Path $current "sources"
+
+foreach ($client in $clients)
+{
+    $outputDir = Join-Path $sourceRoot $client
+    $outputCertificatesDir = Join-Path $outputDir "certificates"
+    New-Item -Type Directory -Force "${outputCertificatesDir}" | Out-Null
+    Write-Host "Output: ${outputCertificatesDir}" -ForegroundColor Green
+
+    $certificates = @(
+        "ca.crt",
+        "client.key",
+        "client.crt"
+    )
+
+    foreach ($certificate in $certificates)
+    {
+        $srcFile = Join-Path $current $certificate
+        $dstFile = Join-Path $outputCertificatesDir $certificate
+        Copy-Item $srcFile $dstFile -Force
+    }
+}
+
+$servers = @(
+    "Server"
+)
+
+foreach ($server in $servers)
+{
+    $outputDir = Join-Path $sourceRoot $server
+    $outputCertificatesDir = Join-Path $outputDir "certificates"
+    New-Item -Type Directory -Force "${outputCertificatesDir}" | Out-Null
+    Write-Host "Output: ${outputCertificatesDir}" -ForegroundColor Green
+
+    $certificates = @(
+        "ca.crt",
+        "server.key",
+        "server.crt"
+    )
+
+    foreach ($certificate in $certificates)
+    {
+        $srcFile = Join-Path $current $certificate
+        $dstFile = Join-Path $outputCertificatesDir $certificate
+        Copy-Item $srcFile $dstFile -Force
+    }
+}

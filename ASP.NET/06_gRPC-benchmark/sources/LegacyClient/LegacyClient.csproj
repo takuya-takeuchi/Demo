@@ -10,4 +10,16 @@
     <PackageReference Include="Grpc.Core" Version="2.46.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="certificates\ca.crt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="certificates\client.crt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="certificates\client.key">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

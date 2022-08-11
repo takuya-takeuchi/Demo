@@ -62,7 +62,8 @@ if (!(Test-Path("${protoPath}")))
 }
 
 $clients = @(
-    "Client"
+    "Client"",
+    "LegacyClient"
 )
 
 foreach ($client in $clients)
