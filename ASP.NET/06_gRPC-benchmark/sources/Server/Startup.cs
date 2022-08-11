@@ -1,11 +1,11 @@
-﻿using Demo.Services;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Server.Services;
 
-namespace Demo
+namespace Server
 {
 
     public sealed class Startup
@@ -17,7 +17,12 @@ namespace Demo
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddGrpc();
+            services.AddGrpc(options =>
+            {
+                options.EnableDetailedErrors = true;
+                options.MaxReceiveMessageSize = 100 * 1024 * 1024; // 100 MB
+                options.MaxSendMessageSize = 5 * 1024 * 1024; // 5 MB
+            });
             services.AddGrpcReflection();
         }
 
@@ -31,9 +36,12 @@ namespace Demo
 
             app.UseRouting();
 
+            app.UseGrpcWeb();
+
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapGrpcService<GreeterService>();
+                endpoints.MapGrpcService<TestService>();
+                //endpoints.MapGrpcService<TestService>().EnableGrpcWeb();
 
                 if (env.IsDevelopment())
                 {

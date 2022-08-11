@@ -1,13 +1,11 @@
 using System;
-
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-
 using NLog.Web;
 
-namespace Demo
+namespace Server
 {
 
     public sealed class Program
