@@ -45,7 +45,7 @@ Write-Host "Generate server signing request:" -ForegroundColor Green
 & "${openssl}" req -passin pass:"${password}" -new -key server.key -out server.csr -subj "${serverPublisher}"
 
 Write-Host "Self-sign server certificate:" -ForegroundColor Green
-& "${openssl}" x509 -req -passin pass:"${password}" -days $days -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out server.crt
+& "${openssl}" x509 -req -passin pass:"${password}" -days $days -in server.csr -CA ca.crt -CAkey ca.key -set_serial 01 -out server.crt -extfile san.csx
 
 Write-Host "Remove passphrase from server key:" -ForegroundColor Green
 & "${openssl}" rsa -passin pass:"${password}" -in server.key -out server.key

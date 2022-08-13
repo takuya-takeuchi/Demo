@@ -36,12 +36,9 @@ namespace Server
 
             app.UseRouting();
 
-            app.UseGrpcWeb();
-
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapGrpcService<TestService>();
-                //endpoints.MapGrpcService<TestService>().EnableGrpcWeb();
 
                 if (env.IsDevelopment())
                 {

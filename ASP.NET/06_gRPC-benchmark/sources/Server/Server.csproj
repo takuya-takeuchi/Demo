@@ -11,7 +11,6 @@
   <ItemGroup>
     <PackageReference Include="Grpc.AspNetCore" Version="2.47.0" />
     <PackageReference Include="Grpc.AspNetCore.Server.Reflection" Version="2.47.0" />
-    <PackageReference Include="Grpc.AspNetCore.Web" Version="2.47.0" />
     <PackageReference Include="NLog" Version="5.0.1" />
     <PackageReference Include="NLog.Web.AspNetCore" Version="5.1.0" />
   </ItemGroup>

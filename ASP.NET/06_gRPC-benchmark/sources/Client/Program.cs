@@ -71,6 +71,9 @@ namespace Client
                 var total = stopwatch.ElapsedMilliseconds;
                 var average = total / (double)count;
 
+                Console.WriteLine($" UseSsl: {target.UseSsl}");
+                Console.WriteLine($"  Count: {count}");
+                Console.WriteLine($" Length: {size}");
                 Console.WriteLine($"  Total: {total} ms");
                 Console.WriteLine($"Average: {average} ms");
             }
