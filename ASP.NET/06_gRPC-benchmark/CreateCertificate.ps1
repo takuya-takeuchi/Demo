@@ -1,14 +1,15 @@
 # https://stackoverflow.com/questions/37714558/how-to-enable-server-side-ssl-for-grpc
 $current = $PSScriptRoot
+$computerName = $Env:COMPUTERNAME
 
 $password = "changeit"
 $days = "365"
 # /C=US/ST=CA/L=Cupertino/O=YourCompany/OU=YourApp/CN=MyRootCA
-$caPublisher = "/C=JP/S=TOKYO/L=MINATO-KU/O=Demo Corporation/CN=Demo Corporation"
+$caPublisher = "/C=JP/S=TOKYO/L=MINATO-KU/O=Demo CA Corporation/CN=Demo CA"
 # /C=US/ST=CA/L=Cupertino/O=YourCompany/OU=YourApp/CN=%COMPUTERNAME%
-$serverPublisher = "/C=JP/S=TOKYO/L=MINATO-KU/O=Demo Corporation/CN=Demo Corporation"
+$serverPublisher = "/C=JP/S=TOKYO/L=MINATO-KU/O=Demo Server Corporation/CN=localhost"
 # /C=US/ST=CA/L=Cupertino /O=YourCompany /OU=YourApp/CN=%CLIENT-COMPUTERNAME%
-$clientPublisher = "/C=JP/S=TOKYO/L=MINATO-KU/O=Demo Corporation/CN=Demo Corporation"
+$clientPublisher = "/C=JP/S=TOKYO/L=MINATO-KU/O=Demo Client Corporation/CN=${computerName}"
 $openSSLVersion = "1.0.2u"
 
 $opensslRoot = Join-Path "${current}" "tools" | `

@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
+using System.Security.Cryptography.X509Certificates;
 
 using Google.Protobuf;
 using Grpc.Net.Client;
-using Grpc.Core;
 
 using Demo;
 
@@ -40,16 +41,16 @@ namespace Client
                 GrpcChannel channel;
                 if (target.UseSsl)
                 {
-                    var rootCert = File.ReadAllText(Path.Combine("certificates", "ca.crt"));
-                    var clientCert = File.ReadAllText(Path.Combine("certificates", "client.crt"));
-                    var clientKey = File.ReadAllText(Path.Combine("certificates", "client.key"));
+                    var certificate = X509Certificate2.CreateFromPemFile(Path.Combine("certificates", "client.crt"),
+                                                                         Path.Combine("certificates", "client.key"));
 
-                    var keyPair = new KeyCertificatePair(clientCert, clientKey);
-                    var credentials = new SslCredentials(rootCert, keyPair);
+                    // Add client cert to the handler
+                    var handler = new HttpClientHandler();
+                    handler.ClientCertificates.Add(certificate);
 
                     channel = GrpcChannel.ForAddress(target.Url, new GrpcChannelOptions
                     {
-                        Credentials = credentials
+                        HttpHandler = handler
                     });
                 }
                 else

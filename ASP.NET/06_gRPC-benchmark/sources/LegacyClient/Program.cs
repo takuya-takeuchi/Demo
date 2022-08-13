@@ -25,7 +25,7 @@ namespace LegacyClient
 
             var targets = new[]
             {
-                //new { Address = "localhost", Port = 5001, UseSsl = true },
+                new { Address = "localhost", Port = 5001, UseSsl = true },
                 new { Address = "localhost", Port = 5000, UseSsl = false },
             };
 
