@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Client": {
+      "commandName": "Project",
+      "commandLineArgs": "1000 10000000"
+    }
+  }
+}

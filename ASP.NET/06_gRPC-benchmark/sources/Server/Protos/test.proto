@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option csharp_namespace = "Demo";
+
+package test;
+
+service Test {
+  rpc Send (SendRequest) returns (SendReply);
+}
+
+message SendRequest {
+  bytes content = 1;
+}
+
+message SendReply {
+  string message = 1;
+}
