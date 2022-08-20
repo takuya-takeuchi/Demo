@@ -6,6 +6,8 @@
 
 <img src="./images/diagram.png" />
 
+The above diagram is generatead by [Miro](https://miro.com)
+
 ## Requirements
 
 * .NET 6.0 SDK
