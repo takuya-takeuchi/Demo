@@ -1,0 +1,1 @@
+docker run --rm -d -p 8080:80 --name docker-sample-aspnet6 docker-sample-aspnet6
