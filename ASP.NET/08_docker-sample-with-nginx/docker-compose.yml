@@ -1,0 +1,12 @@
+version: 3
+services:
+  nginx:
+    image: docker-sample-nginx
+    container_name: docker-sample-nginx
+    ports:
+    - 80:80
+  aspnet:
+    image: docker-sample-aspnet6
+    container_name: docker-sample-aspnet6
+    ports:
+    - 5000:5000
