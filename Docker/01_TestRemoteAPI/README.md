@@ -8,7 +8,7 @@
 
 * .NET 6.0 SDK
 * PowerShell Core 6.2 or later
-* docker and docker-compose
+* docker
 
 ## Dependencies
 
