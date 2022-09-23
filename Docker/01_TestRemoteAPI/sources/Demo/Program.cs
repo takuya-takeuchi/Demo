@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using Docker.DotNet;
+﻿using Docker.DotNet;
 using Docker.DotNet.Models;
 using NLog;
 
@@ -39,7 +32,7 @@ namespace Demo
 
             if (!containers.Any())
             {
-                Logger.Error("There is not active containers");
+                Logger.Info("There is not active containers");
                 return;
             }
 
@@ -49,12 +42,6 @@ namespace Demo
                 Logger.Info($"CONTAINER ID: {container.ImageID}, Name: {names}");
             }
         }
-
-        #region Event Handlers
-        #endregion
-
-        #region Helpers
-        #endregion
 
         #endregion
 
