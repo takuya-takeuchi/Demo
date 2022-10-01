@@ -7,16 +7,5 @@
         Width="800"
         Height="450"
         mc:Ignorable="d">
-    <Window.Resources>
-        <ResourceDictionary>
-            <FontFamily x:Key="FontAwesome">pack://application:,,,/Fonts/#Font Awesome 6 Free Solid</FontFamily>
-        </ResourceDictionary>
-    </Window.Resources>
-    <Grid>
-        <TextBlock HorizontalAlignment="Center"
-                   VerticalAlignment="Center"
-                   FontFamily="{StaticResource FontAwesome}"
-                   FontSize="50"
-                   Text="&#xf015;" />
-    </Grid>
+    <Grid/>
 </Window>
