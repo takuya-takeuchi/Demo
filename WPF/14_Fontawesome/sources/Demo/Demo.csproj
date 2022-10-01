@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\Font Awesome 6 Brands-Regular-400.otf" />
+    <None Remove="Fonts\Font Awesome 6 Free-Regular-400.otf" />
+    <None Remove="Fonts\Font Awesome 6 Free-Solid-900.otf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\Font Awesome 6 Brands-Regular-400.otf" />
+    <Resource Include="Fonts\Font Awesome 6 Free-Regular-400.otf" />
+    <Resource Include="Fonts\Font Awesome 6 Free-Solid-900.otf" />
+  </ItemGroup>
+
+</Project>
