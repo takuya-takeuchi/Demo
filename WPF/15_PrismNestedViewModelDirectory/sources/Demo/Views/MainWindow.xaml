@@ -1,0 +1,33 @@
+﻿<Window x:Class="Demo.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:designTimes="clr-namespace:Demo.DesignTimes"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:regions="http://prismlibrary.com/"
+        Title="MainWindow"
+        Width="800"
+        Height="450"
+        d:DataContext="{d:DesignInstance designTimes:MainWindowViewModel,
+                                         IsDesignTimeCreatable=True}"
+        regions:ViewModelLocator.AutoWireViewModel="True"
+        mc:Ignorable="d">
+    <Grid HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <StackPanel Grid.Row="0"
+                    Orientation="Horizontal">
+            <Button Command="{Binding ShowViewCommand}"
+                    CommandParameter="ModuleA"
+                    Content="Show ViewA" />
+            <Button Command="{Binding ShowViewCommand}"
+                    CommandParameter="ModuleB"
+                    Content="Show ViewB" />
+        </StackPanel>
+        <ContentControl Grid.Row="1"
+                        regions:RegionManager.RegionName="ContentRegion" />
+    </Grid>
+</Window>
