@@ -1,6 +1,6 @@
 # Tensorboard
 
-## Abstacts
+## Abstracts
 
 * Tensorboard docker
 

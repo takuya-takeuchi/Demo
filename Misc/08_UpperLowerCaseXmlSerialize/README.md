@@ -1,6 +1,6 @@
 # Upper-Lower Case Sensitive of XmlSerializer for C# and VB.NET
 
-## Abstacts
+## Abstracts
 
 * Demonstration of Upper-Lower Case Sensitive for XmlSerializer
 

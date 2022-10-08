@@ -1,6 +1,6 @@
 # googletest with OpenCppCoverage for Visual Studio C++
 
-## Abstacts
+## Abstracts
 
 * How to use googletest from source code
 * Test dynamic link library

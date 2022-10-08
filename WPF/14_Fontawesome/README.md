@@ -1,6 +1,6 @@
 # Fontawesome
 
-## Abstacts
+## Abstracts
 
 * Usage of Font Awesome 6
   * Especially OpenType Font

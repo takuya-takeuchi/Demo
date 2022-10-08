@@ -1,6 +1,6 @@
 # OCR on Windows 10 (for .NET)
 
-## Abstacts
+## Abstracts
 
 * How to use OCR engine embeded on Windows 10
   * Recognize characters

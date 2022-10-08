@@ -1,6 +1,6 @@
 # gRPC with multiple proto files
 
-## Abstacts
+## Abstracts
 
 * How to reference multiple proto files
 * How to import other proto file

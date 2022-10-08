@@ -1,6 +1,6 @@
 # Run WebApp in docker container with nginx
 
-## Abstacts
+## Abstracts
 
 * How to deploy web application into container
 

@@ -1,6 +1,6 @@
 # Test Docker Remote API
 
-## Abstacts
+## Abstracts
 
 * How to control docker container via Docker Remote API
 

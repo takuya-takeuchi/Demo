@@ -1,6 +1,6 @@
 # Grab Cube
 
-## Abstacts
+## Abstracts
 
 * How to grab game object
   * No use of OVRGrabber and OVRGrabbable

@@ -1,6 +1,6 @@
 # template
 
-## Abstacts
+## Abstracts
 
 * todo
 

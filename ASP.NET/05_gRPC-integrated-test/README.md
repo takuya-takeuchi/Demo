@@ -1,6 +1,6 @@
 # gRPC with integrated test
 
-## Abstacts
+## Abstracts
 
 * How to test gRPC service as unit test and integrated test
   * Base code comes from https://github.com/grpc/grpc-dotnet/tree/master/test/FunctionalTests

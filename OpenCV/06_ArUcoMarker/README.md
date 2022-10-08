@@ -1,6 +1,6 @@
 # ArUco Marker
 
-## Abstacts
+## Abstracts
 
 * How to detect ArUco marker
 

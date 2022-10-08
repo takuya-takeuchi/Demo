@@ -1,6 +1,6 @@
 # Generate SSL certificate for IP address
 
-## Abstacts
+## Abstracts
 
 * Generate SSL certificate supports subjectAltName for IP address
 

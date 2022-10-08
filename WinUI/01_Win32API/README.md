@@ -1,6 +1,6 @@
 # Win32 API on WinUI 3
 
-## Abstacts
+## Abstracts
 
 * How to get window handle
 * Invoke Win32 API

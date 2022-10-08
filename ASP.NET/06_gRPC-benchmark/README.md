@@ -1,6 +1,6 @@
 # gRPC Benchmark
 
-## Abstacts
+## Abstracts
 
 * Benchmark performance of Grpc.Core and Grpc.Net.Client
   * Include https and http

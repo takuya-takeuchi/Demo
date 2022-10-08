@@ -1,6 +1,6 @@
 # Simple WebAPI (with Swagger)
 
-## Abstacts
+## Abstracts
 
 * How to create simple web api by using Swagger
 * You can change property name of model by using `JsonPropertyName`

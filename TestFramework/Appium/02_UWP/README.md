@@ -1,6 +1,6 @@
 # UI Automation Test for Universal Windows Platform
 
-## Abstacts
+## Abstracts
 
 * How to use Appium and Windows App Driver
 

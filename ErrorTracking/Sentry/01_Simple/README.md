@@ -1,6 +1,6 @@
 # Tasting Sentry on Windows
 
-## Abstacts
+## Abstracts
 
 * Try Sentry on Windows
   * Use via C#

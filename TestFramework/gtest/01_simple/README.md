@@ -1,6 +1,6 @@
 # simple usage of googletest
 
-## Abstacts
+## Abstracts
 
 * How to use googletest from source code
 

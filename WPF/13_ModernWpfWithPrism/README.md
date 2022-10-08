@@ -1,6 +1,6 @@
 # Modern WPF with Prism
 
-## Abstacts
+## Abstracts
 
 * Try ModernWpfUI and use Prism
   * Use Region and AutoWireViewModel

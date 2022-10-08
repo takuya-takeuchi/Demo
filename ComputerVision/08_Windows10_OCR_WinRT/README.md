@@ -1,6 +1,6 @@
 # OCR on Windows 10 (for C++/WinRT)
 
-## Abstacts
+## Abstracts
 
 * How to use OCR engine embeded on Windows 10
   * From C++/WinRT console application
