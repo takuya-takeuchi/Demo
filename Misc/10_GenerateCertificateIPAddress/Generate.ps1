@@ -7,11 +7,16 @@ Param
    $IpAddress
 )
 
+$C="JP"              # Country Name
+$ST="Tokyo"          # State or Province Name
+$L="Minato-ku"       # Locality Name
+$O="Contoso"         # Organization Name
+$OU="Docs,Contoso"   # Organizational Unit Name
+
 $version = "1.0.2u"
 
 if ($global:IsWindows)
 {
-   $os = "windows"
    $openssl = Join-Path $PSScriptRoot openssl | `
               Join-Path -ChildPath $version | `
               Join-Path -ChildPath windows | `
@@ -22,14 +27,14 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-   $os = "ios"
+   $openssl = "/usr/bin/openssl"
    $opensslConfig = Join-Path $PSScriptRoot openssl | `
                     Join-Path -ChildPath $version | `
                     Join-Path -ChildPath openssl.cnf
 }
 elseif ($global:IsLinux)
 {
-   $os = "linux"
+   $openssl = "/usr/bin/openssl"
    $opensslConfig = Join-Path $PSScriptRoot openssl | `
                     Join-Path -ChildPath $version | `
                     Join-Path -ChildPath openssl.cnf
@@ -39,9 +44,15 @@ elseif ($global:IsLinux)
                    -days 3650 `
                    -nodes `
                    -x509 `
-                   -subj "/C=/ST=/L=/O=/OU=/CN=${IpAddress}" `
+                   -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${IpAddress}" `
                    -extensions v3_req `
                    -config "${opensslConfig}" `
                    -keyout server.key `
                    -out server.crt
-Remove-Item ".rnd"
+
+if (Test-Path(".rnd"))
+{
+   Remove-Item ".rnd"
+}
+
+& "${openssl}" x509 -text -noout -in server.crt
