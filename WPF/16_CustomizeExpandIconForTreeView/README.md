@@ -1,9 +1,8 @@
-# Fontawesome
+# Customize expand icon for TreeView
 
 ## Abstacts
 
-* Usage of Prism.Unity
-  * Especially, how to declare ViewModel under nested directory
+* Customize expand icon to expand/shrink tree items
 
 ## Requirements
 
@@ -12,6 +11,10 @@
 
 ## Dependencies
 
+* [Font Awesome 6 Free](https://fontawesome.com)
+  * SIL Open Font License 1.1
+* [Microsoft.Xaml.Behaviors.Wpf](https://github.com/Microsoft/XamlBehaviorsWpf)
+  * MIT License
 * [Prism.Wpf](https://github.com/PrismLibrary/Prism)
   * MIT License
 * [Prism.Unity](https://github.com/PrismLibrary/Prism)
@@ -19,4 +22,10 @@
 
 ## Result
 
-<img src="images/image.gif?raw=true" title="Result"/>
+### Before
+
+<img src="images/Before.png?raw=true" title="Before"/>
+
+### After
+
+<img src="images/After.png?raw=true" title="After"/>
