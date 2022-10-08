@@ -1,0 +1,4 @@
+FROM nginx:stable-alpine
+COPY default.conf /etc/nginx/conf.d
+COPY server.crt     /etc/nginx/ssl/server.crt
+COPY server.key /etc/nginx/ssl/server.key
