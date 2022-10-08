@@ -1,6 +1,6 @@
 # Stride and RGB Order for Bitmap and Mat
 
-## Abstacts
+## Abstracts
 
 * Check formula of stride for Windows Bitmap
 * Check Windows Bitmap and OpenCV Mat adopts BGR order rather than RGB order

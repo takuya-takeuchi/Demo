@@ -1,6 +1,6 @@
 # SOAP
 
-## Abstacts
+## Abstracts
 
 * How to use SOAP interface on ASP.NET
 * Change default namespace `http://tempuri.org/` to `http://demo.com/helloservice/`

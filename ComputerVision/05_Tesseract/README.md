@@ -1,6 +1,6 @@
 # Tesseract
 
-## Abstacts
+## Abstracts
 
 * How to use Tesseract
 

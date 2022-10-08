@@ -1,6 +1,6 @@
 # Calibrate Camera
 
-## Abstacts
+## Abstracts
 
 * How to calibrate camera
 * Get intrinsic parameter

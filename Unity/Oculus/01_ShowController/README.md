@@ -1,6 +1,6 @@
 # Show Controller
 
-## Abstacts
+## Abstracts
 
 * How to show oculus controller
 * How to show line objects like lazer

@@ -1,6 +1,6 @@
 # LeNet
 
-## Abstacts
+## Abstracts
 
 * LeNet for classification
   * Train MNIST

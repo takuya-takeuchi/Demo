@@ -1,6 +1,6 @@
 # OCR on Windows 10 (for .NET Framework)
 
-## Abstacts
+## Abstracts
 
 * How to use OCR engine embeded on Windows 10
 * Check how much influence is accuracy with or without Language Pack

@@ -1,6 +1,6 @@
 # Customize expand icon for TreeView
 
-## Abstacts
+## Abstracts
 
 * Customize expand icon to expand/shrink tree items
 

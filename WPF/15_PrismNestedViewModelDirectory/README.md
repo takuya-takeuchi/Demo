@@ -1,6 +1,6 @@
 # Fontawesome
 
-## Abstacts
+## Abstracts
 
 * Usage of Prism.Unity
   * Especially, how to declare ViewModel under nested directory

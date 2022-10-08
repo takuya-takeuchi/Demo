@@ -1,6 +1,6 @@
 # Xamarin.Camera
 
-## Abstacts
+## Abstracts
 
 * Preview camera stream image
 * Draw object over camera image

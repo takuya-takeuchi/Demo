@@ -1,6 +1,6 @@
 # Calibration and Detect ArUco Marker
 
-## Abstacts
+## Abstracts
 
 * How to calibrate camera
 * How to detect ArUco marker

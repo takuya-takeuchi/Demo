@@ -1,6 +1,6 @@
 # gRPC
 
-## Abstacts
+## Abstracts
 
 * How to use gRPC service on ASP.NET
 

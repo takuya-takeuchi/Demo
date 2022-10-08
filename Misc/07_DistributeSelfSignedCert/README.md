@@ -1,6 +1,6 @@
 # Distribute Self Signed Cert
 
-## Abstacts
+## Abstracts
 
 * How to distribute Self Signed Certification via nginx
 

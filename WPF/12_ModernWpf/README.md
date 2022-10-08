@@ -1,6 +1,6 @@
 # Modern WPF
 
-## Abstacts
+## Abstracts
 
 * Try ModernWpfUI
 

@@ -1,6 +1,6 @@
 # spdlog with configuration toml file
 
-## Abstacts
+## Abstracts
 
 * How to control behavior of spdlog by toml configuration file
 

@@ -1,6 +1,6 @@
 # Handmade Neural Network
 
-## Abstacts
+## Abstracts
 
 * Simple Neural Network for classification
   * Train Cifar10

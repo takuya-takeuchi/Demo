@@ -1,6 +1,6 @@
 # NetMQ Pub/Sub Demo
 
-## Abstacts
+## Abstracts
 
 * How to use NetMQ (ZeroMQ)
 

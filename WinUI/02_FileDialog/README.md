@@ -1,6 +1,6 @@
 # Open File Dialog on WinUI 3
 
-## Abstacts
+## Abstracts
 
 * How to get window handle
 * Show Open File Dialog

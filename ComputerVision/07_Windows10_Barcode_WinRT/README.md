@@ -1,6 +1,6 @@
 # Barcode Reader on Windows 10 (for C++/WinRT)
 
-## Abstacts
+## Abstracts
 
 * How to use barcode reader on Windows 10
   * From C++/WinRT console application
