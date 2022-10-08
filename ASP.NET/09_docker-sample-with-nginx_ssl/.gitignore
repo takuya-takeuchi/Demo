@@ -725,5 +725,8 @@ FodyWeavers.xsd
 # End of https://www.toptal.com/developers/gitignore/api/csharp,visualstudiocode,visualstudio,aspnetcore
 
 # custom
+ca.crt
+ca.key
 server.crt
+server.csr
 server.key
