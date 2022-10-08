@@ -1,0 +1,10 @@
+# directories
+images
+
+# files
+.gitignore
+docker-compose.yml
+Build.ps1
+Run.ps1
+Demo.sln
+README.md
