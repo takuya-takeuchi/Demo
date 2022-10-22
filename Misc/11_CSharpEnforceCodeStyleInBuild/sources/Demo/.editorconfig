@@ -87,7 +87,7 @@ csharp_prefer_simple_using_statement = true:error
 dotnet_diagnostic.IDE0063.severity = error
 
 ## using' directive preferences (IDE0065)
-outside_namespace = true:error
+csharp_using_directive_placement = outside_namespace:error
 dotnet_diagnostic.IDE0065.severity = error
 
 # Unnecessary code rules
