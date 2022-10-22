@@ -169,24 +169,25 @@ dotnet_diagnostic.IDE0055.severity = error
 #* required_suffix
 #* word_separator
 
+### Defining the 'camel_case_style' naming style
+dotnet_naming_style.camel_case_style.capitalization = camel_case
 ### Defining the 'first_word_upper_case_style' naming style
 dotnet_naming_style.first_word_upper_case_style.capitalization = first_word_upper
 ### Defining the 'underscored' naming style
 dotnet_naming_style.underscored.capitalization = pascal_case
 dotnet_naming_style.underscored.required_prefix = _
 
-## Public member capitalization
-### Defining the 'public_symbols' symbol group
-dotnet_naming_symbols.public_symbols.applicable_kinds           = property,method,field,event,delegate
-dotnet_naming_symbols.public_symbols.applicable_accessibilities = public
-dotnet_naming_symbols.public_symbols.required_modifiers         = readonly
-### Defining the 'public_members_must_be_capitalized' naming rule, by setting the
+## Default member capitalization
+### Defining the 'member_symbols' symbol group
+dotnet_naming_symbols.member_symbols.applicable_kinds = property,method,field,event,delegate,local_function
+dotnet_naming_symbols.member_symbols.applicable_accessibilities = *
+### Defining the 'members_must_be_capitalized' naming rule, by setting the
 #### symbol group to the 'public symbols' symbol group,
-dotnet_naming_rule.public_members_must_be_capitalized.symbols  = public_symbols
+dotnet_naming_rule.members_must_be_capitalized.symbols = member_symbols
 #### setting the naming style to the 'first_word_upper_case_style' naming style,
-dotnet_naming_rule.public_members_must_be_capitalized.style    = first_word_upper_case_style
+dotnet_naming_rule.members_must_be_capitalized.style = first_word_upper_case_style
 #### and setting the severity.
-dotnet_naming_rule.public_members_must_be_capitalized.severity = error
+dotnet_naming_rule.members_must_be_capitalized.severity = error
 
 ##  Private instance fields with underscore
 ### Define the 'private_fields' symbol group:
@@ -206,11 +207,46 @@ dotnet_naming_rule.private_static_fields_none.symbols = private_static_fields
 dotnet_naming_rule.private_static_fields_none.style = first_word_upper_case_style
 dotnet_naming_rule.private_static_fields_none.severity = error
 
+## Parameter camel style
+### Defining the 'parameter' symbol group
+dotnet_naming_symbols.parameter.applicable_kinds = parameter
+dotnet_naming_symbols.parameter.applicable_accessibilities = *
+### Defining the 'parameter_must_be_camel_case' naming rule, by setting the
+#### symbol group to the 'public symbols' symbol group,
+dotnet_naming_rule.parameter_must_be_camel_case.symbols = parameter
+#### setting the naming style to the 'first_word_upper_case_style' naming style,
+dotnet_naming_rule.parameter_must_be_camel_case.style = camel_case_style
+#### and setting the severity.
+dotnet_naming_rule.parameter_must_be_camel_case.severity = error
+
+## Local variables camel style
+### Defining the 'local_variables' symbol group
+dotnet_naming_symbols.local_variables.applicable_kinds = local
+dotnet_naming_symbols.local_variables.applicable_accessibilities = *
+### Defining the 'local_variables_must_be_camel_case' naming rule, by setting the
+#### symbol group to the 'public symbols' symbol group,
+dotnet_naming_rule.local_variables_must_be_camel_case.symbols = local_variables
+#### setting the naming style to the 'first_word_upper_case_style' naming style,
+dotnet_naming_rule.local_variables_must_be_camel_case.style = camel_case_style
+#### and setting the severity.
+dotnet_naming_rule.local_variables_must_be_camel_case.severity = error
+
+## Local const variables camel style
+### Defining the 'local_const_variables' symbol group
+dotnet_naming_symbols.local_const_variables.applicable_kinds = local
+dotnet_naming_symbols.local_const_variables.required_modifiers = const
+### Defining the 'local_const_variables_must_be_camel_case' naming rule, by setting the
+#### symbol group to the 'public symbols' symbol group,
+dotnet_naming_rule.local_const_variables_must_be_camel_case.symbols = local_const_variables
+#### setting the naming style to the 'first_word_upper_case_style' naming style,
+dotnet_naming_rule.local_const_variables_must_be_camel_case.style = first_word_upper_case_style
+#### and setting the severity.
+dotnet_naming_rule.local_const_variables_must_be_camel_case.severity = error
+
 ## Namespace, Class, Struct, Interface, Enum capitalization
 ### Defining the 'namespace_and_types_symbols' symbol group
-dotnet_naming_symbols.namespace_and_types_symbols.applicable_kinds           = namespace,class,struct,interface,enum
+dotnet_naming_symbols.namespace_and_types_symbols.applicable_kinds = namespace,class,struct,interface,enum
 dotnet_naming_symbols.namespace_and_types_symbols.applicable_accessibilities = *
-dotnet_naming_symbols.namespace_and_types_symbols.required_modifiers         = readonly
 ### Defining the 'namespace_and_types_symbols_must_be_capitalized' naming rule, by setting the
 #### symbol group to the 'public namespace_and_types_symbols' symbol group,
 dotnet_naming_rule.namespace_and_types_symbols_must_be_capitalized.symbols  = namespace_and_types_symbols
@@ -218,6 +254,5 @@ dotnet_naming_rule.namespace_and_types_symbols_must_be_capitalized.symbols  = na
 dotnet_naming_rule.namespace_and_types_symbols_must_be_capitalized.style    = first_word_upper_case_style
 #### and setting the severity.
 dotnet_naming_rule.namespace_and_types_symbols_must_be_capitalized.severity = error
-
 
 dotnet_diagnostic.IDE1006.severity = error
