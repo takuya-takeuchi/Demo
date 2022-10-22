@@ -32,4 +32,6 @@ dotnet_diagnostic.IDE0007.severity = error
 ````
 
 [.editorconfig](./sources/Demo/.editorconfig) affects to only project rather than solution wide.
-So you have to add .editorconfig` to each projects.
+So you have to add .editorconfig` to each projects and enables `EnforceCodeStyleInBuild` attribute in project file.
+
+<img src="./images/image2.png" />
