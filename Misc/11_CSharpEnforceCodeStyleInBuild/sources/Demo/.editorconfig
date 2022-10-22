@@ -171,7 +171,7 @@ dotnet_diagnostic.IDE0055.severity = error
 
 ### Defining the 'first_word_upper_case_style' naming style
 dotnet_naming_style.first_word_upper_case_style.capitalization = first_word_upper
-## Define the 'underscored' naming style
+### Defining the 'underscored' naming style
 dotnet_naming_style.underscored.capitalization = pascal_case
 dotnet_naming_style.underscored.required_prefix = _
 
