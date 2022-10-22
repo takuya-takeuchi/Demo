@@ -1,5 +1,15 @@
 # https://learn.microsoft.com/ja-jp/dotnet/fundamentals/code-analysis/style-rules/
 
+[*]
+insert_final_newline = false
+trim_trailing_whitespace = true
+
+[*.cs]
+charset = utf-8
+indent_style = space
+tab_width = 4
+indent_size = 4
+
 [*.cs]
 
 # Language keywords instead of framework type names for type references
