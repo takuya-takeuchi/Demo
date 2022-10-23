@@ -11,8 +11,6 @@ namespace Demo
         public App()
         {
             InitializeComponent();
-
-            MainPage = new AppShell();
         }
 
         #endregion

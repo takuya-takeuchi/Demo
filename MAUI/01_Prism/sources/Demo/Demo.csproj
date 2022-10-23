@@ -49,11 +49,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.273-pre" />
 	  <PackageReference Include="Prism.Maui" Version="8.1.273-pre" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="ViewModels\" />
+	  <PackageReference Include="Prism.Maui.Rx" Version="8.1.273-pre" />
 	</ItemGroup>
 
 </Project>
