@@ -7,6 +7,9 @@ namespace Demo.ViewModels
     {
 
         #region Fields
+
+        private int _Count = 0;
+
         #endregion
 
         #region Constructors
@@ -14,23 +17,34 @@ namespace Demo.ViewModels
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
+            this.Text = "Click me";
         }
 
         #endregion
 
-        #region Properties
-        #endregion
+        #region IMainPageViewModel Members
 
-        #region Methods
+        private DelegateCommand _ClickCommand;
 
-        #region Overrids
-        #endregion
+        public DelegateCommand ClickCommand
+        {
+            get
+            {
+                return this._ClickCommand ??= new DelegateCommand(() =>
+                {
+                    this._Count++;
+                    this.Text = this._Count == 1 ? $"Clicked {this._Count} time" : $"Clicked {this._Count} times";
+                });
+            }
+        }
 
-        #region Event Handlers
-        #endregion
+        private string _Text;
 
-        #region Helpers
-        #endregion
+        public string Text
+        {
+            get => this._Text;
+            private set => this.SetProperty(ref this._Text, value);
+        }
 
         #endregion
 
