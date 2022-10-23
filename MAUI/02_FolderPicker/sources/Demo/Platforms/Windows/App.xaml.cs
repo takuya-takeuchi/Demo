@@ -1,5 +1,11 @@
-﻿using Microsoft.Maui;
+﻿using Demo.Platforms.Windows.Services;
+using Demo.Services.Interfaces;
+using DryIoc;
+using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
+using Microsoft.UI.Xaml;
+using Prism.DryIoc;
+using IContainer = DryIoc.IContainer;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -32,7 +38,18 @@ namespace Demo.WinUI
 
         protected override MauiApp CreateMauiApp()
         {
+            MauiProgram.PlatformRegisterTypes = RegisterServices;
+
             return MauiProgram.CreateMauiApp();
+        }
+
+        #endregion
+
+        #region Helpers
+        
+        private static void RegisterServices(IContainerRegistry container)
+        {
+            container.Register<IFolderPickerService, FolderPickerService>();
         }
 
         #endregion
@@ -42,3 +59,4 @@ namespace Demo.WinUI
     }
 
 }
+

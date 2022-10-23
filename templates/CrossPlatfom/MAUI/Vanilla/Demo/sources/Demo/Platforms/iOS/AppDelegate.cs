@@ -8,7 +8,20 @@ namespace Demo
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate
     {
-        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+
+        #region Methods
+
+        #region Overrides
+
+        protected override MauiApp CreateMauiApp()
+        {
+            return MauiProgram.CreateMauiApp();
+        }
+
+        #endregion
+
+        #endregion
+
     }
 
 }

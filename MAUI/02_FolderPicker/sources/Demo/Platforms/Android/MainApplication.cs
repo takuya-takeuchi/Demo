@@ -1,6 +1,8 @@
 ﻿using System;
 using Android.App;
 using Android.Runtime;
+using Demo.Platforms.Android.Services;
+using Demo.Services.Interfaces;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
@@ -26,7 +28,18 @@ namespace Demo
 
         protected override MauiApp CreateMauiApp()
         {
+            MauiProgram.PlatformRegisterTypes = RegisterServices;
+
             return MauiProgram.CreateMauiApp();
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private static void RegisterServices(IContainerRegistry container)
+        {
+            container.Register<IFolderPickerService, FolderPickerService>();
         }
 
         #endregion
