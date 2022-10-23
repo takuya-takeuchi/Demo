@@ -1,11 +1,20 @@
-﻿namespace Demo;
-
-public partial class App : Application
+﻿namespace Demo
 {
-	public App()
-	{
-		InitializeComponent();
 
-		MainPage = new AppShell();
-	}
+    public partial class App : Application
+    {
+
+        #region Constructors
+
+        public App()
+        {
+            InitializeComponent();
+
+            MainPage = new AppShell();
+        }
+
+        #endregion
+
+    }
+
 }

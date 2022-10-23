@@ -1,9 +1,18 @@
-﻿namespace Demo;
-
-public partial class AppShell : Shell
+﻿namespace Demo
 {
-	public AppShell()
-	{
-		InitializeComponent();
-	}
+
+    public partial class AppShell : Shell
+    {
+
+        #region Constructors
+
+        public AppShell()
+        {
+            InitializeComponent();
+        }
+
+        #endregion
+
+    }
+
 }
