@@ -1,24 +1,18 @@
-﻿namespace Demo;
-
-public partial class MainPage : ContentPage
+﻿namespace Demo
 {
-	int count = 0;
 
-	public MainPage()
-	{
-		InitializeComponent();
-	}
+    public partial class MainPage : ContentPage
+    {
 
-	private void OnCounterClicked(object sender, EventArgs e)
-	{
-		count++;
+        #region Constructors
 
-		if (count == 1)
-			CounterBtn.Text = $"Clicked {count} time";
-		else
-			CounterBtn.Text = $"Clicked {count} times";
+        public MainPage()
+        {
+            this.InitializeComponent();
+        }
 
-		SemanticScreenReader.Announce(CounterBtn.Text);
-	}
+        #endregion
+
+    }
+
 }
-
