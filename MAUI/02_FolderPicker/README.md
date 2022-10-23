@@ -1,11 +1,10 @@
-# MAUI use Prism framework
-
-This example is minimal program to learn how to use Prism on .NET MAUI.
+# FolderPicker 
 
 ## Abstracts
 
-* How to use Prism in .NET MAUI
-  * Re-write .NET MAUI example by using Prism
+* How to show FolderPicker
+  * Windows and iOS supports folder picker but Android does not.
+* Implement platform service and consume via DryIoc
 
 ## Requirements
 
@@ -27,4 +26,6 @@ All Prism.Maui libraries are pre-release so we should not adopt them on producti
 
 ## Result
 
-<img src="images/image.gif?raw=true" title="Result"/>
+<img src="images/windows.gif?raw=true" title="windows"/>
+<img src="images/ios.gif?raw=true" title="ios"/>
+<img src="images/android.gif?raw=true" title="android"/>
