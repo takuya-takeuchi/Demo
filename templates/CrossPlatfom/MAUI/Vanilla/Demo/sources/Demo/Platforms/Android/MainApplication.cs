@@ -10,12 +10,29 @@ namespace Demo
     [Application]
     public class MainApplication : MauiApplication
     {
+
+        #region Constructors
+
         public MainApplication(IntPtr handle, JniHandleOwnership ownership)
             : base(handle, ownership)
         {
         }
 
-        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+        #endregion
+
+        #region Methods
+
+        #region Overrides
+
+        protected override MauiApp CreateMauiApp()
+        {
+            return MauiProgram.CreateMauiApp();
+        }
+
+        #endregion
+
+        #endregion
+
     }
 
 }

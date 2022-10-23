@@ -12,6 +12,9 @@ namespace Demo.WinUI
     /// </summary>
     public partial class App : MauiWinUIApplication
     {
+
+        #region Constructors
+
         /// <summary>
         /// Initializes the singleton application object.  This is the first line of authored code
         /// executed, and as such is the logical equivalent of main() or WinMain().
@@ -21,8 +24,21 @@ namespace Demo.WinUI
             this.InitializeComponent();
         }
 
-        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+        #endregion
+
+        #region Methods
+
+        #region Overrides
+
+        protected override MauiApp CreateMauiApp()
+        {
+            return MauiProgram.CreateMauiApp();
+        }
+
+        #endregion
+
+        #endregion
+
     }
 
 }
-
