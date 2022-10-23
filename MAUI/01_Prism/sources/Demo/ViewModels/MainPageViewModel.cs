@@ -8,7 +8,7 @@ namespace Demo.ViewModels
 
         #region Fields
 
-        private int _Count = 0;
+        private int _Count;
 
         #endregion
 
