@@ -34,7 +34,6 @@ namespace Demo.ViewModels
 
         #endregion
 
-
     }
 
 }

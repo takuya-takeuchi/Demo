@@ -1,6 +1,4 @@
-﻿using Demo.ViewModels.Interfaces;
-
-namespace Demo.ViewModels
+﻿namespace Demo.ViewModels
 {
 
     internal abstract class ViewModelBase : BindableBase

@@ -30,6 +30,19 @@ namespace Demo
                            containerRegistry.RegisterGlobalNavigationObserver();
                            containerRegistry.RegisterForNavigation<MainPage>();
                        })
+                       .AddGlobalNavigationObserver(context => context.Subscribe(x =>
+                       {
+                           if (x.Type == NavigationRequestType.Navigate)
+                               Console.WriteLine($"Navigation: {x.Uri}");
+                           else
+                               Console.WriteLine($"Navigation: {x.Type}");
+
+                           var status = x.Cancelled ? "Cancelled" : x.Result.Success ? "Success" : "Failed";
+                           Console.WriteLine($"Result: {status}");
+
+                           if (status == "Failed" && !string.IsNullOrEmpty(x.Result?.Exception?.Message))
+                               Console.Error.WriteLine(x.Result.Exception.Message);
+                       }))
                        .OnAppStart(navigationService =>
                        {
                            navigationService.CreateBuilder()
