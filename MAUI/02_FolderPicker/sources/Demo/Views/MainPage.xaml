@@ -24,10 +24,10 @@
                    SemanticProperties.HeadingLevel="Level2"
                    Text="Welcome to .NET Multi-platform App UI" />
 
-            <Button Command="{Binding ClickCommand}"
+            <Button Command="{Binding OpenFolderCommand}"
                     HorizontalOptions="Center"
                     SemanticProperties.Hint="Counts the number of times you click"
-                    Text="{Binding Text}" />
+                    Text="Select folder" />
 
         </VerticalStackLayout>
     </ScrollView>

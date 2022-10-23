@@ -2,13 +2,43 @@
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
+using DryIoc;
+
+using Demo.Platforms.MacCatalyst.Services;
+using Demo.Services.Interfaces;
+using Prism.DryIoc;
+
 namespace Demo
 {
 
     [Register("AppDelegate")]
     public class AppDelegate : MauiUIApplicationDelegate
     {
-        protected override MauiApp CreateMauiApp() => MauiProgram.CreateMauiApp();
+
+        #region Methods
+
+        #region Overrides
+
+        protected override MauiApp CreateMauiApp()
+        {
+            MauiProgram.PlatformRegisterTypes = RegisterServices;
+
+            return MauiProgram.CreateMauiApp();
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private static void RegisterServices(IContainerRegistry container)
+        {
+            container.Register<IFolderPickerService, FolderPickerService>();
+        }
+
+        #endregion
+
+        #endregion
+
     }
 
 }

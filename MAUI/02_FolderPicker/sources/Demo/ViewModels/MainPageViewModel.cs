@@ -1,4 +1,5 @@
-﻿using Demo.ViewModels.Interfaces;
+﻿using Demo.Services.Interfaces;
+using Demo.ViewModels.Interfaces;
 
 namespace Demo.ViewModels
 {
@@ -8,42 +9,34 @@ namespace Demo.ViewModels
 
         #region Fields
 
-        private int _Count;
+        private readonly IFolderPickerService _FolderPickerService;
 
         #endregion
 
         #region Constructors
 
-        public MainPageViewModel(INavigationService navigationService)
+        public MainPageViewModel(INavigationService navigationService,
+                                 IFolderPickerService folderPickerService)
             : base(navigationService)
         {
-            this.Text = "Click me";
+            this._FolderPickerService = folderPickerService;
         }
 
         #endregion
 
         #region IMainPageViewModel Members
 
-        private DelegateCommand _ClickCommand;
+        private DelegateCommand _OpenFolderCommand;
 
-        public DelegateCommand ClickCommand
+        public DelegateCommand OpenFolderCommand
         {
             get
             {
-                return this._ClickCommand ??= new DelegateCommand(() =>
+                return this._OpenFolderCommand ??= new DelegateCommand(async () =>
                 {
-                    this._Count++;
-                    this.Text = this._Count == 1 ? $"Clicked {this._Count} time" : $"Clicked {this._Count} times";
+                    var ret = await this._FolderPickerService.PickFolder();
                 });
             }
-        }
-
-        private string _Text;
-
-        public string Text
-        {
-            get => this._Text;
-            private set => this.SetProperty(ref this._Text, value);
         }
 
         #endregion

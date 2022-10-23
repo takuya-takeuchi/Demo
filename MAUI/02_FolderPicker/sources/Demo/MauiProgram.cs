@@ -1,4 +1,5 @@
 ﻿using System;
+
 using Microsoft.Maui;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
@@ -11,6 +12,16 @@ namespace Demo
 
     public static class MauiProgram
     {
+
+        #region Properties
+
+        public static Action<IContainerRegistry> PlatformRegisterTypes
+        {
+            get;
+            set;
+        }
+
+        #endregion
 
         #region Methods
 
@@ -27,6 +38,8 @@ namespace Demo
                        })
                        .RegisterTypes(containerRegistry =>
                        {
+                           PlatformRegisterTypes?.Invoke(containerRegistry);
+
                            containerRegistry.RegisterGlobalNavigationObserver();
                            containerRegistry.RegisterForNavigation<MainPage>();
                        })
