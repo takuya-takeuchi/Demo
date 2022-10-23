@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
 
+using Microsoft.Maui.Storage;
+
 using Demo.Services.Interfaces;
 
 namespace Demo.Platforms.Android.Services
@@ -11,9 +13,12 @@ namespace Demo.Platforms.Android.Services
 
         #region IFolderPickerService Members
 
-        public Task<string> PickFolder()
+        public async Task<string> PickFolder()
         {
-            throw new NotImplementedException();
+            var ret = await FilePicker.PickAsync();
+            //throw new NotImplementedException();
+
+            return ret?.FullPath;
         }
 
         #endregion
