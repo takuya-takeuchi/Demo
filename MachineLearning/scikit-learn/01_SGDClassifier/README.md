@@ -52,8 +52,6 @@ keys:  ['label', 'filename', 'data']
 image shape:  (256, 256, 3)
 labels: ['apple' 'banana' 'grape' 'mango' 'orange' 'pear' 'pineapple' 'tangerine'
  'tomato' 'watermelon']
-2000
-(2000, 196608)
 Start Training
 Finished Training
 Percentage correct:  82.2
