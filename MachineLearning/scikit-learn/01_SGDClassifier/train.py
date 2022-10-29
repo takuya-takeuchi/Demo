@@ -8,6 +8,7 @@ import numpy as np
 
 from sklearn.linear_model import SGDClassifier
 from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import LabelEncoder
 
 def get_args():
     parser = argparse.ArgumentParser()
@@ -32,6 +33,12 @@ def train(args):
 
     X = np.array(data['data']) / 255
     y = np.array(data['label'])
+
+    # convert category name to numeric value
+    # ['apple', 'banana', 'orange'] => [0, 1, 2]
+    le = LabelEncoder()
+    le.fit(y)
+    y = le.transform(y)
 
     X_train, X_test, y_train, y_test = train_test_split(
         X, 
