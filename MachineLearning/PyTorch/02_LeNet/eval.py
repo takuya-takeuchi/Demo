@@ -42,7 +42,7 @@ def train(args):
                                          download=True,
                                          transform=transform)
     testloader = torch.utils.data.DataLoader(testset,
-                                             batch_size=1,
+                                             batch_size=batchsize,
                                              shuffle=False,
                                              num_workers=2)
 
@@ -69,7 +69,7 @@ def train(args):
             outputs = model(images)
 
             pred = outputs.argmax(dim=1, keepdim=True)
-            
+
             predict_vector.extend(pred.cpu().numpy().reshape(-1).tolist())
             actual_vector.extend(labels.cpu().numpy().reshape(-1).tolist())
     
