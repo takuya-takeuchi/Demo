@@ -1,7 +1,7 @@
 import argparse
-import pickle
 
 import numpy as np
+import onnxruntime as rt
 from skimage.io import imread
 from skimage.transform import resize
 
@@ -26,13 +26,14 @@ def eval(args):
     # convert from [batch, width, height, channel] to [batch, width * height * channel]
     x = x.reshape(1, 3 * width * height)
     
-    model = pickle.load(open(model, 'rb'))
-
     print("Start Evaluation")
-    y = model.predict(x)
+    session = rt.InferenceSession(model)
+    input_name = session.get_inputs()[0].name
+    label_name = session.get_outputs()[0].name
+    predict = session.run([label_name], {input_name: x.astype(np.float32)})
     print("Finished Evaluation")
 
-    print(y)
+    print(predict)
 
 if __name__ == '__main__':
     # parse args

@@ -7,7 +7,7 @@
 
 ## Requirements
 
-* Python 3.6 or later
+* Python 3.7 or later
 
 ## Dependencies
 
@@ -63,7 +63,7 @@ After this, you can see `/home/dataset/test/256x256px_saved_model.pkl`.
 
 ````shell
 $ python eval.py --image /home/dataset/samples/apple_0.jpg \
-                 --model /home/dataset/test/256x256px.pkl \
+                 --model /home/dataset/test/256x256px_saved_model.pkl \
                  --width 256 \
                  --heght 256
 Arguments
@@ -73,5 +73,5 @@ Arguments
          height: 256
 Start Evaluation
 Finished Evaluation
-['apple']
+[0]
 ````
