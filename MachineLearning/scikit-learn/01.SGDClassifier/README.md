@@ -16,6 +16,12 @@
 
 ## How to use?
 
+At first, You can install python packages from [../requirements.txt](../requirements.txt) to prepare python environmental.
+
+````shell
+$ python -m pip install -r requirements.txt
+````
+
 ### Preprocess
 
 Create dateset binary pickle file by using [preprocess.py](./preprocess.py).
