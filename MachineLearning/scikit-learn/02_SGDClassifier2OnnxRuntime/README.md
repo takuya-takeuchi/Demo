@@ -2,8 +2,8 @@
 
 ## Abstracts
 
-* How to use SGDClassifier
-  * You can use custom dataset
+* How to convert saved model of SGDClassifier to onnx
+* How to use onnxruntime
 
 ## Requirements
 
@@ -13,6 +13,8 @@
 
 * onnxmltools
 * onnxruntime
+* scikit-image
+* scikit-learn
 * skl2onnx
 
 ## How to use?
@@ -23,56 +25,37 @@ At first, You can install python packages from [../requirements.txt](../requirem
 $ python -m pip install -r requirements.txt
 ````
 
-### Preprocess
+### Convert
 
-Create dateset binary pickle file by using [preprocess.py](./preprocess.py).
-
-````shell
-$ python train.py --dataset /home/dataset/test \
-                  --width 256 \
-                  --heght 256
-````
-
-We assume that `/home/dataset/test` has some directries which contain image files to train.
-Each directory shall contain only 1 class image.
-
-After this, you can see `/home/dataset/test/256x256px.pkl`.
-
-### Train
+You must train and generate model file by using [../01_SGDClassifier/](../01_SGDClassifier) before this task.
 
 ````shell
-$ python preprocess.py --data /home/dataset/test/256x256px.pkl \
-                       --width 256 \
-                       --heght 256
+$ python convert.py --data /home/dataset/test/256x256px.pkl \
+                    --width 256 \
+                    --heght 256
 Arguments
-           data: /home/dataset/test/256x256px.pkl
+          model: /home/dataset/test/256x256px_saved_model.pkl
           width: 256
          height: 256
-number of samples:  2500
-keys:  ['label', 'filename', 'data']
-image shape:  (256, 256, 3)
-labels: ['apple' 'banana' 'grape' 'mango' 'orange' 'pear' 'pineapple' 'tangerine'
- 'tomato' 'watermelon']
-Start Training
-Finished Training
-Percentage correct:  82.2
+Start Conversion
+Finished Conversion
 ````
 
-After this, you can see `/home/dataset/test/256x256px_saved_model.pkl`.
+After this, you can see `/home/dataset/test/256x256px_saved_model.onnx`.
 
 ### Eval
 
 ````shell
-$ python eval.py --image /home/dataset/samples/apple_0.jpg \
-                 --model /home/dataset/test/256x256px.pkl \
+$ python eval.py --image /home/dataset/samples/tomato_0.jpg \
+                 --model /home/dataset/test/256x256px_saved_model.onnx \
                  --width 256 \
                  --heght 256
 Arguments
-          image: /home/dataset/samples/pple_0.jpg
-          model: /home/dataset/test/256x256px_saved_model.pkl
+          image: /home/dataset/samples/tomato_0.jpg
+          model: /home/dataset/test/256x256px_saved_model.onnx
           width: 256
          height: 256
 Start Evaluation
 Finished Evaluation
-['apple']
+[array([8], dtype=int64)]
 ````

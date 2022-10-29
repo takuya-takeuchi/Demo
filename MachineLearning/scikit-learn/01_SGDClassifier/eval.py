@@ -1,11 +1,9 @@
 import argparse
 import pickle
 
+import numpy as np
 from skimage.io import imread
 from skimage.transform import resize
-import numpy as np
-
-from sklearn.linear_model import SGDClassifier
 
 def get_args():
     parser = argparse.ArgumentParser()
