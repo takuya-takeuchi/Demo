@@ -27,9 +27,9 @@ $ python -m pip install -r requirements.txt
 Create dateset binary pickle file by using [preprocess.py](./preprocess.py).
 
 ````shell
-$ python train.py --dataset /home/dataset/test \
-                  --width 256 \
-                  --heght 256
+$ python preprocess.py --dataset /home/dataset/test \
+                       --width 256 \
+                       --heght 256
 ````
 
 We assume that `/home/dataset/test` has some directries which contain image files to train.
@@ -40,9 +40,9 @@ After this, you can see `/home/dataset/test/256x256px.pkl`.
 ### Train
 
 ````shell
-$ python preprocess.py --data /home/dataset/test/256x256px.pkl \
-                       --width 256 \
-                       --heght 256
+$ python train.py --data /home/dataset/test/256x256px.pkl \
+                  --width 256 \
+                  --heght 256
 Arguments
            data: /home/dataset/test/256x256px.pkl
           width: 256
