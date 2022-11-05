@@ -75,30 +75,27 @@ configure_file(
     ${CMAKE_CURRENT_BINARY_DIR}/version.rc
     @ONLY)
 
-FILE(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/src/*.h
-                          ${PROJECT_SOURCE_DIR}/asiosdk/common/asio.h
-                          ${PROJECT_SOURCE_DIR}/asiosdk/common/asiosys.h
-                          ${PROJECT_SOURCE_DIR}/asiosdk/common/combase.h
-                          ${PROJECT_SOURCE_DIR}/asiosdk/common/iasiodrv.h
-                          ${PROJECT_SOURCE_DIR}/asiosdk/common/wxdebug.h
-                          ${PROJECT_SOURCE_DIR}/asiosdk/host/asiodrivers.h
-                          ${PROJECT_SOURCE_DIR}/asiosdk/host/ginclude.h
-                          ${PROJECT_SOURCE_DIR}/asiosdk/host/pc/asiolist.h)
-FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp
-                          ${PROJECT_SOURCE_DIR}/asiosdk/common/asio.cpp
-                          ${PROJECT_SOURCE_DIR}/asiosdk/common/asiosys.cpp
-                          ${PROJECT_SOURCE_DIR}/asiosdk/common/combase.cpp
-                          ${PROJECT_SOURCE_DIR}/asiosdk/common/iasiodrv.cpp
-                          ${PROJECT_SOURCE_DIR}/asiosdk/common/wxdebug.cpp
-                          ${PROJECT_SOURCE_DIR}/asiosdk/host/asiodrivers.cpp
-                          ${PROJECT_SOURCE_DIR}/asiosdk/host/pc/asiolist.cpp)
 
-if(APPLE)
-    list(APPEND HEADERS ${PROJECT_SOURCE_DIR}/asiosdk/common/asiodrvr.h)
-    list(APPEND SOURCES ${PROJECT_SOURCE_DIR}/asiosdk/common/asiodrvr.cpp)
-elseif(UNIX AND NOT APPLE)
-    list(APPEND HEADERS ${PROJECT_SOURCE_DIR}/asiosdk/common/asiodrvr.h)
-    list(APPEND SOURCES ${PROJECT_SOURCE_DIR}/asiosdk/common/asiodrvr.cpp)
+if (MSVC OR MSYS OR MINGW)
+    FILE(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/src/*.h
+                              ${PROJECT_SOURCE_DIR}/asiosdk/common/asio.h
+                              ${PROJECT_SOURCE_DIR}/asiosdk/common/asiosys.h
+                              ${PROJECT_SOURCE_DIR}/asiosdk/common/combase.h
+                              ${PROJECT_SOURCE_DIR}/asiosdk/common/iasiodrv.h
+                              ${PROJECT_SOURCE_DIR}/asiosdk/common/wxdebug.h
+                              ${PROJECT_SOURCE_DIR}/asiosdk/host/asiodrivers.h
+                              ${PROJECT_SOURCE_DIR}/asiosdk/host/ginclude.h
+                              ${PROJECT_SOURCE_DIR}/asiosdk/host/pc/asiolist.h)
+    FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp
+                              ${PROJECT_SOURCE_DIR}/asiosdk/common/asio.cpp
+                              ${PROJECT_SOURCE_DIR}/asiosdk/common/asiosys.cpp
+                              ${PROJECT_SOURCE_DIR}/asiosdk/common/combase.cpp
+                              ${PROJECT_SOURCE_DIR}/asiosdk/common/iasiodrv.cpp
+                              ${PROJECT_SOURCE_DIR}/asiosdk/common/wxdebug.cpp
+                              ${PROJECT_SOURCE_DIR}/asiosdk/host/asiodrivers.cpp
+                              ${PROJECT_SOURCE_DIR}/asiosdk/host/pc/asiolist.cpp)
+else()
+    message(FATAL_ERROR "Not supported platform")
 endif()
 
 add_executable(${PROJ_NAME} ${HEADERS}
