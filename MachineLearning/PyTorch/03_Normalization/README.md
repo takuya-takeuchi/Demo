@@ -14,7 +14,7 @@ Please check [requirements.txt](./requirements.txt)
 ## How to usage?
 
 ````cmd
-$ python -m pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu113
+$ python -m pip install -r requirements.txt
 ````
 
 ### ToTensor
