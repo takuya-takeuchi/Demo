@@ -17,6 +17,12 @@ Please check [requirements.txt](./requirements.txt)
 $ python -m pip install -r requirements.txt --extra-index-url https://download.pytorch.org/whl/cu113
 ````
 
+And you must install `onnx` if on windows
+
+````cmd
+$ python -m pip install https://files.pythonhosted.org/packages/05/95/ecc2a02cea59aefa87ed5061fd1aca2b45d0499ddd18f2dbaa70cf8c8892/onnx-1.11.0-cp36-cp36m-win_amd64.whl
+````
+
 ### Train
 
 ````cmd
@@ -81,14 +87,14 @@ Serving 'lenet.onnx' at http://localhost:8080
 
 ````cmd
 $ python eval.py --pretrained lenet.onnx --image input.png
-2022-11-20 13:47:35,725 [INFO] Arguments
-2022-11-20 13:47:35,725 [INFO]      pretrained: lenet.onnx
-2022-11-20 13:47:35,726 [INFO]           image: input.png
-input:
-        input.1 [1, 1, 28, 28]
-output:
-        22 [1, 10]
-2022-11-20 13:47:35,752 [INFO] Start Evaluation
-2022-11-20 13:47:35,753 [INFO] Finished Evaluation
-2022-11-20 13:47:35,754 [INFO] Result: 7: [0.9999881386756897]
+2022-11-20 13:55:28,114 [INFO] Arguments
+2022-11-20 13:55:28,115 [INFO]      pretrained: lenet.onnx
+2022-11-20 13:55:28,115 [INFO]           image: input.png 
+2022-11-20 13:55:28,128 [INFO] input:
+2022-11-20 13:55:28,128 [INFO]  input.1: [1, 1, 28, 28]       
+2022-11-20 13:55:28,129 [INFO] output:
+2022-11-20 13:55:28,129 [INFO]  22: [1, 10]
+2022-11-20 13:55:28,143 [INFO] Start Evaluation
+2022-11-20 13:55:28,144 [INFO] Finished Evaluation
+2022-11-20 13:55:28,144 [INFO] Result: 7: [0.9999881386756897]
 ````

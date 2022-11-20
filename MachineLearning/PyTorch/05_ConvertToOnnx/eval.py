@@ -24,12 +24,12 @@ def train(args):
     # setup network
     session = onnxruntime.InferenceSession(pretrained)
 
-    print("input:")
+    logger.info("input:")
     for session_input in session.get_inputs():
-        print("\t" + session_input.name, session_input.shape)
-    print("output:")
+        logger.info(f"\t{session_input.name}: {session_input.shape}")
+    logger.info("output:")
     for session_output in session.get_outputs():
-        print("\t" + session_output.name, session_output.shape)
+        logger.info(f"\t{session_output.name}: {session_output.shape}")
 
     img = np.array(Image.open(image))
     inputs = img / 255
