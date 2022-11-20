@@ -1,11 +1,8 @@
 version: 1
 loggers:
-  eval:
+  visualize:
     level: DEBUG
-    handlers: [console, fileEval]
-  convert:
-    level: DEBUG
-    handlers: [console, fileConvert]
+    handlers: [console, fileVisualize]
   train:
     level: DEBUG
     handlers: [console, fileTrain]
@@ -14,13 +11,9 @@ handlers:
     class: logging.StreamHandler
     stream: ext://sys.stderr
     formatter: console
-  fileEval:
+  fileVisualize:
     class: logging.FileHandler
-    filename: logs/eval.log
-    formatter: file
-  fileConvert:
-    class: logging.FileHandler
-    filename: logs/convert.log
+    filename: logs/visualize.log
     formatter: file
   fileTrain:
     class: logging.FileHandler

@@ -1,0 +1,4 @@
+*.pth
+*.png
+*.onnx
+logs

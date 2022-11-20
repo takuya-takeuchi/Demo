@@ -1,8 +1,8 @@
-# Convert to ONNX
+# Visualize Feature maps for onnx
 
 ## Abstracts
 
-* How to conver from LeNet model for MNIST to onnx
+* Visualize feature maps of Onnx LeNet model for MNIST
 
 ## Requirements
 
@@ -74,27 +74,27 @@ graph(%input.1 : Float(1, 1, 28, 28, strides=[784, 784, 28, 1], requires_grad=0,
 2022-11-20 13:02:11,965 [INFO] Finished Conversion
 ````
 
-## Visualize onnx network by netron
+### Visualize
 
 ````cmd
-$ netron -b lenet.onnx
-Serving 'lenet.onnx' at http://localhost:8080
+$ python visualize.py --pretrained trained.pth --image input.png
+2022-11-20 15:24:25,101 [INFO] Arguments
+2022-11-20 15:24:25,102 [INFO]      pretrained: lenet.onnx
+2022-11-20 15:24:25,102 [INFO]           image: input.png
+2022-11-20 15:24:25,148 [INFO] input:
+2022-11-20 15:24:25,149 [INFO]  input.1: [1, 1, 28, 28]
+2022-11-20 15:24:25,149 [INFO] output:
+2022-11-20 15:24:25,150 [INFO]  22: [1, 10]
+2022-11-20 15:24:25,150 [INFO]  11: [1, 6, 28, 28]
+2022-11-20 15:24:25,151 [INFO]  14: [1, 16, 10, 10]
+2022-11-20 15:24:25,151 [INFO] Start Visualization
+2022-11-20 15:24:25,159 [INFO] Finished Visualization
 ````
 
-<img src="images/netron.png?raw=true" title="netron"/>
+#### conv1
 
-## Evaluation
+<img src="images/Conv_0.png?raw=true" title="Conv_0"/>
 
-````cmd
-$ python eval.py --pretrained lenet.onnx --image input.png
-2022-11-20 13:55:28,114 [INFO] Arguments
-2022-11-20 13:55:28,115 [INFO]      pretrained: lenet.onnx
-2022-11-20 13:55:28,115 [INFO]           image: input.png 
-2022-11-20 13:55:28,128 [INFO] input:
-2022-11-20 13:55:28,128 [INFO]  input.1: [1, 1, 28, 28]       
-2022-11-20 13:55:28,129 [INFO] output:
-2022-11-20 13:55:28,129 [INFO]  22: [1, 10]
-2022-11-20 13:55:28,143 [INFO] Start Evaluation
-2022-11-20 13:55:28,144 [INFO] Finished Evaluation
-2022-11-20 13:55:28,144 [INFO] Result: 7: [0.9999881386756897]
-````
+#### conv2
+
+<img src="images/Conv_3.png?raw=true" title="Conv_3"/>
