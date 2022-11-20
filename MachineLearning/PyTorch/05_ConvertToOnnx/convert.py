@@ -1,11 +1,6 @@
 import argparse
-import math
 
 import torch
-import torchvision
-import torchvision.transforms as transforms
-
-from PIL import Image
 
 from models.lenet import LeNet
 import utils

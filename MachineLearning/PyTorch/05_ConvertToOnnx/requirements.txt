@@ -7,6 +7,7 @@ colorama==0.4.4
 colorlog==6.6.0
 cycler==0.11.0
 dataclasses==0.8
+flatbuffers==22.10.26
 google-auth==2.6.6
 google-auth-oauthlib==0.4.6
 grpcio==1.46.3
@@ -19,6 +20,7 @@ matplotlib==3.3.4
 netron==6.1.8
 numpy==1.19.5
 oauthlib==3.2.0
+onnxruntime==1.10.0
 ordereddict==1.1
 pandas==1.1.5
 Pillow==8.4.0

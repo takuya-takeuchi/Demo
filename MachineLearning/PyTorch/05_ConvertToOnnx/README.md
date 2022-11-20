@@ -76,3 +76,19 @@ Serving 'lenet.onnx' at http://localhost:8080
 ````
 
 <img src="images/netron.png?raw=true" title="netron"/>
+
+## Evaluation
+
+````cmd
+$ python eval.py --pretrained lenet.onnx --image input.png
+2022-11-20 13:47:35,725 [INFO] Arguments
+2022-11-20 13:47:35,725 [INFO]      pretrained: lenet.onnx
+2022-11-20 13:47:35,726 [INFO]           image: input.png
+input:
+        input.1 [1, 1, 28, 28]
+output:
+        22 [1, 10]
+2022-11-20 13:47:35,752 [INFO] Start Evaluation
+2022-11-20 13:47:35,753 [INFO] Finished Evaluation
+2022-11-20 13:47:35,754 [INFO] Result: 7: [0.9999881386756897]
+````
