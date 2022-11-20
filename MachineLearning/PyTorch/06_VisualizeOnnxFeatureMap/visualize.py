@@ -63,7 +63,7 @@ def train(args):
     inputs = inputs.reshape(1, 1, shape[0], shape[1])
     
     # setup network
-    session = onnxruntime.InferenceSession("tmp.onnx")
+    session = onnxruntime.InferenceSession(model.SerializeToString())
 
     logger.info("input:")
     for session_input in session.get_inputs():
@@ -77,8 +77,8 @@ def train(args):
     outputs = ["22"]
     for name in inter_layers:
         outputs.append(name)
-    preds, feature0, feature3 = session.run(outputs,
-                        {"input.1": inputs.astype("float32")})
+    _, feature0, feature3 = session.run(outputs,
+                                        {"input.1": inputs.astype("float32")})
 
     def feature_to_img(feature):
         shape = feature.shape

@@ -1,8 +1,8 @@
-# Visualize Feature maps
+# Visualize Feature maps for onnx
 
 ## Abstracts
 
-* Visualize feature maps of LeNet model for MNIST
+* Visualize feature maps of Onnx LeNet model for MNIST
 
 ## Requirements
 
