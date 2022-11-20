@@ -1,0 +1,29 @@
+version: 1
+loggers:
+  visualize:
+    level: DEBUG
+    handlers: [console, fileVisualize]
+  train:
+    level: DEBUG
+    handlers: [console, fileTrain]
+handlers:
+  console:
+    class: logging.StreamHandler
+    stream: ext://sys.stderr
+    formatter: console
+  fileVisualize:
+    class: logging.FileHandler
+    filename: logs/visualize.log
+    formatter: file
+  fileTrain:
+    class: logging.FileHandler
+    filename: logs/train.log
+    formatter: file
+formatters:
+  console:
+    '()': 'colorlog.ColoredFormatter'
+    format: "{log_color}{asctime} [{levelname:.4}] {message}"
+    style: "{"
+  file:
+    format: "{asctime} [{levelname:.4}] {message}"
+    style: "{"
