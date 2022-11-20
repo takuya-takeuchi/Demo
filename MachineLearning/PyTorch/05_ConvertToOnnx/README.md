@@ -2,7 +2,7 @@
 
 ## Abstracts
 
-* Visualize feature maps of LeNet model for MNIST
+* How to conver from LeNet model for MNIST to onnx
 
 ## Requirements
 
@@ -68,10 +68,11 @@ graph(%input.1 : Float(1, 1, 28, 28, strides=[784, 784, 28, 1], requires_grad=0,
 2022-11-20 13:02:11,965 [INFO] Finished Conversion
 ````
 
-#### conv1
+## Visualize onnx network by netron
 
-<img src="images/conv1.png?raw=true" title="conv1"/>
+````cmd
+$ netron -b lenet.onnx
+Serving 'lenet.onnx' at http://localhost:8080
+````
 
-#### conv2
-
-<img src="images/conv2.png?raw=true" title="conv2"/>
+<img src="images/netron.png?raw=true" title="netron"/>
