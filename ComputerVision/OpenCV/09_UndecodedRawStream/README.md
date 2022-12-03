@@ -4,7 +4,8 @@
 
 * Retrieve stream raw image rather than RGB from webcam
   * Disable/Enable converting to RGB
-  * We tested on Microsoft LifeCam Studio
+  * We tested **Microsoft LifeCam Studio** on Windows 10
+  * OpenCV documents days `Format of the Mat objects (see Mat::type()) returned by VideoCapture::retrieve(). Set value -1 to fetch undecoded RAW video streams (as Mat 8UC1).` But it does not work.
 
 ## Requirements
 
