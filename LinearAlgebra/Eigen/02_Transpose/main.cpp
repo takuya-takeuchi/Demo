@@ -16,7 +16,12 @@ int main ()
 
     // Reshape
     std::array<int, 3> shape { 1, 4, 9 };
-    TensorFixedSize<float, Sizes<1, 4, 9>> result = tensor.reshape(shape);
+    // use `auto` to use delay evaluation 
+    auto reshaped = tensor.reshape(shape);
+
+    // Transpose
+    std::array<int, 3> shuffling { 0, 2, 1 };
+    TensorFixedSize<float, Sizes<1, 9, 4>> result = reshaped.shuffle(shuffling);
 
     // Output
     float* data = result.data();
