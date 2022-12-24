@@ -53,3 +53,7 @@
 [submodule "Unity/Oculus/02_GrabCube/Assets/Oculus"]
 	path = Unity/Oculus/02_GrabCube/Assets/Oculus
 	url = https://github.com/takuya-takeuchi/OculusIntegration
+[submodule "LinearAlgebra/Eigen/eigen"]
+	path = LinearAlgebra/Eigen/eigen
+	url = https://gitlab.com/libeigen/eigen
+	ignore = dirty
