@@ -12,6 +12,10 @@
 * Powershell
 * CMake 3.20.0 or later
 
+### Windows
+
+* Visual Studio
+
 ### Ubuntu
 
 * g++

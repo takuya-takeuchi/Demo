@@ -5,7 +5,8 @@
             "label": "Build",
             "command": "pwsh",
             "args": [
-                "build.ps1"
+                "build.ps1",
+                "Debug"
             ],
             "options": {
                 "cwd": "${workspaceFolder}"
@@ -28,9 +29,6 @@
             "options": {
                 "cwd": "${workspaceFolder}"
             },
-            "problemMatcher": [
-                "$gcc"
-            ],
             "group": {
                 "kind": "build",
                 "isDefault": true

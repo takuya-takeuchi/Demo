@@ -5,10 +5,10 @@
             "name": "Debug (gdb) for linux",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/linux/Test",
+            "program": "${workspaceFolder}/build/linux/program/Test",
             "args": [],
             "stopAtEntry": false,
-            "cwd": "${workspaceFolder}/build/linux",
+            "cwd": "${workspaceFolder}/build/linux/program",
             "environment": [],
             "externalConsole": false,
             "MIMode": "gdb",
@@ -25,6 +25,19 @@
                 }
             ],
             "preLaunchTask": "Build",
+        },
+        {
+            "name": "Debug (msvc) for windows",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/win/program/Debug/Test",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/win/program/Debug",
+            "environment": [],
+            "externalConsole": false,
+            "preLaunchTask": "Build",
         }
+        
     ]
 }
