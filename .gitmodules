@@ -60,3 +60,8 @@
 [submodule "Misc/13_VSCodeGdbDebug/opendv"]
 	path = Misc/13_VSCodeGdbDebug/opencv
 	url = https://github.com/opencv/opencv
+	ignore = dirty
+[submodule "Misc/15_VSCodeDebugWithCMake/opencv"]
+	path = Misc/15_VSCodeDebugWithCMake/opencv
+	url = https://github.com/opencv/opencv
+	ignore = dirty
