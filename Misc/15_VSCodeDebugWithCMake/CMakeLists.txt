@@ -15,6 +15,19 @@ add_executable(${PROJ_NAME} main.cpp)
 target_include_directories(${PROJ_NAME}
                            PUBLIC
                            ${OpenCV_INCLUDE_DIRS})
-target_link_libraries(${PROJ_NAME}
-                      PUBLIC
-                      ${OpenCV_LIBS})
+
+if (MSVC OR MSYS OR MINGW)
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          ${OpenCV_LIBS})
+elseif(APPLE)
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          ${OpenCV_LIBS})
+elseif(UNIX AND NOT APPLE)
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          ${OpenCV_LIBS})
+else()
+    message(FATAL_ERROR "Failed to include directories")
+endif()

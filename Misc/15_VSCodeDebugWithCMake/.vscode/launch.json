@@ -37,7 +37,19 @@
             "environment": [],
             "externalConsole": false,
             "preLaunchTask": "Build",
-        }
-        
+        },        
+        {
+            "name": "Debug (lldb) for osx",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "${workspaceFolder}/build/osx/program/Test",
+            "args": [],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/build/osx/program",
+            "environment": [],
+            "externalConsole": false,
+            "MIMode": "lldb",
+            "preLaunchTask": "Build",
+        }        
     ]
 }

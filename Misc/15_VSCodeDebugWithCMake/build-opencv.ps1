@@ -66,6 +66,7 @@ cmake -D CMAKE_INSTALL_PREFIX=$installDir `
       -D WITH_FFMPEG=OFF `
       -D WITH_ITT=OFF `
       -D WITH_QUIRC=OFF `
+      -D WITH_EIGEN=OFF `
       $sourceDir
 cmake --build . --config Debug --target install
 Pop-Location
