@@ -57,3 +57,6 @@
 	path = LinearAlgebra/Eigen/eigen
 	url = https://gitlab.com/libeigen/eigen
 	ignore = dirty
+[submodule "Misc/13_VSCodeGdbDebug/opendv"]
+	path = Misc/13_VSCodeGdbDebug/opencv
+	url = https://github.com/opencv/opencv
