@@ -1,4 +1,4 @@
-# Visual Studio Code
+# Debug C++ program with opencv from Visual Studio Code
 
 ## Abstracts
 
@@ -21,6 +21,7 @@
 ## How to usage?
 
 1. Open [13_VSCodeGdbDebug](./) as workspace on Visual Studio Code
+2. Build opencv by using `pwsh build-opencv.ps1`
 2. Press F5 key
 3. You can attach to [main.cpp](./main.cpp)
 
