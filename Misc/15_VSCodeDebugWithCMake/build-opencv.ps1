@@ -31,6 +31,7 @@ New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
 cmake -D CMAKE_INSTALL_PREFIX=$installDir `
+      -D CMAKE_BUILD_TYPE=Debug `
       -D BUILD_SHARED_LIBS=OFF `
       -D BUILD_WITH_STATIC_CRT=OFF `
       -D BUILD_opencv_world=OFF `

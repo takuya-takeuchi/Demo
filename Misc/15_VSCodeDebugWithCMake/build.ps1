@@ -37,14 +37,16 @@ $installDir = Join-Path $current install | `
 
 if ($global:IsWindows)
 {
-    $opencvDir = Join-Path $installDir opencv | `
-                 Join-Path -ChildPath x64
-    $files = Get-ChildItem -Recurse OpenCVConfig.cmake
-    foreach ($file in $files)
-    {
-        $opencvDir = Split-Path $file -Parent
-        break
-    }    
+    # Cmake show following error message when building on windows
+    #
+    #     CMake Warning at build/win/opencv/win-install/x64/vc17/staticlib/OpenCVConfig.cmake:116 (message):
+    #       OpenCV: Include directory doesn't exist:
+    #       'C:/Demo/Misc/15_VSCodeDebugWithCMake/build/win/opencv/win-install/include'.
+    #       OpenCV installation may be broken.  Skip...
+    #
+    # I'm not sure why OpenCVConfig.cmake file can not specify proper directory.
+    # Therefore, specify OpenCV_INCLUDE_DIRS and OpenCV_LIBS variable directory via OpenCV_DIR variable
+    $opencvDir = Join-Path $installDir opencv
 }
 elseif ($global:IsMacOS)
 {
@@ -68,7 +70,6 @@ Push-Location $buildDir
 $env:OpenCV_DIR=${opencvDir}
 cmake -D CMAKE_INSTALL_PREFIX=$installDir `
       -D CMAKE_BUILD_TYPE=${Configuration} `
-      -D OpenCV=${opencvDir} `
       $sourceDir
 cmake --build . --config ${Configuration}
 Pop-Location
