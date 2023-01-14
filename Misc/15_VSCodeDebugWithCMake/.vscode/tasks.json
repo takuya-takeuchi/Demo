@@ -18,21 +18,6 @@
                 "kind": "build",
                 "isDefault": true
             }
-        },
-        {
-            "type": "shell",
-            "label": "Build opencv",
-            "command": "pwsh",
-            "args": [
-                "build-opencv.ps1"
-            ],
-            "options": {
-                "cwd": "${workspaceFolder}"
-            },
-            "group": {
-                "kind": "build",
-                "isDefault": true
-            }
         }
     ],
     "version": "2.0.0"
