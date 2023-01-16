@@ -19,13 +19,6 @@ elseif(UNIX AND NOT APPLE)
     set(CMAKE_CXX_FLAGS_DEBUG "-O0")
 endif()
 
-if (MSVC OR MSYS OR MINGW)
-    set(OpenCV_INCLUDE_DIRS $ENV{OpenCV_DIR}/include)
-    FILE(GLOB_RECURSE OpenCV_LIBS $ENV{OpenCV_DIR}/x64/*.lib)
-else()
-    find_package(OpenCV REQUIRED)
-endif()
-
 # Cmake show following error message when building on windows
 #
 #     CMake Warning at build/win/opencv/win-install/x64/vc17/staticlib/OpenCVConfig.cmake:116 (message):
