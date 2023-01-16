@@ -8,6 +8,17 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
+if (MSVC OR MSYS OR MINGW)
+    set(CMAKE_CXX_FLAGS "/O2")
+    set(CMAKE_CXX_FLAGS_DEBUG "/Od /Z7")
+elseif(APPLE)
+    set(CMAKE_CXX_FLAGS "-Os")
+    set(CMAKE_CXX_FLAGS_DEBUG "-O0")
+elseif(UNIX AND NOT APPLE)
+    set(CMAKE_CXX_FLAGS "-O2")
+    set(CMAKE_CXX_FLAGS_DEBUG "-O0 -g3")
+endif()
+
 # Cmake show following error message when building on windows
 #
 #     CMake Warning at build/win/opencv/win-install/x64/vc17/staticlib/OpenCVConfig.cmake:116 (message):
