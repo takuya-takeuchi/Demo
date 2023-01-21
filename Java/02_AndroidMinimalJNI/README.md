@@ -54,6 +54,30 @@ ndk.dir = C:\\Android\\SDK\\ndk\\25.1.8937393
 cmake.dir = C:\\Android\\SDK\\cmake\\3.22.1
 ````
 
+### Linux
+
+Download command line tools and extract it into `/opt/android`. Of course, you can change directory. 
+And you must specify SDK root directory. Here, use `/opt/android/sdk`.
+
+````bat
+$ cd /opt/android/cmdline-tools/bin
+$ sudo ./sdkmanager --update --sdk_root=/opt/android/sdk
+$ sudo ./sdkmanager "build-tools;33.0.1" --sdk_root=/opt/android/sdk
+$ sudo ./sdkmanager "platforms;android-33" --sdk_root=/opt/android/sdk
+$ sudo ./sdkmanager "cmake;3.22.1" --sdk_root=/opt/android/sdk
+$ sudo ./sdkmanager "ndk;25.1.8937393" --sdk_root=/opt/android/sdk
+$ sudo ./sdkmanager "patcher;v4" --sdk_root=/opt/android/sdk
+$ sudo ./sdkmanager --sdk_root=C:\Android\SDK --licenses
+````
+
+Then, update `local.properties` like this.
+
+````txt
+sdk.dir = /opt/android/sdk
+ndk.dir = /opt/android/sdk/ndk/25.1.8937393
+cmake.dir = /opt/android/sdk/cmake/3.22.1
+````
+
 ## How to usage?
 
 ### Run on Android
@@ -83,6 +107,14 @@ This file contains the folloing native binaries.
 ### Linux
 
 ````sh
-$ ./gradlew run
+$ ./gradlew build
 ````
+
+You can see `*.apk` in `app/build/outputs/apk`.
+This file contains the folloing native binaries.
+
+* arm64-v8a
+* armeabi-v7a
+* x86
+* x86_64
 
