@@ -20,15 +20,6 @@ find_package(JNI REQUIRED)
 
 include_directories(${JNI_INCLUDE_DIRS})
 
-# force off-tree build
-if(${CMAKE_SOURCE_DIR} STREQUAL ${CMAKE_BINARY_DIR})
-  message(FATAL_ERROR "CMake generation is not allowed within the source directory!
-  Remove the CMakeCache.txt file and try again from another folder, e.g.:
-    mkdir build && cd build
-    cmake ..
-  ")
-endif()
-
 # default to Release build
 if(NOT CMAKE_BUILD_TYPE)
   set(CMAKE_BUILD_TYPE Release CACHE STRING
