@@ -7,8 +7,7 @@ class ToolsTest {
 
     @Test
     void testFooBar() {
-        Tools tools = new Tools();
-        assertEquals(tools.foo(), "foo");
-        assertEquals(tools.bar(), "bar");
+        Hello hello = new Hello();
+        assertEquals(hello.hello(), "hello, world!!");
     }
 }

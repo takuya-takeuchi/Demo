@@ -29,7 +29,11 @@ task compileJNI {
 
   doLast {
     exec {
-      commandLine 'sh', '-c', 'mkdir -p build/natives && cd build/natives && cmake ../.. && make'
+      if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        commandLine 'cmd', '/c', 'pwsh build.ps1'
+      } else {
+        commandLine 'sh', '-c', 'pwsh build.ps1'
+      }
     }
   }
 }
