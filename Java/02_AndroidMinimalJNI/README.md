@@ -62,12 +62,6 @@ ndk.dir = C:\\Android\\SDK\\ndk\\25.1.8937393
 cmake.dir = C:\\Android\\SDK\\cmake\\3.22.1
 ````
 
-### NOTE
-
-If install, command line tools in , you must build in command line console with Administrator privilege. Otherwise, you will face to problem like
-
-> Failed to install the following Android SDK packages as some licences have not been accepted.
-
 ## How to usage?
 
 
