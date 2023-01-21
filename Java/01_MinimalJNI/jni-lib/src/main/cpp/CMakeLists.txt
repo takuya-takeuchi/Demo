@@ -1,0 +1,7 @@
+set(PROJ_NAME hello)
+
+FILE(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/*.hpp)
+FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
+
+add_library(${PROJ_NAME} SHARED ${SOURCES}
+                                ${HEADERS})

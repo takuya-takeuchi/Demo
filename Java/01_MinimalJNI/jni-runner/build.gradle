@@ -1,0 +1,16 @@
+plugins {
+  id 'java'
+  id 'application'
+}
+
+dependencies {
+  implementation project(':jni-lib')
+}
+
+application {
+  mainClassName = 'jni.Runner'
+}
+
+test {
+  useJUnitPlatform()
+}
