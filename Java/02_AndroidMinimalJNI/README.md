@@ -10,7 +10,7 @@ This project use Android SDK 33.
 
 ### Common
 
-* Java 17
+* Java 11 or later
   * Can not use Java 19. Java 19 occurs `General error during conversion: Unsupported class file major version 63` when build.
 
 ## Setup
@@ -43,6 +43,7 @@ And you must specify SDK root directory. Here, use `C:\Android\SDK`.
 > sdkmanager cmake;3.22.1 --sdk_root=C:\Android\SDK
 > sdkmanager ndk;25.1.8937393 --sdk_root=C:\Android\SDK
 > sdkmanager patcher;v4 --sdk_root=C:\Android\SDK
+> sdkmanager system-images;android-33;google_apis;x86_64 --sdk_root=C:\Android\SDK
 > sdkmanager --sdk_root=C:\Android\SDK --licenses
 ````
 
@@ -67,6 +68,7 @@ $ sudo ./sdkmanager "platforms;android-33" --sdk_root=/opt/android/sdk
 $ sudo ./sdkmanager "cmake;3.22.1" --sdk_root=/opt/android/sdk
 $ sudo ./sdkmanager "ndk;25.1.8937393" --sdk_root=/opt/android/sdk
 $ sudo ./sdkmanager "patcher;v4" --sdk_root=/opt/android/sdk
+$ sudo ./sdkmanager "system-images;android-33;google_apis;x86_64" --sdk_root=/opt/android/sdk
 $ sudo ./sdkmanager --sdk_root=C:\Android\SDK --licenses
 ````
 
