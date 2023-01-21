@@ -6,5 +6,5 @@ public class Hello {
             System.loadLibrary("hello");
     }
 
-    public native String hello();
+    public native String message();
 }

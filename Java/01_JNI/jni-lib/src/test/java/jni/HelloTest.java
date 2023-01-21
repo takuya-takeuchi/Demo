@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class ToolsTest {
 
     @Test
-    void testFooBar() {
+    void testHello() {
         Hello hello = new Hello();
         assertEquals(hello.hello(), "hello, world!!");
     }
