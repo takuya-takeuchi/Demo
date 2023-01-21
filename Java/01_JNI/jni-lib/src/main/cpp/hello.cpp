@@ -1,5 +1,5 @@
 #include <iostream>
-#include <jni.h>
+#include "jni_Hello.h"
 
 JNIEXPORT jstring JNICALL Java_jni_Hello_message(JNIEnv *env, jobject thisObject)
 {

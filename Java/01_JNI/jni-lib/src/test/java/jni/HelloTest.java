@@ -3,11 +3,11 @@ package jni;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class ToolsTest {
+class HelloTest {
 
     @Test
     void testHello() {
         Hello hello = new Hello();
-        assertEquals(hello.hello(), "hello, world!!");
+        assertEquals(hello.message(), "hello, world!!");
     }
 }
