@@ -1,8 +1,9 @@
-# Minimal Android JNI (Java Native Interface) project by Kotlin
+# Minimal Android JNI (Java Native Interface) Only project by Kotlin
 
 ## Abstracts
 
 * How to build and use Android JNI on Android Emulator
+  * Artifact is aar
 
 ## Requirements
 
@@ -82,13 +83,6 @@ cmake.dir = /opt/android/sdk/cmake/3.22.1
 
 ## How to usage?
 
-### Run on Android
-
-Launch `Android Studio` and create emulater API Level 33.
-Then, click Run.
-
-<img src="./images/Screenshot.png" />
-
 ### Build package by Gradle
 
 #### Windows
@@ -98,7 +92,7 @@ Then, click Run.
 > gradlew.bat build
 ````
 
-You can see `*.apk` in `app/build/outputs/apk`.
+You can see `*.aar` in `app/build/outputs\aar`.
 This file contains the folloing native binaries.
 
 * arm64-v8a
@@ -112,7 +106,7 @@ This file contains the folloing native binaries.
 $ ./gradlew build
 ````
 
-You can see `*.apk` in `app/build/outputs/apk`.
+You can see `*.aar` in `app/build/outputs\aar`.
 This file contains the folloing native binaries.
 
 * arm64-v8a
