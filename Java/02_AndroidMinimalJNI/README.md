@@ -1,58 +1,140 @@
-# Hello JNI
+# Minimal Android JNI (Java Native Interface) project
 
-Hello JNI is an Android sample that uses JNI to call C code from a Android Java
-Activity.
+## Abstracts
 
-This sample uses the new
-[Android Studio CMake plugin](http://tools.android.com/tech-docs/external-c-builds)
-with C++ support. For how to use Android Studio, refer to
-[Hello-CMake codelab](https://codelabs.developers.google.com/codelabs/android-studio-cmake/index.html)
+* How to build and use Android JNI
 
-## Pre-requisites
+## Requirements
 
-- Android Studio 4.2+ with [NDK](https://developer.android.com/ndk/) bundle.
+This project use Android SDK 33.
 
-## Getting Started
+### Common
 
-1. [Download Android Studio](http://developer.android.com/sdk/index.html)
-1. Launch Android Studio.
-1. Open the sample directory.
-1. Open *File/Project Structure.../SDK Location*, click *Download* or *Select
-   NDK location*.
-1. Click *File/Sync Project with Gradle Files*.
-1. Click *Run/Run 'app'*.
+* Java 17
+  * Can not use Java 19. Java 19 occurs `General error during conversion: Unsupported class file major version 63` when build.
 
-## Screenshots
+### Windows 
 
-![screenshot](screenshot.png)
+* Visual Studio 2022
 
-## Support
+### Linux
 
-If you've found an error in these samples, please
-[file an issue](https://github.com/googlesamples/android-ndk/issues/new).
+* gcc
 
-Patches are encouraged, and may be submitted by
-[forking this project](https://github.com/googlesamples/android-ndk/fork) and
-submitting a pull request through GitHub. Please see
-[CONTRIBUTING.md](../CONTRIBUTING.md) for more details.
+## Setup
 
-- [Stack Overflow](http://stackoverflow.com/questions/tagged/android-ndk)
-- [Android Tools Feedbacks](http://tools.android.com/feedback)
+At first, you must update `local.properties` to set sdk.
+However, you should not use Android SDK manager of `Visual Studio` on Windows.
+Because it can not install `CMake` which supports Generators `Gradle`.
+Therefore, you should install `Android Studio` or `Command Line Tools of SDK Manager`.
 
-## License
+You can download them from [Android Studio](https://developer.android.com/studio).
 
-Copyright 2022 Google, Inc.
+Here, use command line tools.
 
-Licensed to the Apache Software Foundation (ASF) under one or more contributor
-license agreements. See the NOTICE file distributed with this work for
-additional information regarding copyright ownership. The ASF licenses this file
-to you under the Apache License, Version 2.0 (the "License"); you may not use
-this file except in compliance with the License. You may obtain a copy of the
-License at
+### Common
 
-http://www.apache.org/licenses/LICENSE-2.0
+Set `JAVA_HOME`.
+You can not use Java 19.
 
-Unless required by applicable law or agreed to in writing, software distributed
-under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-CONDITIONS OF ANY KIND, either express or implied. See the License for the
-specific language governing permissions and limitations under the License.
+### Windows
+
+Download command line tools and extract it into `C:\Android`. Of course, you can change directory. 
+And you must specify SDK root directory. Here, use `C:\Android\SDK`.
+
+````bat
+> set JAVA_HOME=C:\Program Files\Java\jdk-17.0.6
+> cd C:\Android\cmdline-tools\bin
+> sdkmanager --update --sdk_root=C:\Android\SDK
+> sdkmanager build-tools;33.0.1 --sdk_root=C:\Android\SDK
+> sdkmanager platforms;android-33 --sdk_root=C:\Android\SDK
+> sdkmanager cmake;3.22.1 --sdk_root=C:\Android\SDK
+> sdkmanager ndk;25.1.8937393 --sdk_root=C:\Android\SDK
+> sdkmanager patcher;v4 --sdk_root=C:\Android\SDK
+> sdkmanager --sdk_root=C:\Android\SDK --licenses
+````
+
+Then, update `local.properties` like this.
+
+````txt
+sdk.dir = C:\\Android\\SDK
+ndk.dir = C:\\Android\\SDK\\ndk\\25.1.8937393
+cmake.dir = C:\\Android\\SDK\\cmake\\3.22.1
+````
+
+### NOTE
+
+If install, command line tools in , you must build in command line console with Administrator privilege. Otherwise, you will face to problem like
+
+> Failed to install the following Android SDK packages as some licences have not been accepted.
+
+## How to usage?
+
+
+### Windows
+
+````bat
+> set JAVA_HOME=C:\Program Files\Java\jdk-17.0.6
+> gradlew.bat run  
+
+> Task :jni-lib:compileJNI
+-- Selecting Windows SDK version 10.0.22000.0 to target Windows 10.0.19044.
+-- The CXX compiler identification is MSVC 19.34.31937.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.34.31933/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found Java: C:/Program Files/Java/jdk-14/bin/java.exe (found version "14.0.0")
+-- Found JNI: C:/Program Files/Eclipse Foundation/jdk-8.0.302.8-hotspot/include  found components: AWT JVM 
+-- Configuring done
+-- Generating done
+-- Build files have been written to: E:/Works/OpenSource/Demo/Java/01_JNI/jni-lib/build/natives
+MSBuild version 17.4.1+9a89d02ff for .NET Framework
+  Checking Build System
+  Building Custom Rule E:/Works/OpenSource/Demo/Java/01_JNI/jni-lib/src/main/cpp/CMakeLists.txt
+  CMakeCXXCompilerId.cpp
+  hello.cpp
+  コードを生成中...
+     ライブラリ E:/Works/OpenSource/Demo/Java/01_JNI/jni-lib/build/natives/lib/Release/hello.lib とオブジェクト E:/Works/OpenSource/Demo/Java/01_JNI/jni-lib/build/natives/lib/Release/hello.exp を作成中
+  hello.vcxproj -> E:\Works\OpenSource\Demo\Java\01_JNI\jni-lib\build\natives\bin\Release\hello.dll
+  Building Custom Rule E:/Works/OpenSource/Demo/Java/01_JNI/jni-lib/CMakeLists.txt
+
+> Task :jni-runner:run
+hello, world!!        
+
+BUILD SUCCESSFUL in 9s
+6 actionable tasks: 6 executed
+````
+
+### Linux
+
+````sh
+$ ./gradlew run
+
+> Task :jni-lib:compileJNI
+-- The CXX compiler identification is GNU 9.4.0
+-- Check for working CXX compiler: /usr/bin/c++
+-- Check for working CXX compiler: /usr/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found Java: /usr/bin/java (found version "11.0.17") 
+-- Found JNI: NotNeeded  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/t-takeuchi/Work/OpenSource/Demo/Java/01_JNI/jni-lib/build/natives
+Scanning dependencies of target hello
+[ 33%] Building CXX object src/main/cpp/CMakeFiles/hello.dir/__/__/__/CMakeFiles/3.16.3/CompilerIdCXX/CMakeCXXCompilerId.cpp.o
+[ 66%] Building CXX object src/main/cpp/CMakeFiles/hello.dir/hello.cpp.o
+[100%] Linking CXX shared library ../../../lib/libhello.so
+[100%] Built target hello
+
+> Task :jni-runner:run
+hello, world!!
+
+BUILD SUCCESSFUL in 2s
+6 actionable tasks: 6 executed
+````
+
