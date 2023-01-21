@@ -4,18 +4,19 @@ import java.io.*;
 import java.net.URL;
 
 public class LibraryLoader {
-    public static String getExt() {
+    public static String getLibraryName(String name) {
         String osName = System.getProperty("os.name");
         if (osName.equals("Linux"))
-            return "so";
+            return "/lib" + name + ".so";
         else if (osName.equals("Mac OS X"))
-            return "dylib";
+            return "/lib" + name + ".dylib";
         else
-            return "dll";
+            return "/" + name + ".dll";
     }
 
     public static Boolean load(Class<?> cls, String name) {
-        String path = "/lib" + name + "." + getExt();
+        // find library from jar file
+        String path = getLibraryName(name);
         URL url = cls.getResource(path);
 
         Boolean success = false;

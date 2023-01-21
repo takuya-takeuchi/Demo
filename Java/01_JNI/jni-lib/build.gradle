@@ -15,7 +15,11 @@ test {
 sourceSets {
   main {
     resources {
-      srcDirs "src/main/resources", "build/natives/lib"
+      if (System.getProperty('os.name').toLowerCase(Locale.ROOT).contains('windows')) {
+        srcDirs "src/main/resources", "build/natives/bin/Release"
+      } else {
+        srcDirs "src/main/resources", "build/natives/lib"
+      }
     }
   }
 }
