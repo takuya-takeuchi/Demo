@@ -26,6 +26,7 @@
 ### Internals
 
 * [03_AndroidMinimalJNIOnly_Kotlin](../../Java/03_AndroidMinimalJNIOnly_Kotlin/)
+  * [sources/Demo.Android.Binding/Jars/app-release.aar](./sources/Demo.Android.Binding/Jars/app-release.aar) is from here
 
 ## Result
 
