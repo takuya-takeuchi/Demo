@@ -11,35 +11,11 @@
         <designTimes:MainPageViewModel />
     </d:ContentPage.BindingContext>
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding ShowLogCommand}">
-            <ToolbarItem.IconImageSource>
-                <FontImageSource FontFamily="FontAwesome6Solid"
-                                 Glyph="&#xf15c;"
-                                 Color="Black" />
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
-
-    <StackLayout Padding="10" Orientation="Vertical">
-        <Button Command="{Binding LoggingCommand}"
-                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                Text="Trace" />
-        <Button Command="{Binding LoggingCommand}"
-                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                Text="Debug" />
-        <Button Command="{Binding LoggingCommand}"
-                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                Text="Info" />
-        <Button Command="{Binding LoggingCommand}"
-                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                Text="Warn" />
-        <Button Command="{Binding LoggingCommand}"
-                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                Text="Error" />
-        <Button Command="{Binding LoggingCommand}"
-                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
-                Text="Fatal" />
+    <StackLayout Padding="10"
+                 HorizontalOptions="Center"
+                 Orientation="Vertical"
+                 VerticalOptions="Center">
+        <Label Text="{Binding Message}" />
     </StackLayout>
 
 </ContentPage>

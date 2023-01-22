@@ -4,8 +4,6 @@ using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
 
-using Demo.Services;
-using Demo.Services.Interfaces;
 using Demo.ViewModels;
 using Demo.Views;
 
@@ -39,11 +37,8 @@ namespace Demo
         {
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
 
-            containerRegistry.RegisterSingleton<ILoggingService, LoggingService>();
-
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
-            containerRegistry.RegisterForNavigation<ShowLogs, ShowLogsViewModel>();
         }
 
         #endregion

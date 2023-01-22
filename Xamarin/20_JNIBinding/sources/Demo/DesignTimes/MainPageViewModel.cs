@@ -1,6 +1,4 @@
-﻿using Prism.Commands;
-
-using Demo.ViewModels.Interfaces;
+﻿using Demo.ViewModels.Interfaces;
 
 namespace Demo.DesignTimes
 {
@@ -8,12 +6,7 @@ namespace Demo.DesignTimes
     public sealed class MainPageViewModel : IMainPageViewModel
     {
 
-        public DelegateCommand<string> LoggingCommand
-        {
-            get;
-        }
-
-        public DelegateCommand ShowLogCommand
+        public string Message
         {
             get;
         }

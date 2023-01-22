@@ -10,72 +10,26 @@ namespace Demo.ViewModels
     public sealed class MainPageViewModel : ViewModelBase, IMainPageViewModel
     {
 
-        #region Fields
-
-        private readonly ILoggingService _LoggingService;
-
-        #endregion
-
         #region Constructors
 
         public MainPageViewModel(INavigationService navigationService,
-                                 INativeService nativeService,
-                                 ILoggingService loggingService)
+                                 INativeService nativeService)
             : base(navigationService)
         {
-            this._LoggingService = loggingService;
-            var message = nativeService.Message();
-            this.Title = $"Main Page ({message})";
+            this.Title = "Main Page";
+            this.Message = nativeService.Message();
         }
 
         #endregion
 
         #region IMainPageViewModel Members
 
-        private DelegateCommand<string> _LoggingCommand;
+        private string _Message;
 
-        public DelegateCommand<string> LoggingCommand
+        public string Message
         {
-            get
-            {
-                return this._LoggingCommand ?? (this._LoggingCommand = new DelegateCommand<string>(s =>
-                    {
-                        switch (s)
-                        {
-                            case "Trace":
-                                this._LoggingService.Trace($"This is {s}");
-                                break;
-                            case "Debug":
-                                this._LoggingService.Debug($"This is {s}");
-                                break;
-                            case "Info":
-                                this._LoggingService.Info($"This is {s}");
-                                break;
-                            case "Warn":
-                                this._LoggingService.Warn($"This is {s}");
-                                break;
-                            case "Error":
-                                this._LoggingService.Error($"This is {s}");
-                                break;
-                            case "Fatal":
-                                this._LoggingService.Fatal($"This is {s}");
-                                break;
-                        }
-                    }, s => true));
-            }
-        }
-
-        private DelegateCommand _ShowLogCommand;
-
-        public DelegateCommand ShowLogCommand
-        {
-            get
-            {
-                return this._ShowLogCommand ?? (this._ShowLogCommand = new DelegateCommand(() =>
-                {
-                    this.NavigationService.NavigateAsync("ShowLogs");
-                }));
-            }
+            get => this._Message;
+            private set => SetProperty(ref this._Message, value);
         }
 
         #endregion

@@ -1,22 +1,21 @@
-# NLog Demo
+# Android JNI Binding
 
 ## Abstracts
 
-* How to use NLog for Xamarin
-* How to show log file
+* How to use Java package with JNI
+  * AAR (Android ARchive) format
 
 ## Requirements
 
 * Visual Studio 2022
 * Xamarin
+* Android 13.0 Image
 
 ## Dependencies
 
 * [Font Awesome Free](https://fontawesome.com/)
   * Fonts
     * SIL Open Font License
-* [NLog](https://github.com/NLog/NLog)
-  * BSD-3-Clause License
 * [Prism.Unity.Forms](https://github.com/PrismLibrary/Prism)
   * MIT License
 * [Xamarin.Essentials.Interfaces](https://github.com/rdavisau/essential-interfaces)
@@ -26,12 +25,5 @@
 
 ## Result
 
-### Android
-
-<img src="images/android-main.png?raw=true" width="40%" height="auto" title="Main Page"/>
-<img src="images/android-showlog.png?raw=true" width="40%" height="auto" title="Show Log"/>
-
-### iOS
-
-<img src="images/ios-main.png?raw=true" width="40%" height="auto" title="Main Page"/>
-<img src="images/ios-showlog.png?raw=true" width="40%" height="auto" title="Show Log"/>
+<img src="images/x86_64.png?raw=true" width="40%" height="auto" title="x86_64"/>
+<img src="images/x86_64.png?raw=true" width="40%" height="auto" title="x86_64"/>
