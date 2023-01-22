@@ -23,7 +23,11 @@
 * [Xamarin.Forms](https://github.com/xamarin/Xamarin.Forms)
   * MIT License
 
+### Internals
+
+* [03_AndroidMinimalJNIOnly_Kotlin](../../Java/03_AndroidMinimalJNIOnly_Kotlin/)
+
 ## Result
 
-<img src="images/x86_64.png?raw=true" width="40%" height="auto" title="x86_64"/>
-<img src="images/arm64-v8a.png?raw=true" width="40%" height="auto" title="arm64-v8a"/>
+<img src="images/x86_64.png?raw=true" title="x86_64"/>
+<img src="images/arm64-v8a.png?raw=true" title="arm64-v8a"/>
