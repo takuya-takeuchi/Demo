@@ -26,4 +26,4 @@
 ## Result
 
 <img src="images/x86_64.png?raw=true" width="40%" height="auto" title="x86_64"/>
-<img src="images/x86_64.png?raw=true" width="40%" height="auto" title="x86_64"/>
+<img src="images/arm64-v8a.png?raw=true" width="40%" height="auto" title="arm64-v8a"/>
