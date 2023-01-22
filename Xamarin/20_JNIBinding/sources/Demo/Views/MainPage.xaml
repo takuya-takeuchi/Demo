@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Demo.Views.MainPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:designTimes="clr-namespace:Demo.DesignTimes;assembly=Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             Title="{Binding Title}"
+             mc:Ignorable="d">
+    <d:ContentPage.BindingContext>
+        <designTimes:MainPageViewModel />
+    </d:ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding ShowLogCommand}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="FontAwesome6Solid"
+                                 Glyph="&#xf15c;"
+                                 Color="Black" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Padding="10" Orientation="Vertical">
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Trace" />
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Debug" />
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Info" />
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Warn" />
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Error" />
+        <Button Command="{Binding LoggingCommand}"
+                CommandParameter="{Binding Source={RelativeSource Self}, Path=Text}"
+                Text="Fatal" />
+    </StackLayout>
+
+</ContentPage>
