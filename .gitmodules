@@ -65,3 +65,6 @@
 	path = Misc/15_VSCodeDebugWithCMake/opencv
 	url = https://github.com/opencv/opencv
 	ignore = dirty
+[submodule "CMake/05_Boost/spdlog"]
+	path = CMake/05_spdlog/spdlog
+	url = https://github.com/gabime/spdlog
