@@ -3,10 +3,11 @@
 ## Abstracts
 
 * Build and link spdlog by cmake
+* Minimal example program
 
 ## Requirements
 
-## Common
+### Common
 
 * Powershell
 * CMake 3.0.0 or later
