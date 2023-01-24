@@ -10,6 +10,7 @@
 
 * Powershell
 * CMake 3.0.0 or later
+* C++ Compiler supports C++11
 
 ### Windows
 
@@ -18,8 +19,6 @@
 ### Ubuntu
 
 * g++
-* build-essential
-* gdb
 
 ### OSX
 
