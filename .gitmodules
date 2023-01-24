@@ -68,3 +68,4 @@
 [submodule "CMake/05_Boost/spdlog"]
 	path = CMake/05_spdlog/spdlog
 	url = https://github.com/gabime/spdlog
+	ignore = dirty
