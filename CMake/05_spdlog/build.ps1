@@ -66,7 +66,10 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
-    $os = "linux"
+    $programDir = Join-Path $current build | `
+                  Join-Path -ChildPath $os | `
+                  Join-Path -ChildPath program
+    $program = Join-Path $programDir Test
 }
 
 Push-Location ${programDir}

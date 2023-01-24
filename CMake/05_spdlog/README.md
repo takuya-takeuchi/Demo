@@ -9,7 +9,7 @@
 ## Common
 
 * Powershell
-* CMake 3.20.0 or later
+* CMake 3.0.0 or later
 
 ### Windows
 
