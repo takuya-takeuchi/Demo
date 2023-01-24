@@ -33,14 +33,8 @@
 
 ## How to usage?
 
-1. Open [15_VSCodeDebugWithCMake](./) as workspace on Visual Studio Code
-2. Build opencv by using `pwsh build-opencv.ps1`
-2. Press F5 key
-3. You can attach to [main.cpp](./main.cpp)
-
-<img src="./images/attach.png" />
-
-## NOTE
-
-In `build.ps1`, you must pass `-D CMAKE_BUILD_TYPE` parameter.
-You can not attach to program if missing it.
+````shell
+$ pwsh build-spdlog.ps1  <Debug/Release>
+$ pwsh build.ps1  <Debug/Release>
+[2023-01-24 22:12:36.293] [info] Hello, World!
+````
