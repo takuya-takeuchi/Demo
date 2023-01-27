@@ -69,3 +69,7 @@
 	path = CMake/05_spdlog/spdlog
 	url = https://github.com/gabime/spdlog
 	ignore = dirty
+[submodule "CMake/07_libsodium/libsodium"]
+	path = CMake/07_libsodium/libsodium
+	url = https://github.com/jedisct1/libsodium
+	ignore = dirty
