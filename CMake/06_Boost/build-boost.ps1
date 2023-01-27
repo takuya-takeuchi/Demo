@@ -52,8 +52,15 @@ $targetDir = Join-Path $current boost
 $sourceDir = Join-Path $targetDir "boost_${filenameVersion}"
 New-Item -Type Directory $targetDir -Force | Out-Null
 if (!(Test-Path("${sourceDir}")))
-{
-    Expand-Archive -Path "${filename}" -DestinationPath $targetDir
+{    
+    if ($global:IsWindows)
+    {
+        Expand-Archive -Path "${filename}" -DestinationPath $targetDir
+    }
+    else
+    {
+        tar -xzf "${filename}" -C "${targetDir}"
+    }
 }
 
 $installDir = Join-Path $current install | `
