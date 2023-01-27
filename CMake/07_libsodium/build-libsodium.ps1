@@ -69,14 +69,13 @@ if ($global:IsWindows)
     $dst = Join-Path $installDir lib
     New-Item $dst -Force -ItemType Directory | Out-Null
     Copy-Item ${build_dir}/* $dst -Force -Recurse
-    # include
+    # include    
     $dst = Join-Path $installDir include
-    New-Item $dst -Force -ItemType Directory | Out-Null
-    Copy-Item ${include_dir}/*.h $dst -Force -Recurse
-    
-    $build_dir = Join-Path ${sourceDir} src | `
-                 Join-Path -ChildPath libsodium
-    Copy-Item ${build_dir}/include/sodium $dst -Recurse -Force
+    $include_dir = Join-Path ${sourceDir} src | `
+                   Join-Path -ChildPath libsodium | `
+                   Join-Path -ChildPath include
+    Copy-Item ${include_dir}/*.h $dst -Recurse -Force
+    Copy-Item ${include_dir}/sodium $dst -Recurse -Force
 
     Pop-Location
 }
