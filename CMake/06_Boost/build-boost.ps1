@@ -84,14 +84,17 @@ if ($global:IsWindows)
               --with-filesystem `
               --with-system
 }
-elseif ($global:IsMacOS)
+else
 {
-    $os = "osx"
-    $filename = "boost_${filenameVersion}.tar.gz"
-}
-elseif ($global:IsLinux)
-{
-    $os = "linux"
-    $filename = "boost_${filenameVersion}.tar.gz"
+    $bootstrap = Join-Path $sourceDir bootstrap.sh
+    $b2 = Join-Path $sourceDir b2
+    & bash "${bootstrap}"
+    & "${b2}" link=static `
+              address-model=64 `
+              install `
+              -j2 `
+              --prefix=${installDir} `
+              --with-filesystem `
+              --with-system
 }
 Pop-Location

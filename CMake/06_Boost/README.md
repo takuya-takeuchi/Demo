@@ -3,6 +3,7 @@
 ## Abstracts
 
 * Build and link Boost by cmake
+  * static and build only system and filesystem module
 * Minimal example program
 
 ## Requirements
