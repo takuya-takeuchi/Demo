@@ -2,7 +2,7 @@
 
 // override SODIUM_EXPORT if use libsodium as static
 #define SODIUM_DLL_EXPORT
-#include <sodium/core.h>
+#include <sodium.h>
 
 int main()
 {    

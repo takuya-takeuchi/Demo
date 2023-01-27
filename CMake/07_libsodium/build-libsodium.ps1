@@ -33,14 +33,10 @@ elseif ($global:IsLinux)
 $target = "libsodium"
 
 $sourceDir = Join-Path $current $target
-$buildDir = Join-Path $current build | `
-            Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
               Join-Path -ChildPath $target
 
-New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $sourceDir
@@ -89,7 +85,8 @@ else
     chmod +x *.sh
     make clean 
     ./autogen.sh
-    ./configure --disable-dependency-tracking --prefix=$PWD/.libsodium-build --with-pic="yes"
+    ./configure --disable-dependency-tracking --prefix=$installDir --with-pic="yes"
     make -j8
+    make install
 }
 Pop-Location

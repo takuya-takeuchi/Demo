@@ -21,6 +21,7 @@
 ### Ubuntu
 
 * g++
+* libtool
 
 ### OSX
 
@@ -37,5 +38,5 @@
 ````shell
 $ pwsh build-libsodium.ps1  <Debug/Release>
 $ pwsh build.ps1  <Debug/Release>
-[2023-01-24 22:12:36.293] [info] Hello, World!
+[Info] sodium_init: 0
 ````

@@ -55,7 +55,6 @@ else
                               Join-Path -ChildPath include
     $libsodium_LIBRARY = Join-Path $installDir $target | `
                          Join-Path -ChildPath lib | `
-                         Join-Path -ChildPath static | `
                          Join-Path -ChildPath libsodium.a
 }
 
