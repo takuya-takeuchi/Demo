@@ -73,3 +73,7 @@
 	path = CMake/07_libsodium/libsodium
 	url = https://github.com/jedisct1/libsodium
 	ignore = dirty
+[submodule "CMake/08_curl/curl"]
+	path = CMake/08_curl/curl
+	url = https://github.com/curl/curl
+	ignore = dirty
