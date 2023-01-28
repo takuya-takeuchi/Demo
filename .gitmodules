@@ -77,3 +77,7 @@
 	path = CMake/08_curl/curl
 	url = https://github.com/curl/curl
 	ignore = dirty
+[submodule "CMake/09_cpprestsdk/cpprestsdk"]
+	path = CMake/09_cpprestsdk/cpprestsdk
+	url = https://github.com/microsoft/cpprestsdk
+	ignore = dirty
