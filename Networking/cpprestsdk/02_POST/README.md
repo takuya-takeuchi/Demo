@@ -1,9 +1,9 @@
-# GET
+# POST
 
 ## Abstracts
 
-* GET sample program
-  * Invoke /get of https://httpbin.org/
+* POST sample program
+  * Invoke /post of https://httpbin.org/
 
 ## Requirements
 
@@ -48,12 +48,21 @@ You have to set `VCPKG_ROOT_DIR` envrironmental variable, like `C:\vcpkg` before
 $ pwsh build.ps1  <Debug/Release>
 {
   "args": {},
+  "data": "{\"message\":\"Hello http\"}",
+  "files": {},
+  "form": {},
   "headers": {
+    "Accept": "application/json",
+    "Content-Length": "24",
+    "Content-Type": "application/json",
     "Host": "httpbin.org",
     "User-Agent": "cpprestsdk/2.10.18",
-    "X-Amzn-Trace-Id": "Root=1-63d56b15-59b7fc320a8d4ff155590f5d"
+    "X-Amzn-Trace-Id": "Root=1-63d5717c-67cc51ca6800e8345c5d8879"
+  },
+  "json": {
+    "message": "Hello http"
   },
   "origin": "XXX.XXX.XXX.XXX",
-  "url": "https://httpbin.org/get"
+  "url": "https://httpbin.org/post"
 }
 ````
