@@ -21,6 +21,8 @@
 ### Ubuntu
 
 * g++
+* libz-dev
+  * via `apt` command
 
 ### OSX
 

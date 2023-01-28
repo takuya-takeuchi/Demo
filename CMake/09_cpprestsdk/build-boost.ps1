@@ -91,9 +91,11 @@ else
               -j2 `
               --prefix=${installDir} `
               --with-system `
+              --with-filesystem `
               --with-date_time `
               --with-regex `
               --with-random `
-              --with-thread
+              --with-thread `
+              --with-chrono
 }
 Pop-Location
