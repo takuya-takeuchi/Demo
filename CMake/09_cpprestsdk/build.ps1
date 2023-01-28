@@ -27,7 +27,7 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "curl"
+$target = "cpprestsdk"
 
 # build
 $sourceDir = $current
@@ -41,22 +41,42 @@ $targetDir = Join-Path $installDir $target | `
              Join-Path -ChildPath lib | `
              Join-Path -ChildPath cmake
 
+$boostDir = Join-Path $current install | `
+            Join-Path -ChildPath $os | `
+            Join-Path -ChildPath boost | `
+            Join-Path -ChildPath 1.81.0 | `
+            Join-Path -ChildPath lib | `
+            Join-Path -ChildPath cmake
+
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
 if ($global:IsWindows)
 {
+    if (!($env:VCPKG_ROOT_DIR))
+    {
+        Write-Host "VCPKG_ROOT_DIR environmental variable is missing" -ForegroundColor Red
+        return
+    }
+
+    $toolchain = "${env:VCPKG_ROOT_DIR}\scripts\buildsystems\vcpkg.cmake"
+    if (!(Test-Path(${toolchain})))
+    {
+        Write-Host "${toolchain} is missing" -ForegroundColor Red
+        return
+    }
+
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH=${targetDir} `
+          -D CMAKE_PREFIX_PATH="${targetDir};${boostDir}" `
+          -D CMAKE_TOOLCHAIN_FILE="${env:VCPKG_ROOT_DIR}\scripts\buildsystems\vcpkg.cmake" `
+          -D VCPKG_TARGET_TRIPLET="x64-windows-static" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH=${targetDir} `
-          -D OPENSSL_ROOT_DIR=/usr/local/opt/openssl `
-          -D OPENSSL_LIBRARIES=/usr/local/opt/openssl/lib `
           $sourceDir
 }
 elseif ($global:IsLinux)

@@ -63,11 +63,26 @@ if ($global:IsMacOS)
 Push-Location $buildDir
 if ($global:IsWindows)
 {
+    if (!($env:VCPKG_ROOT_DIR))
+    {
+        Write-Host "VCPKG_ROOT_DIR environmental variable is missing" -ForegroundColor Red
+        return
+    }
+
+    $toolchain = "${env:VCPKG_ROOT_DIR}\scripts\buildsystems\vcpkg.cmake"
+    if (!(Test-Path(${toolchain})))
+    {
+        Write-Host "${toolchain} is missing" -ForegroundColor Red
+        return
+    }
+
     cmake -D CMAKE_INSTALL_PREFIX=$installDir `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D CMAKE_PREFIX_PATH=${boostDir} `
           -D BUILD_SHARED_LIBS=OFF `
           -D Boost_USE_STATIC_LIBS=ON `
+          -D CMAKE_TOOLCHAIN_FILE="${env:VCPKG_ROOT_DIR}\scripts\buildsystems\vcpkg.cmake" `
+          -D VCPKG_TARGET_TRIPLET="x64-windows-static" `
           $sourceDir
 }
 elseif ($global:IsMacOS)

@@ -16,7 +16,7 @@
 
 ### Windows
 
-* Visual Studio 2019
+* Visual Studio
 
 ### Ubuntu
 

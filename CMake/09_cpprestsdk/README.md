@@ -17,6 +17,10 @@
 ### Windows
 
 * Visual Studio
+* OpenSSL
+  * via `vcpkg` command with `--triplet x64-windows-static`
+* zlib
+  * via `vcpkg` command with `--triplet x64-windows-static`
 
 ### Ubuntu
 
@@ -44,6 +48,8 @@
   * Boost License
 
 ## How to usage?
+
+You have to set `VCPKG_ROOT_DIR` envrironmental variable, like `C:\vcpkg` before build cpprestsdk on windows machine.
 
 ````shell
 $ pwsh build-boost.ps1 <Debug/Release>
