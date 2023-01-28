@@ -7,29 +7,28 @@ using namespace web::http;
 using namespace web::http::client;
 using namespace concurrency::streams;
 
-pplx::task<void> GetTest()
-{
-    return pplx::create_task([] 
-    {
-        http_client client(::utility::conversions::to_string_t("https://httpbin.org/get"));
-        return client.request(methods::GET);
-    })
-        
-    .then([](http_response  response)
-    {
-        if (response.status_code() == status_codes::OK)
-        {
-            auto body = response.extract_string();
-            std::wcout << body.get().c_str() << std::endl;
-        }
-    });
-}
-
-int main(void)
+int32_t main(void)
 {
     try
     {
-        GetTest().wait();
+        pplx::create_task([] 
+        {
+            http_client client(::utility::conversions::to_string_t("https://httpbin.org/get"));
+
+            http_request request(methods::GET);
+            request.headers().add(::utility::conversions::to_string_t("accept"),
+                                  ::utility::conversions::to_string_t("application/json"));
+
+            return client.request(request);
+        })        
+        .then([](http_response response)
+        {
+            if (response.status_code() == status_codes::OK)
+            {
+                auto body = response.extract_string();
+                std::wcout << body.get().c_str() << std::endl;
+            }
+        }).wait();
     }
     catch (const std::exception& e)
     {

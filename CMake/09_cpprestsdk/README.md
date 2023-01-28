@@ -62,7 +62,7 @@ $ pwsh build.ps1  <Debug/Release>
     "User-Agent": "cpprestsdk/2.10.18",
     "X-Amzn-Trace-Id": "Root=1-63d54a6e-3724cf68667705a472c789c0"
   },
-  "origin": "14.11.38.64", 
+  "origin": "XXX.XXX.XXX.XXX",
   "url": "https://httpbin.org/get"
 }
 ````
