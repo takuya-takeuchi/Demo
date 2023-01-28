@@ -23,6 +23,8 @@
 * g++
 * libz-dev
   * via `apt` command
+* libssl-dev
+  * via `apt` command
 
 ### OSX
 
