@@ -76,13 +76,13 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH=${targetDir} `
+          -D CMAKE_PREFIX_PATH="${targetDir};${boostDir}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH=${targetDir} `
+          -D CMAKE_PREFIX_PATH="${targetDir};${boostDir}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration}

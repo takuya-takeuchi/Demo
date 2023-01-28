@@ -11,7 +11,8 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-find_package(Boost REQUIRED COMPONENTS system date_time regex)
+#find_package(Boost REQUIRED COMPONENTS system date_time regex)
+find_package(Boost REQUIRED COMPONENTS system filesystem date_time regex random thread chrono)
 
 if (NOT ${Boost_FOUND})
     message(FATAL_ERROR "Boost is not found!!")
@@ -33,8 +34,10 @@ add_executable(${PROJ_NAME} main.cpp)
 
 target_include_directories(${PROJ_NAME}
                            PRIVATE
-                           cpprestsdk::cpprest)
+                           cpprestsdk::cpprest
+                           ${Boost_INCLUDE_DIRS})
 
 target_link_libraries(${PROJ_NAME}
                       PRIVATE
-                      cpprestsdk::cpprest)
+                      cpprestsdk::cpprest
+                      ${Boost_LIBRARIES})
