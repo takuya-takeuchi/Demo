@@ -24,6 +24,8 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     $os = "osx"
+    Push-Location
+    Pop-Location
 }
 elseif ($global:IsLinux)
 {
@@ -49,6 +51,14 @@ $boostDir = Join-Path $current install | `
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
+
+# path Fix likely typo in SafeInt3.hpp, that results in error with clang 15 (https://github.com/microsoft/cpprestsdk/pull/1711)
+if ($global:IsMacOS)
+{
+    Push-Location $sourceDir
+    git checkout e1b6a8e61d6b3ab98734b0532bad1da46458212a
+    Pop-Location
+}
 
 Push-Location $buildDir
 if ($global:IsWindows)

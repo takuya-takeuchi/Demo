@@ -35,6 +35,7 @@
   * MIT License
 * [Boost](https://www.boost.org/)
   * v1.81.0
+    * use e1b6a8e61d6b3ab98734b0532bad1da46458212a for only osx because [Fix likely typo in SafeInt3.hpp, that results in error with clang 15](https://github.com/microsoft/cpprestsdk/pull/1711)
   * Boost License
 
 ## How to usage?
