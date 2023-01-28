@@ -92,6 +92,7 @@ else
               --prefix=${installDir} `
               --with-system `
               --with-date_time `
-              --with-regex
+              --with-regex `
+              --with-random
 }
 Pop-Location
