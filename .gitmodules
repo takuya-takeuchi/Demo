@@ -81,3 +81,7 @@
 	path = CMake/09_cpprestsdk/cpprestsdk
 	url = https://github.com/microsoft/cpprestsdk
 	ignore = dirty
+[submodule "Cloud/AmazonWebService/S3/aws-sdk-cpp/aws-sdk-cpp"]
+	path = Cloud/AmazonWebService/S3/aws-sdk-cpp/aws-sdk-cpp
+	url = https://github.com/aws/aws-sdk-cpp
+	ignore = dirty
