@@ -1,9 +1,9 @@
-# PUT
+# DELETE
 
 ## Abstracts
 
 * POST sample program
-  * Invoke /put of https://httpbin.org/
+  * Invoke /delete of https://httpbin.org/
 
 ## Requirements
 
@@ -57,12 +57,12 @@ $ pwsh build.ps1  <Debug/Release>
     "Content-Type": "application/json",
     "Host": "httpbin.org",
     "User-Agent": "cpprestsdk/2.10.18",
-    "X-Amzn-Trace-Id": "Root=1-63d573fb-366f60bd4aee43bc3b3bba3b"
+    "X-Amzn-Trace-Id": "Root=1-63d577c6-708439e840c3bd366aaf4f29"
   },
   "json": {
     "message": "Hello http"
   },
   "origin": "XXX.XXX.XXX.XXX",
-  "url": "https://httpbin.org/put"
+  "url": "https://httpbin.org/delete"
 }
 ````
