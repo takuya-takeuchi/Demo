@@ -80,7 +80,7 @@ elseif ($global:IsLinux)
           -D CMAKE_PREFIX_PATH="${targetDir};${boostDir}" `
           $sourceDir
 }
-cmake --build . --config ${Configuration}
+cmake --build . --config ${Configuration} --target install
 Pop-Location
 
 # run
