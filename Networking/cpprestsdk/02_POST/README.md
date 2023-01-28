@@ -36,9 +36,6 @@
 * [cpprestsdk](https://github.com/microsoft/cpprestsdk)
   * 2.10.18
   * MIT License
-* [Boost](https://www.boost.org/)
-  * v1.81.0
-  * Boost License
 
 ## How to usage?
 
