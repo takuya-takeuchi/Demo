@@ -44,9 +44,29 @@ New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
-cmake -D CMAKE_INSTALL_PREFIX=$installDir `
-      -D CMAKE_BUILD_TYPE=$Configuration `
-      -D BUILD_SHARED_LIBS=OFF `
-      $sourceDir
+if ($global:IsWindows)
+{
+    cmake -D CMAKE_INSTALL_PREFIX=$installDir `
+          -D CMAKE_BUILD_TYPE=$Configuration `
+          -D BUILD_SHARED_LIBS=OFF `
+          -D CURL_USE_SCHANNEL=ON `
+          $sourceDir
+}
+elseif ($global:IsMacOS)
+{
+    cmake -D CMAKE_INSTALL_PREFIX=$installDir `
+          -D CMAKE_BUILD_TYPE=$Configuration `
+          -D BUILD_SHARED_LIBS=OFF `
+          -D OPENSSL_ROOT_DIR=/usr/local/opt/openssl `
+          -D OPENSSL_LIBRARIES=/usr/local/opt/openssl/lib `
+          $sourceDir
+}
+elseif ($global:IsLinux)
+{
+    cmake -D CMAKE_INSTALL_PREFIX=$installDir `
+          -D CMAKE_BUILD_TYPE=$Configuration `
+          -D BUILD_SHARED_LIBS=OFF `
+          $sourceDir
+}
 cmake --build . --config $Configuration --target install
 Pop-Location

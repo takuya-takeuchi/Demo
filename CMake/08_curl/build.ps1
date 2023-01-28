@@ -45,9 +45,26 @@ New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
-cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-      -D CMAKE_PREFIX_PATH=${targetDir} `
-      $sourceDir
+if ($global:IsWindows)
+{
+    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_PREFIX_PATH=${targetDir} `
+          $sourceDir
+}
+elseif ($global:IsMacOS)
+{
+    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_PREFIX_PATH=${targetDir} `
+          -D OPENSSL_ROOT_DIR=/usr/local/opt/openssl `
+          -D OPENSSL_LIBRARIES=/usr/local/opt/openssl/lib `
+          $sourceDir
+}
+elseif ($global:IsLinux)
+{
+    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_PREFIX_PATH=${targetDir} `
+          $sourceDir
+}
 cmake --build . --config ${Configuration}
 Pop-Location
 
@@ -76,5 +93,5 @@ elseif ($global:IsLinux)
 }
 
 Push-Location ${programDir}
-& ${program}
+& ${program} "https://phet-dev.colorado.edu/html/build-an-atom/0.0.0-3/simple-text-only-test-page.html"
 Pop-Location
