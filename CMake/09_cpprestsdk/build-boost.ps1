@@ -93,6 +93,7 @@ else
               --with-system `
               --with-date_time `
               --with-regex `
-              --with-random
+              --with-random `
+              --with-thread
 }
 Pop-Location
