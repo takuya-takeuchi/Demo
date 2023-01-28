@@ -11,8 +11,11 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-#find_package(Boost REQUIRED COMPONENTS system date_time regex)
-find_package(Boost REQUIRED COMPONENTS system filesystem date_time regex random thread chrono)
+if (MSVC)
+    find_package(Boost REQUIRED COMPONENTS system date_time regex)
+else()
+    find_package(Boost REQUIRED COMPONENTS system filesystem date_time regex random thread chrono)
+endif()
 
 if (NOT ${Boost_FOUND})
     message(FATAL_ERROR "Boost is not found!!")
