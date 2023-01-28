@@ -44,4 +44,12 @@ if (APPLE)
                           PRIVATE
                           cpprestsdk::cpprest
                           ${OPENSSL_LIBRARIES})
+else()
+    target_include_directories(${PROJ_NAME}
+                               PRIVATE
+                               cpprestsdk::cpprest)
+
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          cpprestsdk::cpprest)
 endif()
