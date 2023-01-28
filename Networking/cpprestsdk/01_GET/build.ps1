@@ -70,6 +70,8 @@ elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetDir};${boostDir}" `
+          -D OPENSSL_ROOT_DIR=/usr/local/opt/openssl `
+          -D OPENSSL_LIBRARIES=/usr/local/opt/openssl/lib `
           $sourceDir
 }
 elseif ($global:IsLinux)

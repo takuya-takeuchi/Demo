@@ -15,21 +15,33 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 endif()
 
+if (APPLE)
+    find_package(OpenSSL REQUIRED)
+
+    if (${OPENSSL_FOUND})
+        message("    OPENSSL_VERSION: ${OPENSSL_VERSION}")
+        message("OPENSSL_INCLUDE_DIR: ${OPENSSL_INCLUDE_DIR}")
+        message("  OPENSSL_LIBRARIES: ${OPENSSL_LIBRARIES}")
+    endif()
+endif()
+
 find_package(cpprestsdk REQUIRED CONFIG)
 
 if (${cpprestsdk_FOUND})
-    message("         cpprestsdk_DIR: ${cpprestsdk_DIR}")
-    message("     cpprestsdk_VERSION: ${cpprestsdk_VERSION}")
+    message("    cpprestsdk_DIR: ${cpprestsdk_DIR}")
+    message("cpprestsdk_VERSION: ${cpprestsdk_VERSION}")
 endif()
 
 add_executable(${PROJ_NAME} main.cpp)
 
-target_include_directories(${PROJ_NAME}
-                           PRIVATE
-                           cpprestsdk::cpprest
-                           ${Boost_INCLUDE_DIRS})
+if (APPLE)
+    target_include_directories(${PROJ_NAME}
+                               PRIVATE
+                               cpprestsdk::cpprest
+                               ${OPENSSL_INCLUDE_DIR})
 
-target_link_libraries(${PROJ_NAME}
-                      PRIVATE
-                      cpprestsdk::cpprest
-                      ${Boost_LIBRARIES})
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          cpprestsdk::cpprest
+                          ${OPENSSL_LIBRARIES})
+endif()
