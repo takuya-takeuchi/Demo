@@ -76,7 +76,7 @@ Push-Location $buildDir
 if ($global:IsWindows)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${sdkInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${modulePath}" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
@@ -88,7 +88,7 @@ elseif ($global:IsMacOS)
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${targetDir}" `
+          -D CMAKE_PREFIX_PATH="${modulePath}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
