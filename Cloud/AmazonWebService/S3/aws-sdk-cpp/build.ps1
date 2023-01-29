@@ -51,9 +51,7 @@ cmake -D CMAKE_INSTALL_PREFIX=$installDir `
       -D CMAKE_BUILD_TYPE=$Configuration `
       -D BUILD_SHARED_LIBS=OFF `
       -D ENABLE_TESTING=OFF `
-      -D CMAKE_INSTALL_BINDIR=${binDir} `
-      -D CMAKE_INSTALL_LIBDIR=${libDir} `
-      -D CMAKE_INSTALL_INCLUDEDIR=${includeDir} `
+      -D BUILD_ONLY=s3 `
       $sourceDir
 cmake --build . --config $Configuration --target install
 Pop-Location

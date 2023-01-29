@@ -38,14 +38,36 @@ $buildDir = Join-Path $current build | `
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
 
-$rootDirt = Split-Path $current -Parent
-$sdkDir = Join-Path $rootDirt install | `
+$rootDir = Split-Path $current -Parent
+$sdkDir = Join-Path $rootDir install | `
           Join-Path -ChildPath $os | `
-          Join-Path -ChildPath $target | `
-          Join-Path -ChildPath lib | `
-          Join-Path -ChildPath cmake | `
-          Join-Path -ChildPath AWSSDK
+          Join-Path -ChildPath $target
+$sdkInstallLibDir = Join-Path $sdkDir lib
+$sdkInstallDir = Join-Path $sdkDir lib | `
+                 Join-Path -ChildPath cmake
 $sdkDir = $sdkDir.Replace("`\", "/")
+
+$modules = @(
+    "aws-c-auth",
+    "aws-c-cal",
+    "aws-c-common",
+    "aws-c-compression",
+    "aws-c-event-stream",
+    "aws-c-http",
+    "aws-c-io",
+    "aws-c-mqtt",
+    "aws-c-s3",
+    "aws-c-sdkutils",
+    "aws-checksums",
+    "aws-crt-cpp"
+)
+$modulePath = "${sdkInstallDir}"
+foreach($module in $modules)
+{
+    $path = Join-Path $sdkInstallLibDir ${module} | `
+            Join-Path -ChildPath cmake
+    $modulePath = "${modulePath};${path}"
+}
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -53,17 +75,14 @@ New-Item -Type Directory $installDir -Force | Out-Null
 Push-Location $buildDir
 if ($global:IsWindows)
 {
-    Write-Host "sdkDir: ${sdkDir}" -ForegroundColor Red
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${sdkDir}" `
+          -D CMAKE_PREFIX_PATH="${sdkInstallDir}" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${targetDir}" `
-          -D OPENSSL_ROOT_DIR=/usr/local/opt/openssl `
-          -D OPENSSL_LIBRARIES=/usr/local/opt/openssl/lib `
+          -D CMAKE_PREFIX_PATH="${modulePath}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
