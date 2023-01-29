@@ -87,6 +87,15 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
+    $modules = @(
+        "s2n"
+    )
+    foreach($module in $modules)
+    {
+        $path = Join-Path $sdkInstallLibDir ${module} | `
+                Join-Path -ChildPath cmake
+        $modulePath = "${modulePath};${path}"
+    }
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${modulePath}" `
           $sourceDir
