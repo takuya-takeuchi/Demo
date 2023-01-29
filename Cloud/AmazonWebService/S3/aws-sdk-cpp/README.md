@@ -20,6 +20,8 @@
 ### Ubuntu
 
 * g++
+* libcurl4-openssl-dev
+  * via `apt` command
 
 ### OSX
 
