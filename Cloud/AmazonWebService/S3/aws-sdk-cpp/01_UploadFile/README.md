@@ -70,13 +70,13 @@ Added object 'lenna.jpg' to bucket '<your-bucket-name>'.
 
 You must check the following things
 
-* Block public access (bucket setting)
+#### Block public access (bucket setting)
 
 This program does not take care of credentials. In other words, we have to disable block public access in AWS console.
 
 <img src="images/block.png" />
 
-* Block policy
+#### Block policy
 
 Bcket policy must allow write actions.
 For examples, you can write json like 
