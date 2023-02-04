@@ -1,4 +1,4 @@
-# UploadFile to S3
+# Upload File to S3
 
 ## Abstracts
 
@@ -73,6 +73,8 @@ You must check the following things
 * Block public access (bucket setting)
 
 This program does not take care of credentials. In other words, we have to disable block public access in AWS console.
+
+<img src="images/block.png" />
 
 * Block policy
 
