@@ -11,10 +11,6 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-if (MSVC)
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-endif()
-
 find_package(AWSSDK CONFIG REQUIRED COMPONENTS s3)
 
 if (${AWSSDK_FOUND})
