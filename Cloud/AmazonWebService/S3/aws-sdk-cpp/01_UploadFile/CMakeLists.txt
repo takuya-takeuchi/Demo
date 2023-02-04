@@ -27,7 +27,7 @@ add_executable(${PROJ_NAME} main.cpp)
 
 target_include_directories(${PROJ_NAME}
                            PRIVATE
-                           AWSSDK::cpprest)
+                           ${AWSSDK_INCLUDE_DIRS})
 
 target_link_libraries(${PROJ_NAME}
                       PRIVATE

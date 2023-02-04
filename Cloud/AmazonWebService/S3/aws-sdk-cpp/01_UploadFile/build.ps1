@@ -59,13 +59,18 @@ $modules = @(
     "aws-c-s3",
     "aws-c-sdkutils",
     "aws-checksums",
-    "aws-crt-cpp"
+    "aws-crt-cpp",
+    "s2n"
 )
 $modulePath = "${sdkInstallDir}"
 foreach($module in $modules)
 {
     $path = Join-Path $sdkInstallLibDir ${module} | `
             Join-Path -ChildPath cmake
+    if (!(Test-Path("${path}")))
+    {
+        continue
+    }
     $modulePath = "${modulePath};${path}"
 }
 
@@ -73,33 +78,9 @@ New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
-if ($global:IsWindows)
-{
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${modulePath}" `
-          $sourceDir
-}
-elseif ($global:IsMacOS)
-{
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${modulePath}" `
-          $sourceDir
-}
-elseif ($global:IsLinux)
-{
-    $modules = @(
-        "s2n"
-    )
-    foreach($module in $modules)
-    {
-        $path = Join-Path $sdkInstallLibDir ${module} | `
-                Join-Path -ChildPath cmake
-        $modulePath = "${modulePath};${path}"
-    }
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${modulePath}" `
-          $sourceDir
-}
+cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+      -D CMAKE_PREFIX_PATH="${modulePath}" `
+      $sourceDir
 cmake --build . --config ${Configuration} --target install
 Pop-Location
 

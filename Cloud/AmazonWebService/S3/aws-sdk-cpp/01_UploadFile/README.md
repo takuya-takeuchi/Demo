@@ -1,11 +1,9 @@
-# PUT
+# UploadFile to S3
 
 ## Abstracts
 
-* POST sample program
-  * Invoke /put of https://httpbin.org/
-
-aws s3 presign s3://takuya-takeuchi-test/aaa.txt --expires-in 60
+* Upload file to S3
+  * This program assumes that S3 bucket allow public access.
 
 ## Requirements
 
@@ -18,50 +16,85 @@ aws s3 presign s3://takuya-takeuchi-test/aaa.txt --expires-in 60
 ### Windows
 
 * Visual Studio
-* cpprestsdk
-  * via `vcpkg` command with `--triplet x64-windows-static`
 
 ### Ubuntu
 
 * g++
-* libcpprest-dev
-  * via `apt` command
 
 ### OSX
 
 * Xcode
-* cpprestsdk
-  * via `brew` command
 
 ## Dependencies
 
-* [cpprestsdk](https://github.com/microsoft/cpprestsdk)
-  * 2.10.18
-  * MIT License
+* [AWS SDK for C++](https://github.com/aws/aws-sdk-cpp)
+  * 1.11.4
+  * Apache 2.0 License
 
-## How to usage?
+## How to build?
 
-You have to set `VCPKG_ROOT_DIR` envrironmental variable, like `C:\vcpkg` before build cpprestsdk on windows machine.
+### Build AWS SDK for C++
+
+Go to [aws-sdk-cpp](../aws-sdk-cpp).
 
 ````shell
-$ pwsh build.ps1  <Debug/Release>
+$ pwsh build.ps1 <Debug/Release>
+````
+
+Once time you built AWS SDK for C++, you need not to do again.
+
+### Build
+
+````shell
+$ pwsh build.ps1 <Debug/Release>
+````
+
+Then, program will be present in `install/<your os name>/bin`.
+
+## How to test?
+
+````shell
+$ ./install/linux/bin/Test <your-bucket-name> lenna.jpg <your-region>
+bucket_name: <your-bucket-name>
+object_name: lenna.jpg
+     region: <your-region>
+[Info] Aws::InitAPI
+[Info] PutObject
+Added object 'lenna.jpg' to bucket '<your-bucket-name>'.
+[Info] Aws::ShutdownAPI
+````
+
+## Why does program not work?
+
+### Error: PutObject: Access Denied
+
+You must check the following things
+
+* Block public access (bucket setting)
+
+This program does not take care of credentials. In other words, we have to disable block public access in AWS console.
+
+* Block policy
+
+Bcket policy must allow write actions.
+For examples, you can write json like 
+
+````json
 {
-  "args": {},
-  "data": "{\"message\":\"Hello http\"}",
-  "files": {},
-  "form": {},
-  "headers": {
-    "Accept": "application/json",
-    "Content-Length": "24",
-    "Content-Type": "application/json",
-    "Host": "httpbin.org",
-    "User-Agent": "cpprestsdk/2.10.18",
-    "X-Amzn-Trace-Id": "Root=1-63d573fb-366f60bd4aee43bc3b3bba3b"
-  },
-  "json": {
-    "message": "Hello http"
-  },
-  "origin": "XXX.XXX.XXX.XXX",
-  "url": "https://httpbin.org/put"
+    "Version": "2012-10-17",
+    "Id": "Policy9999999999999",
+    "Statement": [
+        {
+            "Sid": "Stmt9999999999999",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:DeleteObject",
+                "s3:GetObject",
+                "s3:PutObject"
+            ],
+            "Resource": "arn:aws:s3:::<your-bucket-name>/*"
+        }
+    ]
 }
 ````
