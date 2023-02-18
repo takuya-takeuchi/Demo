@@ -107,7 +107,3 @@ elseif ($global:IsLinux)
                   Join-Path -ChildPath program
     $program = Join-Path $programDir Test
 }
-
-Push-Location ${programDir}
-& ${program} "https://phet-dev.colorado.edu/html/build-an-atom/0.0.0-3/simple-text-only-test-page.html"
-Pop-Location
