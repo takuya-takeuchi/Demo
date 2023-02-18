@@ -5,8 +5,6 @@
 * POST sample program
   * Invoke /put of https://httpbin.org/
 
-aws s3 presign s3://v9ife27satkjmnv2vxpd/aaa.txt --expires-in 600
-
 ## Requirements
 
 ### Common
@@ -39,12 +37,12 @@ aws s3 presign s3://v9ife27satkjmnv2vxpd/aaa.txt --expires-in 600
   * 2.10.18
   * MIT License
 
-## How to usage?
+## How to build?
 
 You have to set `VCPKG_ROOT_DIR` envrironmental variable, like `C:\vcpkg` before build cpprestsdk on windows machine.
 
 ````shell
-$ pwsh build.ps1  <Debug/Release>
+$ pwsh build.ps1 <Debug/Release>
 {
   "args": {},
   "data": "{\"message\":\"Hello http\"}",
@@ -64,4 +62,10 @@ $ pwsh build.ps1  <Debug/Release>
   "origin": "XXX.XXX.XXX.XXX",
   "url": "https://httpbin.org/put"
 }
+````
+
+## How to test?
+
+````bat
+$ install\win\bin\Test "https://<your-bucket-name>.s3.ap-northeast-1.amazonaws.com/lenna.jpg?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=XXXXXXXXXXXXXXXXXXX%2F20230218%2Fap-northeast-1%2Fs3%2Faws4_request&X-Amz-Date=20230218T134137Z&X-Amz-Expires=600&X-Amz-SignedHeaders=host&X-Amz-Signature=4b5d4337e3ca087ec5526335d8081e2620c2de4466aac56b6361e63a4939ca0e" install\win\bin\lenna.jpg  
 ````
