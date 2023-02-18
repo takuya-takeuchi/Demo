@@ -43,25 +43,6 @@ You have to set `VCPKG_ROOT_DIR` envrironmental variable, like `C:\vcpkg` before
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>
-{
-  "args": {},
-  "data": "{\"message\":\"Hello http\"}",
-  "files": {},
-  "form": {},
-  "headers": {
-    "Accept": "application/json",
-    "Content-Length": "24",
-    "Content-Type": "application/json",
-    "Host": "httpbin.org",
-    "User-Agent": "cpprestsdk/2.10.18",
-    "X-Amzn-Trace-Id": "Root=1-63d573fb-366f60bd4aee43bc3b3bba3b"
-  },
-  "json": {
-    "message": "Hello http"
-  },
-  "origin": "XXX.XXX.XXX.XXX",
-  "url": "https://httpbin.org/put"
-}
 ````
 
 ## How to test?
