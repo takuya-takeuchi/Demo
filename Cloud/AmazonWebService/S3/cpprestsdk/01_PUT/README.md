@@ -5,7 +5,7 @@
 * POST sample program
   * Invoke /put of https://httpbin.org/
 
-aws s3 presign s3://takuya-takeuchi-test/aaa.txt --expires-in 60
+aws s3 presign s3://v9ife27satkjmnv2vxpd/aaa.txt --expires-in 600
 
 ## Requirements
 

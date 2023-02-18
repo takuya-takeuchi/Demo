@@ -30,9 +30,9 @@ void readFile(const char* filename, std::vector<uint8_t>& vec)
 
 int32_t main(int32_t argc, const char** argv)
 {
-    if (argc != 4)
+    if (argc != 3)
     {
-        std::cout << "Test <url> <file path> <content-type>" << std::endl;
+        std::cout << "Test <url> <file path>" << std::endl;
         return -1;
     }
 
@@ -40,9 +40,8 @@ int32_t main(int32_t argc, const char** argv)
     {
         const auto url = argv[1];
         const auto path = argv[2];
-        const auto contentType = argv[3];
 
-        pplx::create_task([url, path, contentType]
+        pplx::create_task([url, path]
         {
             http_client client(::utility::conversions::to_string_t(url));
 
@@ -52,18 +51,6 @@ int32_t main(int32_t argc, const char** argv)
             std::vector<uint8_t> body;
             readFile(path, body);
 		    request.set_body(body);
-
-            // set header
-            // request.headers().add(::utility::conversions::to_string_t("Content-Type"),
-            //                       ::utility::conversions::to_string_t(contentType));
-            // request.headers().add(::utility::conversions::to_string_t("x-amz-acl"),
-            //                       ::utility::conversions::to_string_t("bucket-owner-full-control"));
-            // request.headers().add(::utility::conversions::to_string_t("Content-Length"),
-            //                       body.size());
-            // request.headers().add(::utility::conversions::to_string_t("x-amz-meta-author"),
-            //                       ::utility::conversions::to_string_t("John Doe"));
-            // request.headers().add(::utility::conversions::to_string_t("x-amz-meta-version"),
-            //                       ::utility::conversions::to_string_t("1.0.0.0"));
 
             return client.request(request);
         })
