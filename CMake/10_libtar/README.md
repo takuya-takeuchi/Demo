@@ -1,8 +1,8 @@
-# cpprestsdk from CMake
+# libtar from CMake
 
 ## Abstracts
 
-* Build and link cpprestsdk by cmake
+* Link `libtar` by cmake
   * static build
 * Minimal example program
 
