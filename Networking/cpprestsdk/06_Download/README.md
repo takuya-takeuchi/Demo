@@ -44,6 +44,7 @@ You have to set `VCPKG_ROOT_DIR` envrironmental variable, like `C:\vcpkg` before
 $ pwsh build.ps1 <Debug/Release>
 Statu Code: 200
 Content Length: 473831
+Succeded to download
 ````
 
 And you can see `lenna.png` in current directory.

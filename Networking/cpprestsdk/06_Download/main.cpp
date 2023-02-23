@@ -29,7 +29,7 @@ int32_t main(int32_t argc, const char** argv)
     {
         size_t contentLength = 0;
         http::status_code statusCode;
-        pplx::create_task([url] 
+        const auto ret = pplx::create_task([url] 
         {
             http_client client(::utility::conversions::to_string_t(url));
             http_request request(methods::GET);
@@ -54,9 +54,17 @@ int32_t main(int32_t argc, const char** argv)
                 streambuf<uint8_t> buffer = file_buffer<uint8_t>::open(file).get();
                 read_from_body(stream, chunkSize, 0, contentLength, buffer);
                 buffer.close().wait();
+                return true;
             }
+
+            return false;
         })
         .get();
+
+        if (ret)
+            std::cout << "Succeded to download" << std::endl;
+        else
+            std::cout << "Failed to download" << std::endl;
     }
     catch (const std::exception& e)
     {
