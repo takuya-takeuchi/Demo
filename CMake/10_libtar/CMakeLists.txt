@@ -27,10 +27,18 @@ endif()
 
 add_executable(${PROJ_NAME} main.cpp)
 
-#target_include_directories(${PROJ_NAME}
-#                           PRIVATE
-#                           ${Boost_INCLUDE_DIRS})
+if (APPLE)
+    target_include_directories(${PROJ_NAME}
+                               PRIVATE
+                               /usr/local/include)
+else()
+    target_include_directories(${PROJ_NAME}
+                               PRIVATE
+                               /usr/include)
+endif()
 
 target_link_libraries(${PROJ_NAME}
                       PRIVATE
                       ${libtar_LIBS})
+                      
+install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

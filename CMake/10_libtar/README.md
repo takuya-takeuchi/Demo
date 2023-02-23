@@ -30,7 +30,7 @@ Not supported
 * Xcode
 * websocketpp
   * via `brew` command
-    * cpprestsdk can not build due to https://github.com/zaphoyd/websocketpp/issues/1004
+    * `brew install libtar`
 
 ## Dependencies
 
