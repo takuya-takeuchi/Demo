@@ -53,3 +53,5 @@ else()
                           PRIVATE
                           cpprestsdk::cpprest)
 endif()
+
+install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
