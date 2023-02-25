@@ -15,29 +15,35 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 endif()
 
-find_package(RdKafka CONFIG REQUIRED)
-
-if (${RdKafka_FOUND})
-    message("     RdKafka_VERSION: ${RdKafka_VERSION}")
-else()
-    message(FATAL_ERROR "librdkafka is missing")
-endif()
-
 message("  CPPKAFKA_LIBRARIES: ${CPPKAFKA_LIBRARIES}")
 message("CPPKAFKA_INCLUDE_DIR: ${CPPKAFKA_INCLUDE_DIR}")
 
 add_executable(${PROJ_NAME} main.cpp)
 
-target_include_directories(${PROJ_NAME}
-                           PRIVATE
-                           RdKafka::rdkafka
-                           RdKafka::rdkafka++
-                           ${CPPKAFKA_INCLUDE_DIR})
+if (MSVC)
+    target_include_directories(${PROJ_NAME}
+                               PRIVATE
+                               RdKafka::rdkafka
+                               RdKafka::rdkafka++
+                               ${CPPKAFKA_INCLUDE_DIR})
+    
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          RdKafka::rdkafka
+                          RdKafka::rdkafka++
+                          ${CPPKAFKA_LIBRARIES})
+else()
+    target_include_directories(${PROJ_NAME}
+                               PRIVATE
+                               rdkafka
+                               rdkafka++
+                               ${CPPKAFKA_INCLUDE_DIR})
 
-target_link_libraries(${PROJ_NAME}
-                      PRIVATE
-                      RdKafka::rdkafka
-                      RdKafka::rdkafka++
-                      ${CPPKAFKA_LIBRARIES})
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          rdkafka
+                          rdkafka++
+                          ${CPPKAFKA_LIBRARIES})
+endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

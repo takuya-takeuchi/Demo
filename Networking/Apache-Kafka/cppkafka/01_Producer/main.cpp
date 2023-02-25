@@ -14,19 +14,19 @@ int32_t main(int32_t argc, const char** argv)
         return -1;
     }
 
-    const auto server = argv[1];
-    const auto topic = argv[2];
-    const auto message = argv[3];
+    const std::string server(argv[1]);
+    const std::string topic(argv[2]);
+    const std::string message(argv[3]);
     
     // Create the config
     Configuration config =
     {
-        { "metadata.broker.list", std::string(server) }
+        { "metadata.broker.list", server }
     };
 
     Producer producer(config);
 
-    producer.produce(MessageBuilder(std::string(topic)).partition(0).payload(std::string(message)));
+    producer.produce(MessageBuilder(topic).partition(0).payload(message));
     producer.flush();
 
     return 0;
