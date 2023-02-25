@@ -30,8 +30,9 @@
 ### OSX
 
 * Xcode
-* cpprestsdk
+* libcpprest
   * via `brew` command
+    * `brew install librdkafka`
 
 ## Dependencies
 
@@ -47,6 +48,7 @@
 At first, you must build [cppkafka](https://github.com/aws/aws-sdk-cpp).
 
 ````shell
+$ git submodule update --init --recursive .
 $ pwsh build.ps1  <Debug/Release>
 ````
 

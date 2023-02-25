@@ -80,7 +80,7 @@ elseif ($global:IsMacOS)
 {
     $cpp_kafka_include_dir = Join-Path ${cppkafkaInstallDir} include
     $cpp_kafka_libraries = Join-Path ${cppkafkaInstallDir} lib | `
-                           Join-Path -ChildPath cppkafka.lib
+                           Join-Path -ChildPath libcppkafka.a
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetDir}" `
           -D CPPKAFKA_INCLUDE_DIR="${cpp_kafka_include_dir}" `
@@ -91,7 +91,7 @@ elseif ($global:IsLinux)
 {
     $cpp_kafka_include_dir = Join-Path ${cppkafkaInstallDir} include
     $cpp_kafka_libraries = Join-Path ${cppkafkaInstallDir} lib | `
-                           Join-Path -ChildPath cppkafka.lib
+                           Join-Path -ChildPath libcppkafka.a
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetDir}" `
           -D CPPKAFKA_INCLUDE_DIR="${cpp_kafka_include_dir}" `
