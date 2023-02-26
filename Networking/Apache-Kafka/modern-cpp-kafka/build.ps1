@@ -60,13 +60,20 @@ if ($global:IsWindows)
         return
     }
 
-    $Env:BOOST_ROOT="${env:VCPKG_ROOT_DIR}\installed\x64-windows-static"
-    $Env:LIBRDKAFKA_INCLUDE_DIR="${env:VCPKG_ROOT_DIR}\installed\x64-windows-static\include\"
-    $Env:LIBRDKAFKA_LIBRARY_DIR="${env:VCPKG_ROOT_DIR}\installed\x64-windows-static\lib\"
-    $Env:RAPIDJSON_INCLUDE_DIRS="${env:VCPKG_ROOT_DIR}\installed\x64-windows-static\include\"
+    $library_type = "x64-windows"
+    $vcpkg_base_directory = "${env:VCPKG_ROOT_DIR}\installed\${library_type}"
+    $Env:GTEST_ROOT="${vcpkg_base_directory}"
+    $Env:BOOST_ROOT="${vcpkg_base_directory}"
+    $Env:LIBRDKAFKA_INCLUDE_DIR="${vcpkg_base_directory}\include\"
+    $Env:LIBRDKAFKA_LIBRARY_DIR="${vcpkg_base_directory}\lib\"
+    $Env:RAPIDJSON_INCLUDE_DIRS="${vcpkg_base_directory}\include\"
+
+    # copy
+    $boost_program_option = Get-ChildItem "${vcpkg_base_directory}\lib\boost_program_options-vc*-mt.lib"
+    Copy-Item "${boost_program_option}" "${vcpkg_base_directory}\lib\boost_program_options.lib"
+
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_TOOLCHAIN_FILE="${env:VCPKG_ROOT_DIR}\scripts\buildsystems\vcpkg.cmake" `
-          -D VCPKG_TARGET_TRIPLET="x64-windows-static" `
+          -D CMAKE_TOOLCHAIN_FILE="${toolchain}" `
           -D CPPKAFKA_ENABLE_TESTS=OFF `
           $sourceDir
 }

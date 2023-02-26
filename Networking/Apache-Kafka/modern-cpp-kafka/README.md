@@ -16,9 +16,9 @@
 ### Windows
 
 * Visual Studio
-* librdkafka
+* librdkafka, gtest, boost-optional, boost-algorithm, boost-program-options and rapidjson
   * via `vcpkg` command
-    * `vcpkg install librdkafka --triplet x64-windows-static`
+    * `vcpkg install librdkafka gtest boost-optional boost-algorithm boost-program-options rapidjson --triplet x64-windows`
 
 ### Ubuntu
 
