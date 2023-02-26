@@ -15,7 +15,7 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 endif()
 
-find_package(RdKafka CONFIG REQUIRED)
+find_package(RdKafka)
 
 message("MODERN_CPP_KAFKA_INCLUDE_DIR: ${MODERN_CPP_KAFKA_INCLUDE_DIR}")
 
@@ -35,15 +35,12 @@ if (MSVC)
 else()
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               rdkafka
-                               rdkafka++
-                               ${CPPKAFKA_INCLUDE_DIR})
+                               ${MODERN_CPP_KAFKA_INCLUDE_DIR}
+                               /usr/local/include)
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          rdkafka
-                          rdkafka++
-                          ${CPPKAFKA_LIBRARIES})
+                          /usr/local/lib/librdkafka.dylib)
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

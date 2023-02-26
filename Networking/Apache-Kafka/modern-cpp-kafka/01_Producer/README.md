@@ -29,8 +29,9 @@
 ### OSX
 
 * Xcode
-* cpprestsdk
+* librdkafka, googletest, boost, rapidjson and lz4
   * via `brew` command
+    * `brew install librdkafka googletest boost rapidjson lz4`
 
 ## Dependencies
 
@@ -43,6 +44,9 @@
 * [librdkafka](https://github.com/confluentinc/librdkafka)
   * 1.9.2
   * BSD-2-Clause license
+* [modern-cpp-kafka](https://github.com/morganstanley/modern-cpp-kafka)
+  * v2020.01.05
+  * Apache-2.0 license
 * [LZ4](https://github.com/lz4/lz4)
   * 1.9.3
   * BSD-2-Clause license
