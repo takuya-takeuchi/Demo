@@ -27,7 +27,7 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "cppkafka"
+$target = "modern-cpp-kafka"
 
 # build
 $sourceDir = Join-Path $current $target
@@ -60,34 +60,27 @@ if ($global:IsWindows)
         return
     }
 
+    $Env:BOOST_ROOT="${env:VCPKG_ROOT_DIR}\installed\x64-windows-static"
+    $Env:LIBRDKAFKA_INCLUDE_DIR="${env:VCPKG_ROOT_DIR}\installed\x64-windows-static\include\"
+    $Env:LIBRDKAFKA_LIBRARY_DIR="${env:VCPKG_ROOT_DIR}\installed\x64-windows-static\lib\"
+    $Env:RAPIDJSON_INCLUDE_DIRS="${env:VCPKG_ROOT_DIR}\installed\x64-windows-static\include\"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${targetDir}" `
           -D CMAKE_TOOLCHAIN_FILE="${env:VCPKG_ROOT_DIR}\scripts\buildsystems\vcpkg.cmake" `
           -D VCPKG_TARGET_TRIPLET="x64-windows-static" `
-          -D CPPKAFKA_BUILD_SHARED=OFF `
-          -D CPPKAFKA_DISABLE_TESTS=ON `
-          -D CPPKAFKA_DISABLE_EXAMPLES=ON `
-          -D CPPKAFKA_RDKAFKA_STATIC_LIB=ON `
+          -D CPPKAFKA_ENABLE_TESTS=OFF `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${targetDir}" `
-          -D CPPKAFKA_BUILD_SHARED=OFF `
-          -D CPPKAFKA_DISABLE_TESTS=ON `
-          -D CPPKAFKA_DISABLE_EXAMPLES=ON `
-          -D CPPKAFKA_RDKAFKA_STATIC_LIB=ON `
+          -D CPPKAFKA_ENABLE_TESTS=OFF `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${targetDir}" `
-          -D CPPKAFKA_BUILD_SHARED=OFF `
-          -D CPPKAFKA_DISABLE_TESTS=ON `
-          -D CPPKAFKA_DISABLE_EXAMPLES=ON `
-          -D CPPKAFKA_RDKAFKA_STATIC_LIB=ON `
+          -D CPPKAFKA_ENABLE_TESTS=OFF `
+          -D BOOST_ROOT="/usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
