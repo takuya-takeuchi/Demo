@@ -89,3 +89,7 @@
 	path = Networking/Apache-Kafka/cppkafka/cppkafka
 	url = https://github.com/mfontanini/cppkafka
 	ignore = dirty
+[submodule "Networking/Apache-Kafka/modern-cpp-kafka/modern-cpp-kafka"]
+	path = Networking/Apache-Kafka/modern-cpp-kafka/modern-cpp-kafka
+	url = https://github.com/morganstanley/modern-cpp-kafka
+        ignore = dirty
