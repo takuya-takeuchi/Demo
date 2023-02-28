@@ -22,9 +22,9 @@
 ### Ubuntu
 
 * g++
-* libcpprest-dev
+* libcpprest-dev and libboost-program-options-dev
   * via `apt` command
-    * `apt install librdkafka-dev`
+    * `apt install librdkafka-dev libboost-program-options-dev`
 
 ### OSX
 

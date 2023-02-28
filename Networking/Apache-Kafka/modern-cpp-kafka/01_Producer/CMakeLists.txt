@@ -32,7 +32,7 @@ if (MSVC)
                           PRIVATE
                           RdKafka::rdkafka
                           RdKafka::rdkafka++)
-else()
+elseif (APPLE)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                ${MODERN_CPP_KAFKA_INCLUDE_DIR}
@@ -41,6 +41,14 @@ else()
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           /usr/local/lib/librdkafka.dylib)
+else()
+    target_include_directories(${PROJ_NAME}
+                               PRIVATE
+                               ${MODERN_CPP_KAFKA_INCLUDE_DIR})
+
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          rdkafka)
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

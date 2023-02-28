@@ -87,7 +87,6 @@ elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CPPKAFKA_ENABLE_TESTS=OFF `
-          -D BOOST_ROOT="/usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
