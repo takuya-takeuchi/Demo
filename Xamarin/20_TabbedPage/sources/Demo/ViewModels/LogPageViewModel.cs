@@ -1,9 +1,7 @@
-﻿using System.IO;
-using Prism.Navigation;
+﻿using Prism.Navigation;
 
 using Demo.Services.Interfaces;
 using Demo.ViewModels.Interfaces;
-using Prism.Commands;
 
 namespace Demo.ViewModels
 {
@@ -27,22 +25,6 @@ namespace Demo.ViewModels
 
             this._LoggingService = loggingService;
         }
-
-        #endregion
-
-        #region Properties
-        #endregion
-
-        #region Methods
-
-        #region Event Handlers
-
-        public override void OnNavigatedTo(INavigationParameters parameters)
-        {
-            base.OnNavigatedTo(parameters);
-        }
-
-        #endregion
 
         #endregion
 

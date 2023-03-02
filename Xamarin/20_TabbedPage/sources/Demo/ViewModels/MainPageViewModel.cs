@@ -27,23 +27,6 @@ namespace Demo.ViewModels
 
         #endregion
 
-        #region Properties
-
-        private DelegateCommand _ShowLogCommand;
-
-        public DelegateCommand ShowLogCommand
-        {
-            get
-            {
-                return this._ShowLogCommand ?? (this._ShowLogCommand = new DelegateCommand(() =>
-                {
-                    this.NavigationService.NavigateAsync("LogPage");
-                }));
-            }
-        }
-
-        #endregion
-
     }
 
 }
