@@ -1,8 +1,8 @@
 ﻿namespace Demo.Views
 {
-    public partial class ShowLogs
+    public partial class LogPage
     {
-        public ShowLogs()
+        public LogPage()
         {
             InitializeComponent();
         }

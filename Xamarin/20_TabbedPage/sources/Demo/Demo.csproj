@@ -23,4 +23,16 @@
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.7.3.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\LogPage.xaml.cs">
+      <DependentUpon>LogPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Update="Views\SettingPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+  </ItemGroup>
+
 </Project>

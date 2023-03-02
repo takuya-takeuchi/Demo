@@ -23,7 +23,6 @@ namespace Demo.ViewModels
             : base(navigationService)
         {
             this._LoggingService = loggingService;
-            Title = "Main Page";
         }
 
         #endregion
@@ -38,7 +37,7 @@ namespace Demo.ViewModels
             {
                 return this._ShowLogCommand ?? (this._ShowLogCommand = new DelegateCommand(() =>
                 {
-                    this.NavigationService.NavigateAsync("ShowLogs");
+                    this.NavigationService.NavigateAsync("LogPage");
                 }));
             }
         }

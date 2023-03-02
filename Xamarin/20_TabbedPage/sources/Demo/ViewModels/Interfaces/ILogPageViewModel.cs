@@ -3,7 +3,7 @@
 namespace Demo.ViewModels.Interfaces
 {
 
-    public interface IMainPageViewModel : IViewModel
+    public interface ILogPageViewModel : IViewModel
     {
     }
 

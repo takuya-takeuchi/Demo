@@ -1,30 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage x:Class="Demo.Views.MainPage"
-             xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:designTimes="clr-namespace:Demo.DesignTimes;assembly=Demo"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             Title="{Binding Title}"
-             mc:Ignorable="d">
+<TabbedPage x:Class="Demo.Views.MainPage"
+            xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+            xmlns:designTimes="clr-namespace:Demo.DesignTimes;assembly=Demo"
+            xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+            xmlns:views="clr-namespace:Demo.Views;assembly=Demo"
+            mc:Ignorable="d">
     <d:ContentPage.BindingContext>
         <designTimes:MainPageViewModel />
     </d:ContentPage.BindingContext>
 
-    <ContentPage.ToolbarItems>
-        <ToolbarItem Command="{Binding ShowLogCommand}">
-            <ToolbarItem.IconImageSource>
-                <FontImageSource FontFamily="FontAwesome6Solid"
-                                 Glyph="&#xf15c;"
-                                 Color="Black" />
-            </ToolbarItem.IconImageSource>
-        </ToolbarItem>
-    </ContentPage.ToolbarItems>
+    <TabbedPage.Children>
+        <views:LogPage />
+        <views:SettingPage />
+    </TabbedPage.Children>
 
-    <StackLayout Padding="10"
-                 HorizontalOptions="CenterAndExpand"
-                 VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
-    </StackLayout>
-
-</ContentPage>
+</TabbedPage>
