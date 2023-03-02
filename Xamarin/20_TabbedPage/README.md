@@ -1,13 +1,15 @@
-# template
+# TabPage Demo
 
 ## Abstracts
 
-* todo
+* How to use TabPage for Xamarin
 
 ## Requirements
 
 * Visual Studio 2022
 * Xamarin
+* iPhone Simulator
+  * Target OS 13.0 or later
 
 ## Dependencies
 
@@ -23,6 +25,12 @@
 * [Xamarin.Forms](https://github.com/xamarin/Xamarin.Forms)
   * MIT License
 
-## How to usage?
+## Result
 
-todo
+### Android
+
+<img src="images/android.png?raw=true" width="40%" height="auto" title="Main Page"/>
+
+### iOS
+
+<img src="images/ios.png?raw=true" width="40%" height="auto" title="Main Page"/>
