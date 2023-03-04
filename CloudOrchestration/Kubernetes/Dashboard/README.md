@@ -166,3 +166,258 @@ Events:
   ----     ------            ----               ----               -------
   Warning  FailedScheduling  72s (x7 over 31m)  default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling..
 ````
+
+### container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
+
+
+````
+$ kubectl describe node esxi-vm03
+Name:               esxi-vm03
+Roles:              control-plane
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=esxi-vm03
+                    kubernetes.io/os=linux
+                    node-role.kubernetes.io/control-plane=
+                    node.kubernetes.io/exclude-from-external-load-balancers=
+Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: unix:///run/containerd/containerd.sock
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Sat, 04 Mar 2023 23:50:16 +0900
+Taints:             node.kubernetes.io/not-ready:NoSchedule
+Unschedulable:      false
+Lease:
+  HolderIdentity:  esxi-vm03
+  AcquireTime:     <unset>
+  RenewTime:       Sun, 05 Mar 2023 00:27:13 +0900
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Sun, 05 Mar 2023 00:22:25 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Sun, 05 Mar 2023 00:22:25 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Sun, 05 Mar 2023 00:22:25 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            False   Sun, 05 Mar 2023 00:22:25 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletNotReady              container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
+````
+
+You have to install cni.
+
+````sh
+// デフォルトだとamd64向けになっているので、ラズパイが使っているarmに変更する
+curl https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml \
+| sed "s/amd64/arm/g" | sed "s/vxlan/host-gw/g" > kube-flannel.yml
+
+$ kubectl apply -f kube-flannel.yml
+````
+
+### taint
+
+check `Taints`
+
+````sh
+ kubectl describe node
+Name:               esxi-vm03
+Roles:              control-plane
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=esxi-vm03
+                    kubernetes.io/os=linux
+                    node-role.kubernetes.io/control-plane=
+                    node.kubernetes.io/exclude-from-external-load-balancers=
+Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: unix:///run/containerd/containerd.sock
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Sat, 04 Mar 2023 23:50:16 +0900
+Taints:             node-role.kubernetes.io/control-plane:NoSchedule
+                    node.kubernetes.io/not-ready:NoSchedule
+Unschedulable:      false
+Lease:
+  HolderIdentity:  esxi-vm03
+  AcquireTime:     <unset>
+  RenewTime:       Sun, 05 Mar 2023 00:21:37 +0900
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Sun, 05 Mar 2023 00:17:19 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Sun, 05 Mar 2023 00:17:19 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Sun, 05 Mar 2023 00:17:19 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            False   Sun, 05 Mar 2023 00:17:19 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletNotReady              container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
+Addresses:
+  InternalIP:  192.168.11.103
+  Hostname:    esxi-vm03
+Capacity:
+  cpu:                4
+  ephemeral-storage:  65221196Ki
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             24618524Ki
+  pods:               110
+Allocatable:
+  cpu:                4
+  ephemeral-storage:  60107854135
+  hugepages-1Gi:      0
+  hugepages-2Mi:      0
+  memory:             24516124Ki
+  pods:               110
+System Info:
+  Machine ID:                 de79524be7074ae99d1953bf961e5e05
+  System UUID:                d4f84d56-5681-bd55-b6a2-c78aae3188a3
+  Boot ID:                    6df1f99c-938a-4673-864a-a687e4a22dec
+  Kernel Version:             5.15.0-67-generic
+  OS Image:                   Ubuntu 20.04.5 LTS
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  containerd://1.6.18
+  Kubelet Version:            v1.25.7
+  Kube-Proxy Version:         v1.25.7
+PodCIDR:                      172.24.0.0/24
+PodCIDRs:                     172.24.0.0/24
+Non-terminated Pods:          (5 in total)
+  Namespace                   Name                                 CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                 ------------  ----------  ---------------  -------------  ---
+  kube-system                 etcd-esxi-vm03                       100m (2%)     0 (0%)      100Mi (0%)       0 (0%)         31m
+  kube-system                 kube-apiserver-esxi-vm03             250m (6%)     0 (0%)      0 (0%)           0 (0%)         31m
+  kube-system                 kube-controller-manager-esxi-vm03    200m (5%)     0 (0%)      0 (0%)           0 (0%)         31m
+  kube-system                 kube-proxy-cz2qk                     0 (0%)        0 (0%)      0 (0%)           0 (0%)         31m
+  kube-system                 kube-scheduler-esxi-vm03             100m (2%)     0 (0%)      0 (0%)           0 (0%)         31m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests    Limits
+  --------           --------    ------
+  cpu                650m (16%)  0 (0%)
+  memory             100Mi (0%)  0 (0%)
+  ephemeral-storage  0 (0%)      0 (0%)
+  hugepages-1Gi      0 (0%)      0 (0%)
+  hugepages-2Mi      0 (0%)      0 (0%)
+Events:
+  Type     Reason                   Age                From             Message
+  ----     ------                   ----               ----             -------
+  Normal   Starting                 31m                kube-proxy       
+  Normal   Starting                 19m                kube-proxy       
+  Normal   NodeHasSufficientMemory  31m                kubelet          Node esxi-vm03 status is now: NodeHasSufficientMemory
+  Warning  InvalidDiskCapacity      31m                kubelet          invalid capacity 0 on image filesystem
+  Normal   NodeHasNoDiskPressure    31m                kubelet          Node esxi-vm03 status is now: NodeHasNoDiskPressure
+  Normal   NodeHasSufficientPID     31m                kubelet          Node esxi-vm03 status is now: NodeHasSufficientPID
+  Normal   NodeAllocatableEnforced  31m                kubelet          Updated Node Allocatable limit across pods
+  Normal   Starting                 31m                kubelet          Starting kubelet.
+  Normal   RegisteredNode           31m                node-controller  Node esxi-vm03 event: Registered Node esxi-vm03 in Controller
+  Normal   Starting                 20m                kubelet          Starting kubelet.
+  Warning  InvalidDiskCapacity      20m                kubelet          invalid capacity 0 on image filesystem
+  Normal   NodeAllocatableEnforced  20m                kubelet          Updated Node Allocatable limit across pods
+  Normal   NodeHasSufficientMemory  20m (x8 over 20m)  kubelet          Node esxi-vm03 status is now: NodeHasSufficientMemory
+  Normal   NodeHasNoDiskPressure    20m (x7 over 20m)  kubelet          Node esxi-vm03 status is now: NodeHasNoDiskPressure
+  Normal   NodeHasSufficientPID     20m (x7 over 20m)  kubelet          Node esxi-vm03 status is now: NodeHasSufficientPID
+  Normal   RegisteredNode           19m                node-controller  Node esxi-vm03 event: Registered Node esxi-vm03 in Controller
+````
+
+````sh
+$ kubectl describe pod -n kubernetes-dashboard
+Name:             dashboard-metrics-scraper-64bcc67c9c-5mttm
+Namespace:        kubernetes-dashboard
+Priority:         0
+Service Account:  kubernetes-dashboard
+Node:             <none>
+Labels:           k8s-app=dashboard-metrics-scraper
+                  pod-template-hash=64bcc67c9c
+Annotations:      <none>
+Status:           Pending
+IP:               
+IPs:              <none>
+Controlled By:    ReplicaSet/dashboard-metrics-scraper-64bcc67c9c
+Containers:
+  dashboard-metrics-scraper:
+    Image:        kubernetesui/metrics-scraper:v1.0.8
+    Port:         8000/TCP
+    Host Port:    0/TCP
+    Liveness:     http-get http://:8000/ delay=30s timeout=30s period=10s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /tmp from tmp-volume (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-f4r5l (ro)
+Conditions:
+  Type           Status
+  PodScheduled   False 
+Volumes:
+  tmp-volume:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  kube-api-access-f4r5l:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              kubernetes.io/os=linux
+Tolerations:                 node-role.kubernetes.io/master:NoSchedule
+                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason            Age    From               Message
+  ----     ------            ----   ----               -------
+  Warning  FailedScheduling  3m53s  default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+
+
+Name:             kubernetes-dashboard-5c8bd6b59-4xvgs
+Namespace:        kubernetes-dashboard
+Priority:         0
+Service Account:  kubernetes-dashboard
+Node:             <none>
+Labels:           k8s-app=kubernetes-dashboard
+                  pod-template-hash=5c8bd6b59
+Annotations:      <none>
+Status:           Pending
+IP:               
+IPs:              <none>
+Controlled By:    ReplicaSet/kubernetes-dashboard-5c8bd6b59
+Containers:
+  kubernetes-dashboard:
+    Image:      kubernetesui/dashboard:v2.7.0
+    Port:       8443/TCP
+    Host Port:  0/TCP
+    Args:
+      --auto-generate-certificates
+      --namespace=kubernetes-dashboard
+    Liveness:     http-get https://:8443/ delay=30s timeout=30s period=10s #success=1 #failure=3
+    Environment:  <none>
+    Mounts:
+      /certs from kubernetes-dashboard-certs (rw)
+      /tmp from tmp-volume (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zcq26 (ro)
+Conditions:
+  Type           Status
+  PodScheduled   False 
+Volumes:
+  kubernetes-dashboard-certs:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  kubernetes-dashboard-certs
+    Optional:    false
+  tmp-volume:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  kube-api-access-zcq26:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              kubernetes.io/os=linux
+Tolerations:                 node-role.kubernetes.io/master:NoSchedule
+                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason            Age    From               Message
+  ----     ------            ----   ----               -------
+  Warning  FailedScheduling  3m54s  default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+````
+
+````sh
+$ kubectl taint nodes esxi-vm03 node-role.kubernetes.io/control-plane:NoSchedule-
+node/esxi-vm03 untainted
+$ kubectl taint nodes esxi-vm03 node.kubernetes.io/not-ready:NoSchedule-
+node/esxi-vm03 untainted
+````
