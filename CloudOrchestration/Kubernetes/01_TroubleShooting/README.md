@@ -50,7 +50,7 @@ UUID=F30F-1DEB  /boot/efi       vfat    umask=0077      0       1
 + #/swapfile                                 none            swap    sw              0       0
 ````
 
-
+sudo sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
 
 ````sh
 $ sudo docker info | grep -i cgroup

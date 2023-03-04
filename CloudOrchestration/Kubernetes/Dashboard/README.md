@@ -1,4 +1,4 @@
-# Octant
+# Kubernetes Dashboard
 
 ## Abstracts
 
@@ -13,6 +13,8 @@
   * Apache-2.0 license
 
 ## Compatibility
+
+You should select proper Kubernetes for Dashboard.
 
 |   |1.8|1.9|1.1|1.11|1.12|1.13|1.14|1.15|1.16|1.17|1.18|1.19|1.2|1.21|1.22|1.23|1.24|1.25|
 |---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|---|
@@ -63,13 +65,39 @@ $ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.7.0
 
 ## How to use?
 
-You can only kick octant.
+### Create Account
+
+````sh
+$ kubectl create serviceaccount -n kubernetes-dashboard admin-user
+$ cat <<EOF | kubectl apply -f -
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+EOF
+clusterrolebinding.rbac.authorization.k8s.io/admin-user created
+
+$ kubectl -n kubernetes-dashboard create token admin-user
+eyJhbGciOiJSUzI1NiIsImtpZCI6Ilc5cWRaS1VZbkpld1RjWm1mZF95QnhlbGFuNWMyTmo0dVV0UTFDdVpDRk0ifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNjc3OTYwNzcxLCJpYXQiOjE2Nzc5NTcxNzEsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJhZG1pbi11c2VyIiwidWlkIjoiOTg5YjMwYmItOTI0Yy00NTg2LThlZTUtMzA5ODllOTUxN2FiIn19LCJuYmYiOjE2Nzc5NTcxNzEsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDphZG1pbi11c2VyIn0.kZ9MT9MFypKZKS1XHMPsWolGAN-7_m1M9HR05Ft3_uD258EWozgxae-4P2dmtdz7ouMWz0xW0y0jJ55Z1vojo2s8gR8fuDRoNE5vV2UhXlchNZRl7A7pNWNevY6s2uPrqjiXXIvRrDBBfAJCFXHvGk_Gn6ftQdLqbTVxYqqWKH-OcuBG6GMUSVHVoLngtLsqlPCRW2O7DwsmgFYzLm_wReBgWQ3Tx2mqiUTm_73Vse5umD6sswVLxTBI4Ok7ODMk4_wUyalM1waLXeE-kVLNkiP3YcDHZlQVd8xEtmSglGZLgo3tZTrRL64WCK09go19FQBNVb7-l_QpYgqydL4MSQ
+````
+
+### Start Dashboard
 
 ````sh
 $ kubectl proxy
 ````
 
-And then, you can access `http://127.0.0.1:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:/proxy/`.
+You can access `http://127.0.0.1:8001/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/` and input previous token in login screen.
+
+<img src="./images/login.png" />
 
 ## Note
 
@@ -89,7 +117,7 @@ You may see this response.
 }
 ````
 
-You must check status of nodes.
+You must check status of nodes and resolve why pods are not running.
 
 ````sh
 $ kubectl -n kubernetes-dashboard get all
@@ -110,482 +138,58 @@ replicaset.apps/dashboard-metrics-scraper-7bc864c59   1         1         0     
 replicaset.apps/kubernetes-dashboard-6c7ccbcf87       1         1         0       33m
 ````
 
+### untolerated taint
+
+You can see some pods us not running deu to FailedScheduling.
+
 ````sh
 $ kubectl describe pod kubernetes-dashboard -n kubernetes-dashboard
-Name:             kubernetes-dashboard-6c7ccbcf87-stbx6
-Namespace:        kubernetes-dashboard
-Priority:         0
-Service Account:  kubernetes-dashboard
-Node:             <none>
-Labels:           k8s-app=kubernetes-dashboard
-                  pod-template-hash=6c7ccbcf87
-Annotations:      <none>
-Status:           Pending
-IP:               
-IPs:              <none>
-Controlled By:    ReplicaSet/kubernetes-dashboard-6c7ccbcf87
-Containers:
-  kubernetes-dashboard:
-    Image:      kubernetesui/dashboard:v2.7.0
-    Port:       8443/TCP
-    Host Port:  0/TCP
-    Args:
-      --auto-generate-certificates
-      --namespace=kubernetes-dashboard
-    Liveness:     http-get https://:8443/ delay=30s timeout=30s period=10s #success=1 #failure=3
-    Environment:  <none>
-    Mounts:
-      /certs from kubernetes-dashboard-certs (rw)
-      /tmp from tmp-volume (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-pjxwz (ro)
-Conditions:
-  Type           Status
-  PodScheduled   False 
-Volumes:
-  kubernetes-dashboard-certs:
-    Type:        Secret (a volume populated by a Secret)
-    SecretName:  kubernetes-dashboard-certs
-    Optional:    false
-  tmp-volume:
-    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
-    Medium:     
-    SizeLimit:  <unset>
-  kube-api-access-pjxwz:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    ConfigMapOptional:       <nil>
-    DownwardAPI:             true
-QoS Class:                   BestEffort
-Node-Selectors:              kubernetes.io/os=linux
-Tolerations:                 node-role.kubernetes.io/master:NoSchedule
-                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+...
+
 Events:
   Type     Reason            Age                From               Message
   ----     ------            ----               ----               -------
   Warning  FailedScheduling  72s (x7 over 31m)  default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling..
 ````
 
-### container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
+It means that Pods will not be running on tainted node.
+So system adminitrator can control node is tained or untainted.
 
-
-````
-$ kubectl describe node esxi-vm03
-Name:               esxi-vm03
-Roles:              control-plane
-Labels:             beta.kubernetes.io/arch=amd64
-                    beta.kubernetes.io/os=linux
-                    kubernetes.io/arch=amd64
-                    kubernetes.io/hostname=esxi-vm03
-                    kubernetes.io/os=linux
-                    node-role.kubernetes.io/control-plane=
-                    node.kubernetes.io/exclude-from-external-load-balancers=
-Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: unix:///run/containerd/containerd.sock
-                    node.alpha.kubernetes.io/ttl: 0
-                    volumes.kubernetes.io/controller-managed-attach-detach: true
-CreationTimestamp:  Sat, 04 Mar 2023 23:50:16 +0900
-Taints:             node.kubernetes.io/not-ready:NoSchedule
-Unschedulable:      false
-Lease:
-  HolderIdentity:  esxi-vm03
-  AcquireTime:     <unset>
-  RenewTime:       Sun, 05 Mar 2023 00:27:13 +0900
-Conditions:
-  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
-  ----             ------  -----------------                 ------------------                ------                       -------
-  MemoryPressure   False   Sun, 05 Mar 2023 00:22:25 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasSufficientMemory   kubelet has sufficient memory available
-  DiskPressure     False   Sun, 05 Mar 2023 00:22:25 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasNoDiskPressure     kubelet has no disk pressure
-  PIDPressure      False   Sun, 05 Mar 2023 00:22:25 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasSufficientPID      kubelet has sufficient PID available
-  Ready            False   Sun, 05 Mar 2023 00:22:25 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletNotReady              container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
-````
-
-You have to install cni.
+You can see details of taints.
 
 ````sh
-// デフォルトだとamd64向けになっているので、ラズパイが使っているarmに変更する
-curl https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml \
-| sed "s/amd64/arm/g" | sed "s/vxlan/host-gw/g" > kube-flannel.yml
+$ kubectl describe node
+...
 
-$ kubectl apply -f kube-flannel.yml
-````
-
-### taint
-
-check `Taints`
-
-````sh
- kubectl describe node
-Name:               esxi-vm03
-Roles:              control-plane
-Labels:             beta.kubernetes.io/arch=amd64
-                    beta.kubernetes.io/os=linux
-                    kubernetes.io/arch=amd64
-                    kubernetes.io/hostname=esxi-vm03
-                    kubernetes.io/os=linux
-                    node-role.kubernetes.io/control-plane=
-                    node.kubernetes.io/exclude-from-external-load-balancers=
-Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: unix:///run/containerd/containerd.sock
-                    node.alpha.kubernetes.io/ttl: 0
-                    volumes.kubernetes.io/controller-managed-attach-detach: true
-CreationTimestamp:  Sat, 04 Mar 2023 23:50:16 +0900
+CreationTimestamp:  Sun, 05 Mar 2023 02:56:21 +0900
 Taints:             node-role.kubernetes.io/control-plane:NoSchedule
-                    node.kubernetes.io/not-ready:NoSchedule
 Unschedulable:      false
-Lease:
-  HolderIdentity:  esxi-vm03
-  AcquireTime:     <unset>
-  RenewTime:       Sun, 05 Mar 2023 00:21:37 +0900
-Conditions:
-  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
-  ----             ------  -----------------                 ------------------                ------                       -------
-  MemoryPressure   False   Sun, 05 Mar 2023 00:17:19 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasSufficientMemory   kubelet has sufficient memory available
-  DiskPressure     False   Sun, 05 Mar 2023 00:17:19 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasNoDiskPressure     kubelet has no disk pressure
-  PIDPressure      False   Sun, 05 Mar 2023 00:17:19 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletHasSufficientPID      kubelet has sufficient PID available
-  Ready            False   Sun, 05 Mar 2023 00:17:19 +0900   Sat, 04 Mar 2023 23:50:15 +0900   KubeletNotReady              container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
-Addresses:
-  InternalIP:  192.168.11.103
-  Hostname:    esxi-vm03
-Capacity:
-  cpu:                4
-  ephemeral-storage:  65221196Ki
-  hugepages-1Gi:      0
-  hugepages-2Mi:      0
-  memory:             24618524Ki
-  pods:               110
-Allocatable:
-  cpu:                4
-  ephemeral-storage:  60107854135
-  hugepages-1Gi:      0
-  hugepages-2Mi:      0
-  memory:             24516124Ki
-  pods:               110
-System Info:
-  Machine ID:                 de79524be7074ae99d1953bf961e5e05
-  System UUID:                d4f84d56-5681-bd55-b6a2-c78aae3188a3
-  Boot ID:                    6df1f99c-938a-4673-864a-a687e4a22dec
-  Kernel Version:             5.15.0-67-generic
-  OS Image:                   Ubuntu 20.04.5 LTS
-  Operating System:           linux
-  Architecture:               amd64
-  Container Runtime Version:  containerd://1.6.18
-  Kubelet Version:            v1.25.7
-  Kube-Proxy Version:         v1.25.7
-PodCIDR:                      172.24.0.0/24
-PodCIDRs:                     172.24.0.0/24
-Non-terminated Pods:          (5 in total)
-  Namespace                   Name                                 CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
-  ---------                   ----                                 ------------  ----------  ---------------  -------------  ---
-  kube-system                 etcd-esxi-vm03                       100m (2%)     0 (0%)      100Mi (0%)       0 (0%)         31m
-  kube-system                 kube-apiserver-esxi-vm03             250m (6%)     0 (0%)      0 (0%)           0 (0%)         31m
-  kube-system                 kube-controller-manager-esxi-vm03    200m (5%)     0 (0%)      0 (0%)           0 (0%)         31m
-  kube-system                 kube-proxy-cz2qk                     0 (0%)        0 (0%)      0 (0%)           0 (0%)         31m
-  kube-system                 kube-scheduler-esxi-vm03             100m (2%)     0 (0%)      0 (0%)           0 (0%)         31m
-Allocated resources:
-  (Total limits may be over 100 percent, i.e., overcommitted.)
-  Resource           Requests    Limits
-  --------           --------    ------
-  cpu                650m (16%)  0 (0%)
-  memory             100Mi (0%)  0 (0%)
-  ephemeral-storage  0 (0%)      0 (0%)
-  hugepages-1Gi      0 (0%)      0 (0%)
-  hugepages-2Mi      0 (0%)      0 (0%)
-Events:
-  Type     Reason                   Age                From             Message
-  ----     ------                   ----               ----             -------
-  Normal   Starting                 31m                kube-proxy       
-  Normal   Starting                 19m                kube-proxy       
-  Normal   NodeHasSufficientMemory  31m                kubelet          Node esxi-vm03 status is now: NodeHasSufficientMemory
-  Warning  InvalidDiskCapacity      31m                kubelet          invalid capacity 0 on image filesystem
-  Normal   NodeHasNoDiskPressure    31m                kubelet          Node esxi-vm03 status is now: NodeHasNoDiskPressure
-  Normal   NodeHasSufficientPID     31m                kubelet          Node esxi-vm03 status is now: NodeHasSufficientPID
-  Normal   NodeAllocatableEnforced  31m                kubelet          Updated Node Allocatable limit across pods
-  Normal   Starting                 31m                kubelet          Starting kubelet.
-  Normal   RegisteredNode           31m                node-controller  Node esxi-vm03 event: Registered Node esxi-vm03 in Controller
-  Normal   Starting                 20m                kubelet          Starting kubelet.
-  Warning  InvalidDiskCapacity      20m                kubelet          invalid capacity 0 on image filesystem
-  Normal   NodeAllocatableEnforced  20m                kubelet          Updated Node Allocatable limit across pods
-  Normal   NodeHasSufficientMemory  20m (x8 over 20m)  kubelet          Node esxi-vm03 status is now: NodeHasSufficientMemory
-  Normal   NodeHasNoDiskPressure    20m (x7 over 20m)  kubelet          Node esxi-vm03 status is now: NodeHasNoDiskPressure
-  Normal   NodeHasSufficientPID     20m (x7 over 20m)  kubelet          Node esxi-vm03 status is now: NodeHasSufficientPID
-  Normal   RegisteredNode           19m                node-controller  Node esxi-vm03 event: Registered Node esxi-vm03 in Controller
 ````
+
+And you can mark this node as untained by the following
 
 ````sh
-$ kubectl describe pod -n kubernetes-dashboard
-Name:             dashboard-metrics-scraper-64bcc67c9c-5mttm
-Namespace:        kubernetes-dashboard
-Priority:         0
-Service Account:  kubernetes-dashboard
-Node:             <none>
-Labels:           k8s-app=dashboard-metrics-scraper
-                  pod-template-hash=64bcc67c9c
-Annotations:      <none>
-Status:           Pending
-IP:               
-IPs:              <none>
-Controlled By:    ReplicaSet/dashboard-metrics-scraper-64bcc67c9c
-Containers:
-  dashboard-metrics-scraper:
-    Image:        kubernetesui/metrics-scraper:v1.0.8
-    Port:         8000/TCP
-    Host Port:    0/TCP
-    Liveness:     http-get http://:8000/ delay=30s timeout=30s period=10s #success=1 #failure=3
-    Environment:  <none>
-    Mounts:
-      /tmp from tmp-volume (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-f4r5l (ro)
-Conditions:
-  Type           Status
-  PodScheduled   False 
-Volumes:
-  tmp-volume:
-    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
-    Medium:     
-    SizeLimit:  <unset>
-  kube-api-access-f4r5l:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    ConfigMapOptional:       <nil>
-    DownwardAPI:             true
-QoS Class:                   BestEffort
-Node-Selectors:              kubernetes.io/os=linux
-Tolerations:                 node-role.kubernetes.io/master:NoSchedule
-                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type     Reason            Age    From               Message
-  ----     ------            ----   ----               -------
-  Warning  FailedScheduling  3m53s  default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
-
-
-Name:             kubernetes-dashboard-5c8bd6b59-4xvgs
-Namespace:        kubernetes-dashboard
-Priority:         0
-Service Account:  kubernetes-dashboard
-Node:             <none>
-Labels:           k8s-app=kubernetes-dashboard
-                  pod-template-hash=5c8bd6b59
-Annotations:      <none>
-Status:           Pending
-IP:               
-IPs:              <none>
-Controlled By:    ReplicaSet/kubernetes-dashboard-5c8bd6b59
-Containers:
-  kubernetes-dashboard:
-    Image:      kubernetesui/dashboard:v2.7.0
-    Port:       8443/TCP
-    Host Port:  0/TCP
-    Args:
-      --auto-generate-certificates
-      --namespace=kubernetes-dashboard
-    Liveness:     http-get https://:8443/ delay=30s timeout=30s period=10s #success=1 #failure=3
-    Environment:  <none>
-    Mounts:
-      /certs from kubernetes-dashboard-certs (rw)
-      /tmp from tmp-volume (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zcq26 (ro)
-Conditions:
-  Type           Status
-  PodScheduled   False 
-Volumes:
-  kubernetes-dashboard-certs:
-    Type:        Secret (a volume populated by a Secret)
-    SecretName:  kubernetes-dashboard-certs
-    Optional:    false
-  tmp-volume:
-    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
-    Medium:     
-    SizeLimit:  <unset>
-  kube-api-access-zcq26:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    ConfigMapOptional:       <nil>
-    DownwardAPI:             true
-QoS Class:                   BestEffort
-Node-Selectors:              kubernetes.io/os=linux
-Tolerations:                 node-role.kubernetes.io/master:NoSchedule
-                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type     Reason            Age    From               Message
-  ----     ------            ----   ----               -------
-  Warning  FailedScheduling  3m54s  default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+$ kubectl taint nodes <node> node-role.kubernetes.io/control-plane:NoSchedule-
+<node> untainted
 ````
+
+After this, you can see taints values are disappeared.
 
 ````sh
-$ kubectl taint nodes esxi-vm03 node-role.kubernetes.io/control-plane:NoSchedule-
-node/esxi-vm03 untainted
-$ kubectl taint nodes esxi-vm03 node.kubernetes.io/not-ready:NoSchedule-
-node/esxi-vm03 untainted
+$ kubectl describe node
+...
+
+CreationTimestamp:  Sun, 05 Mar 2023 02:56:21 +0900
+Taints:             <none>
+Unschedulable:      false
 ````
+
+### Access from outer host
+
+`kubernetes-dashboard` is ClusterIP by default.
+So you can access to Dashboard from only host machine.
 
 ````sh
- kubectl describe pod -n kubernetes-dashboard
-Name:             dashboard-metrics-scraper-64bcc67c9c-5mttm
-Namespace:        kubernetes-dashboard
-Priority:         0
-Service Account:  kubernetes-dashboard
-Node:             esxi-vm03/192.168.11.103
-Start Time:       Sun, 05 Mar 2023 00:24:32 +0900
-Labels:           k8s-app=dashboard-metrics-scraper
-                  pod-template-hash=64bcc67c9c
-Annotations:      <none>
-Status:           Pending
-IP:               
-IPs:              <none>
-Controlled By:    ReplicaSet/dashboard-metrics-scraper-64bcc67c9c
-Containers:
-  dashboard-metrics-scraper:
-    Container ID:   
-    Image:          kubernetesui/metrics-scraper:v1.0.8
-    Image ID:       
-    Port:           8000/TCP
-    Host Port:      0/TCP
-    State:          Waiting
-      Reason:       ContainerCreating
-    Ready:          False
-    Restart Count:  0
-    Liveness:       http-get http://:8000/ delay=30s timeout=30s period=10s #success=1 #failure=3
-    Environment:    <none>
-    Mounts:
-      /tmp from tmp-volume (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-f4r5l (ro)
-Conditions:
-  Type              Status
-  Initialized       True 
-  Ready             False 
-  ContainersReady   False 
-  PodScheduled      True 
-Volumes:
-  tmp-volume:
-    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
-    Medium:     
-    SizeLimit:  <unset>
-  kube-api-access-f4r5l:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    ConfigMapOptional:       <nil>
-    DownwardAPI:             true
-QoS Class:                   BestEffort
-Node-Selectors:              kubernetes.io/os=linux
-Tolerations:                 node-role.kubernetes.io/master:NoSchedule
-                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type     Reason                  Age                    From               Message
-  ----     ------                  ----                   ----               -------
-  Warning  FailedScheduling        47m (x2 over 52m)      default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
-  Normal   Scheduled               43m                    default-scheduler  Successfully assigned kubernetes-dashboard/dashboard-metrics-scraper-64bcc67c9c-5mttm to esxi-vm03
-  Warning  FailedMount             42m (x7 over 43m)      kubelet            MountVolume.SetUp failed for volume "kube-api-access-f4r5l" : object "kubernetes-dashboard"/"kube-root-ca.crt" not registered
-  Warning  NetworkNotReady         13m (x902 over 43m)    kubelet            network is not ready: container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
-  Warning  FailedCreatePodSandBox  8m2s                   kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "01cffd2c2824d3cd246d6399eeca4178eca55c068678264bf13c238a05fd3fd2": plugin type="flannel" failed (add): loadFlannelSubnetEnv failed: open /run/flannel/subnet.env: no such file or directory
-  Warning  FailedCreatePodSandBox  3m1s (x16 over 6m29s)  kubelet            (combined from similar events): Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "2635fce6066ae37d115c1bf53213f793b5247d8d12936307fb445cc8ee517ffe": plugin type="flannel" failed (add): loadFlannelSubnetEnv failed: open /run/flannel/subnet.env: no such file or directory
-
-
-Name:             kubernetes-dashboard-5c8bd6b59-4xvgs
-Namespace:        kubernetes-dashboard
-Priority:         0
-Service Account:  kubernetes-dashboard
-Node:             esxi-vm03/192.168.11.103
-Start Time:       Sun, 05 Mar 2023 00:24:32 +0900
-Labels:           k8s-app=kubernetes-dashboard
-                  pod-template-hash=5c8bd6b59
-Annotations:      <none>
-Status:           Pending
-IP:               
-IPs:              <none>
-Controlled By:    ReplicaSet/kubernetes-dashboard-5c8bd6b59
-Containers:
-  kubernetes-dashboard:
-    Container ID:  
-    Image:         kubernetesui/dashboard:v2.7.0
-    Image ID:      
-    Port:          8443/TCP
-    Host Port:     0/TCP
-    Args:
-      --auto-generate-certificates
-      --namespace=kubernetes-dashboard
-    State:          Waiting
-      Reason:       ContainerCreating
-    Ready:          False
-    Restart Count:  0
-    Liveness:       http-get https://:8443/ delay=30s timeout=30s period=10s #success=1 #failure=3
-    Environment:    <none>
-    Mounts:
-      /certs from kubernetes-dashboard-certs (rw)
-      /tmp from tmp-volume (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zcq26 (ro)
-Conditions:
-  Type              Status
-  Initialized       True 
-  Ready             False 
-  ContainersReady   False 
-  PodScheduled      True 
-Volumes:
-  kubernetes-dashboard-certs:
-    Type:        Secret (a volume populated by a Secret)
-    SecretName:  kubernetes-dashboard-certs
-    Optional:    false
-  tmp-volume:
-    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
-    Medium:     
-    SizeLimit:  <unset>
-  kube-api-access-zcq26:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    ConfigMapOptional:       <nil>
-    DownwardAPI:             true
-QoS Class:                   BestEffort
-Node-Selectors:              kubernetes.io/os=linux
-Tolerations:                 node-role.kubernetes.io/master:NoSchedule
-                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type     Reason                  Age                     From               Message
-  ----     ------                  ----                    ----               -------
-  Warning  FailedScheduling        47m (x2 over 52m)       default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
-  Normal   Scheduled               43m                     default-scheduler  Successfully assigned kubernetes-dashboard/kubernetes-dashboard-5c8bd6b59-4xvgs to esxi-vm03
-  Warning  FailedMount             42m (x6 over 43m)       kubelet            MountVolume.SetUp failed for volume "kubernetes-dashboard-certs" : object "kubernetes-dashboard"/"kubernetes-dashboard-certs" not registered
-  Warning  FailedMount             42m (x6 over 43m)       kubelet            MountVolume.SetUp failed for volume "kube-api-access-zcq26" : object "kubernetes-dashboard"/"kube-root-ca.crt" not registered
-  Warning  NetworkNotReady         13m (x902 over 43m)     kubelet            network is not ready: container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
-  Warning  FailedCreatePodSandBox  7m59s                   kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "3ff9a88066ee5211dddad6e8a54708b3ce9aedfa5e52d15e5cc96962e7a8309b": plugin type="flannel" failed (add): loadFlannelSubnetEnv failed: open /run/flannel/subnet.env: no such file or directory
-  Warning  FailedCreatePodSandBox  2m52s (x18 over 6m30s)  kubelet            (combined from similar events): Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "b02d75efb18bcc76f4302f71e699254255cb4d29d8dea9bf03270cdd40561076": plugin type="flannel" failed (add): loadFlannelSubnetEnv failed: open /run/flannel/subnet.env: no such file or directory
-````
-
-create subnet.env
-
-````txt
-$ cat /run/flannel/subnet.env
-FLANNEL_NETWORK=172.24.0.0/16
-FLANNEL_SUBNET=172.24.4.1/24
-FLANNEL_MTU=1450
-FLANNEL_IPMASQ=false
-````
-
-### Login token
-
-````yaml
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: admin-user
-  namespace: kubernetes-dashboard
----
-apiVersion: rbac.authorization.k8s.io/v1beta1
-kind: ClusterRoleBinding
-metadata:
-  name: admin-user
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: cluster-admin
-subjects:
-- kind: ServiceAccount
-  name: admin-user
-  namespace: kubernetes-dashboard
+$ kubectl patch service kubernetes-dashboard -p '{"spec":{"type": "NodePort"}}' -n kubernetes-dashboard
+service/kubernetes-dashboard patched
 ````
