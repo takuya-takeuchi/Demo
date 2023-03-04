@@ -2,8 +2,8 @@
 
 # This script is confirmed on 2023/03/01
 
-if [ $# -ne 1 ]; then
-  echo "Pass password of running user to execute command as root" 1>&2
+if [ $# -ne 2 ]; then
+  echo "<Pass password of running user to execute command as root> <kubernetes version to be installed>" 1>&2
   exit 1
 fi
 
@@ -41,11 +41,17 @@ curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
 echo $1 | sudo apt-add-repository "deb http://apt.kubernetes.io/ kubernetes-xenial main"
 
 echo $1 | sudo apt update
-echo $1 | sudo apt install -y kubeadm kubelet kubectl
+echo $1 | sudo apt install -y kubeadm=$2 kubelet=$2 kubectl=$2
 
+echo $1 | sudo sed -ri '/\sswap\s/s/^#?/#/' /etc/fstab
 echo $1 | sudo swapoff -a
 
-echo $1 | sudo kubeadm init --pod-network-cidr=172.24.0.0/16
+# https://github.com/containerd/containerd/issues/4581
+echo $1 | sudo kubeadm init --pod-network-cidr=172.24.0.0/16 --cri-socket=/run/containerd/containerd.sock
+# try again
+echo $1 | sudo rm /etc/containerd/config.toml
+echo $1 | sudo systemctl restart containerd
+echo $1 | sudo kubeadm init --pod-network-cidr=172.24.0.0/16 --cri-socket=/run/containerd/containerd.sock
 
 mkdir -p $HOME/.kube
 echo $1 | sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
