@@ -556,3 +556,36 @@ Events:
   Warning  FailedCreatePodSandBox  7m59s                   kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "3ff9a88066ee5211dddad6e8a54708b3ce9aedfa5e52d15e5cc96962e7a8309b": plugin type="flannel" failed (add): loadFlannelSubnetEnv failed: open /run/flannel/subnet.env: no such file or directory
   Warning  FailedCreatePodSandBox  2m52s (x18 over 6m30s)  kubelet            (combined from similar events): Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "b02d75efb18bcc76f4302f71e699254255cb4d29d8dea9bf03270cdd40561076": plugin type="flannel" failed (add): loadFlannelSubnetEnv failed: open /run/flannel/subnet.env: no such file or directory
 ````
+
+create subnet.env
+
+````txt
+$ cat /run/flannel/subnet.env
+FLANNEL_NETWORK=172.24.0.0/16
+FLANNEL_SUBNET=172.24.4.1/24
+FLANNEL_MTU=1450
+FLANNEL_IPMASQ=false
+````
+
+### Login token
+
+````yaml
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: admin-user
+  namespace: kubernetes-dashboard
+---
+apiVersion: rbac.authorization.k8s.io/v1beta1
+kind: ClusterRoleBinding
+metadata:
+  name: admin-user
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: cluster-admin
+subjects:
+- kind: ServiceAccount
+  name: admin-user
+  namespace: kubernetes-dashboard
+````
