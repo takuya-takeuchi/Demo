@@ -191,13 +191,7 @@ spec:
         seccompProfile:
           type: RuntimeDefault
       containers:
-        - args:
-          # https://github.com/kubernetes/dashboard/blob/master/docs/common/dashboard-arguments.md
-          - --disable-settings-authorizer
-          - --enable-insecure-login
-          - --insecure-bind-address=0.0.0.0
-          - --enable-skip-login
-          name: kubernetes-dashboard
+        - name: kubernetes-dashboard
           image: kubernetesui/dashboard:v2.7.0
           imagePullPolicy: Always
           ports:
@@ -210,6 +204,11 @@ spec:
             # If not specified, Dashboard will attempt to auto discover the API server and connect
             # to it. Uncomment only if the default does not work.
             # - --apiserver-host=http://my-address:port
+            # https://github.com/kubernetes/dashboard/blob/master/docs/common/dashboard-arguments.md
+            - --disable-settings-authorizer
+            - --enable-insecure-login
+            - --insecure-bind-address=0.0.0.0
+            - --enable-skip-login
           volumeMounts:
             - name: kubernetes-dashboard-certs
               mountPath: /certs
