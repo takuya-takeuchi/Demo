@@ -421,3 +421,138 @@ node/esxi-vm03 untainted
 $ kubectl taint nodes esxi-vm03 node.kubernetes.io/not-ready:NoSchedule-
 node/esxi-vm03 untainted
 ````
+
+````sh
+ kubectl describe pod -n kubernetes-dashboard
+Name:             dashboard-metrics-scraper-64bcc67c9c-5mttm
+Namespace:        kubernetes-dashboard
+Priority:         0
+Service Account:  kubernetes-dashboard
+Node:             esxi-vm03/192.168.11.103
+Start Time:       Sun, 05 Mar 2023 00:24:32 +0900
+Labels:           k8s-app=dashboard-metrics-scraper
+                  pod-template-hash=64bcc67c9c
+Annotations:      <none>
+Status:           Pending
+IP:               
+IPs:              <none>
+Controlled By:    ReplicaSet/dashboard-metrics-scraper-64bcc67c9c
+Containers:
+  dashboard-metrics-scraper:
+    Container ID:   
+    Image:          kubernetesui/metrics-scraper:v1.0.8
+    Image ID:       
+    Port:           8000/TCP
+    Host Port:      0/TCP
+    State:          Waiting
+      Reason:       ContainerCreating
+    Ready:          False
+    Restart Count:  0
+    Liveness:       http-get http://:8000/ delay=30s timeout=30s period=10s #success=1 #failure=3
+    Environment:    <none>
+    Mounts:
+      /tmp from tmp-volume (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-f4r5l (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  tmp-volume:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  kube-api-access-f4r5l:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              kubernetes.io/os=linux
+Tolerations:                 node-role.kubernetes.io/master:NoSchedule
+                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason                  Age                    From               Message
+  ----     ------                  ----                   ----               -------
+  Warning  FailedScheduling        47m (x2 over 52m)      default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+  Normal   Scheduled               43m                    default-scheduler  Successfully assigned kubernetes-dashboard/dashboard-metrics-scraper-64bcc67c9c-5mttm to esxi-vm03
+  Warning  FailedMount             42m (x7 over 43m)      kubelet            MountVolume.SetUp failed for volume "kube-api-access-f4r5l" : object "kubernetes-dashboard"/"kube-root-ca.crt" not registered
+  Warning  NetworkNotReady         13m (x902 over 43m)    kubelet            network is not ready: container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
+  Warning  FailedCreatePodSandBox  8m2s                   kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "01cffd2c2824d3cd246d6399eeca4178eca55c068678264bf13c238a05fd3fd2": plugin type="flannel" failed (add): loadFlannelSubnetEnv failed: open /run/flannel/subnet.env: no such file or directory
+  Warning  FailedCreatePodSandBox  3m1s (x16 over 6m29s)  kubelet            (combined from similar events): Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "2635fce6066ae37d115c1bf53213f793b5247d8d12936307fb445cc8ee517ffe": plugin type="flannel" failed (add): loadFlannelSubnetEnv failed: open /run/flannel/subnet.env: no such file or directory
+
+
+Name:             kubernetes-dashboard-5c8bd6b59-4xvgs
+Namespace:        kubernetes-dashboard
+Priority:         0
+Service Account:  kubernetes-dashboard
+Node:             esxi-vm03/192.168.11.103
+Start Time:       Sun, 05 Mar 2023 00:24:32 +0900
+Labels:           k8s-app=kubernetes-dashboard
+                  pod-template-hash=5c8bd6b59
+Annotations:      <none>
+Status:           Pending
+IP:               
+IPs:              <none>
+Controlled By:    ReplicaSet/kubernetes-dashboard-5c8bd6b59
+Containers:
+  kubernetes-dashboard:
+    Container ID:  
+    Image:         kubernetesui/dashboard:v2.7.0
+    Image ID:      
+    Port:          8443/TCP
+    Host Port:     0/TCP
+    Args:
+      --auto-generate-certificates
+      --namespace=kubernetes-dashboard
+    State:          Waiting
+      Reason:       ContainerCreating
+    Ready:          False
+    Restart Count:  0
+    Liveness:       http-get https://:8443/ delay=30s timeout=30s period=10s #success=1 #failure=3
+    Environment:    <none>
+    Mounts:
+      /certs from kubernetes-dashboard-certs (rw)
+      /tmp from tmp-volume (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-zcq26 (ro)
+Conditions:
+  Type              Status
+  Initialized       True 
+  Ready             False 
+  ContainersReady   False 
+  PodScheduled      True 
+Volumes:
+  kubernetes-dashboard-certs:
+    Type:        Secret (a volume populated by a Secret)
+    SecretName:  kubernetes-dashboard-certs
+    Optional:    false
+  tmp-volume:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  kube-api-access-zcq26:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              kubernetes.io/os=linux
+Tolerations:                 node-role.kubernetes.io/master:NoSchedule
+                             node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type     Reason                  Age                     From               Message
+  ----     ------                  ----                    ----               -------
+  Warning  FailedScheduling        47m (x2 over 52m)       default-scheduler  0/1 nodes are available: 1 node(s) had untolerated taint {node-role.kubernetes.io/control-plane: }. preemption: 0/1 nodes are available: 1 Preemption is not helpful for scheduling.
+  Normal   Scheduled               43m                     default-scheduler  Successfully assigned kubernetes-dashboard/kubernetes-dashboard-5c8bd6b59-4xvgs to esxi-vm03
+  Warning  FailedMount             42m (x6 over 43m)       kubelet            MountVolume.SetUp failed for volume "kubernetes-dashboard-certs" : object "kubernetes-dashboard"/"kubernetes-dashboard-certs" not registered
+  Warning  FailedMount             42m (x6 over 43m)       kubelet            MountVolume.SetUp failed for volume "kube-api-access-zcq26" : object "kubernetes-dashboard"/"kube-root-ca.crt" not registered
+  Warning  NetworkNotReady         13m (x902 over 43m)     kubelet            network is not ready: container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
+  Warning  FailedCreatePodSandBox  7m59s                   kubelet            Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "3ff9a88066ee5211dddad6e8a54708b3ce9aedfa5e52d15e5cc96962e7a8309b": plugin type="flannel" failed (add): loadFlannelSubnetEnv failed: open /run/flannel/subnet.env: no such file or directory
+  Warning  FailedCreatePodSandBox  2m52s (x18 over 6m30s)  kubelet            (combined from similar events): Failed to create pod sandbox: rpc error: code = Unknown desc = failed to setup network for sandbox "b02d75efb18bcc76f4302f71e699254255cb4d29d8dea9bf03270cdd40561076": plugin type="flannel" failed (add): loadFlannelSubnetEnv failed: open /run/flannel/subnet.env: no such file or directory
+````
