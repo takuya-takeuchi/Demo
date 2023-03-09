@@ -30,4 +30,6 @@ $ chmod 777 data
 $ docker compose up -d
 ````
 
+After running containers, you can access Wiki.js http://host-ip:3000.
+
 <img src="./images/setup.png" />
