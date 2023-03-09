@@ -14,6 +14,7 @@
 * [containerd.io](https://github.com/containerd/containerd)
   * Apache-2.0 license
 * [Keycloak](https://github.com/keycloak/keycloak)
+  * 18.0.2
   * Apache-2.0 license
 * [Wiki.js](https://github.com/Requarks/wiki)
   * GNU Affero General Public License
@@ -46,6 +47,8 @@ $ docker compose up -d
 
 ### 2. Keycloak
 
+1. Log into Keycloak as `admin`
+   * password is written in `docker-compose.yaml`
 1. Create Realm. For example, `dev`
 1. Create Clients in created Relam
 
