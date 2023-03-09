@@ -1,4 +1,4 @@
-# Configuring Keycloak as a authentication provider in WikiJS
+# Configuring Keycloak as a authentication provider in Wiki.jS
 
 ## Abstracts
 
@@ -29,62 +29,100 @@ $ chmod -R 777 keycloak
 $ docker compose up -d
 ````
 
-The following messages are from `docker logs -f wikijs`.
-You can find that locate files are installed and offline mode is enabled.
+## How to setup?
 
-````sh
-2023-03-09T08:43:59.943Z [MASTER] info: =======================================
-2023-03-09T08:43:59.946Z [MASTER] info: = Wiki.js 2.5.297 =====================
-2023-03-09T08:43:59.946Z [MASTER] info: =======================================
-2023-03-09T08:43:59.946Z [MASTER] info: Initializing...
-2023-03-09T08:44:00.769Z [MASTER] info: Using database driver sqlite3 for sqlite [ OK ]
-2023-03-09T08:44:00.774Z [MASTER] info: Connecting to database...
-2023-03-09T08:44:00.785Z [MASTER] info: Database Connection Successful [ OK ]
-2023-03-09T08:44:00.888Z [MASTER] warn: DB Configuration is empty or incomplete. Switching to Setup mode...
-2023-03-09T08:44:00.888Z [MASTER] info: Starting setup wizard...
-2023-03-09T08:44:01.079Z [MASTER] info: Starting HTTP server on port 3000...
-2023-03-09T08:44:01.079Z [MASTER] info: HTTP Server on port: [ 3000 ]
-2023-03-09T08:44:01.084Z [MASTER] info: HTTP Server: [ RUNNING ]
-2023-03-09T08:44:01.084Z [MASTER] info: 🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻🔻
-2023-03-09T08:44:01.084Z [MASTER] info: 
-2023-03-09T08:44:01.084Z [MASTER] info: Browse to http://YOUR-SERVER-IP:3000/ to complete setup!
-2023-03-09T08:44:01.084Z [MASTER] info: 
-2023-03-09T08:44:01.085Z [MASTER] info: 🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺🔺
-2023-03-09T08:44:24.726Z [MASTER] info: Creating data directories...
-2023-03-09T08:44:24.728Z [MASTER] info: Generating certificates...
-2023-03-09T08:44:24.770Z [MASTER] info: Persisting config to DB...
-2023-03-09T08:44:24.933Z [MASTER] info: Installing default locale...
+### 1. Wiki.js
 
-...
+1. Go to Administration
+1. Open `General`
+1. Check `Site URL`
+   * Set `http://<wiki.js ip>:<wiki.js port>`
+   * If this value is `https://wiki.yourdomain.com`, redirect from Keycloak does not work
+1. Open `Authentication`
+1. Add `Keycloak` by clicking `ADD STRATEGY`
+1. Copy `Callback URL / Redirect URI`
+   * Copy `login/25c155b5-17dd-4b74-87bc-908f85ee69a6/callback` if test is `https://wiki.yourdomain.com/login/25c155b5-17dd-4b74-87bc-908f85ee69a6/callback`
+1. Apply
 
-2023-03-09T08:44:26.708Z [MASTER] info: Sideload directory detected. Looking for packages...
-2023-03-09T08:44:26.710Z [MASTER] info: Found locales master file. Importing locale packages...
-2023-03-09T08:44:26.714Z [MASTER] info: Importing Afrikaans locale package...
-2023-03-09T08:44:26.758Z [MASTER] info: Importing Amharic locale package...
+### 2. Keycloak
 
-...
+1. Create Realm. For example, `dev`
+1. Create Clients in created Relam
 
-2023-03-09T08:44:27.713Z [MASTER] info: Importing Thai locale package...
-2023-03-09T08:44:27.725Z [MASTER] info: Importing Turkish locale package...
-2023-03-09T08:44:27.758Z [MASTER] info: Importing Ukrainian locale package...
-2023-03-09T08:44:27.776Z [MASTER] info: Importing Uyghur, Uighur locale package...
-2023-03-09T08:44:27.786Z [MASTER] info: Importing Vietnamese locale package...
-2023-03-09T08:44:27.809Z [MASTER] info: Imported 59 locale packages: [COMPLETED]
+|Property|Value|
+|---|---|
+|Client ID|`wikijs`|
+|Client Protocol|`openid-connect`|
+|Root URL|`http://<wiki.js ip>:<wiki.js port>`|
 
-...
+3. Set values and Save
 
-2023-03-09T08:44:30.843Z [MASTER] info: Purging orphaned upload files...
-2023-03-09T08:44:30.843Z [MASTER] warn: Skipping job syncGraphLocales because offline mode is enabled. [SKIPPED]
-2023-03-09T08:44:30.844Z [MASTER] warn: Skipping job syncGraphUpdates because offline mode is enabled. [SKIPPED]
-2023-03-09T08:44:30.858Z [MASTER] info: Purging orphaned upload files: [ COMPLETED ]
-Loading configuration from /wiki/config.yml... OK
-2023-03-09T08:44:31.111Z [JOB] info: Rebuilding page tree...
-2023-03-09T08:44:31.826Z [JOB] info: Using database driver sqlite3 for sqlite [ OK ]
-2023-03-09T08:44:31.870Z [JOB] info: Rebuilding page tree: [ COMPLETED ]
-````
+|Property|Value|
+|---|---|
+|Client ID|`wikijs`|
+|Name Description Enabled|`ON`|
+|Always Display in Console|`OFF`|
+|Consent Required|`OFF`|
+|Login Theme||
+|Client Protocol|`openid-connect`|
+|Access Type|`confidential`|
+|Standard Flow Enabled|`ON`|
+|Implicit Flow Enabled|`OFF`|
+|Direct Access Grants Enabled|`ON`|
+|OAuth 2.0 Device Authorization Grant Enabled|`OFF`|
+|Front Channel Logout|`OFF`|
+|Root URL|`http://<wiki.js ip>:<wiki.js port>`|
+|Valid Redirect URIs|* `login/xxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/callback` (from Wiki.js)<br>* `*`|
+Base URL||
+|Admin URL|`http://<wiki.js ip>:<wiki.js port>`|
+Logo URL||
+Policy URL||
+Terms of service URL||
+|Web Origins|`+`|
+Backchannel Logout URL||
+|Backchannel Logout Session Required|`ON`|
+|Backchannel Logout Revoke Offline Sessions|`OFF`|
 
-## Locale
+4. Moev to `Credentials` tab and copy `Secret` value
 
-After running containers, you can access Wiki.js http://host-ip:3000.
+### 3. Wiki.js
 
-<img src="./images/locale.png" />
+1. Go to Administration
+1. Open `Authentication` and `Keycloak`
+1. Set values and Save
+
+|Property|Value|
+|---|---|
+|Display Name|`Keycloak`|
+|Active|`ON`|
+|Host|`http://<Keycloak ip>:<keycloak port>`|
+|Realm|`dev`|
+|Client ID|`wikijs`|
+|Application Client Secret​|`<Secret value of Keycloak's client>`|
+|Authorization Endpoint URL|`http://<Keycloak ip>:<keycloak port>/realms/<realm>/protocol/openid-connect/auth​`|
+|Token Endpoint URL|`http://<Keycloak ip>:<keycloak port>/realms/<realm>/protocol/openid-connect/token​`|
+|User Info Endpoint URL|`http://<Keycloak ip>:<keycloak port>/realms/<realm>/protocol/openid-connect/userinfo`​|
+|Logout from Keycloak on Logout|`OFF`|
+|Logout Endpoint URL|`http://<Keycloak ip>:<keycloak port>/realms/<realm>/protocol/openid-connect/logout`|
+
+1. Set values and Save
+
+|Property|Value|
+|---|---|
+|Allow self-registrations||
+|Limit to specific email domains||
+|Assign to group||
+
+## Try
+
+<img src="./images/wikijs-login.png" />
+
+Access to Wiki.js and select `Keycloak`
+
+<img src="./images/keycloak-login.png" />
+
+Input proper credential values are regestrated in Keycloak
+
+<img src="./images/wikijs-welcome.png" />
+
+Redirect to Wiki.js if login was succeeded
