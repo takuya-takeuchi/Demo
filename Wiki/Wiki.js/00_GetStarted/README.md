@@ -30,6 +30,19 @@ $ chmod 777 data
 $ docker compose up -d
 ````
 
+### sqlite
+
+Use postgres as storage.
+
+````sh
+$ cd docker/postgres
+$ mkdir data
+$ chmod 777 data
+$ docker compose up -d
+````
+
+## Setup
+
 After running containers, you can access Wiki.js http://host-ip:3000.
 
 <img src="./images/setup.png" />
