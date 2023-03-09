@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  wiki:
+    image: requarks/wiki:2
+    container_name: wikijs
+    ports:
+      - 3000:3000
+    volumes:
+      - ./data:/data
+      - ./config/config.yml:/wiki/config.yml
