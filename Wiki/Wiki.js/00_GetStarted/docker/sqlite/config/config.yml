@@ -3,4 +3,4 @@ bindIP: 0.0.0.0
 db:
   type: sqlite
   storage: /data/database.sqlite
-offline: true
+offline: false

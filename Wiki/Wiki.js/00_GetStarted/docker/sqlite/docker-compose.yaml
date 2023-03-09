@@ -4,10 +4,8 @@ services:
   wiki:
     image: requarks/wiki:2
     container_name: wikijs
-    environment:
-      DB_TYPE: sqlite
-      DB_FILEPATH: /data/database.sqlite
     ports:
       - 3000:3000
     volumes:
       - ./data:/data
+      - ./config/config.yml:/wiki/config.yml
