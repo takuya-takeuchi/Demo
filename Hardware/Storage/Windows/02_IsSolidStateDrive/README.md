@@ -1,8 +1,10 @@
-# Get Physical DriveName
+# Is Solid State Drive?
 
 ## Abstracts
 
-* Get Physical DriveName (e.g. `\\.\PhysicalDrive0`) from dirve name (e.g. `C:\`)
+* Determine physical drive is solid state drive or not
+  * Check whether specified physical drive incurs a seek penalty 
+    * Refer [DEVICE_SEEK_PENALTY_DESCRIPTOR structure](https://learn.microsoft.com/en-us/windows/win32/api/winioctl/ns-winioctl-device_seek_penalty_descriptor)
 
 ## Requirements
 
