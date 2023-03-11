@@ -25,9 +25,12 @@ $ pwsh build.ps1 <Debug/Release>
 ## How to use?
 
 ````bat
-$ install\win\bin\Test C:\
-\\.\PhysicalDrive1
+$ install\win\bin\Test \\.\PhysicalDrive0
+\\.\PhysicalDrive0 has seek penalty. It's not solid state drive.
 
-$ install\win\bin\Test D:\
-\\.\PhysicalDrive0
+$ install\win\bin\Test \\.\PhysicalDrive1
+\\.\PhysicalDrive1 has no seek penalty. It's solid state drive.
+
+$ install\win\bin\Test \\.\PhysicalDrive 
+Failed to retrieve the status.
 ````
