@@ -11,7 +11,8 @@ HRESULT HasNoSeekPenalty(const std::string& physicalDrivePath)
     const HANDLE handle = ::CreateFileA(physicalDrivePath.c_str(),
                                         FILE_READ_ATTRIBUTES,
                                         FILE_SHARE_READ | FILE_SHARE_WRITE,
-                                        NULL,OPEN_EXISTING,
+                                        NULL,
+                                        OPEN_EXISTING,
                                         FILE_ATTRIBUTE_NORMAL,
                                         NULL);
     if (handle == INVALID_HANDLE_VALUE)
