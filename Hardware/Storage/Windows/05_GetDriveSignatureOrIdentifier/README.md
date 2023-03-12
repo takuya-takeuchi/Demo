@@ -1,8 +1,9 @@
-# Get Drive Identifier of GPT
+# Get Drive Identifier or Drive Signature
 
 ## Abstracts
 
-* Get Drive Identifier of GPT from Physical DriveName (e.g. `\\.\PhysicalDrive0`)
+* Get Drive Identifier of GPT or Drive Signature of MBR from Physical DriveName (e.g. `\\.\PhysicalDrive0`)
+  * This program does not require administrative right
 
 ## Requirements
 
@@ -38,5 +39,5 @@ GPT Drive Identifier: 4222cdcb-f8ec-4236-9f5c-c5c22be233b9
 
 ````bat
 $ install\win\bin\Test.exe \\.\PhysicalDrive0
-GPT Drive Identifier: 7a55d92b-15d2-75c1-0000-000000000000
+MBR Drive Signature: 7a55d92b-15d2-75c1-0000-000000000000
 ````
