@@ -24,6 +24,8 @@ $ pwsh build.ps1 <Debug/Release>
 
 ## How to use?
 
+This program does not work for MBR drive.
+
 ````bat
 $ install\win\bin\Test.exe \\.\PhysicalDrive0
 GPT Drive Identifier: 8db8ba8b-adaf-473d-a9cb-64579d8028ae
