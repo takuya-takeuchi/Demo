@@ -93,3 +93,6 @@
 	path = Networking/Apache-Kafka/modern-cpp-kafka/modern-cpp-kafka
 	url = https://github.com/morganstanley/modern-cpp-kafka
         ignore = dirty
+[submodule "ComputerVision/OpenCV/opencv4"]
+	path = ComputerVision/OpenCV/opencv4
+	url = https://github.com/opencv/opencv
