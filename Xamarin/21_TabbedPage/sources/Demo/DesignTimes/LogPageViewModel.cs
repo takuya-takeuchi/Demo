@@ -1,5 +1,4 @@
 ﻿using Demo.ViewModels.Interfaces;
-using Prism.Commands;
 
 namespace Demo.DesignTimes
 {
@@ -8,6 +7,11 @@ namespace Demo.DesignTimes
     {
 
         public string Title
+        {
+            get;
+        }
+
+        public string Logs
         {
             get;
         }
