@@ -2,6 +2,7 @@
 <TabbedPage x:Class="Demo.Views.MainPage"
             xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:behaviors="http://prismlibrary.com"
             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
             xmlns:designTimes="clr-namespace:Demo.DesignTimes;assembly=Demo"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,7 +12,19 @@
         <designTimes:MainPageViewModel />
     </d:ContentPage.BindingContext>
 
+    <TabbedPage.Behaviors>
+        <behaviors:EventToCommandBehavior Command="{Binding PagesChangedCommand}"
+                                          EventName="PagesChanged" />
+    </TabbedPage.Behaviors>
+
     <TabbedPage.Children>
+        <views:MediaPage>
+            <views:MediaPage.IconImageSource>
+                <FontImageSource FontFamily="FontAwesome6Solid"
+                                 Glyph="&#xf87c;"
+                                 Color="Black" />
+            </views:MediaPage.IconImageSource>
+        </views:MediaPage>
         <views:LogPage>
             <views:LogPage.IconImageSource>
                 <FontImageSource FontFamily="FontAwesome6Solid"
@@ -19,13 +32,6 @@
                                  Color="Black" />
             </views:LogPage.IconImageSource>
         </views:LogPage>
-        <views:SettingPage>
-            <views:SettingPage.IconImageSource>
-                <FontImageSource FontFamily="FontAwesome6Solid"
-                                 Glyph="&#xf1de;"
-                                 Color="Black" />
-            </views:SettingPage.IconImageSource>
-        </views:SettingPage>
     </TabbedPage.Children>
 
 </TabbedPage>

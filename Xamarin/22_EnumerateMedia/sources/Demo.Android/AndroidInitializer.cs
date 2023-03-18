@@ -1,17 +1,20 @@
 ﻿using Prism;
 using Prism.Ioc;
 
+using Demo.Droid.Services;
+using Demo.Services.Interfaces;
+
 namespace Demo.Droid
 {
 
     public sealed class AndroidInitializer : IPlatformInitializer
     {
 
-        #region Methods
+        #region IPlatformInitializer Members
 
         public void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            // Register any platform specific implementations
+            containerRegistry.Register<IMediaService, MediaService>();
         }
 
         #endregion

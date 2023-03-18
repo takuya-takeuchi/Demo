@@ -1,8 +1,10 @@
-using Prism;
-using Prism.Ioc;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
+
+using DLToolkit.Forms.Controls;
+using Prism;
+using Prism.Ioc;
 
 using Demo.Services;
 using Demo.Services.Interfaces;
@@ -20,6 +22,7 @@ namespace Demo
         public App(IPlatformInitializer initializer)
             : base(initializer)
         {
+            FlowListView.Init();
         }
 
         #endregion
@@ -44,8 +47,8 @@ namespace Demo
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
 
+            containerRegistry.RegisterForNavigation<MediaPage, MediaPageViewModel>();
             containerRegistry.RegisterForNavigation<LogPage, LogPageViewModel>();
-            containerRegistry.RegisterForNavigation<SettingPage, SettingPageViewModel>();
         }
 
         #endregion

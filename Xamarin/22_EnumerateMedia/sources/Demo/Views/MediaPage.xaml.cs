@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace Demo.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class SettingPage : ContentPage
+    public partial class MediaPage : ContentPage
     {
-        public SettingPage()
+        public MediaPage()
         {
             InitializeComponent();
         }

@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Threading.Tasks;
 using Foundation;
-using Prism.Ioc;
 using UIKit;
 
+using Prism;
+using Prism.Ioc;
+
+using Demo.iOS.Services;
 using Demo.Services.Interfaces;
 
 namespace Demo.iOS
@@ -13,7 +16,7 @@ namespace Demo.iOS
     // User Interface of the application, as well as listening (and optionally responding) to 
     // application events from iOS.
     [Register("AppDelegate")]
-    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate
+    public partial class AppDelegate : global::Xamarin.Forms.Platform.iOS.FormsApplicationDelegate, IPlatformInitializer
     {
 
         #region Methods
@@ -85,6 +88,15 @@ namespace Demo.iOS
         }
 
         #endregion
+
+        #endregion
+
+        #region IPlatformInitializer Members
+
+        public void RegisterTypes(IContainerRegistry containerRegistry)
+        {
+            containerRegistry.Register<IMediaService, MediaService>();
+        }
 
         #endregion
 

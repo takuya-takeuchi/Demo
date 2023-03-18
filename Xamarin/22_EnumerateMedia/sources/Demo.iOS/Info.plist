@@ -36,5 +36,7 @@
 	<string>1.0</string>
 	<key>CFBundleShortVersionString</key>
 	<string>1</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Picture Picker uses photo library</string>
 </dict>
 </plist>

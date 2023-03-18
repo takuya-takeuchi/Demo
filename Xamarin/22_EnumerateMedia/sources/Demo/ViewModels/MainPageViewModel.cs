@@ -1,8 +1,11 @@
-﻿using Prism.Commands;
+﻿using System.Windows.Input;
+
+using Prism.Commands;
 using Prism.Navigation;
 
 using Demo.Services.Interfaces;
 using Demo.ViewModels.Interfaces;
+using Xamarin.Forms;
 
 namespace Demo.ViewModels
 {
@@ -20,9 +23,8 @@ namespace Demo.ViewModels
 
         public MainPageViewModel(INavigationService navigationService,
                                  ILoggingService loggingService)
-            : base(navigationService)
+            : base(navigationService, loggingService)
         {
-            this._LoggingService = loggingService;
         }
 
         #endregion

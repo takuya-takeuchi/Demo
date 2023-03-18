@@ -1,6 +1,4 @@
-﻿using Prism.Commands;
-
-using Demo.ViewModels.Interfaces;
+﻿using Demo.ViewModels.Interfaces;
 
 namespace Demo.DesignTimes
 {
