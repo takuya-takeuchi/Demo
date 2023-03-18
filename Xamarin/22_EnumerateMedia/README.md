@@ -1,8 +1,8 @@
-# TabPage Demo
+# Enumerate Media Files
 
 ## Abstracts
 
-* How to use TabPage for Xamarin
+* How to enumerate media files (photo and movie)
 
 ## Requirements
 
@@ -13,6 +13,10 @@
 
 ## Dependencies
 
+* [Acr.UserDialogs](https://github.com/aritchie/userdialogs)
+  * MIT License
+* [DLToolkit.Forms.Controls.FlowListView](https://github.com/daniel-luberda/DLToolkit.Forms.Controls)
+  * Apache 2.0 License
 * [Font Awesome Free](https://fontawesome.com/)
   * Fonts
     * SIL Open Font License

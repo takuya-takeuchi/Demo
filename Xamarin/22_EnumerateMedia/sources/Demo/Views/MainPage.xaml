@@ -2,20 +2,17 @@
 <TabbedPage x:Class="Demo.Views.MainPage"
             xmlns="http://xamarin.com/schemas/2014/forms"
             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:android="clr-namespace:Xamarin.Forms.PlatformConfiguration.AndroidSpecific;assembly=Xamarin.Forms.Core"
             xmlns:behaviors="http://prismlibrary.com"
             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
             xmlns:designTimes="clr-namespace:Demo.DesignTimes;assembly=Demo"
             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
             xmlns:views="clr-namespace:Demo.Views;assembly=Demo"
+            android:TabbedPage.ToolbarPlacement="Bottom"
             mc:Ignorable="d">
     <d:ContentPage.BindingContext>
         <designTimes:MainPageViewModel />
     </d:ContentPage.BindingContext>
-
-    <TabbedPage.Behaviors>
-        <behaviors:EventToCommandBehavior Command="{Binding PagesChangedCommand}"
-                                          EventName="PagesChanged" />
-    </TabbedPage.Behaviors>
 
     <TabbedPage.Children>
         <views:MediaPage>
