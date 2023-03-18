@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Demo.Views.MediaPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:designTimes="clr-namespace:Demo.DesignTimes;assembly=Demo"
+             xmlns:flv="clr-namespace:DLToolkit.Forms.Controls;assembly=DLToolkit.Forms.Controls.FlowListView"
+             xmlns:models="clr-namespace:Demo.Models;assembly=Demo"
+             Title="{Binding Title}">
+    <ContentPage.BindingContext>
+        <designTimes:MediaPageViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <flv:FlowListView x:Name="MainLayout"
+                          FlowColumnCount="3"
+                          FlowItemTappedCommand="{Binding ItemTappedCommand}"
+                          FlowItemsSource="{Binding MediaAssets}"
+                          HasUnevenRows="True"
+                          SelectedItem="{Binding MediaSelected, Mode=TwoWay}"
+                          SeparatorVisibility="None">
+            <flv:FlowListView.FlowColumnTemplate>
+                <DataTemplate x:DataType="models:MediaAsset">
+                    <Frame Margin="5"
+                           Padding="5"
+                           HasShadow="False">
+                        <Image Aspect="AspectFill"
+                               HeightRequest="150"
+                               HorizontalOptions="FillAndExpand"
+                               Source="{Binding PreviewPath}">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding Source={x:Reference MainLayout}, Path=FlowItemTappedCommand}"
+                                                      CommandParameter="{Binding .}" />
+                            </Image.GestureRecognizers>
+                        </Image>
+                    </Frame>
+                </DataTemplate>
+            </flv:FlowListView.FlowColumnTemplate>
+
+        </flv:FlowListView>
+    </ContentPage.Content>
+</ContentPage>
