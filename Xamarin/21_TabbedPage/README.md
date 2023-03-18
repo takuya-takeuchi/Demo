@@ -4,6 +4,7 @@
 
 * How to use TabPage for Xamarin
   * On Android, Move tab to bottom area
+* Activate and Deactivate event for TabbedPage
 
 ## Requirements
 
