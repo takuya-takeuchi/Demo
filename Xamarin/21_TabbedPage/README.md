@@ -3,6 +3,7 @@
 ## Abstracts
 
 * How to use TabPage for Xamarin
+  * On Android, Move tab to bottom area
 
 ## Requirements
 
