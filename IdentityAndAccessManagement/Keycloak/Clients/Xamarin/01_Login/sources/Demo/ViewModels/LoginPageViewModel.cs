@@ -1,0 +1,95 @@
+﻿using System;
+
+using Prism.Commands;
+using Prism.Navigation;
+
+using Demo.Services.Interfaces;
+using Demo.ViewModels.Interfaces;
+
+namespace Demo.ViewModels
+{
+
+    public sealed class LoginPageViewModel : ViewModelBase, ILoginPageViewModel
+    {
+
+        #region Fields
+
+        private readonly ILoginService _LoginService;
+
+        #endregion
+
+        #region Constructors
+
+        public LoginPageViewModel(INavigationService navigationService,
+                                  ILoggingService loggingService,
+                                  ILoginService loginService)
+            : base(navigationService, loggingService)
+        {
+            this.Title = "Login";
+
+            this._LoginService = loginService;
+        }
+
+        #endregion
+
+        #region ILoginPageViewModel Members
+
+        private bool _IsLoggedIn;
+
+        public bool IsLoggedIn
+        {
+            get => this._IsLoggedIn;
+            private set => this.SetProperty(ref this._IsLoggedIn, value);
+        }
+
+        private DelegateCommand _LoginCommand;
+
+        public DelegateCommand LoginCommand
+        {
+            get
+            {
+                return this._LoginCommand ?? (this._LoginCommand = new DelegateCommand(async () =>
+                {
+                    try
+                    {
+                        await this._LoginService.Login().ConfigureAwait(false);
+
+                        //this.IsLoggedIn = true;
+
+                        this.NavigationService.NavigateAsync("MainPage").Wait();
+                    }
+                    catch (Exception ex)
+                    {
+                        this.LoggingService.Error(ex, null, "Failed to login");
+                    }
+                }));
+            }
+        }
+
+        private DelegateCommand _LogoutCommand;
+
+        public DelegateCommand LogoutCommand
+        {
+            get
+            {
+                return this._LogoutCommand ?? (this._LogoutCommand = new DelegateCommand(async () =>
+                {
+                    try
+                    {
+                        await this._LoginService.Logout();
+                    }
+                    catch (Exception ex)
+                    {
+                        this.LoggingService.Error(ex, null, "Failed to logout");
+                    }
+
+                    this.IsLoggedIn = false;
+                }));
+            }
+        }
+
+        #endregion
+
+    }
+
+}
