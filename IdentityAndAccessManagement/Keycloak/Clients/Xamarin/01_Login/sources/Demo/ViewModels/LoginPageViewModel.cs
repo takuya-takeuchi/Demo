@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 
 using Prism.Commands;
 using Prism.Navigation;
@@ -32,6 +33,23 @@ namespace Demo.ViewModels
 
         #endregion
 
+        #region Methods
+
+        private async void Login()
+        {
+            try
+            {
+                await this._LoginService.Login();
+                await this.NavigationService.NavigateAsync("/MainPage");
+            }
+            catch (Exception ex)
+            {
+                this.LoggingService.Error(ex, null, "Failed to login");
+            }
+        }
+
+        #endregion
+
         #region ILoginPageViewModel Members
 
         private bool _IsLoggedIn;
@@ -48,21 +66,7 @@ namespace Demo.ViewModels
         {
             get
             {
-                return this._LoginCommand ?? (this._LoginCommand = new DelegateCommand(async () =>
-                {
-                    try
-                    {
-                        await this._LoginService.Login().ConfigureAwait(false);
-
-                        //this.IsLoggedIn = true;
-
-                        this.NavigationService.NavigateAsync("MainPage").Wait();
-                    }
-                    catch (Exception ex)
-                    {
-                        this.LoggingService.Error(ex, null, "Failed to login");
-                    }
-                }));
+                return this._LoginCommand ?? (this._LoginCommand = new DelegateCommand(this.Login));
             }
         }
 
