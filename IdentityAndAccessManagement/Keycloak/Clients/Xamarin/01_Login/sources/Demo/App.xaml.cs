@@ -1,8 +1,8 @@
-using Prism;
-using Prism.Ioc;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
-using Xamarin.Forms;
+
+using Prism;
+using Prism.Ioc;
 
 using Demo.Services;
 using Demo.Services.Interfaces;
@@ -31,9 +31,8 @@ namespace Demo
         protected override async void OnInitialized()
         {
             InitializeComponent();
-
-            //await NavigationService.NavigateAsync("MainPage");
-            await NavigationService.NavigateAsync("LoginPage");
+            
+            await this.NavigationService.NavigateAsync("LoginPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

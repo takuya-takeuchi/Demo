@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using IdentityModel.OidcClient;
 
 namespace Demo.Services.Interfaces
 {
@@ -6,7 +7,7 @@ namespace Demo.Services.Interfaces
     public interface ILoginService
     {
 
-        Task Login();
+        Task<LoginResult> Login();
 
         Task Logout();
 
