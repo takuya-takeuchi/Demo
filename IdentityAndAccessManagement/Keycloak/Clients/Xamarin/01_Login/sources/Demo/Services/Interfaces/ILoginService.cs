@@ -1,5 +1,7 @@
-﻿using System.Threading.Tasks;
-using IdentityModel.OidcClient;
+﻿using System;
+using System.Threading.Tasks;
+
+using Demo.Models;
 
 namespace Demo.Services.Interfaces
 {
@@ -7,9 +9,16 @@ namespace Demo.Services.Interfaces
     public interface ILoginService
     {
 
-        Task<LoginResult> Login();
+        DateTimeOffset? AccessTokenExpiration
+        {
+            get;
+        }
+
+        Task<AuthenticationResult> Login();
 
         Task Logout();
+
+        Task<AuthenticationResult> RefreshToken();
 
     }
 
