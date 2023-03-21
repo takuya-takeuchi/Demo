@@ -26,7 +26,19 @@
     <StackLayout Padding="10"
                  HorizontalOptions="CenterAndExpand"
                  VerticalOptions="CenterAndExpand">
-        <Label Text="Welcome to Xamarin Forms and Prism!" />
+
+        <StackLayout Padding="10"
+                     HorizontalOptions="CenterAndExpand"
+                     Orientation="Horizontal"
+                     VerticalOptions="CenterAndExpand">
+            <Label Text="AccessTokenExpire: " />
+            <Label Text="{Binding AccessTokenExpire}" />
+        </StackLayout>
+
+        <Button Padding="20"
+                Command="{Binding RefreshCommand}"
+                IsVisible="True"
+                Text="Refresh Token" />
     </StackLayout>
 
 </ContentPage>

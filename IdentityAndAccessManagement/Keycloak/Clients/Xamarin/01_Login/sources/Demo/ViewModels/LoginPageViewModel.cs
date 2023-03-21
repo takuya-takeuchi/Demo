@@ -35,6 +35,8 @@ namespace Demo.ViewModels
 
         #region Methods
 
+        #region Helpers
+
         private async void Login()
         {
             try
@@ -47,6 +49,22 @@ namespace Demo.ViewModels
                 this.LoggingService.Error(ex, null, "Failed to login");
             }
         }
+
+        private async void Logout()
+        {
+            try
+            {
+                await this._LoginService.Logout();
+            }
+            catch (Exception ex)
+            {
+                this.LoggingService.Error(ex, null, "Failed to logout");
+            }
+
+            this.IsLoggedIn = false;
+        }
+
+        #endregion
 
         #endregion
 
@@ -62,35 +80,11 @@ namespace Demo.ViewModels
 
         private DelegateCommand _LoginCommand;
 
-        public DelegateCommand LoginCommand
-        {
-            get
-            {
-                return this._LoginCommand ?? (this._LoginCommand = new DelegateCommand(this.Login));
-            }
-        }
+        public DelegateCommand LoginCommand => this._LoginCommand ?? (this._LoginCommand = new DelegateCommand(this.Login));
 
         private DelegateCommand _LogoutCommand;
 
-        public DelegateCommand LogoutCommand
-        {
-            get
-            {
-                return this._LogoutCommand ?? (this._LogoutCommand = new DelegateCommand(async () =>
-                {
-                    try
-                    {
-                        await this._LoginService.Logout();
-                    }
-                    catch (Exception ex)
-                    {
-                        this.LoggingService.Error(ex, null, "Failed to logout");
-                    }
-
-                    this.IsLoggedIn = false;
-                }));
-            }
-        }
+        public DelegateCommand LogoutCommand => this._LogoutCommand ?? (this._LogoutCommand = new DelegateCommand(this.Logout));
 
         #endregion
 

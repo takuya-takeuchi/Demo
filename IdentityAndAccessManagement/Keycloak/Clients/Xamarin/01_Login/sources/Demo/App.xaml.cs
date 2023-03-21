@@ -40,6 +40,7 @@ namespace Demo
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
 
             containerRegistry.RegisterSingleton<ILoggingService, LoggingService>();
+            containerRegistry.RegisterSingleton<IStorageService, StorageService>();
             containerRegistry.RegisterSingleton<ILoginService, LoginService>();
 
             //containerRegistry.RegisterForNavigation<NavigationPage>();
