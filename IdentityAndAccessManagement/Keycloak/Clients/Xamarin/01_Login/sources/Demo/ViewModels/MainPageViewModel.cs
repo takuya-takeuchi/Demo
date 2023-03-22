@@ -1,6 +1,8 @@
 ﻿using System;
-
+using System.Linq;
+using Demo.Models;
 using Prism.Commands;
+using Prism.Events;
 using Prism.Navigation;
 
 using Demo.Services.Interfaces;
@@ -14,56 +16,81 @@ namespace Demo.ViewModels
 
         #region Fields
 
+        private readonly IEventAggregator _EventAggregator;
+
         private readonly ILoginService _LoginService;
+
+        private readonly ITokenTimerService _TokenTimerService;
 
         #endregion
 
         #region Constructors
 
         public MainPageViewModel(INavigationService navigationService,
+                                 IEventAggregator eventAggregator,
                                  ILoginService loginService,
-                                 ILoggingService loggingService)
+                                 ILoggingService loggingService,
+                                 ITokenTimerService tokenTimerService)
             : base(navigationService, loggingService)
         {
             this.Title = "Main";
 
+            this._EventAggregator = eventAggregator;
             this._LoginService = loginService;
+            this._TokenTimerService = tokenTimerService;
 
-            Xamarin.Forms.Device.StartTimer(TimeSpan.FromSeconds(1), () =>
-            {
-                var expiration = this._LoginService.AccessTokenExpiration;
-                if (expiration == null)
-                {
-                    this.AccessTokenExpire = "Expired";
-                    return true;
-                }
-
-                var totalSeconds = (expiration - DateTime.UtcNow).Value.TotalSeconds;
-                this.AccessTokenExpire = totalSeconds > 0 ? $"{(int)totalSeconds} sec" : "Expired";
-                return true;
-            });
+            this._EventAggregator.GetEvent<TokenTimerElapsedEvent>().Subscribe(this.OnTokenTimerElapsedEvent, ThreadOption.UIThread);
         }
 
         #endregion
 
         #region Methods
 
-        #region Event Handlers
+        #region Overrides
 
-        public override void OnNavigatedTo(INavigationParameters parameters)
+        public override async void OnNavigatedTo(INavigationParameters parameters)
         {
             this.LoggingService.Info($"Navigated to {this.GetType().Name}");
+
+            // from application start up
+            if (!parameters.Any())
+                await this.NavigationService.NavigateAsync("LoginPage");
+            else
+            {
+                var authenticationResult = parameters.GetValue<AuthenticationResult>(nameof(AuthenticationResult));
+                this._TokenTimerService.SetAuthenticationResult(authenticationResult);
+            }
 
             base.OnNavigatedTo(parameters);
         }
 
         #endregion
 
-        #region Helpers
+        #region Event Handlers
         
+        private void OnTokenTimerElapsedEvent(DateTimeOffset? expiration)
+        {
+            if (expiration == null)
+            {
+                this.AccessTokenExpire = "Expired";
+                return;
+            }
+
+            var totalSeconds = (expiration - DateTime.UtcNow).Value.TotalSeconds;
+            this.AccessTokenExpire = totalSeconds > 0 ? $"{(int)totalSeconds} sec" : "Expired";
+        }
+
+        #endregion
+
+        #region Helpers
+
         private async void RefreshToken()
         {
-            await this._LoginService.RefreshToken();
+            var refreshToken = await this._LoginService.RefreshToken();
+            if (refreshToken == null)
+            {
+                await this.NavigationService.NavigateAsync("LoginPage");
+            }
         }
 
         #endregion

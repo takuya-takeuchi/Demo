@@ -1,9 +1,9 @@
 ﻿using System;
-using System.Threading.Tasks;
 
 using Prism.Commands;
 using Prism.Navigation;
 
+using Demo.Models;
 using Demo.Services.Interfaces;
 using Demo.ViewModels.Interfaces;
 
@@ -35,14 +35,38 @@ namespace Demo.ViewModels
 
         #region Methods
 
+        #region Overrides
+
+        public override async void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            this.LoggingService.Info($"Navigated from {this.GetType().Name}");
+
+            // from application start up
+            if (parameters == null)
+                await this.NavigationService.NavigateAsync("LoginPage");
+
+            base.OnNavigatedFrom(parameters);
+        }
+
+        #endregion
+
         #region Helpers
 
         private async void Login()
         {
             try
             {
-                await this._LoginService.Login();
-                await this.NavigationService.NavigateAsync("/MainPage");
+                var authenticationResult = await this._LoginService.Login();
+                if (authenticationResult != null)
+                {
+                    var parameters = new NavigationParameters
+                    {
+                        {
+                            nameof(AuthenticationResult), authenticationResult
+                        }
+                    };
+                    await this.NavigationService.NavigateAsync("/MainPage", parameters);
+                }
             }
             catch (Exception ex)
             {
