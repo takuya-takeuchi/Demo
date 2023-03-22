@@ -32,7 +32,7 @@ namespace Demo
         {
             InitializeComponent();
             
-            await this.NavigationService.NavigateAsync("LoginPage");
+            await this.NavigationService.NavigateAsync("MainPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -42,6 +42,7 @@ namespace Demo
             containerRegistry.RegisterSingleton<ILoggingService, LoggingService>();
             containerRegistry.RegisterSingleton<IStorageService, StorageService>();
             containerRegistry.RegisterSingleton<ILoginService, LoginService>();
+            containerRegistry.RegisterSingleton<ITokenTimerService, TokenTimerService>();
 
             //containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
