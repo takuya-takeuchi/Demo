@@ -1,70 +1,93 @@
-$current = Get-Location
-$root = Split-Path $current -Parent
-$eigen_source_dir = Join-Path ${root} eigen
+#***************************************
+#Arguments
+#%1: Build Configuration (Release/Debug)
+#***************************************
+Param
+(
+   [Parameter(
+   Mandatory=$True,
+   Position = 1
+   )][string]
+   $Configuration
+)
 
-$programName = "Transpose"
+$current = $PSScriptRoot
 
-# build program
+# get os name
 if ($global:IsWindows)
 {
-    $taget_dir = "build_win"
-    New-Item -ItemType Directory $taget_dir -Force > $Null
-
-    $install_dir = Join-Path $current "win"
-    New-Item -ItemType Directory $install_dir -Force > $Null
-    
-    Set-Location $taget_dir
-    $env:Eigen3_DIR = ${eigen_source_dir}
-    cmake -G "Visual Studio 17 2022" -A x64 -T host=x64 `
-          -D CMAKE_INSTALL_PREFIX="${install_dir}" `
-          ..
-}
-elseif ($global:IsLinux)
-{
-    $taget_dir = "build_linux"
-    New-Item -ItemType Directory $taget_dir -Force > $Null
-
-    $install_dir = Join-Path $current "linux"
-    New-Item -ItemType Directory $install_dir -Force > $Null
-    
-    Set-Location $taget_dir
-    $env:Eigen3_DIR = "${eigen_source_dir}"
-    cmake -D CMAKE_INSTALL_PREFIX="${install_dir}" `
-          ..
+    $os = "win"
 }
 elseif ($global:IsMacOS)
 {
-    $taget_dir = "build_osx"
-    New-Item -ItemType Directory $taget_dir -Force > $Null
-
-    $install_dir = Join-Path $current "osx"
-    New-Item -ItemType Directory $install_dir -Force > $Null
-    
-    Set-Location $taget_dir
-    $env:Eigen3_DIR = "${eigen_source_dir}"
-    cmake -D CMAKE_INSTALL_PREFIX="${install_dir}" `
-          ..
+    $os = "osx"
+}
+elseif ($global:IsLinux)
+{
+    $os = "linux"
 }
 
-cmake --build . --config Release --target install
+$target = "eigen"
 
-# run program
+# build
+$sourceDir = $current
+$buildDir = Join-Path $current build | `
+            Join-Path -ChildPath $os | `
+            Join-Path -ChildPath program
+$installDir = Join-Path $current install | `
+              Join-Path -ChildPath $os | `
+              Join-Path -ChildPath $os
+
+$rootDir = Split-Path $current -Parent
+$eigenInstallDir = Join-Path $rootDir install | `
+                   Join-Path -ChildPath $os | `
+                   Join-Path -ChildPath $target | `
+                   Join-Path -ChildPath share | `
+                   Join-Path -ChildPath eigen3 | `
+                   Join-Path -ChildPath cmake
+
+New-Item -Type Directory $buildDir -Force | Out-Null
+New-Item -Type Directory $installDir -Force | Out-Null
+
+Push-Location $buildDir
 if ($global:IsWindows)
 {
-    $exe = Join-Path "${install_dir}" bin | `
-           Join-Path -ChildPath "${programName}.exe"
+    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_PREFIX_PATH="${eigenInstallDir}" `
+          $sourceDir
+}
+elseif ($global:IsMacOS)
+{
+    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_PREFIX_PATH="${eigenInstallDir}" `
+          $sourceDir
+}
+elseif ($global:IsLinux)
+{
+    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_PREFIX_PATH="${eigenInstallDir}" `
+          $sourceDir
+}
+cmake --build . --config ${Configuration} --target install
+Pop-Location
+
+# run
+if ($global:IsWindows)
+{
+    $exe = Join-Path "${installDir}" bin | `
+           Join-Path -ChildPath "Test.exe"
     & "${exe}"
 }
 elseif ($global:IsLinux)
 {
-    $exe = Join-Path "${install_dir}" bin | `
-           Join-Path -ChildPath "${programName}"
+    $exe = Join-Path "${installDir}" bin | `
+           Join-Path -ChildPath "Test"
     & "${exe}"
 }
 elseif ($global:IsMacOS)
 {
-    $exe = Join-Path "${install_dir}" bin | `
-           Join-Path -ChildPath "${programName}"
+    $exe = Join-Path "${installDir}" bin | `
+           Join-Path -ChildPath "Test"
     & "${exe}"
 }
 
