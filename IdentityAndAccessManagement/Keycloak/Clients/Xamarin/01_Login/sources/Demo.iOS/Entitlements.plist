@@ -4,7 +4,7 @@
 <dict>
 	<key>keychain-access-groups</key>
 	<array>
-		<string>$(AppIdentifierPrefix)com.companyname.appname</string>
+		<string>$(AppIdentifierPrefix)jp.taktak.xamarin.ios.demo</string>
 	</array>
 </dict>
 </plist>

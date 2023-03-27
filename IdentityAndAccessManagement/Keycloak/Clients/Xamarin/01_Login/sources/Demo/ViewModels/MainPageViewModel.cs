@@ -52,14 +52,22 @@ namespace Demo.ViewModels
         {
             this.LoggingService.Info($"Navigated to {this.GetType().Name}");
 
+            AuthenticationResult authenticationResult = null;
+
             // from application start up
             if (!parameters.Any())
-                await this.NavigationService.NavigateAsync("LoginPage");
+            {
+                authenticationResult = await this._LoginService.RefreshToken();
+                if (authenticationResult == null)
+                    await this.NavigationService.NavigateAsync("LoginPage");
+            }
             else
             {
-                var authenticationResult = parameters.GetValue<AuthenticationResult>(nameof(AuthenticationResult));
-                this._TokenTimerService.SetAuthenticationResult(authenticationResult);
+                authenticationResult = parameters.GetValue<AuthenticationResult>(nameof(AuthenticationResult));
             }
+
+            if (authenticationResult != null)
+                this._TokenTimerService.SetAuthenticationResult(authenticationResult);
 
             base.OnNavigatedTo(parameters);
         }
@@ -67,7 +75,7 @@ namespace Demo.ViewModels
         #endregion
 
         #region Event Handlers
-        
+
         private void OnTokenTimerElapsedEvent(DateTimeOffset? expiration)
         {
             if (expiration == null)
