@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9.0)
-set(PROJ_NAME Transpose)
+set(PROJ_NAME Test)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -10,6 +10,12 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
+find_package(Eigen3 REQUIRED)
+
+if (Eigen3_FOUND)
+    message("EIGEN3_INCLUDE_DIR: ${EIGEN3_INCLUDE_DIR}")
+endif()
+
 # target source and header files
 FILE(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/*.h)
 FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
@@ -17,7 +23,7 @@ FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 add_executable(${PROJ_NAME} main.cpp)
 
 # include eigen headers
-target_include_directories(${PROJ_NAME} PUBLIC "$ENV{Eigen3_DIR}")
+target_include_directories(${PROJ_NAME} PUBLIC ${EIGEN3_INCLUDE_DIR})
 
 set(CompilerFlags
     CMAKE_CXX_FLAGS

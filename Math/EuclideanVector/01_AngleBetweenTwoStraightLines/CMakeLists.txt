@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.9.0)
-set(PROJ_NAME Reshape)
+set(PROJ_NAME Test)
 
 set(CMAKE_CXX_STANDARD 11)
 
@@ -15,9 +15,6 @@ FILE(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/*.h)
 FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/*.cpp)
 
 add_executable(${PROJ_NAME} main.cpp)
-
-# include eigen headers
-target_include_directories(${PROJ_NAME} PUBLIC "$ENV{Eigen3_DIR}")
 
 set(CompilerFlags
     CMAKE_CXX_FLAGS
