@@ -1,9 +1,10 @@
 ﻿using System.IO;
+
+using Prism.Commands;
 using Prism.Navigation;
 
 using Demo.Services.Interfaces;
 using Demo.ViewModels.Interfaces;
-using Prism.Commands;
 
 namespace Demo.ViewModels
 {
@@ -11,21 +12,13 @@ namespace Demo.ViewModels
     public sealed class ShowLogsViewModel : ViewModelBase, IShowLogsViewModel
     {
 
-        #region Fields
-
-        private readonly ILoggingService _LoggingService;
-
-        #endregion
-
         #region Constructors
 
         public ShowLogsViewModel(INavigationService navigationService,
                                  ILoggingService loggingService)
-            : base(navigationService)
+            : base(navigationService, loggingService)
         {
             this.Title = "Logs";
-
-            this._LoggingService = loggingService;
         }
 
         #endregion
@@ -40,7 +33,7 @@ namespace Demo.ViewModels
             {
                 return this._ClearCommand ?? (this._ClearCommand = new DelegateCommand(() =>
                 {
-                    var path = this._LoggingService.GetCurrentLogFilePath();
+                    var path = this.LoggingService.GetCurrentLogFilePath();
                     if (!string.IsNullOrEmpty(path) && File.Exists(path))
                         File.Delete(path);
                     this.Logs = "";
@@ -64,7 +57,7 @@ namespace Demo.ViewModels
 
         public override void OnNavigatedTo(INavigationParameters parameters)
         {
-            var path = this._LoggingService.GetCurrentLogFilePath();
+            var path = this.LoggingService.GetCurrentLogFilePath();
             if (!string.IsNullOrEmpty(path) && File.Exists(path))
                 this.Logs = File.ReadAllText(path);
 

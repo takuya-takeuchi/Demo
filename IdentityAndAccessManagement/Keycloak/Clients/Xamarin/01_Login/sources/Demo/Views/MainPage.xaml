@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Demo.Views.MainPage"
+             xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:designTimes="clr-namespace:Demo.DesignTimes;assembly=Demo"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:mvvm="http://prismlibrary.com"
+             Title="{Binding Title}"
+             mvvm:ViewModelLocator.AutowireViewModel="True"
+             mc:Ignorable="d">
+    <d:ContentPage.BindingContext>
+        <designTimes:MainPageViewModel />
+    </d:ContentPage.BindingContext>
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Command="{Binding ShowLogCommand}">
+            <ToolbarItem.IconImageSource>
+                <FontImageSource FontFamily="FontAwesome6Solid"
+                                 Glyph="&#xf15c;"
+                                 Color="Black" />
+            </ToolbarItem.IconImageSource>
+        </ToolbarItem>
+    </ContentPage.ToolbarItems>
+
+    <StackLayout Padding="10"
+                 HorizontalOptions="CenterAndExpand"
+                 VerticalOptions="CenterAndExpand">
+
+        <StackLayout Padding="10"
+                     HorizontalOptions="CenterAndExpand"
+                     Orientation="Horizontal"
+                     VerticalOptions="CenterAndExpand">
+            <Label Text="AccessTokenExpire: " />
+            <Label Text="{Binding AccessTokenExpire}" />
+        </StackLayout>
+
+        <Button Padding="20"
+                Command="{Binding RefreshCommand}"
+                IsVisible="True"
+                Text="Refresh Token" />
+    </StackLayout>
+
+</ContentPage>
