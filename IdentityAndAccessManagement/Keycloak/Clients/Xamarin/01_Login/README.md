@@ -17,6 +17,8 @@
 * [Font Awesome Free](https://fontawesome.com/)
   * Fonts
     * SIL Open Font License
+* [IdentityModel.OidcClient](IdentityModel.OidcClient)
+  * Apache-2.0 License
 * [NLog](https://github.com/NLog/NLog)
   * BSD-3-Clause License
 * [Prism.Unity.Forms](https://github.com/PrismLibrary/Prism)
