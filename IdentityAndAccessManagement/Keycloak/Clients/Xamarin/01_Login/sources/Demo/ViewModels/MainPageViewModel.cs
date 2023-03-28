@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Linq;
-using Demo.Models;
+
 using Prism.Commands;
 using Prism.Events;
 using Prism.Navigation;
 
+using Demo.Models;
 using Demo.Services.Interfaces;
 using Demo.ViewModels.Interfaces;
 
@@ -98,6 +99,10 @@ namespace Demo.ViewModels
             if (refreshToken == null)
             {
                 await this.NavigationService.NavigateAsync("LoginPage");
+            }
+            else
+            {
+                this._TokenTimerService.SetAuthenticationResult(refreshToken);
             }
         }
 
