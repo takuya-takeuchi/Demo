@@ -15,6 +15,12 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 endif()
 
+find_package(OpenMP)
+
+# set openmp
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+
 add_executable(${PROJ_NAME} main.cpp)
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
