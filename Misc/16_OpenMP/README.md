@@ -23,7 +23,10 @@
 
 ### OSX
 
-* Xcode
+* gcc
+  * clang does not support OpenMP
+* OpenMP
+  * `brew install libomp`
 
 ## Dependencies
 
@@ -38,7 +41,7 @@ $ pwsh build.ps1 <Debug/Release>
 ## How to test?
 
 ````bat
-$ ./install/win/bin/Demo
+$ ./install/win/bin/Demo 100000
  Enable OpenMP: 23025 ms
 Disable OpenMP: 74437 ms
 ````

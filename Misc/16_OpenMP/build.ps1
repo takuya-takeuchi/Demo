@@ -47,6 +47,8 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -DCMAKE_C_COMPILER=/usr/bin/gcc `
+          -DCMAKE_CXX_COMPILER=/usr/bin/g++ `
           $sourceDir
 }
 elseif ($global:IsLinux)
