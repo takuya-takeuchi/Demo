@@ -15,6 +15,18 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 endif()
 
+if (APPLE)
+    execute_process(COMMAND brew --prefix libomp
+                    OUTPUT_VARIABLE OpenMP_HOME
+                    OUTPUT_STRIP_TRAILING_WHITESPACE)
+    set(OpenMP_C_LIB_NAMES "omp")
+    set(OpenMP_CXX_LIB_NAMES "omp")
+    set(OpenMP_omp_LIBRARY "${OpenMP_HOME}/lib/")
+    
+    set(OpenMP_CXX_FLAGS "-Xpreprocessor -fopenmp -Wno-unused-command-line-argument -I${OpenMP_HOME}/include -lomp -L${OpenMP_omp_LIBRARY}" CACHE STRING "" FORCE) 
+    set(OpenMP_C_FLAGS "-fopenmp -Wno-unused-command-line-argument -I${OpenMP_HOME}/include -lomp -L${OpenMP_omp_LIBRARY}" CACHE STRING "" FORCE)
+endif()
+
 find_package(OpenMP)
 
 # set openmp
