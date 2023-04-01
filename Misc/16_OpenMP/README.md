@@ -23,8 +23,7 @@
 
 ### OSX
 
-* gcc
-  * clang does not support OpenMP
+* Xcode
 * OpenMP
   * `brew install libomp`
 
