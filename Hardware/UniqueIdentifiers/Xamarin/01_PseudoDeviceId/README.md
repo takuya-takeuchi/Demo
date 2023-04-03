@@ -1,8 +1,9 @@
-# template
+# Generate Pseudo DeviceId
 
 ## Abstracts
 
-* todo
+* For iOS and Android, generated unique id from key pair
+  * Key pair is stored in security vault in device and it is cleared if application is uninstalled. Therefore, unique id is not change untill uninstall.
 
 ## Requirements
 
