@@ -1,8 +1,8 @@
-# template
+# Camera
 
 ## Abstracts
 
-* todo
+* Take photo
 
 ## Requirements
 
@@ -16,7 +16,11 @@
     * SIL Open Font License
 * [NLog](https://github.com/NLog/NLog)
   * BSD-3-Clause License
+* [Plugin.Permissions](https://github.com/jamesmontemagno/PermissionsPlugin)
+  * MIT License
 * [Prism.Unity.Forms](https://github.com/PrismLibrary/Prism)
+  * MIT License
+* [Xam.Plugin.Media](https://github.com/jamesmontemagno/MediaPlugin)
   * MIT License
 * [Xamarin.Essentials.Interfaces](https://github.com/rdavisau/essential-interfaces)
   * MIT License
@@ -25,4 +29,6 @@
 
 ## How to usage?
 
-todo
+### iOS and Android
+
+<img src="./images/ios.png" width="40%" /> <img src="./images/android.png" width="40%" />
