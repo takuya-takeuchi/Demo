@@ -99,6 +99,9 @@
     <CodesignEntitlements>Entitlements.plist</CodesignEntitlements>
     <MtouchEnableSGenConc>true</MtouchEnableSGenConc>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(RunConfiguration)' == 'Default' ">
+    <AppExtensionDebugBundleId />
+  </PropertyGroup>
   <ItemGroup>
     <Compile Include="iOSInitializer.cs" />
     <Compile Include="Main.cs" />
@@ -201,6 +204,9 @@
   <ItemGroup>
     <PackageReference Include="Prism.Unity.Forms">
       <Version>8.1.97</Version>
+    </PackageReference>
+    <PackageReference Include="Xam.Plugin.Media">
+      <Version>6.0.1-beta</Version>
     </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2578" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.7.4" />
