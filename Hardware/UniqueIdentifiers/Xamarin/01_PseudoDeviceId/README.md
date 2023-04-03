@@ -26,4 +26,10 @@
 
 ## How to usage?
 
-todo
+### iOS
+
+<img src="./images/ios-main.png" width="40%" /> <img src="./images/ios-log.png" width="40%" />
+
+### Android
+
+<img src="./images/android-main.png" width="40%" /> <img src="./images/android-log.png" width="40%" />
