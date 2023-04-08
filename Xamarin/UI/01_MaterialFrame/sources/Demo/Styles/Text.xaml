@@ -178,6 +178,7 @@
 
     <Style x:Key="TextEntry"
            TargetType="Entry">
+        <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="{StaticResource FontRegular}" />
         <Setter Property="TextColor" Value="{DynamicResource DynamicTextPrimaryColor}" />
         <Setter Property="FontSize" Value="{StaticResource TextSizeBody}" />

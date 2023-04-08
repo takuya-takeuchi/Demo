@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 
 using Prism.Commands;
 using Prism.Navigation;
@@ -13,7 +11,7 @@ using Demo.ViewModels.Interfaces;
 namespace Demo.ViewModels
 {
 
-    public sealed class MainPageViewModel : ViewModelBase, IMainPageViewModel
+    public sealed class MainPageViewModel : PageViewModelBase, IMainPageViewModel
     {
 
         #region Constructors
@@ -43,41 +41,97 @@ namespace Demo.ViewModels
                     switch (buttonName)
                     {
                         case "Light":
-                            blurStyle = MaterialFrame.BlurStyle.Light;
+                            ResourcesHelper.SetBlurStyle(MaterialFrame.BlurStyle.Light);
+                            this.EntryTextColor = ResourcesHelper.GetResourceColor("TextPrimaryDarkColor");
+                            this.LightButtonTextColor = ResourcesHelper.GetResourceColor("TextPrimaryColor");
+                            this.LightButtonBackgroundColor = ResourcesHelper.GetResourceColor(ResourcesHelper.DynamicPrimaryColor);
+
+                            this.DarkButtonTextColor = ResourcesHelper.GetResourceColor("TextPrimaryDarkColor");
+                            this.DarkButtonBackgroundColor = Color.Transparent;
+                            this.ExtraLightButtonTextColor = ResourcesHelper.GetResourceColor("TextPrimaryDarkColor");
+                            this.ExtraLightButtonBackgroundColor = Color.Transparent;
                             break;
                         case "Dark":
-                            blurStyle = MaterialFrame.BlurStyle.Dark;
+                            ResourcesHelper.SetBlurStyle(MaterialFrame.BlurStyle.Dark);
+                            this.EntryTextColor = ResourcesHelper.GetResourceColor("TextPrimaryDarkColor");
+                            this.DarkButtonTextColor = ResourcesHelper.GetResourceColor("TextPrimaryColor");
+                            this.DarkButtonBackgroundColor = ResourcesHelper.GetResourceColor(ResourcesHelper.DynamicPrimaryColor);
+
+                            this.LightButtonTextColor = ResourcesHelper.GetResourceColor("TextPrimaryDarkColor");
+                            this.LightButtonBackgroundColor = Color.Transparent;
+                            this.ExtraLightButtonTextColor = ResourcesHelper.GetResourceColor("TextPrimaryDarkColor");
+                            this.ExtraLightButtonBackgroundColor = Color.Transparent;
                             break;
                         default:
-                            blurStyle = MaterialFrame.BlurStyle.ExtraLight;
+                            ResourcesHelper.SetBlurStyle(MaterialFrame.BlurStyle.ExtraLight);
+                            this.EntryTextColor = ResourcesHelper.GetResourceColor("TextPrimaryDarkColor");
+                            this.ExtraLightButtonTextColor = ResourcesHelper.GetResourceColor("TextPrimaryDarkColor");
+                            this.ExtraLightButtonBackgroundColor = ResourcesHelper.GetResourceColor(ResourcesHelper.DynamicPrimaryColor);
+
+                            this.LightButtonTextColor = ResourcesHelper.GetResourceColor("TextPrimaryColor");
+                            this.LightButtonBackgroundColor = Color.Transparent;
+                            this.DarkButtonTextColor = ResourcesHelper.GetResourceColor("TextPrimaryColor");
+                            this.DarkButtonBackgroundColor = Color.Transparent;
                             break;
-                    }
-
-                    ResourcesHelper.SetBlurStyle(blurStyle);
-
-                    this._BlurButtonTextColors[buttonName] = blurStyle != MaterialFrame.BlurStyle.ExtraLight
-                        ? ResourcesHelper.GetResourceColor("TextPrimaryColor")
-                        : ResourcesHelper.GetResourceColor("TextPrimaryDarkColor");
-
-                    this._BlurButtonBackgroundColors[buttonName] = ResourcesHelper.GetResourceColor(ResourcesHelper.DynamicPrimaryColor);
-
-                    var colors = new[]
-                    {
-                        "Light", "Dark", "ExtraLight"
-                    };
-
-                    foreach (var color in colors)
-                    {
-                        if (buttonName == color)
-                            continue;
-
-                        this._BlurButtonTextColors[color] = blurStyle != MaterialFrame.BlurStyle.ExtraLight
-                            ? ResourcesHelper.GetResourceColor("TextPrimaryDarkColor")
-                            : ResourcesHelper.GetResourceColor("TextPrimaryColor");
-                        this._BlurButtonBackgroundColors[color] = Color.Transparent;
                     }
                 }));
             }
+        }
+
+        private Color _EntryTextColor;
+
+        public Color EntryTextColor
+        {
+            get => this._EntryTextColor;
+            private set => this.SetProperty(ref this._EntryTextColor, value);
+        }
+
+        private Color _ExtraLightButtonTextColor;
+
+        public Color ExtraLightButtonTextColor
+        {
+            get => this._ExtraLightButtonTextColor;
+            private set => this.SetProperty(ref this._ExtraLightButtonTextColor, value);
+        }
+
+        private Color _ExtraLightButtonBackgroundColor;
+
+        public Color ExtraLightButtonBackgroundColor
+        {
+            get => this._ExtraLightButtonBackgroundColor;
+            private set => this.SetProperty(ref this._ExtraLightButtonBackgroundColor, value);
+        }
+
+        private Color _LightButtonTextColor;
+
+        public Color LightButtonTextColor
+        {
+            get => this._LightButtonTextColor;
+            private set => this.SetProperty(ref this._LightButtonTextColor, value);
+        }
+
+        private Color _LightButtonBackgroundColor;
+
+        public Color LightButtonBackgroundColor
+        {
+            get => this._LightButtonBackgroundColor;
+            private set => this.SetProperty(ref this._LightButtonBackgroundColor, value);
+        }
+
+        private Color _DarkButtonTextColor;
+
+        public Color DarkButtonTextColor
+        {
+            get => this._DarkButtonTextColor;
+            private set => this.SetProperty(ref this._DarkButtonTextColor, value);
+        }
+
+        private Color _DarkButtonBackgroundColor;
+
+        public Color DarkButtonBackgroundColor
+        {
+            get => this._DarkButtonBackgroundColor;
+            private set => this.SetProperty(ref this._DarkButtonBackgroundColor, value);
         }
 
         private bool _IsBlurStyleEnabled;
@@ -87,14 +141,6 @@ namespace Demo.ViewModels
             get => this._IsBlurStyleEnabled;
             private set => this.SetProperty(ref this._IsBlurStyleEnabled, value);
         }
-
-        private readonly Dictionary<string, Color> _BlurButtonBackgroundColors = new Dictionary<string, Color>();
-
-        public IDictionary<string, Color> BlurButtonBackgroundColors => this._BlurButtonBackgroundColors;
-
-        private readonly Dictionary<string, Color> _BlurButtonTextColors = new Dictionary<string, Color>();
-
-        public IDictionary<string, Color> BlurButtonTextColors => this._BlurButtonTextColors;
 
         private DelegateCommand _ShowLogCommand;
 
@@ -149,27 +195,6 @@ namespace Demo.ViewModels
             // Important
             this.IsBlurStyleEnabled = true;
             this.StyleChangedCommand.Execute(false);
-
-            var colors = new[]
-            {
-                "Light", "Dark", "ExtraLight"
-            };
-
-            var buttonName = "Light";
-            var blurStyle = MaterialFrame.BlurStyle.Light;
-            foreach (var color in colors)
-            {
-                if (buttonName == color)
-                {
-                    this._BlurButtonTextColors[color] = ResourcesHelper.GetResourceColor("TextPrimaryColor");
-                    this._BlurButtonBackgroundColors[color] = ResourcesHelper.GetResourceColor(ResourcesHelper.DynamicPrimaryColor);
-                }
-                else
-                {
-                    this._BlurButtonTextColors[color] = ResourcesHelper.GetResourceColor("TextPrimaryDarkColor");
-                    this._BlurButtonBackgroundColors[color] = Color.Transparent;
-                }
-            }
         }
 
         #endregion

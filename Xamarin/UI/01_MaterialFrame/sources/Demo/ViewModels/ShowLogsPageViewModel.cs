@@ -9,12 +9,12 @@ using Demo.ViewModels.Interfaces;
 namespace Demo.ViewModels
 {
 
-    public sealed class ShowLogsViewModel : ViewModelBase, IShowLogsViewModel
+    public sealed class ShowLogsPageViewModel : PageViewModelBase, IShowLogsPageViewModel
     {
 
         #region Constructors
 
-        public ShowLogsViewModel(INavigationService navigationService,
+        public ShowLogsPageViewModel(INavigationService navigationService,
                                  ILoggingService loggingService)
             : base(navigationService, loggingService)
         {

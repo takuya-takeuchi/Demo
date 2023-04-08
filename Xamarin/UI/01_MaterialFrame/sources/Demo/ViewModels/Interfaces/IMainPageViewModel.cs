@@ -1,6 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Xamarin.Forms;
 
-using Xamarin.Forms;
 using Prism.Commands;
 
 namespace Demo.ViewModels.Interfaces
@@ -14,12 +13,37 @@ namespace Demo.ViewModels.Interfaces
             get;
         }
 
-        IDictionary<string, Color> BlurButtonBackgroundColors
+        Color EntryTextColor
         {
             get;
         }
 
-        IDictionary<string, Color> BlurButtonTextColors
+        Color ExtraLightButtonTextColor
+        {
+            get;
+        }
+
+        Color ExtraLightButtonBackgroundColor
+        {
+            get;
+        }
+
+        Color LightButtonTextColor
+        {
+            get;
+        }
+
+        Color LightButtonBackgroundColor
+        {
+            get;
+        }
+
+        Color DarkButtonTextColor
+        {
+            get;
+        }
+
+        Color DarkButtonBackgroundColor
         {
             get;
         }
