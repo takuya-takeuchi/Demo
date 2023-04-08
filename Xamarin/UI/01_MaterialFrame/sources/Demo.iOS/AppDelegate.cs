@@ -34,6 +34,8 @@ namespace Demo.iOS
             AppDomain.CurrentDomain.UnhandledException += CurrentDomainOnUnhandledException;
             TaskScheduler.UnobservedTaskException += TaskSchedulerOnUnobservedTaskException;
 
+            Sharpnado.MaterialFrame.iOS.iOSMaterialFrameRenderer.Init();
+
             // App invoke RegisterTypes
             var app = new App(new iOSInitializer());
             

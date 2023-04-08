@@ -24,8 +24,10 @@
     <StackLayout Padding="10"
                  HorizontalOptions="FillAndExpand"
                  VerticalOptions="FillAndExpand">
-        <ScrollView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
-            <Label Text="{Binding Logs}" />
+        <ScrollView HorizontalOptions="FillAndExpand"
+                    VerticalOptions="FillAndExpand">
+            <Label Text="{Binding Logs}"
+                   TextColor="{DynamicResource DynamicPrimaryOnBackgroundColor}" />
         </ScrollView>
     </StackLayout>
 

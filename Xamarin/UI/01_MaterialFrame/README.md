@@ -23,6 +23,16 @@
 * [Xamarin.Forms](https://github.com/xamarin/Xamarin.Forms)
   * MIT License
 
+### Resources
+
+* [Gradients.app](https://gradients.app/en)
+  * light.png
+    * Set #3ab5b0, #3d99be and #364684 with rotate 90
+  * dark.png
+    * Set #f08000, #bd523d and #a30041 with rotate 90
+  * extra_light.png
+    * Set #a87ec4, #9230b5 and #5c0075 with rotate 90
+    
 ## How to usage?
 
 todo

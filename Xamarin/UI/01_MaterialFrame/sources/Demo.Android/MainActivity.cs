@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
+
 using Prism.Ioc;
 
 using Demo.Services.Interfaces;
@@ -31,6 +32,8 @@ namespace Demo.Droid
 
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
+
+            Sharpnado.MaterialFrame.Droid.AndroidMaterialFrameRenderer.BlurProcessingDelayMilliseconds = 0;
 
             // App invoke RegisterTypes
             var app = new App(new AndroidInitializer());
