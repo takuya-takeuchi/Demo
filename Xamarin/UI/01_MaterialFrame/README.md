@@ -1,8 +1,8 @@
-# template
+# Material Frame
 
 ## Abstracts
 
-* todo
+* Apply [Sharpnado.MaterialFrame](https://github.com/roubachof/Sharpnado.MaterialFrame) to Xamarin and replace code behind with Prism MVVM from [Sharpnado.Acrylic](https://github.com/roubachof/Sharpnado.Acrylic)
 
 ## Requirements
 
@@ -17,6 +17,10 @@
 * [NLog](https://github.com/NLog/NLog)
   * BSD-3-Clause License
 * [Prism.Unity.Forms](https://github.com/PrismLibrary/Prism)
+  * MIT License
+* [Sharpnado.MaterialFrame](https://github.com/roubachof/Sharpnado.MaterialFrame)
+  * MIT License
+* [Sharpnado.TaskMonitor](https://github.com/roubachof/Sharpnado.TaskMonitor)
   * MIT License
 * [Xamarin.Essentials.Interfaces](https://github.com/rdavisau/essential-interfaces)
   * MIT License
@@ -35,4 +39,10 @@
     
 ## How to usage?
 
-todo
+### iOS
+
+<img src="./images/ios-main.png" width="20%" /> <img src="./images/ios-light.png" width="20%" /> <img src="./images/ios-dark.png" width="20%" /> <img src="./images/ios-extralight.png" width="20%" />
+
+### Android
+
+<img src="./images/android-main.png" width="20%" /> <img src="./images/android-light.png" width="20%" /> <img src="./images/android-dark.png" width="20%" /> <img src="./images/android-extralight.png" width="20%" />
