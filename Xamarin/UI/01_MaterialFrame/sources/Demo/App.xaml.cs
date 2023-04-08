@@ -32,6 +32,8 @@ namespace Demo
         {
             InitializeComponent();
 
+            Sharpnado.MaterialFrame.Initializer.Initialize(loggerEnable: false, debugLogEnable: false);
+
             await NavigationService.NavigateAsync("NavigationPage/MainPage");
         }
 
