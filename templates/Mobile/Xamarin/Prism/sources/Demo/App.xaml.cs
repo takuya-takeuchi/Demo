@@ -43,7 +43,7 @@ namespace Demo
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
-            containerRegistry.RegisterForNavigation<ShowLogs, ShowLogsViewModel>();
+            containerRegistry.RegisterForNavigation<ShowLogsPage, ShowLogsPageViewModel>();
         }
 
         #endregion

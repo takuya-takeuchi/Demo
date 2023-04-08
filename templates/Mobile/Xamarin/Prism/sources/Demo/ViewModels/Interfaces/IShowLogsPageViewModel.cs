@@ -3,7 +3,7 @@
 namespace Demo.ViewModels.Interfaces
 {
 
-    public interface IShowLogsViewModel : IViewModel
+    public interface IShowLogsPageViewModel : IViewModel
     {
 
         DelegateCommand ClearCommand

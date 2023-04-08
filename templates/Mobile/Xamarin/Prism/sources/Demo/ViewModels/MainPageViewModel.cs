@@ -7,7 +7,7 @@ using Demo.ViewModels.Interfaces;
 namespace Demo.ViewModels
 {
 
-    public sealed class MainPageViewModel : ViewModelBase, IMainPageViewModel
+    public sealed class MainPageViewModel : PageViewModelBase, IMainPageViewModel
     {
 
         #region Constructors
@@ -31,7 +31,7 @@ namespace Demo.ViewModels
             {
                 return this._ShowLogCommand ?? (this._ShowLogCommand = new DelegateCommand(() =>
                 {
-                    this.NavigationService.NavigateAsync("ShowLogs");
+                    this.NavigationService.NavigateAsync("ShowLogsPage");
                 }));
             }
         }

@@ -23,4 +23,10 @@
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.7.4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Update="Views\ShowLogsPage.xaml.cs">
+      <DependentUpon>ShowLogsPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
 </Project>

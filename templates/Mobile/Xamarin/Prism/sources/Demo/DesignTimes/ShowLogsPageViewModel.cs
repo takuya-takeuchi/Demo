@@ -5,7 +5,7 @@ using Demo.ViewModels.Interfaces;
 namespace Demo.DesignTimes
 {
 
-    public sealed class ShowLogsViewModel : IShowLogsViewModel
+    public sealed class ShowLogsPageViewModel : IShowLogsPageViewModel
     {
 
         public DelegateCommand ClearCommand

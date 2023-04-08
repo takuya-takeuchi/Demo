@@ -152,7 +152,7 @@ namespace Demo.ViewModels
                 {
                     this.LoggingService.Info($"Invoked {nameof(ShowLogCommand)}");
 
-                    this.NavigationService.NavigateAsync("ShowLogs");
+                    this.NavigationService.NavigateAsync("ShowLogsPage");
                 }));
             }
         }
