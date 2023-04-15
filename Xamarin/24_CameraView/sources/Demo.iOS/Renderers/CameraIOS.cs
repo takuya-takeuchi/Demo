@@ -235,7 +235,7 @@ namespace Demo.iOS.Renderers
             // set camera busy 
             this.Busy?.Invoke(this, this._cameraBusy);
         }
-
+        
         /// <summary>
         /// Captures the image with metadata.
         /// </summary>

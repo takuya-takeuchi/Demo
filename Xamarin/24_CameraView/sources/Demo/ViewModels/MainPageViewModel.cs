@@ -27,10 +27,10 @@ namespace Demo.ViewModels
                                  ILoggingService loggingService)
             : base(navigationService, loggingService)
         {
-            this._DeviceOrientationDetectService = deviceOrientationDetectService;
             this._PermissionService = permissionService;
 
-            deviceOrientationDetectService.OrientationChanged +=this. OnOrientationChanged;
+            this._DeviceOrientationDetectService = deviceOrientationDetectService;
+            this._DeviceOrientationDetectService.OrientationChanged += this.OnOrientationChanged;
 
             this.Title = "Main Page";
         }
@@ -78,9 +78,9 @@ namespace Demo.ViewModels
 
         #region EventHandlers
 
-        private void OnOrientationChanged(object sender, Orientation e)
+        private void OnOrientationChanged(object sender, Orientation orientation)
         {
-            this.CameraOrientation = e;
+            this.CameraOrientation = orientation;
         }
 
         #endregion
@@ -93,7 +93,7 @@ namespace Demo.ViewModels
             {
                 await this._PermissionService.RequestCameraPermission();
             }
-            
+
             this.CameraOpened = !this._CameraOpened;
         }
 

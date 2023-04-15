@@ -20,14 +20,19 @@ namespace Demo.Controls
         public event EventHandler<Orientation> OrientationChange;
 
         /// <summary>
-        /// Occurs when focus.
+        /// Occurs when widths.
         /// </summary>
-        public event EventHandler<Point> Focus;
+        public event EventHandler<float> Widths;
 
         /// <summary>
         /// Occurs when availability change.
         /// </summary>
         public event EventHandler<bool> AvailabilityChange;
+
+        /// <summary>
+        /// Occurs when focus.
+        /// </summary>
+        public event EventHandler<Point> Focus;
 
         /// <summary>
         /// Occurs when open camera.
@@ -60,11 +65,6 @@ namespace Demo.Controls
         public event EventHandler<byte[]> Photo;
 
         /// <summary>
-        /// Occurs when widths.
-        /// </summary>
-        public event EventHandler<float> Widths;
-
-        /// <summary>
         /// Occurs when shutter.
         /// </summary>
         public event EventHandler Shutter;
@@ -85,7 +85,7 @@ namespace Demo.Controls
                 return;
             
             if (Device.RuntimePlatform == Device.iOS)
-                cameraView.NotifyWidths(value);
+                cameraView.Widths?.Invoke(cameraView, value);
         }
 
         public int CameraControlAreaSize
@@ -104,12 +104,12 @@ namespace Demo.Controls
         {
             if (!(bindableObject is CameraView cameraView) || !(newValue is bool open))
                 return;
-
-            cameraView.NotifyOpenCamera(open);
+            
+            cameraView.OpenCamera?.Invoke(cameraView, open);
 
             // camera must store these widths for IOS on orientation changes for camera preview layer resizing
             if (Device.RuntimePlatform == Device.iOS)
-                cameraView.NotifyWidths(cameraView.CameraControlAreaSize);
+                cameraView.Widths?.Invoke(cameraView, cameraView.CameraControlAreaSize);
         }
 
         public bool CameraOpened
@@ -128,8 +128,8 @@ namespace Demo.Controls
         {
             if (!(bindableObject is CameraView cameraView) || !(newValue is Orientation orientation))
                 return;
-
-            cameraView.NotifyOrientationChange(orientation);
+            
+            cameraView.OrientationChange?.Invoke(cameraView, orientation);
         }
 
         public Orientation CameraOrientation
@@ -138,24 +138,25 @@ namespace Demo.Controls
             set => this.SetValue(CameraOrientationProperty, value);
         }
 
-        #endregion
+        public static readonly BindableProperty CameraAvailableProperty = BindableProperty.Create(nameof(CameraAvailable),
+                                                                                                  typeof(bool),
+                                                                                                  typeof(View),
+                                                                                                  false,
+                                                                                                  propertyChanged: CameraAvailableChanged);
 
-        #region Public Properties
+        private static void CameraAvailableChanged(BindableObject bindableObject, object oldValue, object newValue)
+        {
+            if (!(bindableObject is CameraView cameraView) || !(newValue is bool available))
+                return;
+            
+            cameraView.AvailabilityChange?.Invoke(cameraView, available);
+        }
 
-        /// <summary>
-        /// The camera available.
-        /// </summary>
-        public bool CameraAvailable;
-
-        /// <summary>
-        /// The orientation.
-        /// </summary>
-        public Orientation Orientation;
-
-        /// <summary>
-        /// The width of the camera button container.
-        /// </summary>
-        public float CameraButtonContainerWidth = 0f;
+        public bool CameraAvailable
+        {
+            get => (bool)GetValue(CameraAvailableProperty);
+            private set => this.SetValue(CameraAvailableProperty, value);
+        }
 
         #endregion
 
@@ -168,16 +169,7 @@ namespace Demo.Controls
         {
             this.Shutter?.Invoke(this, EventArgs.Empty);
         }
-
-        /// <summary>
-        /// Notifies the open camera.
-        /// </summary>
-        /// <param name="open">If set to <c>true</c> open.</param>
-        public void NotifyOpenCamera(bool open)
-        {
-            this.OpenCamera?.Invoke(this, open);
-        }
-
+        
         /// <summary>
         /// Notifies the focus.
         /// </summary>
@@ -198,17 +190,6 @@ namespace Demo.Controls
         }
 
         /// <summary>
-        /// Notifies the orientation change.
-        /// </summary>
-        /// <param name="orientation">Orientation.</param>
-        public void NotifyOrientationChange(Orientation orientation)
-        {
-            this.Orientation = orientation;
-
-            this.OrientationChange?.Invoke(this, orientation);
-        }
-
-        /// <summary>
         /// Notifies the availability.
         /// </summary>
         /// <param name="sender">Sender.</param>
@@ -216,8 +197,6 @@ namespace Demo.Controls
         public void NotifyAvailability(object sender, bool isAvailable)
         {
             this.CameraAvailable = isAvailable;
-
-            this.AvailabilityChange?.Invoke(this, isAvailable);
         }
 
         /// <summary>
@@ -255,17 +234,6 @@ namespace Demo.Controls
         public void NotifyLoading(object sender, bool loading)
         {
             this.Loading?.Invoke(this, loading);
-        }
-
-        /// <summary>
-        /// Notifies the widths.
-        /// </summary>
-        /// <param name="cameraButtonContainerWidth">Camera button container width.</param>
-        public void NotifyWidths(float cameraButtonContainerWidth)
-        {
-            this.CameraButtonContainerWidth = cameraButtonContainerWidth;
-
-            this.Widths?.Invoke(this, cameraButtonContainerWidth);
         }
 
         #endregion
