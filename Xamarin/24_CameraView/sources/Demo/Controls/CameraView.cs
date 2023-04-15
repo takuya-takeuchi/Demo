@@ -118,6 +118,26 @@ namespace Demo.Controls
             set => this.SetValue(CameraOpenedProperty, value);
         }
 
+        public static readonly BindableProperty CameraOrientationProperty = BindableProperty.Create(nameof(CameraOrientation),
+                                                                                                    typeof(Orientation),
+                                                                                                    typeof(View),
+                                                                                                    Orientation.None,
+                                                                                                    propertyChanged: CameraOrientationChanged);
+
+        private static void CameraOrientationChanged(BindableObject bindableObject, object oldValue, object newValue)
+        {
+            if (!(bindableObject is CameraView cameraView) || !(newValue is Orientation orientation))
+                return;
+
+            cameraView.NotifyOrientationChange(orientation);
+        }
+
+        public Orientation CameraOrientation
+        {
+            get => (Orientation)GetValue(CameraOrientationProperty);
+            set => this.SetValue(CameraOrientationProperty, value);
+        }
+
         #endregion
 
         #region Public Properties

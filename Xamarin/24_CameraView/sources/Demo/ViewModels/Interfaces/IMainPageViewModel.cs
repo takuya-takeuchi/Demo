@@ -1,5 +1,7 @@
 ﻿using Prism.Commands;
 
+using Demo.Controls;
+
 namespace Demo.ViewModels.Interfaces
 {
 
@@ -7,6 +9,11 @@ namespace Demo.ViewModels.Interfaces
     {
 
         bool CameraOpened
+        {
+            get;
+        }
+
+        Orientation CameraOrientation
         {
             get;
         }

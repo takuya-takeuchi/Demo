@@ -6,9 +6,9 @@ using Android.Content.PM;
 using Android.OS;
 
 using Plugin.Permissions;
-
 using Prism.Ioc;
 
+using Demo.Controls;
 using Demo.Services.Interfaces;
 
 namespace Demo.Droid
@@ -42,6 +42,25 @@ namespace Demo.Droid
             this.InitializeLogger();
 
             LoadApplication(app);
+        }
+
+        public override void OnConfigurationChanged(Android.Content.Res.Configuration newConfig)
+        {
+            base.OnConfigurationChanged(newConfig);
+
+            var deviceOrientationDetectService = App.Current.Container.Resolve<IDeviceOrientationDetectService>();
+            if (deviceOrientationDetectService == null)
+                return;
+
+            switch (newConfig.Orientation)
+            {
+                case Android.Content.Res.Orientation.Portrait:
+                    deviceOrientationDetectService.NotifyOrientationChange(Orientation.Portrait);
+                    break;
+                case Android.Content.Res.Orientation.Landscape:
+                    deviceOrientationDetectService.NotifyOrientationChange(Orientation.LandscapeLeft);
+                    break;
+            }
         }
 
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Android.Content.PM.Permission[] grantResults)

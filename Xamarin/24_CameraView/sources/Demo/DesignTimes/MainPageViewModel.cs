@@ -1,4 +1,5 @@
-﻿using Prism.Commands;
+﻿using Demo.Controls;
+using Prism.Commands;
 
 using Demo.ViewModels.Interfaces;
 
@@ -9,6 +10,11 @@ namespace Demo.DesignTimes
     {
 
         public bool CameraOpened
+        {
+            get;
+        }
+
+        public Orientation CameraOrientation
         {
             get;
         }

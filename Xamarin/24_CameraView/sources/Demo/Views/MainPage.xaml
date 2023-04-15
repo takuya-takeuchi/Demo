@@ -30,6 +30,7 @@
         <controls:CameraView Grid.Row="0"
                              CameraControlAreaSize="{Binding Path=Height, Source={x:Reference CameraControlGrid}}"
                              CameraOpened="{Binding CameraOpened}"
+                             CameraOrientation="{Binding CameraOrientation}"
                              HorizontalOptions="FillAndExpand"
                              IsVisible="{Binding CameraOpened}"
                              VerticalOptions="FillAndExpand" />

@@ -5,6 +5,7 @@ using Prism.Ioc;
 using UIKit;
 
 using Demo.Services.Interfaces;
+using Demo.Controls;
 
 namespace Demo.iOS
 {
@@ -42,6 +43,27 @@ namespace Demo.iOS
             LoadApplication(app);
 
             return base.FinishedLaunching(application, options);
+        }
+
+        public override void DidChangeStatusBarOrientation(UIApplication application, UIInterfaceOrientation oldStatusBarOrientation)
+        {
+            var deviceOrientationDetectService = App.Current.Container.Resolve<IDeviceOrientationDetectService>();
+            if (deviceOrientationDetectService == null)
+                return;
+            
+            switch (UIApplication.SharedApplication.StatusBarOrientation)
+            {
+                case UIInterfaceOrientation.Portrait:
+                case UIInterfaceOrientation.PortraitUpsideDown:
+                    deviceOrientationDetectService.NotifyOrientationChange(Orientation.Portrait);
+                    break;
+                case UIInterfaceOrientation.LandscapeLeft:
+                    deviceOrientationDetectService.NotifyOrientationChange(Orientation.LandscapeLeft);
+                    break;
+                case UIInterfaceOrientation.LandscapeRight:
+                    deviceOrientationDetectService.NotifyOrientationChange(Orientation.LandscapeRight);
+                    break;
+            }
         }
 
         #endregion

@@ -3,6 +3,7 @@ using Prism.Navigation;
 
 using Demo.Services.Interfaces;
 using Demo.ViewModels.Interfaces;
+using Demo.Controls;
 
 namespace Demo.ViewModels
 {
@@ -11,7 +12,9 @@ namespace Demo.ViewModels
     {
 
         #region Fields
-        
+
+        private readonly IDeviceOrientationDetectService _DeviceOrientationDetectService;
+
         private readonly IPermissionService _PermissionService;
 
         #endregion
@@ -19,11 +22,15 @@ namespace Demo.ViewModels
         #region Constructors
 
         public MainPageViewModel(INavigationService navigationService,
+                                 IDeviceOrientationDetectService deviceOrientationDetectService,
                                  IPermissionService permissionService,
                                  ILoggingService loggingService)
             : base(navigationService, loggingService)
         {
+            this._DeviceOrientationDetectService = deviceOrientationDetectService;
             this._PermissionService = permissionService;
+
+            deviceOrientationDetectService.OrientationChanged +=this. OnOrientationChanged;
 
             this.Title = "Main Page";
         }
@@ -38,6 +45,14 @@ namespace Demo.ViewModels
         {
             get => this._CameraOpened;
             private set => this.SetProperty(ref this._CameraOpened, value);
+        }
+
+        private Orientation _CameraOrientation;
+
+        public Orientation CameraOrientation
+        {
+            get => this._CameraOrientation;
+            private set => this.SetProperty(ref this._CameraOrientation, value);
         }
 
         private DelegateCommand _ShowLogCommand;
@@ -61,8 +76,17 @@ namespace Demo.ViewModels
 
         #region Methods
 
+        #region EventHandlers
+
+        private void OnOrientationChanged(object sender, Orientation e)
+        {
+            this.CameraOrientation = e;
+        }
+
+        #endregion
+
         #region Helpers
-        
+
         private async void ExecuteCameraPreview()
         {
             if (!this._PermissionService.CheckCameraPermission())

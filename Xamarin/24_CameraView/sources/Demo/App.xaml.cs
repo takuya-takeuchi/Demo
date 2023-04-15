@@ -43,6 +43,7 @@ namespace Demo
             containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
 
             containerRegistry.RegisterSingleton<ILoggingService, LoggingService>();
+            containerRegistry.RegisterSingleton<IDeviceOrientationDetectService, DeviceOrientationDetectService>();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
