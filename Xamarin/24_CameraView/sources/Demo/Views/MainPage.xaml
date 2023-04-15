@@ -29,6 +29,7 @@
         </Grid.RowDefinitions>
         <controls:CameraView CameraOpened="{Binding CameraOpened}"
                              HorizontalOptions="FillAndExpand"
+                             IsVisible="{Binding CameraOpened}"
                              VerticalOptions="FillAndExpand" />
         <Button Grid.Row="1"
                 Command="{Binding CameraPreviewCommand}"

@@ -56,14 +56,9 @@ namespace Demo.Droid.Renderers
         #region Private Properties
 
         /// <summary>
-        /// The tag.
-        /// </summary>
-        private readonly string _tag;
-
-        /// <summary>
         /// The log.
         /// </summary>
-        //private readonly ILogger _log;
+        private readonly ILoggingService _Logger;
 
         /// <summary>
         /// The m state listener.
@@ -161,9 +156,7 @@ namespace Demo.Droid.Renderers
             this._context = context;
             this._mediaSoundLoaded = this.LoadShutterSound();
 
-            //this._log = ContainerLocator.Container.CurrentScope.Resolve<ILoggingService>();
-            var logger = ContainerLocator.Container.CurrentScope.Resolve<ILoggingService>();
-            this._tag = $"{this.GetType()} ";
+            this._Logger = ContainerLocator.Container.CurrentScope.Resolve<ILoggingService>();
 
             var inflater = LayoutInflater.FromContext(context);
 
@@ -210,21 +203,11 @@ namespace Demo.Droid.Renderers
                 }
                 catch (CameraAccessException error)
                 {
-                    //this._log.WriteLineTime(this._tag + "\n" +
-                    //                        "UpdatePreview() Camera access exception.  \n " +
-                    //                        "ErrorMessage: \n" +
-                    //                        error.Message + "\n" +
-                    //                        "Stacktrace: \n " +
-                    //                        error.StackTrace);
+                    this._Logger.Error(error, null, "Camera access exception");
                 }
                 catch (IllegalStateException error)
                 {
-                    //this._log.WriteLineTime(this._tag + "\n" +
-                    //                        "UpdatePreview() Illegal exception.  \n " +
-                    //                        "ErrorMessage: \n" +
-                    //                        error.Message + "\n" +
-                    //                        "Stacktrace: \n " +
-                    //                        error.StackTrace);
+                    this._Logger.Error(error, null, "Illegal exception");
                 }
             }
         }
@@ -244,12 +227,7 @@ namespace Demo.Droid.Renderers
             }
             catch (Java.Lang.Exception error)
             {
-                //this._log.WriteLineTime(this._tag + "\n" +
-                //                        "LoadShutterSound() Error loading shutter sound  \n " +
-                //                        "ErrorMessage: \n" +
-                //                        error.Message + "\n" +
-                //                        "Stacktrace: \n " +
-                //                        error.StackTrace);
+                this._Logger.Error(error, null, "Error loading shutter sound");
             }
 
             return false;
@@ -301,23 +279,13 @@ namespace Demo.Droid.Renderers
             }
             catch (Java.Lang.Exception error)
             {
-                //this._log.WriteLineTime(this._tag + "\n" +
-                //                        "OpenCamera() Failed to open camera  \n " +
-                //                        "ErrorMessage: \n" +
-                //                        error.Message + "\n" +
-                //                        "Stacktrace: \n " +
-                //                        error.StackTrace);
+                this._Logger.Error(error, null, "Failed to open camera");
 
                 this.Available?.Invoke(this, false);
             }
             catch (System.Exception error)
             {
-                //this._log.WriteLineTime(this._tag + "\n" +
-                //                        "OpenCamera() Failed to open camera  \n " +
-                //                        "ErrorMessage: \n" +
-                //                        error.Message + "\n" +
-                //                        "Stacktrace: \n " +
-                //                        error.StackTrace);
+                this._Logger.Error(error, null, "Failed to open camera");
 
                 this.Available?.Invoke(this, false);
             }
@@ -412,21 +380,11 @@ namespace Demo.Droid.Renderers
                 }
                 catch (CameraAccessException error)
                 {
-                    //this._log.WriteLineTime(this._tag + "\n" +
-                    //                        "TakePhoto() Failed to take photo  \n " +
-                    //                        "ErrorMessage: \n" +
-                    //                        error.Message + "\n" +
-                    //                        "Stacktrace: \n " +
-                    //                        error.StackTrace);
+                    this._Logger.Error(error, null, "Failed to take photo");
                 }
                 catch (Java.Lang.Exception error)
                 {
-                    //this._log.WriteLineTime(this._tag + "\n" +
-                    //                        "TakePhoto() Failed to take photo  \n " +
-                    //                        "ErrorMessage: \n" +
-                    //                        error.Message + "\n" +
-                    //                        "Stacktrace: \n " +
-                    //                        error.StackTrace);
+                    this._Logger.Error(error, null, "Failed to take photo");
                 }
             }
         }
@@ -522,12 +480,7 @@ namespace Demo.Droid.Renderers
                 }
                 catch (Java.Lang.Exception error)
                 {
-                    //this._log.WriteLineTime(this._tag + "\n" +
-                    //                        "TakePhoto() Failed to start preview \n " +
-                    //                        "ErrorMessage: \n" +
-                    //                        error.Message + "\n" +
-                    //                        "Stacktrace: \n " +
-                    //                        error.StackTrace);
+                    this._Logger.Error(error, null, "Failed to start preview");
                 }
             }
         }
@@ -545,13 +498,7 @@ namespace Demo.Droid.Renderers
             }
             catch (System.Exception error)
             {
-                //this._log.WriteLineTime(this._tag + "\n" +
-                //                        "TakePhoto() Failed to switch flash on/off \n " +
-                //                        "ErrorMessage: \n" +
-                //                        error.Message + "\n" +
-                //                        "Stacktrace: \n " +
-                //                        error.StackTrace);
-
+                this._Logger.Error(error, null, "Failed to switch flash on/off");
             }
         }
 
