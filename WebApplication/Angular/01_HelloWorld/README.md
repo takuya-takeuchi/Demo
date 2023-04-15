@@ -12,7 +12,13 @@
 ## How to usage?
 
 ````cmd
-$ ng serve --host 0.0.0.0 --port 8080
+$ npm install
+````
+
+Then, run app on local server
+
+````cmd
+$ npx ng serve --host 0.0.0.0 --port 8080
 ````
 
 <img src="./images/index.png" />
