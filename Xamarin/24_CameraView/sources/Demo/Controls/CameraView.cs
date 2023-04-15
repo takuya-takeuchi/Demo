@@ -71,7 +71,28 @@ namespace Demo.Controls
 
         #endregion
 
+        #region Dependencies Properties
 
+        public static readonly BindableProperty CameraControlAreaSizeProperty = BindableProperty.Create(nameof(CameraControlAreaSize),
+                                                                                                        typeof(int),
+                                                                                                        typeof(View),
+                                                                                                        0,
+                                                                                                        propertyChanged: CameraControlAreaSizePropertyChanged);
+
+        private static void CameraControlAreaSizePropertyChanged(BindableObject bindableObject, object oldValue, object newValue)
+        {
+            if (!(bindableObject is CameraView cameraView) || !(newValue is int value))
+                return;
+            
+            if (Device.RuntimePlatform == Device.iOS)
+                cameraView.NotifyWidths(value);
+        }
+
+        public int CameraControlAreaSize
+        {
+            get => (int)GetValue(CameraControlAreaSizeProperty);
+            set => this.SetValue(CameraControlAreaSizeProperty, value);
+        }
 
         public static readonly BindableProperty CameraOpenedProperty = BindableProperty.Create(nameof(CameraOpened),
                                                                                                typeof(bool),
@@ -85,6 +106,10 @@ namespace Demo.Controls
                 return;
 
             cameraView.NotifyOpenCamera(open);
+
+            // camera must store these widths for IOS on orientation changes for camera preview layer resizing
+            if (Device.RuntimePlatform == Device.iOS)
+                cameraView.NotifyWidths(cameraView.CameraControlAreaSize);
         }
 
         public bool CameraOpened
@@ -92,6 +117,8 @@ namespace Demo.Controls
             get => (bool)GetValue(CameraOpenedProperty);
             set => this.SetValue(CameraOpenedProperty, value);
         }
+
+        #endregion
 
         #region Public Properties
 
