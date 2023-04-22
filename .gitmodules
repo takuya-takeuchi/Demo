@@ -97,3 +97,7 @@
 	path = ComputerVision/OpenCV/opencv4
 	url = https://github.com/opencv/opencv
 	ignore = dirty
+[submodule "WebApplication/Wasm/emsdk"]
+	path = WebApplication/Wasm/emsdk
+	url = https://github.com/emscripten-core/emsdk
+	ignore = dirty
