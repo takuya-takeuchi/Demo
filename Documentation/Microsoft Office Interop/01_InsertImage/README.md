@@ -36,6 +36,20 @@ Word template file is
 
 <img src="./images/word-template.png" />
 
+This template has 
+
+### Merge field
+
+<img src="./images/word1.png" />
+
+<img src="./images/word2.png" />
+
+### Bookmarks
+
+<img src="./images/word3.png" />
+
+<img src="./images/word4.png" />
+
 4. Rresult is
 
 <img src="./images/word-result.png" />
