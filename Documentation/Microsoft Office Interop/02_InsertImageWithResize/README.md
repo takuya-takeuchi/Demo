@@ -3,6 +3,7 @@
 ## Abstracts
 
 * Insert image into work file according to template doc file
+  * Inserted image is resized. Resize ratio is 50 %.
 
 ## Requirements
 
@@ -38,17 +39,11 @@ Word template file is
 
 This template has 
 
-### Merge field
+### Bookmarks
 
 <img src="./images/word1.png" />
 
 <img src="./images/word2.png" />
-
-### Bookmarks
-
-<img src="./images/word3.png" />
-
-<img src="./images/word4.png" />
 
 4. Rresult is
 
