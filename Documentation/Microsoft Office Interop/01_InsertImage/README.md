@@ -1,8 +1,8 @@
-# Camera
+# Insert Image
 
 ## Abstracts
 
-* Take photo
+* Insert image into work file according to template doc file
 
 ## Requirements
 
