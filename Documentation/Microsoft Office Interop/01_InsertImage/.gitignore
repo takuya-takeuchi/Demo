@@ -604,3 +604,6 @@ obj/
 # Additional files built by Visual Studio
 
 # End of https://www.toptal.com/developers/gitignore/api/csharp,visualstudio,visualstudiocode,xamarinstudio
+
+# custom
+test.docx
