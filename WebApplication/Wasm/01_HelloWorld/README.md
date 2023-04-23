@@ -2,6 +2,12 @@
 
 ## Requirements
 
+### Common
+
+* Powershell 7 or later
+* CMake 3.14.0 or later
+* Google Chrome
+
 ### Windows
 
 * [Emscripten SDK](../emsdk)
@@ -15,11 +21,25 @@
 
 Install `Emscripten SDK` and add location `ninja` to `Path` envrionmental variable.
 
+### Linux
+
+Install `Emscripten SDK`.
+
 ## How to build?
 
 ````bat
-$ eccmake ..
-$ eccmake --build . --config Release
+$ pwsh build.ps1 <Release/Debug>
 ````
 
+## How to run?
 
+At first, you must login to GUI shell.
+Then, 
+
+````sh
+$ pwsh run.ps1 <chrome/firefox>
+````
+
+### Linux
+
+<img src="./images/linux.png" />
