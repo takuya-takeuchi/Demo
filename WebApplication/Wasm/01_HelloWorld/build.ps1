@@ -50,6 +50,7 @@ elseif ($global:IsMacOS)
 {
     emcmake cmake $sourceDir
     emmake make && emmake make package
+    Copy-Item "${buildDir}/${program}*" "${installDir}" -Force
 }
 elseif ($global:IsLinux)
 {

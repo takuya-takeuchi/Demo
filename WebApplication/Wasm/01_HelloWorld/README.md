@@ -37,9 +37,16 @@ At first, you must login to GUI shell.
 Then, 
 
 ````sh
-$ pwsh run.ps1 <chrome/firefox>
+$ pwsh run.ps1 <chrome/firefox/iexplore/safari>
 ````
+
+You can pass browse name you prefer.
+You can check available browser names by `emrun --list_browsers`.
 
 ### Linux
 
 <img src="./images/linux.png" />
+
+### OSX
+
+<img src="./images/osx.png" />
