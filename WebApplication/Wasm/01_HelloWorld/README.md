@@ -25,6 +25,10 @@ Install `Emscripten SDK` and add location `ninja` to `Path` envrionmental variab
 
 Install `Emscripten SDK`.
 
+### OSX
+
+Install `Emscripten SDK`.
+
 ## How to build?
 
 ````bat
@@ -38,10 +42,15 @@ Then,
 
 ````sh
 $ pwsh run.ps1 <chrome/firefox/iexplore/safari>
+Now listening at http://0.0.0.0:6931/
 ````
 
 You can pass browse name you prefer.
 You can check available browser names by `emrun --list_browsers`.
+
+### Windows
+
+<img src="./images/win.png" />
 
 ### Linux
 
