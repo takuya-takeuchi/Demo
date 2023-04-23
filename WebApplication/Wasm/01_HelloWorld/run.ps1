@@ -1,6 +1,6 @@
 #***************************************
 #Arguments
-#%1: Browser (chrome/firefox/iexplore)
+#%1: Browser (chrome/firefox/iexplore/safari)
 #***************************************
 Param
 (
