@@ -43,6 +43,8 @@ Push-Location $buildDir
 if ($global:IsWindows)
 {
     emcmake cmake $sourceDir
+    ninja && ninja package
+    Copy-Item "${buildDir}/${program}*" "${installDir}" -Force
 }
 elseif ($global:IsMacOS)
 {
