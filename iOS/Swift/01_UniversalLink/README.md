@@ -1,9 +1,44 @@
 
+# Launch App by using Universal Link
+
+## Requirements
+
+### OSX
+
+* Xcode 14.3
+* Apple Developer Account with Apple Develop Program
+
+## How to use?
+
+### 1. Edit xcodeproj
+
+Modify Team and Bundle Identifier 
+
+### 2. Edit apple-app-site-association
+
+Replace `appIDs` with modified Team and Bundle Identifier
+
+### 3. UniversalLinkTarget/UniversalLinkTarget.entitlements
+
+Modify `com.apple.developer.associated-domains`.
+This domain shall be your domain.
+
+### 4. Deploy apple-app-site-association
+
+Deploy `apple-app-site-association` to `.well-known/apple-app-site-association` on your web server with your domain.
+This domain shall support https.
+
+### 5. Validate apple-app-site-association
+
 You can use the following validator to check whether apple-app-site-association file is deployed correctly.
 
 * https://branch.io/resources/aasa-validator/
 * https://yurl.chayev.com/
 
+### 6. Check Apple CDN
+
+You can check whether `apple-app-site-association` is cached by Apple CDN.
+For example,
 
 ````shell
 curl -v https://app-site-association.cdn-apple.com/a/v1/taktak.jp
@@ -84,5 +119,13 @@ curl -v https://app-site-association.cdn-apple.com/a/v1/taktak.jp
 * Connection #0 to host app-site-association.cdn-apple.com left intact
 }% 
 ````
+
+### 7. Deploy apps
+
+Build and deploy UniversalLinkTarget and UniversalLinkSource into device or simulator.
+
+### 8. Launch UniversalLinkSource
+
+You can launch UniversalLinkTarget from UniversalLinkSource.
 
 <img src="./images/sample.gif" />
