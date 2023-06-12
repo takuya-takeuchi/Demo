@@ -20,6 +20,4 @@ $ BuildAndRun.ps1
 Then, open browser and access http://localhost:8080 from iOS device.
 You can see **hello world** and Smart App Banner.
 
-Next, access to http://localhost:8080/redirect/test, you can see google web site.
-
 <img src="./images/image.gif" width="400" />
