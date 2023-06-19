@@ -8,7 +8,7 @@ android {
     compileSdk 33
 
     defaultConfig {
-        applicationId "takuyatakeuchi.demo.universallinksource"
+        applicationId "takuyatakeuchi.demo.applinkssource"
         minSdk 31
         targetSdk 33
         versionCode 1

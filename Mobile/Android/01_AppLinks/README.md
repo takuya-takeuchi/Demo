@@ -53,6 +53,45 @@ $ gradlew bundle
 
 You can see `*.aab` file in app/build/outputs/bundle.
 
+### Sign apk
+
+Run [GenereteKey.ps1](../GenerateKey.ps1) and [SignAPK.ps1](../SignAPK.ps1).
+
+````shell
+$ pwsh SignAPK.ps1 01_AppLinks\AppLinksTarget\app\build\outputs\apk\release\app-release-unsigned.apk
+ANDROID_HOME: 'C:\Android\SDK'
+apksigner: 'C:\Android\SDK\build-tools\33.0.1\apksigner.bat'
+Keystore password for signer #1: 
+````
+
+### Edit assetlinks.json
+
+You must update `sha256Fingerprint` and `packageName` in `assetlinks.json`.
+
+ ````json
+{
+  "statements": [
+    {
+      "source": {
+        "web": {
+          "site": "https://taktak.jp."
+        }
+      },
+      "relation": "delegate_permission/common.handle_all_urls",
+      "target": {
+        "androidApp": {
+          "packageName": "takuyatakeuchi.demo.applinkstarget",
+          "certificate": {
+            "sha256Fingerprint": "73:41:E5:FA:67:F0:E0:59:EA:66:CB:05:B2:8A:34:29:08:26:B2:A9:2B:A7:36:07:0E:8B:25:2F:F2:D4:46:9C"
+          }
+        }
+      }
+    }
+  ],
+  "maxAge": "88.876309048s"
+}
+ ````
+
 ### Validate assetlinks.json
 
 You can use the following validator to check whether assetlinks.json file is deployed correctly.
@@ -91,6 +130,10 @@ We can verify `assetlinks.json` by using Digital Asset Links API.
 ### Deploy apps
 
 Build and deploy AppLinksTarget and AppLinksSource into device or simulator.
+
+````shell
+$ adb install -r 01_AppLinks\AppLinksTarget\app\build\outputs\apk\release\app-release-signed.apk
+````
 
 ### Check App Links by CLI
 
