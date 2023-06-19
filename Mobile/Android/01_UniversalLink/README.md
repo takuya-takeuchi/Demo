@@ -1,23 +1,65 @@
-# Minimal
-
-## Abstracts
-
-* Default empty activity project for Kotlin
+# Launch App by using App Link
 
 ## Requirements
+
+### Common
 
 * Android Studio
 * Android 12（API Level 31)
 
-## How to usage?
+## How to build?
 
-Open this directory on Android Studio and start Run app.
+You can build from Android Studio.
+Or you can build from command line.
 
-<img src="./images/image.png" width="400" />
+### Edit UniversalLinkTarget/app/src/main/AndroidManifest.xml
 
+Modify `data` section
 
+````xml
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
 
-## Test assetlinks.json
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data
+                    android:host="taktak.jp"
+                    android:pathPrefix="/buy"
+                    android:scheme="https" />
+            </intent-filter>
+````
+
+This domain shall be your domain.
+
+### Deploy assetlinks.json
+
+Deploy `assetlinks.json` to `.well-known/assetlinks.json` on your web server with your domain.
+This domain shall support https.
+
+### Generate APK
+
+````shell
+$ gradlew <assembleDebug/assembleRelease>
+````
+
+You can see `*.apk` file in app/build/outputs/apk.
+
+### Generate Bundle
+
+````shell
+$ gradlew bundle
+````
+
+You can see `*.aab` file in app/build/outputs/bundle.
+
+### Validate apple-app-site-association
+
+You can use the following validator to check whether apple-app-site-association file is deployed correctly.
+
+* https://yurl.chayev.com/
+
+### Check assetlinks.json
 
 We can verify `assetlinks.json` by using Digital Asset Links API.
 
@@ -46,6 +88,18 @@ We can verify `assetlinks.json` by using Digital Asset Links API.
 }
  ````
 
+### Deploy apps
 
+Build and deploy UniversalLinkTarget and UniversalLinkSource into device or simulator.
 
- adb shell am start -W -a android.intent.action.VIEW -d https://taktak.jp/buy takuyatakeuchi.demo.universallinktarget
+### Check App Links by CLI
+
+````shell
+$ adb shell am start -W -a android.intent.action.VIEW -d https://taktak.jp/buy takuyatakeuchi.demo.universallinktarget
+````
+
+### Launch UniversalLinkSource
+
+You can launch UniversalLinkTarget from UniversalLinkSource.
+
+<img src="./images/sample.gif" />
