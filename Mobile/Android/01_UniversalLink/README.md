@@ -12,7 +12,7 @@
 You can build from Android Studio.
 Or you can build from command line.
 
-### Edit UniversalLinkTarget/app/src/main/AndroidManifest.xml
+### Edit AppLinksTarget/app/src/main/AndroidManifest.xml
 
 Modify `data` section
 
@@ -76,7 +76,7 @@ We can verify `assetlinks.json` by using Digital Asset Links API.
       "relation": "delegate_permission/common.handle_all_urls",
       "target": {
         "androidApp": {
-          "packageName": "takuyatakeuchi.demo.universallinktarget",
+          "packageName": "takuyatakeuchi.demo.applinkstarget",
           "certificate": {
             "sha256Fingerprint": "73:41:E5:FA:67:F0:E0:59:EA:66:CB:05:B2:8A:34:29:08:26:B2:A9:2B:A7:36:07:0E:8B:25:2F:F2:D4:46:9C"
           }
@@ -90,16 +90,16 @@ We can verify `assetlinks.json` by using Digital Asset Links API.
 
 ### Deploy apps
 
-Build and deploy UniversalLinkTarget and UniversalLinkSource into device or simulator.
+Build and deploy AppLinksTarget and AppLinksSource into device or simulator.
 
 ### Check App Links by CLI
 
 ````shell
-$ adb shell am start -W -a android.intent.action.VIEW -d https://taktak.jp/buy takuyatakeuchi.demo.universallinktarget
+$ adb shell am start -W -a android.intent.action.VIEW -d https://taktak.jp/buy takuyatakeuchi.demo.applinkstarget
 ````
 
-### Launch UniversalLinkSource
+### Launch AppLinksSource
 
-You can launch UniversalLinkTarget from UniversalLinkSource.
+You can launch AppLinksTarget from AppLinksSource.
 
 <img src="./images/sample.gif" />

@@ -5,7 +5,7 @@
         ],
         "target": {
             "namespace": "android_app",
-            "package_name": "takuyatakeuchi.demo.universallinktarget",
+            "package_name": "takuyatakeuchi.demo.applinkstarget",
             "sha256_cert_fingerprints": [
                 "73:41:E5:FA:67:F0:E0:59:EA:66:CB:05:B2:8A:34:29:08:26:B2:A9:2B:A7:36:07:0E:8B:25:2F:F2:D4:46:9C"
             ]
