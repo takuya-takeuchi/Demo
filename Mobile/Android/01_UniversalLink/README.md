@@ -53,9 +53,9 @@ $ gradlew bundle
 
 You can see `*.aab` file in app/build/outputs/bundle.
 
-### Validate apple-app-site-association
+### Validate assetlinks.json
 
-You can use the following validator to check whether apple-app-site-association file is deployed correctly.
+You can use the following validator to check whether assetlinks.json file is deployed correctly.
 
 * https://yurl.chayev.com/
 
