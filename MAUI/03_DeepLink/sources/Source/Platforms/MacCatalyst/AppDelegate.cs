@@ -2,14 +2,7 @@
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-using DryIoc;
-
-using Demo.Platforms.MacCatalyst.Services;
-using Prism.DryIoc;
-using Source;
-using Source.Services.Interfaces;
-
-namespace Demo
+namespace Source
 {
 
     [Register("AppDelegate")]
@@ -33,7 +26,6 @@ namespace Demo
 
         private static void RegisterServices(IContainerRegistry container)
         {
-            container.Register<IFolderPickerService, FolderPickerService>();
         }
 
         #endregion

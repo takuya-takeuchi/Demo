@@ -2,9 +2,7 @@
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-using Demo.Platforms.iOS.Services;
-
-namespace Demo
+namespace Source
 {
 
     [Register("AppDelegate")]
@@ -28,7 +26,6 @@ namespace Demo
 
         private static void RegisterServices(IContainerRegistry container)
         {
-            container.Register<IFolderPickerService, FolderPickerService>();
         }
 
         #endregion

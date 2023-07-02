@@ -1,4 +1,6 @@
-﻿using Source.Services.Interfaces;
+﻿using System;
+using Microsoft.Maui.ApplicationModel;
+
 using Source.ViewModels.Interfaces;
 
 namespace Source.ViewModels
@@ -7,34 +9,34 @@ namespace Source.ViewModels
     internal sealed class MainPageViewModel : ViewModelBase, IMainPageViewModel
     {
 
-        #region Fields
-
-        private readonly IFolderPickerService _FolderPickerService;
-
-        #endregion
-
         #region Constructors
 
-        public MainPageViewModel(INavigationService navigationService,
-                                 IFolderPickerService folderPickerService)
+        public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            this._FolderPickerService = folderPickerService;
         }
 
         #endregion
 
         #region IMainPageViewModel Members
 
-        private DelegateCommand _OpenFolderCommand;
+        private DelegateCommand _OpenApplicationCommand;
 
-        public DelegateCommand OpenFolderCommand
+        public DelegateCommand OpenApplicationCommand
         {
             get
             {
-                return this._OpenFolderCommand ??= new DelegateCommand(async () =>
+                return this._OpenApplicationCommand ??= new DelegateCommand(async () =>
                 {
-                    var ret = await this._FolderPickerService.PickFolder();
+                    try
+                    {
+                        var uri = new Uri("https://taktak.jp/buy");
+                        await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+                    }
+                    catch (Exception ex)
+                    {
+                        // An unexpected error occurred. No browser may be installed on the device.
+                    }
                 });
             }
         }

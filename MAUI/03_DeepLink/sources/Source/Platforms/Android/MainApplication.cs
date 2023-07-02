@@ -1,11 +1,10 @@
 ﻿using System;
 using Android.App;
 using Android.Runtime;
-using Demo.Platforms.Android.Services;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-namespace Demo
+namespace Source
 {
 
     [Application]
@@ -38,7 +37,6 @@ namespace Demo
 
         private static void RegisterServices(IContainerRegistry container)
         {
-            container.Register<IFolderPickerService, FolderPickerService>();
         }
 
         #endregion

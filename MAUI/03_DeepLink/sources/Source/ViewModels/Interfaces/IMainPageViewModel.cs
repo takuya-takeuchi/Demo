@@ -4,7 +4,7 @@
     internal interface IMainPageViewModel
     {
 
-        DelegateCommand OpenFolderCommand
+        DelegateCommand OpenApplicationCommand
         {
             get;
         }

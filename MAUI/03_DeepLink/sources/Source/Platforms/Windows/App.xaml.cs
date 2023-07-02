@@ -1,15 +1,10 @@
-﻿using Demo.Platforms.Windows.Services;
-using DryIoc;
-using Microsoft.Maui;
+﻿using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
-using Microsoft.UI.Xaml;
-using Prism.DryIoc;
-using IContainer = DryIoc.IContainer;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
 
-namespace Demo.WinUI
+namespace Source.WinUI
 {
 
     /// <summary>
@@ -48,7 +43,6 @@ namespace Demo.WinUI
         
         private static void RegisterServices(IContainerRegistry container)
         {
-            container.Register<IFolderPickerService, FolderPickerService>();
         }
 
         #endregion
