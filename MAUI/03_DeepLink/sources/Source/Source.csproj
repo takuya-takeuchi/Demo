@@ -54,4 +54,10 @@
 	  <PackageReference Include="Prism.Maui.Rx" Version="8.1.273-pre" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Compile Update="Platforms\iOS\Services\DeepLinkService.cs">
+	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
+	  </Compile>
+	</ItemGroup>
+
 </Project>

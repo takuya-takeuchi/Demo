@@ -2,6 +2,9 @@
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
+using Source.Platforms.iOS.Services;
+using Source.Services.Interfaces;
+
 namespace Source
 {
 
@@ -26,6 +29,7 @@ namespace Source
 
         private static void RegisterServices(IContainerRegistry container)
         {
+            container.Register<IDeepLinkService, DeepLinkService>();
         }
 
         #endregion

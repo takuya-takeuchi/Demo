@@ -1,6 +1,6 @@
 ﻿using System;
-using Microsoft.Maui.ApplicationModel;
 
+using Source.Services.Interfaces;
 using Source.ViewModels.Interfaces;
 
 namespace Source.ViewModels
@@ -9,11 +9,18 @@ namespace Source.ViewModels
     internal sealed class MainPageViewModel : ViewModelBase, IMainPageViewModel
     {
 
+        #region Fields
+
+        private readonly IDeepLinkService _DeepLinkService;
+
+        #endregion
+
         #region Constructors
 
-        public MainPageViewModel(INavigationService navigationService)
+        public MainPageViewModel(INavigationService navigationService, IDeepLinkService deepLinkService)
             : base(navigationService)
         {
+            this._DeepLinkService = deepLinkService;
         }
 
         #endregion
@@ -30,8 +37,7 @@ namespace Source.ViewModels
                 {
                     try
                     {
-                        var uri = new Uri("https://taktak.jp/buy");
-                        await Browser.Default.OpenAsync(uri, BrowserLaunchMode.SystemPreferred);
+                        await this._DeepLinkService.Open();
                     }
                     catch (Exception ex)
                     {
