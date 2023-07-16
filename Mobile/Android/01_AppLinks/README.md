@@ -7,6 +7,11 @@
 * Android Studio
 * Android 12（API Level 31)
 
+### OSX
+
+* Gradle
+  * Install by `brew install gradle`
+
 ## How to build?
 
 You can build from Android Studio.
@@ -69,27 +74,20 @@ Keystore password for signer #1:
 You must update `sha256Fingerprint` and `packageName` in `assetlinks.json`.
 
  ````json
-{
-  "statements": [
+[
     {
-      "source": {
-        "web": {
-          "site": "https://taktak.jp."
+        "relation": [
+            "delegate_permission/common.handle_all_urls"
+        ],
+        "target": {
+            "namespace": "android_app",
+            "package_name": "takuyatakeuchi.demo.applinkstarget",
+            "sha256_cert_fingerprints": [
+                "73:41:E5:FA:67:F0:E0:59:EA:66:CB:05:B2:8A:34:29:08:26:B2:A9:2B:A7:36:07:0E:8B:25:2F:F2:D4:46:9C"
+            ]
         }
-      },
-      "relation": "delegate_permission/common.handle_all_urls",
-      "target": {
-        "androidApp": {
-          "packageName": "takuyatakeuchi.demo.applinkstarget",
-          "certificate": {
-            "sha256Fingerprint": "73:41:E5:FA:67:F0:E0:59:EA:66:CB:05:B2:8A:34:29:08:26:B2:A9:2B:A7:36:07:0E:8B:25:2F:F2:D4:46:9C"
-          }
-        }
-      }
     }
-  ],
-  "maxAge": "88.876309048s"
-}
+]
  ````
 
 ### Validate assetlinks.json
