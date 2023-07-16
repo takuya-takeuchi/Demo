@@ -7,6 +7,8 @@ Param
    $apkPath
 )
 
+$current = $PSScriptRoot
+
 if (!(Test-Path(${apkPath})))
 {
     Write-Host "apkPath: ${apkPath} is missing" -ForegroundColor Red
@@ -40,4 +42,5 @@ Write-Host "apksigner: '${apksigner}'" -ForegroundColor Green
 $apkNewPath = $apkPath.Replace("app-debug", "app-debug-signed")
 $apkNewPath = $apkNewPath.Replace("app-release-unsigned", "app-release-signed")
 
-& "${apksigner}" sign -ks debug.keystore --out "${apkNewPath}" "${apkPath}"
+$key = Join-Path $current debug.keystore
+& "${apksigner}" sign -ks "${key}" --out "${apkNewPath}" "${apkPath}"
