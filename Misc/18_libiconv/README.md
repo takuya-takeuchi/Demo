@@ -40,11 +40,8 @@
 
 ## How to use?
 
-At first, you must build [cppkafka](https://github.com/aws/aws-sdk-cpp).
-
 ````shell
-$ git submodule update --init --recursive .
-$ pwsh build.ps1  <Debug/Release>
+$ pwsh build.ps1 <Debug/Release>
+[Info] iconv_open
+[Info] iconv_close
 ````
-
-Then you can try samples. For example [01_Producer](./01_Producer).
