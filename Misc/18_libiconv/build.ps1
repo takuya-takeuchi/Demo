@@ -64,19 +64,16 @@ if ($global:IsWindows)
     $Env:ICONV_BINARY="${vcpkg_base_directory}\bin\iconv-2.dll"
 
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_TOOLCHAIN_FILE="${toolchain}" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CPPKAFKA_ENABLE_TESTS=OFF `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CPPKAFKA_ENABLE_TESTS=OFF `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

@@ -15,9 +15,9 @@
 ### Windows
 
 * Visual Studio
-* librdkafka, gtest, boost-optional, boost-algorithm, boost-program-options, rapidjson and lz4
+* libiconv
   * via `vcpkg` command
-    * `vcpkg install librdkafka gtest boost-optional boost-algorithm boost-program-options rapidjson lz4 --triplet x64-windows`
+    * `vcpkg install libiconv --triplet x64-windows`
 
 ### Ubuntu
 
@@ -29,9 +29,9 @@
 ### OSX
 
 * Xcode
-* librdkafka, googletest, boost, rapidjson and lz4
+* libiconv
   * via `brew` command
-    * `brew install librdkafka googletest boost rapidjson lz4`
+    * `brew install libiconv`
 
 ## Dependencies
 
