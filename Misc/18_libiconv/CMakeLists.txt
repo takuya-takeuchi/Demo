@@ -15,11 +15,19 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 endif()
 
-find_package(iconv)
+if (MSVC)
+    find_package(iconv)
+    
+    message("ICONV_INCLUDE_DIR: $ENV{ICONV_INCLUDE_DIR}")
+    message("   CHARSET_BINARY: $ENV{CHARSET_BINARY}")
+    message("     ICONV_BINARY: $ENV{ICONV_BINARY}")
+elseif (APPLE)
+    find_package(iconv)
 
-message("ICONV_INCLUDE_DIR: $ENV{ICONV_INCLUDE_DIR}")
-message("   CHARSET_BINARY: $ENV{CHARSET_BINARY}")
-message("     ICONV_BINARY: $ENV{ICONV_BINARY}")
+    message("ICONV_INCLUDE_DIR: $ENV{ICONV_INCLUDE_DIR}")
+    message("   CHARSET_BINARY: $ENV{CHARSET_BINARY}")
+    message("     ICONV_BINARY: $ENV{ICONV_BINARY}")
+endif()
 
 add_executable(${PROJ_NAME} main.cpp)
 
@@ -31,6 +39,11 @@ if (MSVC)
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           Iconv::Iconv)
+
+    install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
+    install(FILES sjis.txt DESTINATION bin)
+    install(FILES $ENV{CHARSET_BINARY} DESTINATION bin)
+    install(FILES $ENV{ICONV_BINARY} DESTINATION bin)
 elseif (APPLE)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
@@ -38,18 +51,19 @@ elseif (APPLE)
     
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          Iconv::Iconv)
+                          "Iconv::Iconv")
+
+    install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
+    install(FILES sjis.txt DESTINATION bin)
 else()
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               Iconv::Iconv)
+                               "/usr/local/include")
     
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          Iconv::Iconv)
-endif()
+                          iconv)
 
-install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
-install(FILES sjis.txt DESTINATION bin)
-install(FILES $ENV{CHARSET_BINARY} DESTINATION bin)
-install(FILES $ENV{ICONV_BINARY} DESTINATION bin)
+    install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
+    install(FILES sjis.txt DESTINATION bin)
+endif()

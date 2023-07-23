@@ -94,6 +94,7 @@ elseif ($global:IsLinux)
 {
     $programDir = Join-Path $installDir bin
     $program = Join-Path $programDir Demo
+    $env:LD_LIBRARY_PATH="/usr/local/lib"
 }
 
 Push-Location $programDir

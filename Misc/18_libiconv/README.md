@@ -22,9 +22,17 @@
 ### Ubuntu
 
 * g++
-* libcpprest-dev and libboost-program-options-dev
-  * via `apt` command
-    * `apt install librdkafka-dev libboost-program-options-dev`
+* install `libiconv` from source code
+
+````shell
+$ wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz
+$ tar xvfzp libiconv-1.17.tar.gz
+$ pushd libiconv-1.17
+$ ./configure
+$ make
+$ sudo make install
+$ popd
+``````
 
 ### OSX
 
