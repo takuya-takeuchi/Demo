@@ -77,7 +77,6 @@ if ($global:IsWindows)
 
     Call("C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat")
 
-    # LNK1248
     $env:MSVC_Z7_OVERRIDE="OFF"
     $env:CMAKE_BUILD_TYPE=${Configuration}
     $env:BUILD_CAFFE2_OPS="OFF"
@@ -99,6 +98,8 @@ if ($global:IsWindows)
     $env:USE_NINJA="ON"
     $env:ONNX_ML="OFF"
     $env:CAFFE2_USE_MSVC_STATIC_RUNTIME="ON"
+    python setup.py build --cmake-only
+    cmake --build build --target install --config ${Configuration}
 
     # cmake file
     $destCmake = Join-Path $installDir share | `
@@ -145,9 +146,27 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CPPKAFKA_ENABLE_TESTS=OFF `
-          $sourceDir
+    $env:CMAKE_BUILD_TYPE=${Configuration}
+    $env:BUILD_CAFFE2_OPS="OFF"
+    $env:BUILD_DOCS="OFF"
+    $env:BUILD_PYTHON="OFF"
+    $env:BUILD_SHARED_LIBS="OFF"
+    $env:BUILD_TEST="OFF"
+    $env:USE_DISTRIBUTED="OFF"
+    $env:USE_CUDA="OFF"
+    $env:USE_OPENMP="OFF"
+    $env:USE_MKLDNN="OFF"
+    $env:USE_FBGEMM="OFF"
+    $env:USE_QNNPACK="OFF"
+    $env:USE_NNPACK="OFF"
+    $env:USE_TENSORRT="OFF"
+    $env:USE_XNNPACK="OFF"
+    $env:USE_SYSTEM_LIBS="OFF"
+    $env:USE_SYSTEM_ONNX="OFF"
+    $env:USE_NINJA="ON"
+    $env:ONNX_ML="OFF"
+    python setup.py build --cmake-only
+    cmake --build build --target install --config ${Configuration}
 }
 elseif ($global:IsLinux)
 {

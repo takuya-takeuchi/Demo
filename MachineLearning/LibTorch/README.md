@@ -37,9 +37,21 @@
 
 At first, you must build [pytroch](https://github.com/pytorch/pytorch).
 
+### Windows
+
 ````shell
 $ python3 -m venv .venv
 $ .venv\Scripts\activate
+$ python -m pip install pip --upgrade
+$ python -m pip install numpy pyyaml typing_extensions
+$ pwsh build.ps1 <Debug/Release>
+````
+
+### Linux/OSX
+
+````shell
+$ python3 -m venv .venv
+$ source .venv/bin/activate
 $ python -m pip install pip --upgrade
 $ python -m pip install numpy pyyaml typing_extensions
 $ pwsh build.ps1 <Debug/Release>
