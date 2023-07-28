@@ -99,8 +99,6 @@ if ($global:IsWindows)
     $env:USE_NINJA="ON"
     $env:ONNX_ML="OFF"
     $env:CAFFE2_USE_MSVC_STATIC_RUNTIME="ON"
-    # python setup.py build --cmake-only
-    # cmake --build build --target install --config ${Configuration}
 
     # cmake file
     $destCmake = Join-Path $installDir share | `
