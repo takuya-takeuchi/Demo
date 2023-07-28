@@ -116,4 +116,7 @@
 [submodule "TestFramework/Maestro/MAUI/01_CreditCardChecker/libs/test/googletest"]
 	path = TestFramework/Maestro/MAUI/01_CreditCardChecker/libs/test/googletest
 	url = https://github.com/google/googletest
+[submodule "MachineLearning/LibTorch/pytorch"]
+	path = MachineLearning/LibTorch/pytorch
+	url = https://github.com/pytorch/pytorch
 	ignore = dirty
