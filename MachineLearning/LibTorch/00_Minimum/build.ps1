@@ -64,6 +64,8 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
+    $env:Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.a"
+    $env:sleef_LIBRARIES="${protobufLibInstallDir}/libsleef.a"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
           $sourceDir

@@ -158,6 +158,7 @@ elseif ($global:IsMacOS)
     $env:USE_MKLDNN="OFF"
     $env:USE_FBGEMM="OFF"
     $env:USE_QNNPACK="OFF"
+    $env:USE_PYTORCH_QNNPACK="OFF"
     $env:USE_NNPACK="OFF"
     $env:USE_TENSORRT="OFF"
     $env:USE_XNNPACK="OFF"
@@ -170,15 +171,96 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CPPKAFKA_ENABLE_TESTS=OFF `
-          $sourceDir
+    $env:CMAKE_BUILD_TYPE=${Configuration}
+    $env:BUILD_CAFFE2_OPS="OFF"
+    $env:BUILD_DOCS="OFF"
+    $env:BUILD_PYTHON="OFF"
+    $env:BUILD_SHARED_LIBS="OFF"
+    $env:BUILD_TEST="OFF"
+    $env:USE_DISTRIBUTED="OFF"
+    $env:USE_CUDA="OFF"
+    $env:USE_OPENMP="OFF"
+    $env:USE_MKLDNN="OFF"
+    $env:USE_FBGEMM="OFF"
+    $env:USE_QNNPACK="OFF"
+    $env:USE_PYTORCH_QNNPACK="OFF"
+    $env:USE_SYSTEM_SLEEF="OFF"
+    $env:USE_NNPACK="OFF"
+    $env:USE_TENSORRT="OFF"
+    $env:USE_XNNPACK="OFF"
+    $env:USE_SYSTEM_LIBS="OFF"
+    $env:USE_SYSTEM_ONNX="OFF"
+    $env:USE_NINJA="ON"
+    $env:ONNX_ML="OFF"
+    python setup.py build --cmake-only
+    cmake --build build --target install --config ${Configuration}
+
+    # cmake file
+    $destCmake = Join-Path $installDir share | `
+                 Join-Path -ChildPath cmake | `
+                 Join-Path -ChildPath Torch
+    New-Item -Type Directory $destCmake -Force | Out-Null
+    $buildCmake = Join-Path $sourceDir build | `
+                  Join-Path -ChildPath TorchConfig.cmake
+    Copy-Item $buildCmake $destCmake -Force
+    $buildCmake = Join-Path $sourceDir build | `
+                  Join-Path -ChildPath TorchConfigVersion.cmake
+    Copy-Item $buildCmake $destCmake -Force
+
+    # library
+    $buildLib = Join-Path $sourceDir build | `
+                Join-Path -ChildPath lib
+    Copy-Item $buildLib $installDir -Recurse -Force
+    $buildLib = Join-Path $sourceDir build | `
+                Join-Path -ChildPath sleef | `
+                Join-Path -ChildPath lib
+    Copy-Item $buildLib $installDir -Recurse -Force
+
+    # header
+    $destInclude = Join-Path $installDir include
+    New-Item -Type Directory $destInclude -Force | Out-Null
+    $buildInclude = Join-Path $sourceDir torch
+    Copy-Item $buildInclude $destInclude -Recurse -Force
+
+    $destInclude = Join-Path $installDir include
+    $buildInclude = Join-Path $sourceDir aten | `
+                    Join-Path -ChildPath src | `
+                    Join-Path -ChildPath ATen
+    Copy-Item $buildInclude $destInclude -Recurse -Force
+    $buildInclude = Join-Path $sourceDir build | `
+                    Join-Path -ChildPath aten | `
+                    Join-Path -ChildPath src | `
+                    Join-Path -ChildPath ATen
+    Copy-Item $buildInclude $destInclude -Recurse -Force
+
+    $buildInclude = Join-Path $sourceDir c10
+    Copy-Item $buildInclude $destInclude -Recurse -Force
+    $destInclude = Join-Path $installDir include | `
+                   Join-Path -ChildPath c10
+    $buildInclude = Join-Path $sourceDir build | `
+                    Join-Path -ChildPath c10 | `
+                    Join-Path -ChildPath macros
+    Copy-Item $buildInclude $destInclude -Recurse -Force
 }
 
 # remove files except for *.h
 $include = Join-Path $installDir include 
 Get-ChildItem -Path $include -Recurse -File | Where-Object { $_.Extension -ne ".h" } | Remove-Item -Force
 # remove empty directories
-Get-ChildItem -Path $targetDirectory -Recurse -Directory | Where-Object { (Get-ChildItem -Path $_.FullName) -eq $null } | Remove-Item -Force
+do {
+    $directories = Get-ChildItem -Path $include  -Recurse -Directory | Where-Object { !(Get-ChildItem -Path $_.FullName) }
+    $deleted = $false
+    foreach ($dir in $directories)
+    {
+        try
+        {
+            Remove-Item -Path $dir.FullName -Force
+            $deleted = $true
+        }
+        catch
+        {
+        }
+    }
+} while ($deleted)
 
 Pop-Location
