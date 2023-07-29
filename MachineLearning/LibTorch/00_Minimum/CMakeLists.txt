@@ -16,7 +16,6 @@ if (MSVC)
 endif()
 
 find_package(Torch REQUIRED)
-find_package(Protobuf MODULE)
 
 message("   TORCH_LIBRARIES: ${TORCH_LIBRARIES}")
 message("TORCH_INCLUDE_DIRS: ${TORCH_INCLUDE_DIRS}")
@@ -34,6 +33,7 @@ if (MSVC)
                           ${TORCH_LIBRARIES}
                           $ENV{Protobuf_LIBRARIES})
 elseif (APPLE)
+    message("sleef_LIBRARIES: $ENV{sleef_LIBRARIES}")
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                ${TORCH_INCLUDE_DIRS})
@@ -41,8 +41,10 @@ elseif (APPLE)
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           ${TORCH_LIBRARIES}
-                          ${Protobuf_LIBRARIES})
+                          $ENV{Protobuf_LIBRARIES}
+                          $ENV{Protobuf_LIBRARIES})
 else()
+    message("sleef_LIBRARIES: $ENV{sleef_LIBRARIES}")
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                ${TORCH_INCLUDE_DIRS})
@@ -50,7 +52,8 @@ else()
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           ${TORCH_LIBRARIES}
-                          ${Protobuf_LIBRARIES})
+                          $ENV{Protobuf_LIBRARIES}
+                          $ENV{sleef_LIBRARIES})
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
