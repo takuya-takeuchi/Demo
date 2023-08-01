@@ -158,8 +158,6 @@ elseif ($global:IsMacOS)
     $env:USE_MKLDNN="OFF"
     $env:USE_FBGEMM="OFF"
     $env:USE_QNNPACK="OFF"
-    $env:USE_BLAS="OFF"
-    $env:USE_LAPACK="OFF"
     $env:USE_EIGEN_FOR_BLAS="OFF"
     $env:USE_PYTORCH_QNNPACK="OFF"
     $env:USE_NNPACK="OFF"
@@ -169,6 +167,8 @@ elseif ($global:IsMacOS)
     $env:USE_SYSTEM_ONNX="OFF"
     $env:USE_NINJA="ON"
     $env:ONNX_ML="OFF"
+    $env:MACOSX_DEPLOYMENT_TARGET=11.0
+    $env:CMAKE_OSX_ARCHITECTURES="arm64"
     python setup.py build --cmake-only
     cmake --build build --target install --config ${Configuration}
 
