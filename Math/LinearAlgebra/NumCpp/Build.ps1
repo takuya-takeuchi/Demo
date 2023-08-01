@@ -44,6 +44,8 @@ $targetDir = Join-Path $installDir $target | `
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
+git submodule update --init --recursive .
+
 Push-Location $buildDir
 if ($global:IsWindows)
 {
