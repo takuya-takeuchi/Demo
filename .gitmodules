@@ -104,3 +104,4 @@
 [submodule "Math/LinearAlgebra/NumCpp/NumCpp"]
 	path = Math/LinearAlgebra/NumCpp/NumCpp
 	url = https://github.com/dpilger26/NumCpp
+	ignore = dirty
