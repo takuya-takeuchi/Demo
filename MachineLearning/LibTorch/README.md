@@ -26,6 +26,7 @@
 ### OSX
 
 * Xcode
+  * I confirmed only 14.0 and 14.1. At least, 14.3 does not work.
 
 ## Dependencies
 
