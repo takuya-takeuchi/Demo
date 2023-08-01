@@ -55,9 +55,20 @@ $ python3 main.py
 Compare between `conv_inv_py.dat` and `conv_inv_cpp.dat`.
 Calculate diffrence of each element.
 
+### Windows
+
 ````cmd
 $ python3 compare.py
 tolerance: 1e-05
     total: 1.848698167681152e-12
+    count: 0
+````
+
+### Linux
+
+````cmd
+$ python3 compare.py
+tolerance: 1e-05
+    total: 1.790190142731741e-12
     count: 0
 ````
