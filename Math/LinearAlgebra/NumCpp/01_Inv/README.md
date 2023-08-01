@@ -66,9 +66,18 @@ tolerance: 1e-05
 
 ### Linux
 
-````cmd
+````shell
 $ python3 compare.py
 tolerance: 1e-05
     total: 1.790190142731741e-12
+    count: 0
+````
+
+### OSX
+
+````shell
+$ python3 compare.py
+tolerance: 1e-05
+    total: 1.9750226522725076e-12
     count: 0
 ````
