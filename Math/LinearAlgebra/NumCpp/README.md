@@ -7,7 +7,8 @@
 ## Requirements
 
 * Powershell 7 or later
-* CMake 3.9.0 or later
+* CMake 3.14.0 or later
+* C++ compiler support C++ 17
 
 ## Windows
 
@@ -32,3 +33,5 @@
 ````cmd
 $ pwsh Build.ps1 <Release/Debug>
 ````
+
+If enable `boost`, you have to change `-D NUMCPP_NO_USE_BOOST="ON"` to `-D NUMCPP_NO_USE_BOOST="OFF"` in [Build.ps1](./Build.ps1).
