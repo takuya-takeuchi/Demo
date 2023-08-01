@@ -101,3 +101,7 @@
 	path = WebApplication/Wasm/emsdk
 	url = https://github.com/emscripten-core/emsdk
 	ignore = dirty
+[submodule "Math/LinearAlgebra/NumCpp/NumCpp"]
+	path = Math/LinearAlgebra/NumCpp/NumCpp
+	url = https://github.com/dpilger26/NumCpp
+	ignore = dirty
