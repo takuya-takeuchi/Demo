@@ -42,7 +42,10 @@ elseif (APPLE)
                           PRIVATE
                           ${TORCH_LIBRARIES}
                           $ENV{Protobuf_LIBRARIES}
-                          $ENV{Protobuf_LIBRARIES})
+                          $ENV{sleef_LIBRARIES}
+                          ${TORCH_ADDITIONAL_LIBS_DIRS}/libCaffe2_perfkernels_avx.a
+                          ${TORCH_ADDITIONAL_LIBS_DIRS}/libCaffe2_perfkernels_avx2.a
+                          ${TORCH_ADDITIONAL_LIBS_DIRS}/libCaffe2_perfkernels_avx512.a)
 else()
     message("sleef_LIBRARIES: $ENV{sleef_LIBRARIES}")
     target_include_directories(${PROJ_NAME}
@@ -53,7 +56,10 @@ else()
                           PRIVATE
                           ${TORCH_LIBRARIES}
                           $ENV{Protobuf_LIBRARIES}
-                          $ENV{sleef_LIBRARIES})
+                          $ENV{sleef_LIBRARIES}
+                          ${TORCH_ADDITIONAL_LIBS_DIRS}/libCaffe2_perfkernels_avx.a
+                          ${TORCH_ADDITIONAL_LIBS_DIRS}/libCaffe2_perfkernels_avx2.a
+                          ${TORCH_ADDITIONAL_LIBS_DIRS}/libCaffe2_perfkernels_avx512.a)
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

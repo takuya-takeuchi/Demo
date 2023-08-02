@@ -36,14 +36,13 @@ $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
 
 $rootDir = Split-Path $current -Parent
-$torchInstallDir = Join-Path $rootDir install | `
-                   Join-Path -ChildPath $os | `
-                   Join-Path -ChildPath share | `
+$torchInstallRootDir = Join-Path $rootDir install | `
+                       Join-Path -ChildPath $os
+$torchInstallLibDir = Join-Path $torchInstallRootDir lib
+$torchInstallDir = Join-Path $torchInstallRootDir share | `
                    Join-Path -ChildPath cmake | `
                    Join-Path -ChildPath Torch
-$libDir = Join-Path $rootDir install | `
-          Join-Path -ChildPath $os | `
-          Join-Path -ChildPath lib
+$protobufLibInstallDir = Join-Path $torchInstallRootDir lib
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -51,25 +50,27 @@ New-Item -Type Directory $installDir -Force | Out-Null
 Push-Location $buildDir
 if ($global:IsWindows)
 {
-    $env:Protobuf_LIBRARIES="${libDir}/libprotobuf.lib"
+    $env:Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.lib"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
-    $env:Protobuf_LIBRARIES="${libDir}/libprotobuf.a"
-    $env:sleef_LIBRARIES="${libDir}/libsleef.a"
+    $env:Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.a"
+    $env:sleef_LIBRARIES="${protobufLibInstallDir}/libsleef.a"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
+          -D TORCH_ADDITIONAL_LIBS_DIRS="${torchInstallLibDir}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
-    $env:Protobuf_LIBRARIES="${libDir}/libprotobuf.a"
-    $env:sleef_LIBRARIES="${libDir}/libsleef.a"
+    $env:Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.a"
+    $env:sleef_LIBRARIES="${protobufLibInstallDir}/libsleef.a"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
+          -D TORCH_ADDITIONAL_LIBS_DIRS="${torchInstallLibDir}"  `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
