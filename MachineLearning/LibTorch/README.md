@@ -26,7 +26,7 @@
 ### OSX
 
 * Xcode
-  * I confirmed only 14.0 and 14.1. At least, 14.3 does not work.
+  * I confirmed only 14.1 and 14.2. At least, 14.3 does not work.
 
 ## Dependencies
 
@@ -58,4 +58,4 @@ $ python -m pip install numpy pyyaml typing_extensions
 $ pwsh build.ps1 <Debug/Release>
 ````
 
-Then you can try samples. For example [00_Minimum](./00_Minimum).
+For OSX, you can change build arch by changing `$env:CMAKE_OSX_ARCHITECTURES="x86_64"` to `$env:CMAKE_OSX_ARCHITECTURES="arm64"` in [build.ps1](./build.ps1).

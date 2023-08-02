@@ -40,8 +40,11 @@ $commit = "e0495a7"
 # $version = "v1.9.1"
 # $commit = "dfbd030"
 
-# $version = "v1.11.0"
-# $commit = "bc2c6ed"
+$version = "v1.11.0"
+$commit = "bc2c6ed"
+
+$version = "v1.12.0"
+$commit = "67ece03"
 
 $sourceDir = Join-Path $current pytorch
 $installDir = Join-Path $current install | `
@@ -155,6 +158,7 @@ elseif ($global:IsMacOS)
     $env:USE_DISTRIBUTED="OFF"
     $env:USE_CUDA="OFF"
     $env:USE_OPENMP="OFF"
+    $env:USE_KINETO="OFF"
     $env:USE_MKLDNN="OFF"
     $env:USE_FBGEMM="OFF"
     $env:USE_QNNPACK="OFF"
@@ -168,9 +172,14 @@ elseif ($global:IsMacOS)
     $env:USE_NINJA="ON"
     $env:ONNX_ML="OFF"
     $env:MACOSX_DEPLOYMENT_TARGET=11.0
-    $env:CMAKE_OSX_ARCHITECTURES="arm64"
+    # $env:CMAKE_OSX_ARCHITECTURES="arm64"
+    $env:CMAKE_OSX_ARCHITECTURES="x86_64"
+    $env:USE_SLEEF_FOR_ARM_VEC256="OFF"
     python setup.py build --cmake-only
     cmake --build build --target install --config ${Configuration}
+
+    $installDir = Join-Path $installDir $env:CMAKE_OSX_ARCHITECTURES
+    New-Item -Type Directory $installDir -Force | Out-Null
 
     # cmake file
     $destCmake = Join-Path $installDir share | `
