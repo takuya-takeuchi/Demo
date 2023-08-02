@@ -89,6 +89,7 @@ if ($global:IsWindows)
     $env:BUILD_TEST="OFF"
     $env:USE_DISTRIBUTED="OFF"
     $env:USE_CUDA="OFF"
+    $env:USE_KINETO="OFF"
     $env:USE_OPENMP="OFF"
     $env:USE_MKLDNN="OFF"
     $env:USE_FBGEMM="OFF"
