@@ -29,22 +29,21 @@ elseif ($global:IsLinux)
 
 $target = "libtorch"
 
-# # 1.7.0 can not build due to https://github.com/pytorch/pytorch/issues/48517
-# $version = "v1.7.0"
-# $commit = "e85d494"
-
-# 1.8.2 
-$version = "v1.8.2"
-$commit = "e0495a7"
-
-# $version = "v1.9.1"
-# $commit = "dfbd030"
-
-$version = "v1.11.0"
-$commit = "bc2c6ed"
-
-$version = "v1.12.0"
-$commit = "67ece03"
+if ($global:IsWindows)
+{
+    $version = "v1.8.2"
+    $commit = "e0495a7"
+}
+elseif ($global:IsMacOS)
+{
+    $version = "v1.12.0"
+    $commit = "67ece03"
+}
+elseif ($global:IsLinux)
+{
+    $version = "v1.8.2"
+    $commit = "e0495a7"
+}
 
 $sourceDir = Join-Path $current pytorch
 $installDir = Join-Path $current install | `
@@ -55,6 +54,7 @@ New-Item -Type Directory $installDir -Force | Out-Null
 Push-Location $sourceDir
 
 # restore
+git checkout .
 git submodule sync
 git submodule update --init --recursive .
 
