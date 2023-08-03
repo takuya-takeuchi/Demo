@@ -77,9 +77,9 @@ $current = $PSScriptRoot
 
 $sourceDir = $current
 $buildDir = Join-Path $current build | `
+            Join-Path -ChildPath program | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $architecture | `
-            Join-Path -ChildPath program
+            Join-Path -ChildPath $architecture
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
               Join-Path -ChildPath $architecture
@@ -108,6 +108,7 @@ switch ($os)
               -D Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.lib" `
               -D TARGET_ARCHITECTURES="$architecture" `
               $sourceDir
+        cmake --build . --config ${configuration} --target install
     }
     "linux"
     {
@@ -118,6 +119,7 @@ switch ($os)
               -D Protobuf_LIBRARIES="${protobufLibInstallDir}/libsleef.a" `
               -D TARGET_ARCHITECTURES="$architecture" `
               $sourceDir
+        cmake --build . --config ${configuration} --target install
     }
     "osx"
     {
@@ -135,6 +137,7 @@ switch ($os)
                       -D CMAKE_OSX_ARCHITECTURES="$architecture" `
                       -D TARGET_ARCHITECTURES="$architecture" `
                       $sourceDir
+                cmake --build . --config ${configuration} --target install
             }
             "arm64"
             {
@@ -146,6 +149,7 @@ switch ($os)
                       -D CMAKE_OSX_ARCHITECTURES="$architecture" `
                       -D TARGET_ARCHITECTURES="$architecture" `
                       $sourceDir
+                cmake --build . --config ${configuration} --target install
             }
         }
     }
@@ -162,30 +166,33 @@ switch ($os)
               -D CMAKE_OSX_SYSROOT="iphoneos" `
               -D TARGET_ARCHITECTURES="$architecture" `
               $sourceDir
+        cmake --build . --config ${configuration} --target install
     }
     "android"
     {
     }
 }
-
-# remove files except for *.h
-$include = Join-Path $installDir include 
-Get-ChildItem -Path $include -Recurse -File | Where-Object { $_.Extension -ne ".h" } | Remove-Item -Force -Recurse
-# remove empty directories
-do {
-    $directories = Get-ChildItem -Path $include  -Recurse -Directory | Where-Object { !(Get-ChildItem -Path $_.FullName) }
-    $deleted = $false
-    foreach ($dir in $directories)
-    {
-        try
-        {
-            Remove-Item -Path $dir.FullName -Force
-            $deleted = $true
-        }
-        catch
-        {
-        }
-    }
-} while ($deleted)
-
 Pop-Location
+
+# run
+switch ($os)
+{
+    "win"
+    {
+        $programDir = Join-Path $installDir bin
+        $program = Join-Path $programDir Demo.exe
+        & ${program}
+    }
+    "linux"
+    {
+        $programDir = Join-Path $installDir bin
+        $program = Join-Path $programDir Demo
+        & ${program}
+    }
+    "osx"
+    {
+        $programDir = Join-Path $installDir bin
+        $program = Join-Path $programDir Demo
+        & ${program}
+    }
+}
