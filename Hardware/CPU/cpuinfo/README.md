@@ -1,14 +1,13 @@
-# NumCpp
+# cpuinfo
 
 ## Abstracts
 
-* Usage of NumCpp
+* Usage of cpuinfo
 
 ## Requirements
 
 * Powershell 7 or later
-* CMake 3.14.0 or later
-* C++ compiler support C++ 17
+* CMake 3.5.0 or later
 
 ## Windows
 
@@ -31,7 +30,29 @@
 ## How to usage?
 
 ````cmd
-$ pwsh Build.ps1 <Release/Debug>
+$ pwsh build.ps1 <win/linux/osx/ios/android> <x86_64/arm64> <Release/Debug>
+Packages:
+        0: Intel Core i7-8700
+Microarchitectures:
+        6x Sky Lake
+Cores:
+        0: 2 processors (0-1), Intel Sky Lake
+        1: 2 processors (2-3), Intel Sky Lake
+        2: 2 processors (4-5), Intel Sky Lake
+        3: 2 processors (6-7), Intel Sky Lake
+        4: 2 processors (8-9), Intel Sky Lake
+        5: 2 processors (10-11), Intel Sky Lake
+Logical processors:
+        0: APIC ID 0x00000000
+        1: APIC ID 0x00000001
+        2: APIC ID 0x00000002
+        3: APIC ID 0x00000003
+        4: APIC ID 0x00000004
+        5: APIC ID 0x00000005
+        6: APIC ID 0x00000006
+        7: APIC ID 0x00000007
+        8: APIC ID 0x00000008
+        9: APIC ID 0x00000009
+        10: APIC ID 0x0000000a
+        11: APIC ID 0x0000000b
 ````
-
-If enable `boost`, you have to change `-D NUMCPP_NO_USE_BOOST="ON"` to `-D NUMCPP_NO_USE_BOOST="OFF"` in [Build.ps1](./Build.ps1).
