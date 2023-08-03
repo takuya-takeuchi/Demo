@@ -31,7 +31,7 @@
 ## Dependencies
 
 * [pytroch](https://github.com/pytorch/pytorch)
-  * 1.8.2
+  * 1.8.2 (for windows) or 1.12.0 (for others)
   * 3-clause BSD License
 
 ## How to use?

@@ -28,13 +28,13 @@
 ## Dependencies
 
 * [pytroch](https://github.com/pytorch/pytorch)
-  * 1.8.2
+  * 1.8.2 (for windows) or 1.12.0 (for others)
   * 3-clause BSD License
 
 ## How to use?
 
 ````bat
-$ pwsh build.ps1 Release
+$ pwsh build.ps1 <win/linux/osx/ios/android> <x86_64/arm64> Release
  1  0  0
  0  1  0
  0  0  1
