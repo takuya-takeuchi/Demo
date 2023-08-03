@@ -110,7 +110,7 @@ switch ($os)
         cmake --build . --config ${configuration} --target install
     }
     "osx"
-    {        
+    {
         switch ($architecture)
         {
             "x86_64"
@@ -135,12 +135,35 @@ switch ($os)
     }
     "ios"
     {
-        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-              -D CMAKE_SYSTEM_NAME="iOS" `
-              -D CMAKE_OSX_SYSROOT="iphoneos" `
-              -D TARGET_ARCHITECTURES="$architecture" `
-              $sourceDir
-        cmake --build . --config ${configuration} --target install
+        switch ($architecture)
+        {
+            "x86_64"
+            {
+                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+                      -D CMAKE_SYSTEM_NAME="iOS" `
+                      -D CMAKE_OSX_SYSROOT="iphonesimulator" `
+                      -D TARGET_ARCHITECTURES="$architecture" `
+                      -D CPUINFO_BUILD_TOOLS="OFF" `
+                      -D CPUINFO_BUILD_UNIT_TESTS="OFF" `
+                      -D CPUINFO_BUILD_MOCK_TESTS="OFF" `
+                      -D CPUINFO_BUILD_BENCHMARKS="OFF" `
+                      $sourceDir
+                cmake --build . --config ${configuration} --target install
+            }
+            "arm64"
+            {
+                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+                      -D CMAKE_SYSTEM_NAME="iOS" `
+                      -D CMAKE_OSX_SYSROOT="iphoneos" `
+                      -D TARGET_ARCHITECTURES="$architecture" `
+                      -D CPUINFO_BUILD_TOOLS="OFF" `
+                      -D CPUINFO_BUILD_UNIT_TESTS="OFF" `
+                      -D CPUINFO_BUILD_MOCK_TESTS="OFF" `
+                      -D CPUINFO_BUILD_BENCHMARKS="OFF" `
+                      $sourceDir
+                cmake --build . --config ${configuration} --target install
+            }
+        }
     }
     "android"
     {

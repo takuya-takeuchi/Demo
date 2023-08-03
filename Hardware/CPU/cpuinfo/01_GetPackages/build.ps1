@@ -145,15 +145,33 @@ switch ($os)
     }
     "ios"
     {
-        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-              -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-              -D MACOSX_DEPLOYMENT_TARGET="11.0" `
-              -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-              -D CMAKE_SYSTEM_NAME="iOS" `
-              -D CMAKE_OSX_SYSROOT="iphoneos" `
-              -D TARGET_ARCHITECTURES="$architecture" `
-              $sourceDir
-        cmake --build . --config ${configuration} --target install
+        switch ($architecture)
+        {
+            "x86_64"
+            {
+                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+                      -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
+                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
+                      -D CMAKE_SYSTEM_NAME="iOS" `
+                      -D CMAKE_OSX_SYSROOT="iphonesimulator" `
+                      -D TARGET_ARCHITECTURES="$architecture" `
+                      $sourceDir
+                cmake --build . --config ${configuration} --target install
+            }
+            "arm64"
+            {
+                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+                      -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
+                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
+                      -D CMAKE_SYSTEM_NAME="iOS" `
+                      -D CMAKE_OSX_SYSROOT="iphoneos" `
+                      -D TARGET_ARCHITECTURES="$architecture" `
+                      $sourceDir
+                cmake --build . --config ${configuration} --target install
+            }
+        }
     }
     "android"
     {
