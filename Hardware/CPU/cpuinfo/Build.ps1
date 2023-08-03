@@ -88,6 +88,9 @@ $installDir = Join-Path $current install | `
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
+# restore
+git submodule update --init --recursive .
+
 Push-Location $buildDir
 
 switch ($os)

@@ -31,6 +31,11 @@
 
 ````cmd
 $ pwsh build.ps1 <win/linux/osx/ios/android> <x86_64/arm64> <Release/Debug>
+````
+
+### Intel Core i7
+
+````cmd
 Packages:
         0: Intel Core i7-8700
 Microarchitectures:
@@ -55,4 +60,23 @@ Logical processors:
         9: APIC ID 0x00000009
         10: APIC ID 0x0000000a
         11: APIC ID 0x0000000b
+````
+
+### Intel Xeon E5
+
+````cmd
+Packages:
+        0: Intel Xeon E5-1607 v3
+Microarchitectures:
+        4x Haswell
+Cores:
+        0: 1 processor (0), Intel Haswell
+        1: 1 processor (1), Intel Haswell
+        2: 1 processor (2), Intel Haswell
+        3: 1 processor (3), Intel Haswell
+Logical processors (System ID):
+        0 (0): APIC ID 0x00000000
+        1 (1): APIC ID 0x00000001
+        2 (2): APIC ID 0x00000002
+        3 (3): APIC ID 0x00000003
 ````
