@@ -109,7 +109,8 @@ $sourceDir = Join-Path $current ${buildTarget}
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
               Join-Path -ChildPath $architecture
-$env:TORCH_BUILD_DIRECTORY_NAME = "build_${os}_${architecture}"
+$build_dirname = "build_${os}_${architecture}"
+$env:TORCH_BUILD_DIRECTORY_NAME = $build_dirname
 
 New-Item -Type Directory $installDir -Force | Out-Null
 
@@ -167,22 +168,22 @@ switch ($os)
         $env:ONNX_ML="OFF"
         $env:CAFFE2_USE_MSVC_STATIC_RUNTIME="ON"
         python setup.py build --cmake-only
-        cmake --build $env:TORCH_BUILD_DIRECTORY_NAME --target install --config ${configuration}
+        cmake --build $build_dirname --target install --config ${configuration}
 
         # cmake file
         $destCmake = Join-Path $installDir share | `
                      Join-Path -ChildPath cmake | `
                      Join-Path -ChildPath Torch
         New-Item -Type Directory $destCmake -Force | Out-Null
-        $buildCmake = Join-Path $sourceDir build | `
+        $buildCmake = Join-Path $sourceDir $build_dirname | `
                       Join-Path -ChildPath TorchConfig.cmake
         Copy-Item $buildCmake $destCmake -Force
-        $buildCmake = Join-Path $sourceDir build | `
+        $buildCmake = Join-Path $sourceDir $build_dirname | `
                       Join-Path -ChildPath TorchConfigVersion.cmake
         Copy-Item $buildCmake $destCmake -Force
 
         # library
-        $buildLib = Join-Path $sourceDir build | `
+        $buildLib = Join-Path $sourceDir $build_dirname | `
                     Join-Path -ChildPath lib
         Copy-Item $buildLib $installDir -Recurse -Force
 
@@ -197,7 +198,7 @@ switch ($os)
                         Join-Path -ChildPath src | `
                         Join-Path -ChildPath ATen
         Copy-Item $buildInclude $destInclude -Recurse -Force
-        $buildInclude = Join-Path $sourceDir build | `
+        $buildInclude = Join-Path $sourceDir $build_dirname | `
                         Join-Path -ChildPath aten | `
                         Join-Path -ChildPath src | `
                         Join-Path -ChildPath ATen
@@ -207,7 +208,7 @@ switch ($os)
         Copy-Item $buildInclude $destInclude -Recurse -Force
         $destInclude = Join-Path $installDir include | `
                         Join-Path -ChildPath c10
-        $buildInclude = Join-Path $sourceDir build | `
+        $buildInclude = Join-Path $sourceDir $build_dirname | `
                         Join-Path -ChildPath c10 | `
                         Join-Path -ChildPath macros
         Copy-Item $buildInclude $destInclude -Recurse -Force
@@ -236,25 +237,25 @@ switch ($os)
         $env:USE_NINJA="ON"
         $env:ONNX_ML="OFF"
         python setup.py build --cmake-only
-        cmake --build $env:TORCH_BUILD_DIRECTORY_NAME --target install --config ${configuration}
+        cmake --build $build_dirname --target install --config ${configuration}
 
         # cmake file
         $destCmake = Join-Path $installDir share | `
                      Join-Path -ChildPath cmake | `
                      Join-Path -ChildPath Torch
         New-Item -Type Directory $destCmake -Force | Out-Null
-        $buildCmake = Join-Path $sourceDir build | `
+        $buildCmake = Join-Path $sourceDir $build_dirname | `
                       Join-Path -ChildPath TorchConfig.cmake
         Copy-Item $buildCmake $destCmake -Force
-        $buildCmake = Join-Path $sourceDir build | `
+        $buildCmake = Join-Path $sourceDir $build_dirname | `
                       Join-Path -ChildPath TorchConfigVersion.cmake
         Copy-Item $buildCmake $destCmake -Force
 
         # library
-        $buildLib = Join-Path $sourceDir build | `
+        $buildLib = Join-Path $sourceDir $build_dirname | `
                     Join-Path -ChildPath lib
         Copy-Item $buildLib $installDir -Recurse -Force
-        $buildLib = Join-Path $sourceDir build | `
+        $buildLib = Join-Path $sourceDir $build_dirname | `
                     Join-Path -ChildPath sleef | `
                     Join-Path -ChildPath lib
         Copy-Item $buildLib $installDir -Recurse -Force
@@ -270,7 +271,7 @@ switch ($os)
                         Join-Path -ChildPath src | `
                         Join-Path -ChildPath ATen
         Copy-Item $buildInclude $destInclude -Recurse -Force
-        $buildInclude = Join-Path $sourceDir build | `
+        $buildInclude = Join-Path $sourceDir $build_dirname | `
                         Join-Path -ChildPath aten | `
                         Join-Path -ChildPath src | `
                         Join-Path -ChildPath ATen
@@ -280,7 +281,7 @@ switch ($os)
         Copy-Item $buildInclude $destInclude -Recurse -Force
         $destInclude = Join-Path $installDir include | `
                        Join-Path -ChildPath c10
-        $buildInclude = Join-Path $sourceDir build | `
+        $buildInclude = Join-Path $sourceDir $build_dirname | `
                         Join-Path -ChildPath c10 | `
                         Join-Path -ChildPath macros
         Copy-Item $buildInclude $destInclude -Recurse -Force
@@ -318,25 +319,25 @@ switch ($os)
         }
 
         python setup.py build --cmake-only
-        cmake --build $env:TORCH_BUILD_DIRECTORY_NAME --target install --config ${configuration}
+        cmake --build $build_dirname --target install --config ${configuration}
 
         # cmake file
         $destCmake = Join-Path $installDir share | `
                      Join-Path -ChildPath cmake | `
                      Join-Path -ChildPath Torch
         New-Item -Type Directory $destCmake -Force | Out-Null
-        $buildCmake = Join-Path $sourceDir build | `
+        $buildCmake = Join-Path $sourceDir $build_dirname | `
                       Join-Path -ChildPath TorchConfig.cmake
         Copy-Item $buildCmake $destCmake -Force
-        $buildCmake = Join-Path $sourceDir build | `
+        $buildCmake = Join-Path $sourceDir $build_dirname | `
                       Join-Path -ChildPath TorchConfigVersion.cmake
         Copy-Item $buildCmake $destCmake -Force
 
         # library
-        $buildLib = Join-Path $sourceDir build | `
+        $buildLib = Join-Path $sourceDir $build_dirname | `
                     Join-Path -ChildPath lib
         Copy-Item $buildLib $installDir -Recurse -Force
-        $buildLib = Join-Path $sourceDir build | `
+        $buildLib = Join-Path $sourceDir $build_dirname | `
                     Join-Path -ChildPath sleef | `
                     Join-Path -ChildPath lib
         Copy-Item $buildLib $installDir -Recurse -Force
@@ -352,7 +353,7 @@ switch ($os)
                         Join-Path -ChildPath src | `
                         Join-Path -ChildPath ATen
         Copy-Item $buildInclude $destInclude -Recurse -Force
-        $buildInclude = Join-Path $sourceDir build | `
+        $buildInclude = Join-Path $sourceDir $build_dirname | `
                         Join-Path -ChildPath aten | `
                         Join-Path -ChildPath src | `
                         Join-Path -ChildPath ATen
@@ -362,7 +363,7 @@ switch ($os)
         Copy-Item $buildInclude $destInclude -Recurse -Force
         $destInclude = Join-Path $installDir include | `
                        Join-Path -ChildPath c10
-        $buildInclude = Join-Path $sourceDir build | `
+        $buildInclude = Join-Path $sourceDir $build_dirname | `
                         Join-Path -ChildPath c10 | `
                         Join-Path -ChildPath macros
         Copy-Item $buildInclude $destInclude -Recurse -Force
@@ -401,25 +402,25 @@ switch ($os)
         }
 
         python setup.py build --cmake-only
-        cmake --build $env:TORCH_BUILD_DIRECTORY_NAME --target install --config ${configuration}
+        cmake --build $build_dirname --target install --config ${configuration}
 
         # cmake file
         $destCmake = Join-Path $installDir share | `
                      Join-Path -ChildPath cmake | `
                      Join-Path -ChildPath Torch
         New-Item -Type Directory $destCmake -Force | Out-Null
-        $buildCmake = Join-Path $sourceDir build | `
+        $buildCmake = Join-Path $sourceDir $build_dirname | `
                       Join-Path -ChildPath TorchConfig.cmake
         Copy-Item $buildCmake $destCmake -Force
-        $buildCmake = Join-Path $sourceDir build | `
+        $buildCmake = Join-Path $sourceDir $build_dirname | `
                       Join-Path -ChildPath TorchConfigVersion.cmake
         Copy-Item $buildCmake $destCmake -Force
 
         # library
-        $buildLib = Join-Path $sourceDir build | `
+        $buildLib = Join-Path $sourceDir $build_dirname | `
                     Join-Path -ChildPath lib
         Copy-Item $buildLib $installDir -Recurse -Force
-        $buildLib = Join-Path $sourceDir build | `
+        $buildLib = Join-Path $sourceDir $build_dirname | `
                     Join-Path -ChildPath sleef | `
                     Join-Path -ChildPath lib
         Copy-Item $buildLib $installDir -Recurse -Force
@@ -435,7 +436,7 @@ switch ($os)
                         Join-Path -ChildPath src | `
                         Join-Path -ChildPath ATen
         Copy-Item $buildInclude $destInclude -Recurse -Force
-        $buildInclude = Join-Path $sourceDir build | `
+        $buildInclude = Join-Path $sourceDir $build_dirname | `
                         Join-Path -ChildPath aten | `
                         Join-Path -ChildPath src | `
                         Join-Path -ChildPath ATen
@@ -445,7 +446,7 @@ switch ($os)
         Copy-Item $buildInclude $destInclude -Recurse -Force
         $destInclude = Join-Path $installDir include | `
                        Join-Path -ChildPath c10
-        $buildInclude = Join-Path $sourceDir build | `
+        $buildInclude = Join-Path $sourceDir $build_dirname | `
                         Join-Path -ChildPath c10 | `
                         Join-Path -ChildPath macros
         Copy-Item $buildInclude $destInclude -Recurse -Force
