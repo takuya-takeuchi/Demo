@@ -166,8 +166,8 @@ switch ($os)
         $env:USE_NINJA="ON"
         $env:ONNX_ML="OFF"
         $env:CAFFE2_USE_MSVC_STATIC_RUNTIME="ON"
-        python setup.py $env:TORCH_BUILD_DIRECTORY_NAME --cmake-only
-        cmake --build build --target install --config ${configuration}
+        python setup.py build --cmake-only
+        cmake --build $env:TORCH_BUILD_DIRECTORY_NAME --target install --config ${configuration}
 
         # cmake file
         $destCmake = Join-Path $installDir share | `
