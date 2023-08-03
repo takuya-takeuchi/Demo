@@ -1,6 +1,8 @@
 #***************************************
 #Arguments
-#%1: Build Configuration (Release/Debug)
+#%1: Build Target (win/linux/osx/ios/android)
+#%2: Architecture (x86_64/arm64)
+#%3: Build Configuration (Release/Debug/RelWithDebInfo/MinSizeRel)
 #***************************************
 Param
 (
@@ -8,36 +10,84 @@ Param
    Mandatory=$True,
    Position = 1
    )][string]
+   $Target,
+
+   [Parameter(
+   Mandatory=$True,
+   Position = 2
+   )][string]
+   $Architecture,
+
+   [Parameter(
+   Mandatory=$True,
+   Position = 3
+   )][string]
    $Configuration
 )
 
+$os = $Target
+$configuration = $Configuration
+$architecture = $Architecture
+
+$TargetArray =
+@(
+   "win",
+   "linux",
+   "osx",
+   "ios",
+   "android"
+)
+
+$ConfigurationArray =
+@(
+   "Debug",
+   "Release",
+   "RelWithDebInfo",
+   "MinSizeRel"
+)
+
+$ArchitectureArray =
+@(
+   "arm64",
+   "x86_64"
+)
+
+if ($TargetArray.Contains($os) -eq $False)
+{
+   $candidate = $TargetArray.Keys -join "/"
+   Write-Host "Error: Specify Target [${candidate}]" -ForegroundColor Red
+   exit -1
+}
+
+if ($ConfigurationArray.Contains($configuration) -eq $False)
+{
+   $candidate = $ConfigurationArray.Keys -join "/"
+   Write-Host "Error: Specify Configuration [${candidate}]" -ForegroundColor Red
+   exit -1
+}
+
+if ($ArchitectureArray.Contains($architecture) -eq $False)
+{
+   $candidate = $ArchitectureArray.Keys -join "/"
+   Write-Host "Error: Specify Architecture [${candidate}]" -ForegroundColor Red
+   exit -1
+}
+
 $current = $PSScriptRoot
 
-# get os name
-if ($global:IsWindows)
-{
-    $os = "win"
-}
-elseif ($global:IsMacOS)
-{
-    $os = "osx"
-}
-elseif ($global:IsLinux)
-{
-    $os = "linux"
-}
-
-# build
 $sourceDir = $current
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
+            Join-Path -ChildPath $architecture | `
             Join-Path -ChildPath program
 $installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os
+              Join-Path -ChildPath $os | `
+              Join-Path -ChildPath $architecture
 
 $rootDir = Split-Path $current -Parent
 $torchInstallRootDir = Join-Path $rootDir install | `
-                       Join-Path -ChildPath $os
+                       Join-Path -ChildPath $os | `
+                       Join-Path -ChildPath $architecture
 $torchInstallLibDir = Join-Path $torchInstallRootDir lib
 $torchInstallDir = Join-Path $torchInstallRootDir share | `
                    Join-Path -ChildPath cmake | `
@@ -48,48 +98,94 @@ New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
-if ($global:IsWindows)
-{
-    $env:Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.lib"
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
-          $sourceDir
-}
-elseif ($global:IsMacOS)
-{
-    $env:Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.a"
-    $env:sleef_LIBRARIES="${protobufLibInstallDir}/libsleef.a"
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
-          -D TORCH_ADDITIONAL_LIBS_DIRS="${torchInstallLibDir}" `
-          $sourceDir
-}
-elseif ($global:IsLinux)
-{
-    $env:Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.a"
-    $env:sleef_LIBRARIES="${protobufLibInstallDir}/libsleef.a"
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
-          -D TORCH_ADDITIONAL_LIBS_DIRS="${torchInstallLibDir}"  `
-          $sourceDir
-}
-cmake --build . --config ${Configuration} --target install
-Pop-Location
 
-# run
-if ($global:IsWindows)
+switch ($os)
 {
-    $programDir = Join-Path $installDir bin
-    $program = Join-Path $programDir Demo.exe
+    "win"
+    {
+        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+              -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
+              -D Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.lib" `
+              -D TARGET_ARCHITECTURES="$architecture" `
+              $sourceDir
+    }
+    "linux"
+    {
+        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+              -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
+              -D TORCH_ADDITIONAL_LIBS_DIRS="${torchInstallLibDir}"  `
+              -D Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.a" `
+              -D Protobuf_LIBRARIES="${protobufLibInstallDir}/libsleef.a" `
+              -D TARGET_ARCHITECTURES="$architecture" `
+              $sourceDir
+    }
+    "osx"
+    {
+        
+        switch ($architecture)
+        {
+            "x86_64"
+            {
+                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+                      -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
+                      -D TORCH_ADDITIONAL_LIBS_DIRS="${torchInstallLibDir}" `
+                      -D Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.a" `
+                      -D Protobuf_LIBRARIES="${protobufLibInstallDir}/libsleef.a" `
+                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
+                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
+                      -D TARGET_ARCHITECTURES="$architecture" `
+                      $sourceDir
+            }
+            "arm64"
+            {
+                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+                      -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
+                      -D Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.a" `
+                      -D Protobuf_LIBRARIES="${protobufLibInstallDir}/libsleef.a" `
+                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
+                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
+                      -D TARGET_ARCHITECTURES="$architecture" `
+                      $sourceDir
+            }
+        }
+    }
+    "ios"
+    {
+        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+              -D CMAKE_PREFIX_PATH="${torchInstallDir}" `
+              -D TORCH_ADDITIONAL_LIBS_DIRS="${torchInstallLibDir}" `
+              -D Protobuf_LIBRARIES="${protobufLibInstallDir}/libprotobuf.a" `
+              -D Protobuf_LIBRARIES="${protobufLibInstallDir}/libsleef.a" `
+              -D MACOSX_DEPLOYMENT_TARGET="11.0" `
+              -D CMAKE_OSX_ARCHITECTURES="$architecture" `
+              -D CMAKE_SYSTEM_NAME="iOS" `
+              -D CMAKE_OSX_SYSROOT="iphoneos" `
+              -D TARGET_ARCHITECTURES="$architecture" `
+              $sourceDir
+    }
+    "android"
+    {
+    }
 }
-elseif ($global:IsMacOS)
-{
-    $programDir = Join-Path $installDir bin
-    $program = Join-Path $programDir Demo
-}
-elseif ($global:IsLinux)
-{
-    $programDir = Join-Path $installDir bin
-    $program = Join-Path $programDir Demo
-}
-& ${program}
+
+# remove files except for *.h
+$include = Join-Path $installDir include 
+Get-ChildItem -Path $include -Recurse -File | Where-Object { $_.Extension -ne ".h" } | Remove-Item -Force -Recurse
+# remove empty directories
+do {
+    $directories = Get-ChildItem -Path $include  -Recurse -Directory | Where-Object { !(Get-ChildItem -Path $_.FullName) }
+    $deleted = $false
+    foreach ($dir in $directories)
+    {
+        try
+        {
+            Remove-Item -Path $dir.FullName -Force
+            $deleted = $true
+        }
+        catch
+        {
+        }
+    }
+} while ($deleted)
+
+Pop-Location
