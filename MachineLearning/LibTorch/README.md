@@ -45,7 +45,7 @@ $ python3 -m venv .venv
 $ .venv\Scripts\activate
 $ python -m pip install pip --upgrade
 $ python -m pip install numpy pyyaml typing_extensions
-$ pwsh build.ps1 <Debug/Release>
+$ pwsh build.ps1 <win/linux/osx/ios/android> <x86_64/arm64> <Release/Debug>
 ````
 
 ### Linux/OSX
@@ -55,7 +55,7 @@ $ python3 -m venv .venv
 $ source .venv/bin/activate
 $ python -m pip install pip --upgrade
 $ python -m pip install numpy pyyaml typing_extensions
-$ pwsh build.ps1 <Debug/Release>
+$ pwsh build.ps1 <win/linux/osx/ios/android> <x86_64/arm64> <Release/Debug>
 ````
 
 For OSX, you can change build arch by changing `$env:CMAKE_OSX_ARCHITECTURES="x86_64"` to `$env:CMAKE_OSX_ARCHITECTURES="arm64"` in [build.ps1](./build.ps1).

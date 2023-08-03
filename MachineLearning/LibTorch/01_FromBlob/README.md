@@ -34,7 +34,7 @@
 ## How to use?
 
 ````bat
-$ pwsh build.ps1 <win/linux/osx/ios/android> <x86_64/arm64> Release
+$ pwsh build.ps1 <win/linux/osx/ios/android> <x86_64/arm64> <Release/Debug>
 1
  2
  3
