@@ -105,3 +105,7 @@
 	path = Math/LinearAlgebra/NumCpp/NumCpp
 	url = https://github.com/dpilger26/NumCpp
 	ignore = dirty
+[submodule "Hardware/CPU/cpuinfo/cpuinfo"]
+	path = Hardware/CPU/cpuinfo/cpuinfo
+	url = https://github.com/pytorch/cpuinfo
+	ignore = dirty
