@@ -1,6 +1,6 @@
 #***************************************
 #Arguments
-#%1: Build Target (win/linux/osx/ios/android)
+#%1: Build Target (win/linux/osx/ios/android/iphonesimulator)
 #%2: Architecture (x86_64/arm64)
 #%3: Build Configuration (Release/Debug/RelWithDebInfo/MinSizeRel)
 #***************************************
@@ -35,6 +35,7 @@ $TargetArray =
    "linux",
    "osx",
    "ios",
+   "iphonesimulator",
    "android"
 )
 
@@ -76,6 +77,7 @@ if ($ArchitectureArray.Contains($architecture) -eq $False)
 $current = $PSScriptRoot
 
 $buildTarget = "cpuinfo"
+$macosDeplolymentTarget = "11.0"
 
 $sourceDir = Join-Path $current $buildTarget
 $buildDir = Join-Path $current build | `
@@ -111,59 +113,44 @@ switch ($os)
     }
     "osx"
     {
-        switch ($architecture)
-        {
-            "x86_64"
-            {
-                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
-                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-                      -D TARGET_ARCHITECTURES="$architecture" `
-                      $sourceDir
-                cmake --build . --config ${configuration} --target install
-            }
-            "arm64"
-            {
-                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
-                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-                      -D TARGET_ARCHITECTURES="$architecture" `
-                      $sourceDir
-                cmake --build . --config ${configuration} --target install
-            }
-        }
+        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" 
+              -D CMAKE_OSX_ARCHITECTURES="$architecture" `
+              -D TARGET_ARCHITECTURES="$architecture" `
+              $sourceDir
+        cmake --build . --config ${configuration} --target install
     }
     "ios"
     {
-        switch ($architecture)
-        {
-            "x86_64"
-            {
-                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-                      -D CMAKE_SYSTEM_NAME="iOS" `
-                      -D CMAKE_OSX_SYSROOT="iphonesimulator" `
-                      -D TARGET_ARCHITECTURES="$architecture" `
-                      -D CPUINFO_BUILD_TOOLS="OFF" `
-                      -D CPUINFO_BUILD_UNIT_TESTS="OFF" `
-                      -D CPUINFO_BUILD_MOCK_TESTS="OFF" `
-                      -D CPUINFO_BUILD_BENCHMARKS="OFF" `
-                      $sourceDir
-                cmake --build . --config ${configuration} --target install
-            }
-            "arm64"
-            {
-                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-                      -D CMAKE_SYSTEM_NAME="iOS" `
-                      -D CMAKE_OSX_SYSROOT="iphoneos" `
-                      -D TARGET_ARCHITECTURES="$architecture" `
-                      -D CPUINFO_BUILD_TOOLS="OFF" `
-                      -D CPUINFO_BUILD_UNIT_TESTS="OFF" `
-                      -D CPUINFO_BUILD_MOCK_TESTS="OFF" `
-                      -D CPUINFO_BUILD_BENCHMARKS="OFF" `
-                      $sourceDir
-                cmake --build . --config ${configuration} --target install
-            }
-        }
+        $toolchain = Join-Path $current "ios-cmake" | `
+                     Join-Path -ChildPath "ios.toolchain.cmake"
+        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" `
+              -D PLATFORM=OS64 `
+              -D CMAKE_TOOLCHAIN_FILE="${toolchain}" `
+              -D TARGET_ARCHITECTURES="$architecture" `
+              -D CPUINFO_BUILD_TOOLS="OFF" `
+              -D CPUINFO_BUILD_UNIT_TESTS="OFF" `
+              -D CPUINFO_BUILD_MOCK_TESTS="OFF" `
+              -D CPUINFO_BUILD_BENCHMARKS="OFF" `
+              $sourceDir
+        cmake --build . --config ${configuration} --target install
+    }
+    "iphonesimulator"
+    {
+        $toolchain = Join-Path $current "ios-cmake" | `
+                     Join-Path -ChildPath "ios.toolchain.cmake"
+        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" `
+              -D PLATFORM=SIMULATOR64 `
+              -D CMAKE_TOOLCHAIN_FILE="${toolchain}" `
+              -D TARGET_ARCHITECTURES="$architecture" `
+              -D CPUINFO_BUILD_TOOLS="OFF" `
+              -D CPUINFO_BUILD_UNIT_TESTS="OFF" `
+              -D CPUINFO_BUILD_MOCK_TESTS="OFF" `
+              -D CPUINFO_BUILD_BENCHMARKS="OFF" `
+              $sourceDir
+        cmake --build . --config ${configuration} --target install
     }
     "android"
     {

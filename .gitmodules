@@ -109,3 +109,6 @@
 	path = Hardware/CPU/cpuinfo/cpuinfo
 	url = https://github.com/pytorch/cpuinfo
 	ignore = dirty
+[submodule "Hardware/CPU/cpuinfo/ios-cmake"]
+	path = Hardware/CPU/cpuinfo/ios-cmake
+	url = https://github.com/leetal/ios-cmake

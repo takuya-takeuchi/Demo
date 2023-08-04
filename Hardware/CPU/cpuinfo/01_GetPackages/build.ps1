@@ -1,6 +1,6 @@
 #***************************************
 #Arguments
-#%1: Build Target (win/linux/osx/ios/android)
+#%1: Build Target (win/linux/osx/ios/android/iphonesimulator)
 #%2: Architecture (x86_64/arm64)
 #%3: Build Configuration (Release/Debug/RelWithDebInfo/MinSizeRel)
 #***************************************
@@ -35,6 +35,7 @@ $TargetArray =
    "linux",
    "osx",
    "ios",
+   "iphonesimulator",
    "android"
 )
 
@@ -73,9 +74,10 @@ if ($ArchitectureArray.Contains($architecture) -eq $False)
    exit -1
 }
 
-$target = "cpuinfo"
-
 $current = $PSScriptRoot
+
+$buildTarget = "cpuinfo"
+$macosDeplolymentTarget = "11.0"
 
 $sourceDir = $current
 $buildDir = Join-Path $current build | `
@@ -91,7 +93,13 @@ $targetInstallRootDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath $architecture
 $targetInstallDir = Join-Path $targetInstallRootDir share | `
-                    Join-Path -ChildPath $target
+                    Join-Path -ChildPath $buildTarget
+
+if (!(Test-Path(${targetInstallDir})))
+{
+    Write-Host "${targetInstallDir} is missing" -ForegroundColor Red
+    exit
+}
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -118,60 +126,39 @@ switch ($os)
     }
     "osx"
     {
-        
-        switch ($architecture)
-        {
-            "x86_64"
-            {
-                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-                      -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
-                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-                      -D TARGET_ARCHITECTURES="$architecture" `
-                      $sourceDir
-                cmake --build . --config ${configuration} --target install
-            }
-            "arm64"
-            {
-                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-                      -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
-                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-                      -D TARGET_ARCHITECTURES="$architecture" `
-                      $sourceDir
-                cmake --build . --config ${configuration} --target install
-            }
-        }
+        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+              -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" 
+              -D CMAKE_OSX_ARCHITECTURES="$architecture" `
+              -D TARGET_ARCHITECTURES="$architecture" `
+              $sourceDir
+        cmake --build . --config ${configuration} --target install
     }
     "ios"
     {
-        switch ($architecture)
-        {
-            "x86_64"
-            {
-                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-                      -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
-                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-                      -D CMAKE_SYSTEM_NAME="iOS" `
-                      -D CMAKE_OSX_SYSROOT="iphonesimulator" `
-                      -D TARGET_ARCHITECTURES="$architecture" `
-                      $sourceDir
-                cmake --build . --config ${configuration} --target install
-            }
-            "arm64"
-            {
-                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-                      -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
-                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-                      -D CMAKE_SYSTEM_NAME="iOS" `
-                      -D CMAKE_OSX_SYSROOT="iphoneos" `
-                      -D TARGET_ARCHITECTURES="$architecture" `
-                      $sourceDir
-                cmake --build . --config ${configuration} --target install
-            }
-        }
+        $toolchain = Join-Path $rootDir "ios-cmake" | `
+                     Join-Path -ChildPath "ios.toolchain.cmake"
+        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+              -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" `
+              -D PLATFORM=OS64 `
+              -D CMAKE_TOOLCHAIN_FILE="${toolchain}" `
+              -D TARGET_ARCHITECTURES="$architecture" `
+              $sourceDir
+        cmake --build . --config ${configuration} --target install
+    }
+    "iphonesimulator"
+    {
+        $toolchain = Join-Path $rootDir "ios-cmake" | `
+                     Join-Path -ChildPath "ios.toolchain.cmake"
+        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+              -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" `
+              -D PLATFORM=SIMULATOR64 `
+              -D CMAKE_TOOLCHAIN_FILE="${toolchain}" `
+              -D TARGET_ARCHITECTURES="$architecture" `
+              $sourceDir
+        cmake --build . --config ${configuration} --target install
     }
     "android"
     {
@@ -185,19 +172,19 @@ switch ($os)
     "win"
     {
         $programDir = Join-Path $installDir bin
-        $program = Join-Path $programDir Demo.exe
+        $program = Join-Path $programDir cpu-info.exe
         & ${program}
     }
     "linux"
     {
         $programDir = Join-Path $installDir bin
-        $program = Join-Path $programDir Demo
+        $program = Join-Path $programDir cpu-info
         & ${program}
     }
     "osx"
     {
         $programDir = Join-Path $installDir bin
-        $program = Join-Path $programDir Demo
+        $program = Join-Path $programDir cpu-info
         & ${program}
     }
 }
