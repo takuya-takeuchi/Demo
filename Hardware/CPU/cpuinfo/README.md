@@ -30,7 +30,7 @@
 ## How to usage?
 
 ````cmd
-$ pwsh build.ps1 <win/linux/osx/ios/android> <x86_64/arm64> <Release/Debug>
+$ pwsh build.ps1 <win/linux/osx/iphoneos/iphonesimulator/android> <x86_64/armv7/arm64> <Release/Debug>
 ````
 
 ### Intel Core i7

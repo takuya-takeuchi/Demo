@@ -1,6 +1,6 @@
 #***************************************
 #Arguments
-#%1: Build Target (win/linux/osx/ios/android/iphonesimulator)
+#%1: Build Target (win/linux/osx/iphoneos/iphonesimulator/android)
 #%2: Architecture (x86_64/arm64)
 #%3: Build Configuration (Release/Debug/RelWithDebInfo/MinSizeRel)
 #***************************************
@@ -34,7 +34,7 @@ $TargetArray =
    "win",
    "linux",
    "osx",
-   "ios",
+   "iphoneos",
    "iphonesimulator",
    "android"
 )
@@ -112,6 +112,7 @@ switch ($os)
     {
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+              -D CMAKE_BUILD_TYPE=${configuration} `
               -D TARGET_ARCHITECTURES="$architecture" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
@@ -120,6 +121,7 @@ switch ($os)
     {
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+              -D CMAKE_BUILD_TYPE=${configuration} `
               -D TARGET_ARCHITECTURES="$architecture" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
@@ -128,18 +130,20 @@ switch ($os)
     {
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+              -D CMAKE_BUILD_TYPE=${configuration} `
               -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" 
               -D CMAKE_OSX_ARCHITECTURES="$architecture" `
               -D TARGET_ARCHITECTURES="$architecture" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
     }
-    "ios"
+    "iphoneos"
     {
         $toolchain = Join-Path $rootDir "ios-cmake" | `
                      Join-Path -ChildPath "ios.toolchain.cmake"
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+              -D CMAKE_BUILD_TYPE=${configuration} `
               -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" `
               -D PLATFORM=OS64 `
               -D CMAKE_TOOLCHAIN_FILE="${toolchain}" `
@@ -153,6 +157,7 @@ switch ($os)
                      Join-Path -ChildPath "ios.toolchain.cmake"
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+              -D CMAKE_BUILD_TYPE=${configuration} `
               -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" `
               -D PLATFORM=SIMULATOR64 `
               -D CMAKE_TOOLCHAIN_FILE="${toolchain}" `
