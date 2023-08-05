@@ -32,7 +32,21 @@
 
 ## How to use?
 
+You shall build `cpuinfo` before test it.
+
+### Desktop
+
 ````bat
-$ pwsh build.ps1 <win/linux/osx/ios/android> <x86_64/arm64> <Release/Debug>
+$ pwsh build.ps1 <win/linux/osx> <x86_64/arm64> <Release/Debug>
 [info] name: Intel Core i7-8700
 ````
+
+### Mobile
+
+#### iOS Simulator
+
+````sh
+$ pwsh build.ps1 iphonesimulator <x86_64/arm64> <Release/Debug> "platform=iOS Simulator,name=iPhone 14 Pro,OS=16.1"
+````
+
+<img src="./images/ios.gif" width="400" />

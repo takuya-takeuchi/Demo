@@ -22,7 +22,13 @@ Param
    Mandatory=$True,
    Position = 3
    )][string]
-   $Configuration
+   $Configuration,
+
+   [Parameter(
+   Mandatory=$False,
+   Position = 4
+   )][string]
+   $Device
 )
 
 $os = $Target
@@ -89,10 +95,10 @@ $installDir = Join-Path $current install | `
               Join-Path -ChildPath $architecture
 
 $rootDir = Split-Path $current -Parent
-$targetInstallRootDir = Join-Path $rootDir install | `
-                        Join-Path -ChildPath $os | `
+$targetInstallRootDir = Join-Path $rootDir install
+$targetInstallArchDir = Join-Path $targetInstallRootDir $os | `
                         Join-Path -ChildPath $architecture
-$targetInstallDir = Join-Path $targetInstallRootDir share | `
+$targetInstallDir = Join-Path $targetInstallArchDir share | `
                     Join-Path -ChildPath $buildTarget
 
 if (!(Test-Path(${targetInstallDir})))
@@ -131,39 +137,46 @@ switch ($os)
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
               -D CMAKE_BUILD_TYPE=${configuration} `
-              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" 
+              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}"
               -D CMAKE_OSX_ARCHITECTURES="$architecture" `
               -D TARGET_ARCHITECTURES="$architecture" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
     }
-    "iphoneos"
+    {"iphoneos", "iphonesimulator" -contains $_}
     {
-        $toolchain = Join-Path $rootDir "ios-cmake" | `
-                     Join-Path -ChildPath "ios.toolchain.cmake"
-        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-              -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-              -D CMAKE_BUILD_TYPE=${configuration} `
-              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" `
-              -D PLATFORM=OS64 `
-              -D CMAKE_TOOLCHAIN_FILE="${toolchain}" `
-              -D TARGET_ARCHITECTURES="$architecture" `
-              $sourceDir
-        cmake --build . --config ${configuration} --target install
-    }
-    "iphonesimulator"
-    {
-        $toolchain = Join-Path $rootDir "ios-cmake" | `
-                     Join-Path -ChildPath "ios.toolchain.cmake"
-        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-              -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-              -D CMAKE_BUILD_TYPE=${configuration} `
-              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" `
-              -D PLATFORM=SIMULATOR64 `
-              -D CMAKE_TOOLCHAIN_FILE="${toolchain}" `
-              -D TARGET_ARCHITECTURES="$architecture" `
-              $sourceDir
-        cmake --build . --config ${configuration} --target install
+        $targetName = "hardware-cpu-cpuinfo-01"
+        $project = Join-Path $current "xcode" | `
+                   Join-Path -ChildPath "${targetName}.xcodeproj"
+        $framework = Join-Path $current "xcode" | `
+                     Join-Path -ChildPath "Frameworks"
+        $xcframework = Join-Path $targetInstallRootDir "${buildTarget}.xcframework"
+        Copy-Item "${xcframework}" "${framework}" -Recurse
+
+        # deploy to booted simulator
+        if ($os -eq "iphonesimulator")
+        {
+            open -a "Simulator"
+        }
+
+        # $Device = "platform=iOS Simulator,name=iPhone 14 Pro,OS=16.1"
+        # $Device ="platform=iOS,id=9a1e9bf15489282f50f795bd0768752f28d62604"
+        # clea and build
+        xcodebuild clean -project "${project}"
+        xcodebuild -project "${project}" `
+                   -target "${targetName}" `
+                   -sdk $os `
+                   -configuration ${configuration} build `
+                   -destination "${Device}" `
+                   CONFIGURATION_BUILD_DIR="${installDir}" `
+                   build
+
+        # deploy to booted simulator
+        if ($os -eq "iphonesimulator")
+        {
+            $app = Join-Path $installDir "${targetName}.app"
+            xcrun simctl install Booted "${app}"   
+        }          
     }
     "android"
     {
