@@ -22,7 +22,7 @@
 
 ### OSX
 
-* Xcode
+* Xcode 14.1 or later
 
 ### iOS
 
@@ -51,6 +51,10 @@ $ pwsh build.ps1 <win/linux/osx> <x86_64/arm64> <Release/Debug>
 [info] name: Intel Core i7-8700
 ````
 
+|Flutter|
+|---|
+|<img src="./images/flutter-osx.png" width="400" />|
+
 ### Mobile
 
 #### iOS Simulator
@@ -59,4 +63,6 @@ $ pwsh build.ps1 <win/linux/osx> <x86_64/arm64> <Release/Debug>
 $ pwsh build.ps1 iphonesimulator <x86_64/arm64> <Release/Debug> "platform=iOS Simulator,name=iPhone 14 Pro,OS=16.1"
 ````
 
-<img src="./images/ios.gif" width="400" />
+|Xcode|Flutter|
+|---|---|
+|<img src="./images/xcode-ios.gif" width="400" />|<img src="./images/flutter-ios.gif" width="400" />|

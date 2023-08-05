@@ -118,9 +118,14 @@ switch ($os)
     {
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_BUILD_TYPE=${configuration} `
-              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" 
+              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" `
               -D CMAKE_OSX_ARCHITECTURES="$architecture" `
               -D TARGET_ARCHITECTURES="${architecture}"  `
+              -D BUILD_SHARED_LIBS="ON" `
+              -D CPUINFO_BUILD_TOOLS="OFF" `
+              -D CPUINFO_BUILD_UNIT_TESTS="OFF" `
+              -D CPUINFO_BUILD_MOCK_TESTS="OFF" `
+              -D CPUINFO_BUILD_BENCHMARKS="OFF" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
     }

@@ -12,6 +12,7 @@ $installDir = Join-Path $current install
 
 $TargetArray =
 @(
+   "osx",
    "iphoneos",
    "iphonesimulator"
 )

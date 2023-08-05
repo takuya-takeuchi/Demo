@@ -33,11 +33,13 @@
 $ pwsh build.ps1 <win/linux/osx/iphoneos/iphonesimulator/android> <x86_64/armv7/arm64> <Release/Debug>
 ````
 
-If you want to test on iOS and iOS simulator, you should build for all configuration and create xcframework.
+If you want to test on Mac, iPhone and iPhone simulator, you should build for all configuration and create xcframework.
 
 ````sh
+$ pwsh build.ps1 osx x86_64 Release
+$ pwsh build.ps1 osx arm64 Release
 $ pwsh build.ps1 iphoneos arm64 Release
-$ pwsh build.ps1 iphonesimulator arm64 x86_64
+$ pwsh build.ps1 iphonesimulator x86_64 Release
 $ pwsh build.ps1 iphonesimulator arm64 Release
 $ pwsh CreateXCFramework.ps1
 ````
