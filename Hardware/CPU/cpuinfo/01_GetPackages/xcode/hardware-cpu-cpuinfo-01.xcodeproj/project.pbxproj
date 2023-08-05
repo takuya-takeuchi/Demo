@@ -12,8 +12,23 @@
 		0735786E2A7E0072003F292E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0735786C2A7E0072003F292E /* Main.storyboard */; };
 		073578702A7E0075003F292E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0735786F2A7E0075003F292E /* Assets.xcassets */; };
 		073578732A7E0075003F292E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 073578712A7E0075003F292E /* LaunchScreen.storyboard */; };
-		073578832A7E07E6003F292E /* cpuinfo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073578822A7E07E6003F292E /* cpuinfo.xcframework */; };
+		073578862A7E2535003F292E /* cpuinfo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073578822A7E07E6003F292E /* cpuinfo.xcframework */; };
+		073578872A7E2535003F292E /* cpuinfo.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 073578822A7E07E6003F292E /* cpuinfo.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		073578882A7E2535003F292E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				073578872A7E2535003F292E /* cpuinfo.xcframework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		073578632A7E0072003F292E /* hardware-cpu-cpuinfo-01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hardware-cpu-cpuinfo-01.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -32,7 +47,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				073578832A7E07E6003F292E /* cpuinfo.xcframework in Frameworks */,
+				073578862A7E2535003F292E /* cpuinfo.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -88,6 +103,7 @@
 				0735785F2A7E0072003F292E /* Sources */,
 				073578602A7E0072003F292E /* Frameworks */,
 				073578612A7E0072003F292E /* Resources */,
+				073578882A7E2535003F292E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -306,6 +322,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -336,6 +353,7 @@
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

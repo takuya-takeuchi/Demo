@@ -9,18 +9,22 @@ import UIKit
 
 class ViewController: UIViewController {
 
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
+    @IBOutlet weak var label: UILabel!
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+
+        label.text = ""
 
         if !cpuinfo_initialize()
         {
-            let alert = UIAlertController(title: "Error", message: "Failed to invoke cpuinfo_initialize", preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default))
-            self.present(alert, animated: true, completion: nil)
+            label.text = "Failed to invoke cpuinfo_initialize"
             return;
         }
 
         let packages_count = cpuinfo_get_packages_count()
+
+        var names = ""
         for i in 0..<packages_count
         {
             let ptr: UnsafePointer<cpuinfo_package> = cpuinfo_get_package(0)
@@ -41,11 +45,12 @@ class ViewController: UIViewController {
             if let nameString = nameBuffer.withUnsafeBufferPointer({ UnsafeRawBufferPointer($0) }).withMemoryRebound(to: CChar.self){ (pointer: UnsafeBufferPointer<CChar>) -> String? in
                 return String(validatingUTF8: pointer.baseAddress!)
             } {
-                let alert = UIAlertController(title: "Info", message: nameString, preferredStyle: .alert)
-                alert.addAction(UIAlertAction(title: "OK", style: .default))
-                self.present(alert, animated: true, completion: nil)
+                names += nameString
+                names += "\n"
             }
         }
+
+        label.text = names
     }
 
 
