@@ -24,6 +24,14 @@
 
 * Xcode
 
+### iOS
+
+* Xcode 14.1 or later
+
+### Android
+
+* N/A
+
 ## Dependencies
 
 * [cpuinfo](https://github.com/pytorch/cpuinfo)
