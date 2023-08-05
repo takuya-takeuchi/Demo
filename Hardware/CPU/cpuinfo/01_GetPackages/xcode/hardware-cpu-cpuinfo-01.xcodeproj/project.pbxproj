@@ -8,22 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		073578672A7E0072003F292E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073578662A7E0072003F292E /* AppDelegate.swift */; };
-		073578692A7E0072003F292E /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 073578682A7E0072003F292E /* SceneDelegate.swift */; };
 		0735786B2A7E0072003F292E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0735786A2A7E0072003F292E /* ViewController.swift */; };
 		0735786E2A7E0072003F292E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0735786C2A7E0072003F292E /* Main.storyboard */; };
 		073578702A7E0075003F292E /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 0735786F2A7E0075003F292E /* Assets.xcassets */; };
 		073578732A7E0075003F292E /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 073578712A7E0075003F292E /* LaunchScreen.storyboard */; };
+		073578832A7E07E6003F292E /* cpuinfo.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 073578822A7E07E6003F292E /* cpuinfo.xcframework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		073578632A7E0072003F292E /* hardware-cpu-cpuinfo-01.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "hardware-cpu-cpuinfo-01.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		073578662A7E0072003F292E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		073578682A7E0072003F292E /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		0735786A2A7E0072003F292E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		0735786D2A7E0072003F292E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		0735786F2A7E0075003F292E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		073578722A7E0075003F292E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		073578742A7E0075003F292E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		073578812A7E07C7003F292E /* Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Bridging-Header.h"; sourceTree = "<group>"; };
+		073578822A7E07E6003F292E /* cpuinfo.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = cpuinfo.xcframework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -31,6 +32,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				073578832A7E07E6003F292E /* cpuinfo.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -40,6 +42,7 @@
 		0735785A2A7E0072003F292E = {
 			isa = PBXGroup;
 			children = (
+				0735787C2A7E025B003F292E /* Frameworks */,
 				073578652A7E0072003F292E /* hardware-cpu-cpuinfo-01 */,
 				073578642A7E0072003F292E /* Products */,
 			);
@@ -57,7 +60,6 @@
 			isa = PBXGroup;
 			children = (
 				073578662A7E0072003F292E /* AppDelegate.swift */,
-				073578682A7E0072003F292E /* SceneDelegate.swift */,
 				0735786A2A7E0072003F292E /* ViewController.swift */,
 				0735786C2A7E0072003F292E /* Main.storyboard */,
 				0735786F2A7E0075003F292E /* Assets.xcassets */,
@@ -65,6 +67,15 @@
 				073578742A7E0075003F292E /* Info.plist */,
 			);
 			path = "hardware-cpu-cpuinfo-01";
+			sourceTree = "<group>";
+		};
+		0735787C2A7E025B003F292E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				073578822A7E07E6003F292E /* cpuinfo.xcframework */,
+				073578812A7E07C7003F292E /* Bridging-Header.h */,
+			);
+			path = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -140,7 +151,6 @@
 			files = (
 				0735786B2A7E0072003F292E /* ViewController.swift in Sources */,
 				073578672A7E0072003F292E /* AppDelegate.swift in Sources */,
-				073578692A7E0072003F292E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +297,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = U27JXXX492;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "hardware-cpu-cpuinfo-01/Info.plist";
@@ -303,6 +314,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "takuyatakeuchi.demo.hardware-cpu-cpuinfo-01";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Frameworks/Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -315,6 +327,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = U27JXXX492;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "hardware-cpu-cpuinfo-01/Info.plist";
@@ -331,6 +344,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "takuyatakeuchi.demo.hardware-cpu-cpuinfo-01";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "Frameworks/Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
