@@ -61,11 +61,13 @@
 	  <PackageReference Include="Prism.Maui.Rx" Version="8.1.273-pre" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <None Remove="Platforms\iOS\libcpuinfo.dylib" />
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
+	  <Content Include="Platforms/iOS/libcpuinfo.dylib" Link="libcpuinfo.dylib" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) == true">
-	  <Content Include="Platforms/iOS/libcpuinfo.dylib" Link="libcpuinfo.dylib" CopyToOutputDirectory="PreserveNewest" />
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+		<AndroidNativeLibrary Include="Platforms\Android\lib\x86_64\libcpuinfo.so" Bind="false" >
+			<Abi>x86_64</Abi>
+		</AndroidNativeLibrary>
 	</ItemGroup>
 </Project>

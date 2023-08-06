@@ -36,7 +36,9 @@ class CpuInfoService {
 
   CpuInfoService() {
     var libraryPath = "";
-    if (Platform.isIOS)
+    if (Platform.isAndroid)
+      libraryPath = "libcpuinfo.so";
+    else if (Platform.isIOS)
       libraryPath = "libcpuinfo.dylib";
     else if (Platform.isMacOS)
       libraryPath = "libcpuinfo.dylib";

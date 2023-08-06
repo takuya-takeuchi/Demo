@@ -48,16 +48,18 @@
 
 You shall build `cpuinfo` before test it.
 
-### Desktop
+### Console
 
 ````bat
 $ pwsh build.ps1 <win/linux/osx> <x86_64/arm64> <Release/Debug>
 [info] name: Intel Core i7-8700
 ````
 
+### Desktop
+
 |Flutter|
 |---|
-|<img src="./images/flutter-osx.png" width="320" />|
+|<img src="./images/flutter-osx.png" width="240" />|
 
 ### Mobile
 
@@ -69,4 +71,10 @@ $ pwsh build.ps1 iphonesimulator <x86_64/arm64> <Release/Debug> "platform=iOS Si
 
 |Xamarin|MAUI|Xcode|Flutter|
 |---|---|---|---|
-|<img src="./images/xamarin-ios.gif" width="320" />|<img src="./images/maui-ios.gif" width="320" />|<img src="./images/xcode-ios.gif" width="320" />|<img src="./images/flutter-ios.gif" width="320" />|
+|<img src="./images/xamarin-ios.gif" width="240" />|<img src="./images/maui-ios.gif" width="240" />|<img src="./images/xcode-ios.gif" width="240" />|<img src="./images/flutter-ios.gif" width="240" />|
+
+#### Android Simulator
+
+|Xamarin|MAUI|Flutter|
+|---|---|---|
+|<img src="./images/xamarin-android.gif" width="240" />|<img src="./images/maui-android.gif" width="240" />|<img src="./images/flutter-android.gif" width="240" />|
