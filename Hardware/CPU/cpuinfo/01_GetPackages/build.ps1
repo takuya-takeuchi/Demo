@@ -1,6 +1,6 @@
 #***************************************
 #Arguments
-#%1: Build Target (win/linux/osx/ios/android)
+#%1: Build Target (win/linux/osx/iphoneos/iphonesimulator/android)
 #%2: Architecture (x86_64/arm64)
 #%3: Build Configuration (Release/Debug/RelWithDebInfo/MinSizeRel)
 #***************************************
@@ -22,7 +22,13 @@ Param
    Mandatory=$True,
    Position = 3
    )][string]
-   $Configuration
+   $Configuration,
+
+   [Parameter(
+   Mandatory=$False,
+   Position = 4
+   )][string]
+   $Device
 )
 
 $os = $Target
@@ -34,7 +40,8 @@ $TargetArray =
    "win",
    "linux",
    "osx",
-   "ios",
+   "iphoneos",
+   "iphonesimulator",
    "android"
 )
 
@@ -73,9 +80,10 @@ if ($ArchitectureArray.Contains($architecture) -eq $False)
    exit -1
 }
 
-$target = "cpuinfo"
-
 $current = $PSScriptRoot
+
+$buildTarget = "cpuinfo"
+$macosDeplolymentTarget = "11.0"
 
 $sourceDir = $current
 $buildDir = Join-Path $current build | `
@@ -87,11 +95,17 @@ $installDir = Join-Path $current install | `
               Join-Path -ChildPath $architecture
 
 $rootDir = Split-Path $current -Parent
-$targetInstallRootDir = Join-Path $rootDir install | `
-                        Join-Path -ChildPath $os | `
+$targetInstallRootDir = Join-Path $rootDir install
+$targetInstallArchDir = Join-Path $targetInstallRootDir $os | `
                         Join-Path -ChildPath $architecture
-$targetInstallDir = Join-Path $targetInstallRootDir share | `
-                    Join-Path -ChildPath $target
+$targetInstallDir = Join-Path $targetInstallArchDir share | `
+                    Join-Path -ChildPath $buildTarget
+
+if (!(Test-Path(${targetInstallDir})))
+{
+    Write-Host "${targetInstallDir} is missing" -ForegroundColor Red
+    exit
+}
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -104,6 +118,7 @@ switch ($os)
     {
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+              -D CMAKE_BUILD_TYPE=${configuration} `
               -D TARGET_ARCHITECTURES="$architecture" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
@@ -112,48 +127,56 @@ switch ($os)
     {
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+              -D CMAKE_BUILD_TYPE=${configuration} `
               -D TARGET_ARCHITECTURES="$architecture" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
     }
     "osx"
     {
-        
-        switch ($architecture)
-        {
-            "x86_64"
-            {
-                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-                      -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
-                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-                      -D TARGET_ARCHITECTURES="$architecture" `
-                      $sourceDir
-                cmake --build . --config ${configuration} --target install
-            }
-            "arm64"
-            {
-                cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-                      -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-                      -D MACOSX_DEPLOYMENT_TARGET="11.0" `
-                      -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-                      -D TARGET_ARCHITECTURES="$architecture" `
-                      $sourceDir
-                cmake --build . --config ${configuration} --target install
-            }
-        }
-    }
-    "ios"
-    {
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-              -D MACOSX_DEPLOYMENT_TARGET="11.0" `
+              -D CMAKE_BUILD_TYPE=${configuration} `
+              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}"
               -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-              -D CMAKE_SYSTEM_NAME="iOS" `
-              -D CMAKE_OSX_SYSROOT="iphoneos" `
               -D TARGET_ARCHITECTURES="$architecture" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
+    }
+    {"iphoneos", "iphonesimulator" -contains $_}
+    {
+        $targetName = "hardware-cpu-cpuinfo-01"
+        $project = Join-Path $current "xcode" | `
+                   Join-Path -ChildPath "${targetName}.xcodeproj"
+        $framework = Join-Path $current "xcode" | `
+                     Join-Path -ChildPath "Frameworks"
+        $xcframework = Join-Path $targetInstallRootDir "${buildTarget}.xcframework"
+        Copy-Item "${xcframework}" "${framework}" -Recurse
+
+        # deploy to booted simulator
+        if ($os -eq "iphonesimulator")
+        {
+            open -a "Simulator"
+        }
+
+        # $Device = "platform=iOS Simulator,name=iPhone 14 Pro,OS=16.1"
+        # $Device ="platform=iOS,id=9a1e9bf15489282f50f795bd0768752f28d62604"
+        # clea and build
+        xcodebuild clean -project "${project}"
+        xcodebuild -project "${project}" `
+                   -target "${targetName}" `
+                   -sdk $os `
+                   -configuration ${configuration} build `
+                   -destination "${Device}" `
+                   CONFIGURATION_BUILD_DIR="${installDir}" `
+                   build
+
+        # deploy to booted simulator
+        if ($os -eq "iphonesimulator")
+        {
+            $app = Join-Path $installDir "${targetName}.app"
+            xcrun simctl install Booted "${app}"   
+        }          
     }
     "android"
     {
@@ -167,19 +190,19 @@ switch ($os)
     "win"
     {
         $programDir = Join-Path $installDir bin
-        $program = Join-Path $programDir Demo.exe
+        $program = Join-Path $programDir cpu-info.exe
         & ${program}
     }
     "linux"
     {
         $programDir = Join-Path $installDir bin
-        $program = Join-Path $programDir Demo
+        $program = Join-Path $programDir cpu-info
         & ${program}
     }
     "osx"
     {
         $programDir = Join-Path $installDir bin
-        $program = Join-Path $programDir Demo
+        $program = Join-Path $programDir cpu-info
         & ${program}
     }
 }
