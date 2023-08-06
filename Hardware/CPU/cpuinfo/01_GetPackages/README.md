@@ -16,7 +16,7 @@
 
 * Visual Studio 2022
 
-### Ubuntu
+### Linux
 
 * g++
 
@@ -29,6 +29,10 @@
 #### Xcode
 
 * Xcode 14.1 or later
+
+#### Flutter
+
+* Flutter 3.10.6 or later
 
 ### Android
 
