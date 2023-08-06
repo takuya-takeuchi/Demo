@@ -68,4 +68,8 @@
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) == true">
 	  <Content Include="Platforms/iOS/libcpuinfo.dylib" Link="libcpuinfo.dylib" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
+
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-android')) == true">
+	  <Content Include="Platforms/Android/libcpuinfo.so" Link="libcpuinfo.so" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
 </Project>
