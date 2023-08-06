@@ -57,7 +57,7 @@ $ pwsh build.ps1 <win/linux/osx> <x86_64/arm64> <Release/Debug>
 
 |Flutter|
 |---|
-|<img src="./images/flutter-osx.png" width="400" />|
+|<img src="./images/flutter-osx.png" width="320" />|
 
 ### Mobile
 
@@ -67,6 +67,6 @@ $ pwsh build.ps1 <win/linux/osx> <x86_64/arm64> <Release/Debug>
 $ pwsh build.ps1 iphonesimulator <x86_64/arm64> <Release/Debug> "platform=iOS Simulator,name=iPhone 14 Pro,OS=16.1"
 ````
 
-|Xamarin|Xcode|Flutter|
-|---|---|---|
-|<img src="./images/xamarin-ios.gif" width="400" />|<img src="./images/xcode-ios.gif" width="400" />|<img src="./images/flutter-ios.gif" width="400" />|
+|Xamarin|MAUI|Xcode|Flutter|
+|---|---|---|---|
+|<img src="./images/xamarin-ios.gif" width="320" />|<img src="./images/maui-ios.gif" width="320" />|<img src="./images/xcode-ios.gif" width="320" />|<img src="./images/flutter-ios.gif" width="320" />|
