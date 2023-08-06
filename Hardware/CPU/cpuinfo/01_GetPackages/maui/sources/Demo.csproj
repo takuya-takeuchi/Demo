@@ -1,10 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net6.0-android;net6.0-ios;net6.0-maccatalyst</TargetFrameworks>
-		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net6.0-windows10.0.19041.0</TargetFrameworks>
+		<TargetFrameworks>net7.0-android;net7.0-maccatalyst;net7.0-ios</TargetFrameworks>
+		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net7.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
-		<!-- <TargetFrameworks>$(TargetFrameworks);net6.0-tizen</TargetFrameworks> -->
+		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
 		<RootNamespace>Demo</RootNamespace>
 		<UseMaui>true</UseMaui>
@@ -30,8 +30,12 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net6.0-ios|AnyCPU'">
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
 	  <CreatePackage>false</CreatePackage>
+	  <CodesignProvision>iOS Team Provisioning Profile: *</CodesignProvision>
+	  <CodesignKey>iPhone Developer: Takuya Takeuchi (8LCGZ2Z237)</CodesignKey>
+	  <MtouchInterpreter>-all</MtouchInterpreter>
+	  <MtouchLink>None</MtouchLink>
 	</PropertyGroup>
 	<ItemGroup>
 		<!-- App Icon -->
@@ -57,8 +61,11 @@
 	  <PackageReference Include="Prism.Maui.Rx" Version="8.1.273-pre" />
 	</ItemGroup>
 
-	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios')) == true">
-	  <Content Include="Platforms/iOS/libcpuinfo.dylib" LinkBase="libcpuinfo.dylib" CopyToOutputDirectory="PreserveNewest" />
+	<ItemGroup>
+	  <None Remove="Platforms\iOS\libcpuinfo.dylib" />
 	</ItemGroup>
 
+	<ItemGroup Condition="$(TargetFramework.StartsWith('net7.0-ios')) == true">
+	  <Content Include="Platforms/iOS/libcpuinfo.dylib" Link="libcpuinfo.dylib" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
 </Project>
