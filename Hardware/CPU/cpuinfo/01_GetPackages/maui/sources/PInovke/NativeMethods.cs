@@ -20,7 +20,7 @@ namespace Demo.PInvoke
         public static extern uint cpuinfo_get_packages_count();
 
         [DllImport(NativeLibrary)]
-        public static unsafe extern IntPtr cpuinfo_get_package(uint index);
+        public static extern IntPtr cpuinfo_get_package(uint index);
 
         #endregion
 

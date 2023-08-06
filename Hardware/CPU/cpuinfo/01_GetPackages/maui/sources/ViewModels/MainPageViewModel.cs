@@ -1,4 +1,8 @@
-﻿using Demo.PInvoke;
+﻿using System;
+using System.Collections.Generic;
+using System.Runtime.InteropServices;
+
+using Demo.PInvoke;
 using Demo.ViewModels.Interfaces;
 
 namespace Demo.ViewModels
