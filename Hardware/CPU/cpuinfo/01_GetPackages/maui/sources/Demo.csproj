@@ -58,7 +58,7 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="$(TargetFramework.StartsWith('net6.0-ios')) == true">
-	  <Content Include="libcpuinfo.dylib" />
+	  <Content Include="Platforms/iOS/libcpuinfo.dylib" LinkBase="libcpuinfo.dylib" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
 </Project>
