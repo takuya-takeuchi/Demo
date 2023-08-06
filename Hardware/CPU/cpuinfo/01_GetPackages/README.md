@@ -75,6 +75,6 @@ $ pwsh build.ps1 iphonesimulator <x86_64/arm64> <Release/Debug> "platform=iOS Si
 
 #### Android Simulator
 
-|Xamarin|MAUI|
-|---|---|
-|<img src="./images/xamarin-android.gif" width="240" />|<img src="./images/maui-android.gif" width="240" />|
+|Xamarin|MAUI|Flutter|
+|---|---|---|
+|<img src="./images/xamarin-android.gif" width="240" />|<img src="./images/maui-android.gif" width="240" />|<img src="./images/flutter-android.gif" width="240" />|
