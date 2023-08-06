@@ -21,6 +21,15 @@
 
 * XCode
 
+## iOS
+
+* XCode
+
+## Android
+
+* Android SDK
+* Ninja
+
 ## Dependencies
 
 * [cpuinfo](https://github.com/pytorch/cpuinfo)
