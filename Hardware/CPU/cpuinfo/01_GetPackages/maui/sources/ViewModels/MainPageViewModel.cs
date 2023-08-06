@@ -24,7 +24,6 @@ namespace Demo.ViewModels
         {
             try
             {
-                var exist = System.IO.File.Exists("libcpuinfo.dylib");
                 var ret = NativeMethods.cpuinfo_initialize();
                 if (!ret)
                 {
