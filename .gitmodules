@@ -109,3 +109,7 @@
 	path = Hardware/CPU/cpuinfo/cpuinfo
 	url = https://github.com/pytorch/cpuinfo
 	ignore = dirty
+[submodule "DevTools/bloaty/bloaty"]
+	path = DevTools/bloaty/bloaty
+	url = https://github.com/google/bloaty
+	ignore = dirty
