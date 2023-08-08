@@ -9,10 +9,6 @@
 * Powershell 7 or later
 * CMake 3.5.0 or later
 
-## Windows
-
-* Visual Studio 2022
-
 ## Linux
 
 * GCC
@@ -20,6 +16,8 @@
 ## OSX
 
 * XCode
+  * Latest clang compiler can not build `gtest` so made disable building it
+    * [Doesn't build on Ubuntu 21.10 / clang-13](https://github.com/google/bloaty/issues/296)
 
 ## Dependencies
 

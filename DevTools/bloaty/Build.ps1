@@ -61,34 +61,21 @@ Push-Location $buildDir
 
 switch ($os)
 {
-    "win"
-    {
-        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-              -D CMAKE_BUILD_TYPE=${configuration} `
-              -D TARGET_ARCHITECTURES="${architecture}"  `
-              $sourceDir
-        cmake --build . --config ${configuration} --target install
-    }
     "linux"
     {
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_BUILD_TYPE=${configuration} `
               -D TARGET_ARCHITECTURES="${architecture}"  `
+              -D BUILD_TESTING="OFF" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
     }
     "osx"
     {
-        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+        cmake -G Ninja `
+              -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_BUILD_TYPE=${configuration} `
-              -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" `
-              -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-              -D TARGET_ARCHITECTURES="${architecture}"  `
-              -D BUILD_SHARED_LIBS="ON" `
-              -D CPUINFO_BUILD_TOOLS="OFF" `
-              -D CPUINFO_BUILD_UNIT_TESTS="OFF" `
-              -D CPUINFO_BUILD_MOCK_TESTS="OFF" `
-              -D CPUINFO_BUILD_BENCHMARKS="OFF" `
+              -D BUILD_TESTING="OFF" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
     }
@@ -96,24 +83,24 @@ switch ($os)
 Pop-Location
 
 # run
-# switch ($os)
-# {
-#     "win"
-#     {
-#         $programDir = Join-Path $installDir bin
-#         $program = Join-Path $programDir cpu-info.exe
-#         & ${program}
-#     }
-#     "linux"
-#     {
-#         $programDir = Join-Path $installDir bin
-#         $program = Join-Path $programDir cpu-info
-#         & ${program}
-#     }
-#     "osx"
-#     {
-#         $programDir = Join-Path $installDir bin
-#         $program = Join-Path $programDir cpu-info
-#         & ${program}
-#     }
-# }
+switch ($os)
+{
+    "linux"
+    {
+        $installDir = Join-Path ${installDir} "bin"
+        $program = Join-Path $installDir ${buildTarget}
+        pushd ${installDir}
+        $program = Join-Path $installDir ${buildTarget}
+        & "${program}" --version
+        popd
+    }
+    "osx"
+    {
+        $installDir = Join-Path ${installDir} "bin"
+        $program = Join-Path $installDir ${buildTarget}
+        pushd ${installDir}
+        $program = Join-Path $installDir ${buildTarget}
+        & "${program}" --version
+        popd
+    }
+}
