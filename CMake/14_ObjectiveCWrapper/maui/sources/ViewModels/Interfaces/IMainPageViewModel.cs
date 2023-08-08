@@ -10,6 +10,11 @@
             set;
         }
 
+        string CardType
+        {
+            get;
+        }
+
     }
 
 }

@@ -10,11 +10,14 @@ namespace Demo.PInvoke
 
         #region Fields
 
-        private const string NativeLibrary = "Luhnc";
+        private const string NativeLibrary = "libLuhnc.dylib";
 
         [DllImport(NativeLibrary)]
         [return: MarshalAs(UnmanagedType.Bool)]
-        public static extern bool luhn_validateString(byte[] str, uint type);
+        public static extern bool luhn_validateString(byte[] number, uint type);
+
+        [DllImport(NativeLibrary)]
+        public static extern uint luhn_typeFromString(byte[] number);
 
         #endregion
 

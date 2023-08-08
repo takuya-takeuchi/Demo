@@ -59,10 +59,14 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
-	  <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64/libLuhn.dylib" Link="Frameworks/Luhn.xcframework/ios-arm64/libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" />
+	  <!-- <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64/libLuhn.dylib" Link="Frameworks/Luhn.xcframework/ios-arm64/libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" />
 	  <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/Info.plist" Link="Frameworks/Luhn.xcframework/ios-arm64/Info.plist" CopyToOutputDirectory="PreserveNewest" />
 	  <Content Include="Platforms/iOS/Frameworks/Luhnc.xcframework/ios-arm64/libLuhnc.dylib" Link="Frameworks/Luhnc.xcframework/ios-arm64/libLuhnc.dylib" CopyToOutputDirectory="PreserveNewest" />
-	  <Content Include="Platforms/iOS/Frameworks/Luhnc.xcframework/Info.plist" Link="Frameworks/Luhnc.xcframework/Info.plist" CopyToOutputDirectory="PreserveNewest" />
+	  <Content Include="Platforms/iOS/Frameworks/Luhnc.xcframework/Info.plist" Link="Frameworks/Luhnc.xcframework/Info.plist" CopyToOutputDirectory="PreserveNewest" /> -->
+	  <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64/libLuhn.dylib" Link="libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" />
+	  <!-- <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/Info.plist" Link="Frameworks/Luhn.xcframework/ios-arm64/Info.plist" CopyToOutputDirectory="PreserveNewest" /> -->
+	  <Content Include="Platforms/iOS/Frameworks/Luhnc.xcframework/ios-arm64/libLuhnc.dylib" Link="libLuhnc.dylib" CopyToOutputDirectory="PreserveNewest" />
+	  <!-- <Content Include="Platforms/iOS/Frameworks/Luhnc.xcframework/Info.plist" Link="Frameworks/Luhnc.xcframework/Info.plist" CopyToOutputDirectory="PreserveNewest" /> -->
 	</ItemGroup>
 	
 </Project>

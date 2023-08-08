@@ -11,3 +11,15 @@ const bool luhn_validateString(const char* number, const OLCreditCardType cardTy
 
     return ret == YES;
 }
+
+const OLCreditCardType luhn_typeFromString(const char* number)
+{
+    // number shall contain null-terminal
+    NSString *objcString = [NSString stringWithUTF8String:number];
+
+    const OLCreditCardType ret = [Luhn typeFromString:objcString];
+
+    [objcString release];
+
+    return ret;
+}

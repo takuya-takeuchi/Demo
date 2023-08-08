@@ -22,42 +22,14 @@ namespace Demo.ViewModels
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            // try
-            // {
-            //     var ret = NativeMethods.cpuinfo_initialize();
-            //     if (!ret)
-            //     {
-            //         this.Text = "Failed to invoke cpuinfo_initialize";
-            //         return;
-            //     }
-
-            //     var count = NativeMethods.cpuinfo_get_packages_count();
-
-            //     var names = new List<string>();
-            //     for (var index = 0; index < count; index++)
-            //     {
-            //         var package = NativeMethods.cpuinfo_get_package((uint)index);
-            //         if (package == IntPtr.Zero)
-            //             continue;
-
-            //         // name member is top of cpuinfo_package, so need not to take care of cpuinfo_package struct
-            //         var str = Marshal.PtrToStringAnsi(package);
-            //         names.Add(str);
-            //     }
-
-            //     this.Text = string.Join("\n", names);
-            // }
-            // catch(Exception e)
-            // {
-            //     this.Text = "Failed to read cpu package names";
-            // }
+            this.Text = "38520000023237";
         }
 
         #endregion
 
         #region IMainPageViewModel Members
 
-        private string _Text;
+        private string _Text = "";
 
         public string Text
         {
@@ -65,8 +37,40 @@ namespace Demo.ViewModels
             set 
             {
                 this.SetProperty(ref this._Text, value);
-                
+
+                try
+                {
+                    var str = System.Text.Encoding.UTF8.GetBytes(this.Text + "\0");
+                    //var ret = NativeMethods.luhn_validateString(str, 1);
+                    var type = NativeMethods.luhn_typeFromString(str) - 1;
+
+                    //var types = new []
+                    //{
+                    //    "Amex",
+                    //    "Visa",
+                    //    "Mastercard",
+                    //    "Discover",
+                    //    "DinersClub",
+                    //    "JCB",
+                    //    "Unsupported",
+                    //    "Invalid"                        
+                    //};
+
+                    //this.CardType = types[type];
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
+        }
+
+        private string _CardType;
+
+        public string CardType
+        {
+            get => this._CardType;
+            private set => this.SetProperty(ref this._CardType, value);
         }
 
         #endregion

@@ -11,7 +11,13 @@
             <Editor x:Name="EditBox"
                     FontSize="18"
                     HorizontalOptions="Center"
-                    Text="{Binding Text, UpdateSourceEventName=PropertyChanged}" />
+                    Text="{Binding Text, UpdateSourceEventName=PropertyChanged}"
+                    Width="240" />
+
+            <!-- <Label FontSize="18"
+                   HorizontalOptions="Center"
+                   SemanticProperties.HeadingLevel="Level1"
+                   Text="{Binding CardType}" /> -->
 
         </VerticalStackLayout>
     </ScrollView>

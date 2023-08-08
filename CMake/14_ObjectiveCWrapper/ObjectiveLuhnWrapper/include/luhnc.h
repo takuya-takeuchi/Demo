@@ -9,4 +9,6 @@
 
 DLLEXPORT const bool luhn_validateString(const char* number, const OLCreditCardType cardType);
 
+DLLEXPORT const OLCreditCardType luhn_typeFromString(const char* number);
+
 #endif
