@@ -12,11 +12,11 @@ namespace Demo.PInvoke
 
         private const string NativeLibrary = "libLuhnc.dylib";
 
-        [DllImport(NativeLibrary)]
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool luhn_validateString(byte[] number, uint type);
 
-        [DllImport(NativeLibrary)]
+        [DllImport(NativeLibrary, CallingConvention = CallingConvention.Cdecl)]
         public static extern uint luhn_typeFromString(byte[] number);
 
         #endregion

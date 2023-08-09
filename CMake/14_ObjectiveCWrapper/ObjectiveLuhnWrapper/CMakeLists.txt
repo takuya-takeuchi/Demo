@@ -3,9 +3,13 @@ cmake_minimum_required(VERSION 3.0.0)
 set(PROJ_NAME LuhnC)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-# make disable ARC (Automatic Reference Counting)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fno-objc-arc")
 set(CMAKE_OBJCXX_STANDARD 17)
+
+# make enable ARC (Automatic Reference Counting)
+set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fobjc-arc")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fobjc-arc")
+set(CMAKE_OBJC_FLAGS "${CMAKE_OBJC_FLAGS} -fobjc-arc")
+set(CMAKE_OBJCXX_FLAGS "${CMAKE_OBJCXX_FLAGS} -fobjc-arc")
 
 project(${PROJ_NAME} VERSION 1.0.0)
 
@@ -35,6 +39,5 @@ target_link_libraries(${PROJ_NAME}
                       ${LUHN_SDK_DIR}/libLuhn.dylib)
 
 set_target_properties(${PROJ_NAME} PROPERTIES PUBLIC_HEADER ${HEADERS})
-
 INSTALL(TARGETS ${PROJ_NAME} LIBRARY DESTINATION lib)
 INSTALL(TARGETS ${PROJ_NAME} PUBLIC_HEADER DESTINATION include)
