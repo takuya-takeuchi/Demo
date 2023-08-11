@@ -76,10 +76,10 @@
 		<AndroidNativeLibrary Include="Platforms/Android/libs/x86_64/lib/libLuhn.so" Bind="false" >
 			<Abi>x86_64</Abi>
 		</AndroidNativeLibrary> -->
-		<AndroidNativeLibrary Include="Platforms\Android\lib\arm64-v8a\libLuhn.so" Bind="false" >
+		<AndroidNativeLibrary Include="Platforms\Android\lib\arm64-v8a\libLuhn.so" Bind="false">
 			<Abi>arm64-v8a</Abi>
 		</AndroidNativeLibrary>
-		<AndroidNativeLibrary Include="Platforms\Android\lib\x86_64\libLuhn.so" Bind="false" >
+		<AndroidNativeLibrary Include="Platforms\Android\lib\x86_64\libLuhn.so" Bind="false">
 			<Abi>x86_64</Abi>
 		</AndroidNativeLibrary>
 	</ItemGroup>

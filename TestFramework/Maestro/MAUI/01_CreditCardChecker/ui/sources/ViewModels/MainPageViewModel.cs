@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
 
 using Demo.PInvoke;
 using Demo.ViewModels.Interfaces;
@@ -16,13 +14,6 @@ namespace Demo.ViewModels
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            // var exist = System.IO.File.Exists("lib/arm64-v8a/libLuhn.so");
-            // exist = System.IO.File.Exists("arm64-v8a/libLuhn.so");
-            // exist = System.IO.File.Exists("libLuhn.so");
-            // exist = System.IO.File.Exists("lib/arm64-v8a/libmonodroid.so");
-            // exist = System.IO.File.Exists("arm64-v8a/libmonodroid.so");
-            // exist = System.IO.File.Exists("libmonodroid.so");
-            // System.Runtime.InteropServices.NativeLibrary.Load("lib/arm64-v8a/libLuhn.so");
             this.CardNumber = "38520000023237";
         }
 

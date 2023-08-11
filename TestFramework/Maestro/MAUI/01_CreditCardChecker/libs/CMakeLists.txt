@@ -3,7 +3,6 @@ cmake_minimum_required(VERSION 3.0.0)
 set(PROJ_NAME Luhn)
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_OBJCXX_STANDARD 17)
 
 project(${PROJ_NAME} VERSION 1.0.0)
 

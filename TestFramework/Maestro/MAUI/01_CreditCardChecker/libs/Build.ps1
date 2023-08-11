@@ -187,7 +187,7 @@ elseif ($target -eq "android")
                 -D ANDROID_STL="c++_static" `
                 -D ANDROID_NDK="${androidNdkHome}"  `
                 -D ANDROID_NATIVE_API_LEVEL=$androidNativeApiLevel `
-                -D ANDROID_ABI="${ANDROID_ABI}"  `
+                -D ANDROID_ABI="${architecture}"  `
                 $sourceDir
    & "${cmake}" --build . --config ${configuration} --target install
 }
