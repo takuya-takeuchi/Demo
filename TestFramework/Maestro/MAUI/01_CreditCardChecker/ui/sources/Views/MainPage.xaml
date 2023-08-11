@@ -13,6 +13,9 @@
                    HorizontalOptions="Center"
                    Text="{Binding CardNumber, UpdateSourceEventName=PropertyChanged}"
                    MinimumWidthRequest="240"
+                   Keyboard="Numeric"
+                   Placeholder="Input card number without '-'"
+                   ClearButtonVisibility="WhileEditing"
                    MaxLength="16" />
 
             <Label AutomationId="LabelMessage"

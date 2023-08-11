@@ -63,8 +63,12 @@
 	  <PackageReference Include="Prism.Maui.Rx" Version="8.1.273-pre" />
 	</ItemGroup>
 
-	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
+	<ItemGroup Condition="'$(TargetFramework)|$(RuntimeIdentifier)' == 'net7.0-ios|ios-arm64'">
 	  <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64/libLuhn.dylib" Link="libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" />
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)|$(RuntimeIdentifier)' == 'net7.0-ios|iossimulator-x64'">
+	  <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-x86_64-simulator/libLuhn.dylib" Link="libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" />
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">

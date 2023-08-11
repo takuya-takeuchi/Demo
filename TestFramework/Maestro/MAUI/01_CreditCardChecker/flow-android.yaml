@@ -1,0 +1,53 @@
+appId: jp.taktak.maui.android.demo
+
+---
+- launchApp
+
+# Error
+- tapOn:
+    id: "jp.taktak.maui.android.demo:id/EntryCardNumber" 
+- eraseText
+- inputText: "0100000000000000"
+- assertVisible: "Invalid"
+
+# VISA
+- tapOn:
+    id: "jp.taktak.maui.android.demo:id/EntryCardNumber" 
+- eraseText
+- inputText: "4111111111111111"
+- assertVisible: "Valid"
+
+# Master
+- tapOn:
+    id: "jp.taktak.maui.android.demo:id/EntryCardNumber" 
+- eraseText
+- inputText: "5555555555554444"
+- assertVisible: "Valid"
+
+# Master2
+- tapOn:
+    id: "jp.taktak.maui.android.demo:id/EntryCardNumber" 
+- eraseText
+- inputText: "5105105105105100"
+- assertVisible: "Valid"
+
+# JCB
+- tapOn:
+    id: "jp.taktak.maui.android.demo:id/EntryCardNumber" 
+- eraseText
+- inputText: "3530111333300000"
+- assertVisible: "Valid"
+
+# DINERS
+- tapOn:
+    id: "jp.taktak.maui.android.demo:id/EntryCardNumber" 
+- eraseText
+- inputText: "30569309025904"
+- assertVisible: "Valid"
+
+# AMEX
+- tapOn:
+    id: "jp.taktak.maui.android.demo:id/EntryCardNumber" 
+- eraseText
+- inputText: "378282246310005"
+- assertVisible: "Valid"
