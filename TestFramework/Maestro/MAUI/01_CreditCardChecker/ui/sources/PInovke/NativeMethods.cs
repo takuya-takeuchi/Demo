@@ -10,7 +10,7 @@ namespace Demo.PInvoke
 
         #region Fields
 
-        private const string NativeLibrary = "libLuhnc.dylib";
+        private const string NativeLibrary = "Luhn";
 
         [DllImport(NativeLibrary, CallingConvention = CallingConvention.Cdecl)]
         [return: MarshalAs(UnmanagedType.Bool)]

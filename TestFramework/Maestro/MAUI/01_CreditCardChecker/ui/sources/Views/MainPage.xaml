@@ -8,16 +8,36 @@
                              Spacing="25"
                              VerticalOptions="Center">
 
-            <Editor x:Name="EditBox"
-                    FontSize="18"
-                    HorizontalOptions="Center"
-                    Text="{Binding Text, UpdateSourceEventName=PropertyChanged}"
-                    Width="240" />
-
-            <!-- <Label FontSize="18"
+            <Entry x:Name="EntryCardNumber"
+                   FontSize="18"
                    HorizontalOptions="Center"
-                   SemanticProperties.HeadingLevel="Level1"
-                   Text="{Binding CardType}" /> -->
+                   Text="{Binding CardNumber, UpdateSourceEventName=PropertyChanged}"
+                   MinimumWidthRequest="240"
+                   MaxLength="16" />
+
+            <Label FontSize="18"
+                   HorizontalOptions="Center">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsValid}"
+                                 Value="True">
+                        <Setter Property="TextColor" Value="#00FF00" />
+                        <Setter Property="Text" Value="Valid" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsValid}"
+                                 Value="False">
+                        <Setter Property="TextColor" Value="#FF0000" />
+                        <Setter Property="Text" Value="Invalid" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding CardNumber}"
+                                 Value="">
+                        <Setter Property="TextColor" Value="#000000" />
+                        <Setter Property="Text" Value="" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
 
         </VerticalStackLayout>
     </ScrollView>

@@ -11,52 +11,31 @@ namespace Demo.ViewModels
     internal sealed class MainPageViewModel : ViewModelBase, IMainPageViewModel
     {
 
-        #region Fields
-
-        private int _Count;
-
-        #endregion
-
         #region Constructors
 
         public MainPageViewModel(INavigationService navigationService)
             : base(navigationService)
         {
-            this.Text = "38520000023237";
+            this.CardNumber = "38520000023237";
         }
 
         #endregion
 
         #region IMainPageViewModel Members
 
-        private string _Text = "";
+        private string _CardNumber = "";
 
-        public string Text
+        public string CardNumber
         {
-            get => this._Text;
+            get => this._CardNumber;
             set 
             {
-                this.SetProperty(ref this._Text, value);
+                this.SetProperty(ref this._CardNumber, value);
 
                 try
                 {
-                    var str = System.Text.Encoding.UTF8.GetBytes(this.Text + "\0");
-                    //var ret = NativeMethods.luhn_validateString(str, 1);
-                    var type = NativeMethods.luhn_typeFromString(str) - 1;
-
-                    //var types = new []
-                    //{
-                    //    "Amex",
-                    //    "Visa",
-                    //    "Mastercard",
-                    //    "Discover",
-                    //    "DinersClub",
-                    //    "JCB",
-                    //    "Unsupported",
-                    //    "Invalid"                        
-                    //};
-
-                    //this.CardType = types[type];
+                    var str = System.Text.Encoding.ASCII.GetBytes(this._CardNumber);
+                    this.IsValid = NativeMethods.luhn_validateString(str, (uint)str.Length);
                 }
                 catch (Exception e)
                 {
@@ -65,12 +44,12 @@ namespace Demo.ViewModels
             }
         }
 
-        private string _CardType;
+        private bool _IsValid;
 
-        public string CardType
+        public bool IsValid
         {
-            get => this._CardType;
-            private set => this.SetProperty(ref this._CardType, value);
+            get => this._IsValid;
+            private set => this.SetProperty(ref this._IsValid, value);
         }
 
         #endregion

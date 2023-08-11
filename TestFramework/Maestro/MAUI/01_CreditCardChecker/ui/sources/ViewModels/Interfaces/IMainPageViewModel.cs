@@ -4,13 +4,13 @@
     internal interface IMainPageViewModel
     {
 
-        string Text
+        string CardNumber
         {
             get;
             set;
         }
 
-        string CardType
+        bool IsValid
         {
             get;
         }

@@ -33,6 +33,12 @@
 		<ApplicationId>jp.taktak.maui.android.demo</ApplicationId>
 	</PropertyGroup>
 
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
+	  <CreatePackage>false</CreatePackage>
+	  <CodesignProvision>iOS Team Provisioning Profile: *</CodesignProvision>
+	  <CodesignKey>iPhone Developer: Takuya Takeuchi (8LCGZ2Z237)</CodesignKey>
+	</PropertyGroup>
+	
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -58,7 +64,8 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
-	  <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64_x86_64-simulator/libLuhn.dylib" Link="libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" />
+	  <!-- <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64_x86_64-simulator/libLuhn.dylib" Link="libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" /> -->
+	  <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64/libLuhn.dylib" Link="libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" />
 	  <!-- <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/Info.plist" Link="Frameworks/Info.plist" CopyToOutputDirectory="PreserveNewest" /> -->
 	</ItemGroup>
 

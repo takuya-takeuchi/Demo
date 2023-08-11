@@ -36,6 +36,7 @@ $configuration = $Configuration
 
 $TargetArray =
 @(
+   "windows",
    "android",
    "iphoneos"
    "iphonesimulator"
@@ -97,7 +98,15 @@ New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
 
-if ($target -eq "android")
+if ($target -eq "windows")
+{
+   cmake -G Ninja `
+         -D CMAKE_BUILD_TYPE=${configuration} `
+         -D CMAKE_INSTALL_PREFIX=${installDir} `
+         $sourceDir
+   cmake --build . --config ${configuration} --target install
+}
+else if ($target -eq "android")
 {
    $androidHome = $env:ANDROID_HOME
    if (!($androidHome))
