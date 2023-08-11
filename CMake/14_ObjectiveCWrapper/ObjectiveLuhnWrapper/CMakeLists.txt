@@ -31,13 +31,12 @@ add_library(${PROJ_NAME} SHARED ${HEADERS}
 target_include_directories(${PROJ_NAME}
                            PRIVATE
                            ${FOUNDATION}
-                           ${LUHN_SDK_DIR}/Headers)
+                           ${LUHN_SDK_DIR}/include)
 
 target_link_libraries(${PROJ_NAME}
                       PRIVATE
                       ${FOUNDATION}
-                      ${LUHN_SDK_DIR}/libLuhn.dylib)
+                      ${LUHN_SDK_DIR}/lib/libLuhn.a)
 
-set_target_properties(${PROJ_NAME} PROPERTIES PUBLIC_HEADER ${HEADERS})
 INSTALL(TARGETS ${PROJ_NAME} LIBRARY DESTINATION lib)
-INSTALL(TARGETS ${PROJ_NAME} PUBLIC_HEADER DESTINATION include)
+INSTALL(FILES ${HEADERS} DESTINATION include)

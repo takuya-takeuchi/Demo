@@ -1,8 +1,7 @@
 #***************************************
 #Arguments
-#%1: Build Target iphoneos/iphonesimulator)
-#%2: Architecture (x86_64/arm64)
-#%3: Build Configuration (Release/Debug/RelWithDebInfo/MinSizeRel)
+#%1: Architecture (x86_64/arm64)
+#%2: Build Configuration (Release/Debug)
 #***************************************
 Param
 (
@@ -10,30 +9,18 @@ Param
    Mandatory=$True,
    Position = 1
    )][string]
-   $Target,
+   $Architecture,
 
    [Parameter(
    Mandatory=$True,
    Position = 2
    )][string]
-   $Architecture,
-
-   [Parameter(
-   Mandatory=$True,
-   Position = 3
-   )][string]
    $Configuration
 )
 
-$os = $Target
+$os = "osx"
 $configuration = $Configuration
 $architecture = $Architecture
-
-$TargetArray =
-@(
-   "iphoneos",
-   "iphonesimulator"
-)
 
 $ConfigurationArray =
 @(
@@ -46,13 +33,6 @@ $ArchitectureArray =
    "arm64",
    "x86_64"
 )
-
-if ($TargetArray.Contains($os) -eq $False)
-{
-   $candidate = $TargetArray.Keys -join "/"
-   Write-Host "Error: Specify Target [${candidate}]" -ForegroundColor Red
-   exit -1
-}
 
 if ($ConfigurationArray.Contains($configuration) -eq $False)
 {
@@ -85,24 +65,16 @@ $installDir = Join-Path $current install | `
 
 $cmakeDir = Split-Path $current -Parent
 $rootDir = Split-Path $cmakeDir -Parent
-$toolchainDir = Join-Path $rootDir "toolchains"
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
-$BUILD_SHARED_LIBS="ON"
-$CMAKE_IOS_INSTALL_COMBINED="NO"
 
-$toolchain = Join-Path $toolchainDir "${architecture}-ios.cmake"
 cmake -D CMAKE_BUILD_TYPE=$Configuration `
       -D CMAKE_INSTALL_PREFIX=${installDir} `
-      -D BUILD_SHARED_LIBS="ON" `
-      -D CMAKE_EXE_LINKER_FLAGS="-std=c++17 -stdlib=libc++" `
-      -D CMAKE_IOS_INSTALL_COMBINED=$CMAKE_IOS_INSTALL_COMBINED `
-      -D CMAKE_OSX_SDK="${os}" `
-      -D CMAKE_OSX_DEPLOYMENT_TARGET="14.0" `
-      -D CMAKE_TOOLCHAIN_FILE="${toolchain}" `
+      -D CMAKE_SYSTEM_PROCESSOR="${architecture}" `
+      -D CMAKE_OSX_ARCHITECTURES="${architecture}" `
       "${sourceDir}"
 cmake --build . --config ${Configuration} --target install
 Pop-Location

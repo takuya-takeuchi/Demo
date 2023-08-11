@@ -25,8 +25,8 @@ find_library(FOUNDATION Foundation)
 FILE(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/*.h)
 FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/*.m)
 
-add_library(${PROJ_NAME} SHARED ${HEADERS}
-                                ${SOURCES})
+add_library(${PROJ_NAME} ${HEADERS}
+                         ${SOURCES})
 
 target_include_directories(${PROJ_NAME}
                            PRIVATE

@@ -1,14 +1,12 @@
 #ifndef _CPP_LUHNC_H_
 #define _CPP_LUHNC_H_
 
-#include "export.hpp"
+#include "export.h"
 #include <stdlib.h>
 #include <cstdint>
 
-#include <Luhn.h>
+DLLEXPORT const bool luhn_validateString(const char* number, const uint32_t cardType);
 
-DLLEXPORT const bool luhn_validateString(const char* number, const OLCreditCardType cardType);
-
-DLLEXPORT const OLCreditCardType luhn_typeFromString(const char* number);
+DLLEXPORT const uint32_t luhn_typeFromString(const char* number);
 
 #endif
