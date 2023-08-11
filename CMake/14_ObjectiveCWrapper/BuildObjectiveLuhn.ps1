@@ -63,9 +63,6 @@ $installDir = Join-Path $current install | `
             Join-Path -ChildPath $architecture | `
               Join-Path -ChildPath $buildTarget
 
-$cmakeDir = Split-Path $current -Parent
-$rootDir = Split-Path $cmakeDir -Parent
-
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
