@@ -113,3 +113,7 @@
 	path = DevTools/bloaty/bloaty
 	url = https://github.com/google/bloaty
 	ignore = dirty
+[submodule "TestFramework/Maestro/MAUI/01_CreditCardChecker/libs/test/googletest"]
+	path = TestFramework/Maestro/MAUI/01_CreditCardChecker/libs/test/googletest
+	url = https://github.com/google/googletest
+	ignore = dirty

@@ -100,13 +100,12 @@ Push-Location $buildDir
 
 if ($target -eq "windows")
 {
-   cmake -G Ninja `
-         -D CMAKE_BUILD_TYPE=${configuration} `
+   cmake -D CMAKE_BUILD_TYPE=${configuration} `
          -D CMAKE_INSTALL_PREFIX=${installDir} `
          $sourceDir
    cmake --build . --config ${configuration} --target install
 }
-else if ($target -eq "android")
+elseif ($target -eq "android")
 {
    $androidHome = $env:ANDROID_HOME
    if (!($androidHome))

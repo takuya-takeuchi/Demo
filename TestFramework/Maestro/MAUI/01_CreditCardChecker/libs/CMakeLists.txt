@@ -19,10 +19,20 @@ FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 add_library(${PROJ_NAME} SHARED ${HEADERS}
                                 ${SOURCES})
 
-target_include_directories(${PROJ_NAME}
-                           PRIVATE
-                           ${LUHN_SDK_DIR}/Headers)
-
-set_target_properties(${PROJ_NAME} PROPERTIES PUBLIC_HEADER ${HEADERS})
-INSTALL(TARGETS ${PROJ_NAME} LIBRARY DESTINATION lib)
-INSTALL(TARGETS ${PROJ_NAME} PUBLIC_HEADER DESTINATION include)
+# create cmake.config
+install(TARGETS ${PROJ_NAME} 
+        EXPORT ${PROJ_NAME}Targets
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        RUNTIME DESTINATION bin
+        INCLUDES DESTINATION include/
+)
+install(DIRECTORY include/ DESTINATION include)
+install(EXPORT ${PROJ_NAME}Targets
+        FILE ${PROJ_NAME}Config.cmake
+        DESTINATION share/cmake/${PROJ_NAME}
+)
+export(EXPORT ${PROJ_NAME}Targets
+       FILE "${CMAKE_CURRENT_BINARY_DIR}/${PROJ_NAME}Config.cmake"
+)
+export(PACKAGE ${PROJ_NAME})
