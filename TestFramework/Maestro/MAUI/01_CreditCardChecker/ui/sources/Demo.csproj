@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net7.0-ios</TargetFrameworks>
+		<TargetFrameworks>net7.0-android;net7.0-ios</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net7.0-tizen</TargetFrameworks> -->
 		<OutputType>Exe</OutputType>
@@ -14,7 +14,7 @@
 		<ApplicationTitle>Demo</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.demo</ApplicationId>
+		<ApplicationId>jp.taktak.xamarin.ios.demo</ApplicationId>
 		<ApplicationIdGuid>577FD18D-0240-46F5-9A1A-DC7250B0A2FC</ApplicationIdGuid>
 
 		<!-- Versions -->
@@ -22,18 +22,17 @@
 		<ApplicationVersion>1</ApplicationVersion>
 
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'ios'">14.0</SupportedOSPlatformVersion>
+		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
 	</PropertyGroup>
 
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net7.0-ios|AnyCPU'">
-	  <CreatePackage>false</CreatePackage>
-	  <MtouchInterpreter>all</MtouchInterpreter>
-	  <MtouchLink>None</MtouchLink>
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
+		<ApplicationId>jp.taktak.maui.ios.demo</ApplicationId>
 	</PropertyGroup>
-	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net7.0-ios|AnyCPU'">
-	  <CreatePackage>false</CreatePackage>
-	  <MtouchArch>ARMv7</MtouchArch>
-	  <MtouchHttpClientHandler>HttpClientHandler</MtouchHttpClientHandler>
+
+	<PropertyGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+		<ApplicationId>jp.taktak.maui.android.demo</ApplicationId>
 	</PropertyGroup>
+
 	<ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -59,14 +58,17 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
-	  <!-- <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64/libLuhn.dylib" Link="Frameworks/Luhn.xcframework/ios-arm64/libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" />
-	  <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/Info.plist" Link="Frameworks/Luhn.xcframework/ios-arm64/Info.plist" CopyToOutputDirectory="PreserveNewest" />
-	  <Content Include="Platforms/iOS/Frameworks/Luhnc.xcframework/ios-arm64/libLuhnc.dylib" Link="Frameworks/Luhnc.xcframework/ios-arm64/libLuhnc.dylib" CopyToOutputDirectory="PreserveNewest" />
-	  <Content Include="Platforms/iOS/Frameworks/Luhnc.xcframework/Info.plist" Link="Frameworks/Luhnc.xcframework/Info.plist" CopyToOutputDirectory="PreserveNewest" /> -->
-	  <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64/libLuhn.dylib" Link="libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" />
-	  <!-- <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/Info.plist" Link="Frameworks/Luhn.xcframework/ios-arm64/Info.plist" CopyToOutputDirectory="PreserveNewest" /> -->
-	  <Content Include="Platforms/iOS/Frameworks/Luhnc.xcframework/ios-arm64/libLuhnc.dylib" Link="libLuhnc.dylib" CopyToOutputDirectory="PreserveNewest" />
-	  <!-- <Content Include="Platforms/iOS/Frameworks/Luhnc.xcframework/Info.plist" Link="Frameworks/Luhnc.xcframework/Info.plist" CopyToOutputDirectory="PreserveNewest" /> -->
+	  <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64_x86_64-simulator/libLuhn.dylib" Link="libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" />
+	  <!-- <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/Info.plist" Link="Frameworks/Info.plist" CopyToOutputDirectory="PreserveNewest" /> -->
+	</ItemGroup>
+
+	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
+		<AndroidNativeLibrary Include="libs/arm64-v8a/lib/libLuhn.so">
+			<Abi>arm64-v8a</Abi>
+		</AndroidNativeLibrary>
+		<AndroidNativeLibrary Include="libs/x86_64/lib/libLuhn.so">
+			<Abi>x86_64</Abi>
+		</AndroidNativeLibrary>
 	</ItemGroup>
 	
 </Project>
