@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage x:Class="Demo.Views.MainPage"
+             xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml">
+
+    <ScrollView>
+        <VerticalStackLayout Padding="30,0"
+                             Spacing="25"
+                             VerticalOptions="Center">
+
+            <Entry AutomationId="EntryCardNumber"
+                   FontSize="18"
+                   HorizontalOptions="Center"
+                   Text="{Binding CardNumber, UpdateSourceEventName=PropertyChanged}"
+                   MinimumWidthRequest="240"
+                   Keyboard="Numeric"
+                   Placeholder="Input card number without '-'"
+                   ClearButtonVisibility="WhileEditing"
+                   MaxLength="16" />
+
+            <Label AutomationId="LabelMessage"
+                   FontSize="18"
+                   HorizontalOptions="Center">
+                <Label.Triggers>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsValid}"
+                                 Value="True">
+                        <Setter Property="TextColor" Value="#00FF00" />
+                        <Setter Property="Text" Value="Valid" />
+                    </DataTrigger>
+                    <DataTrigger TargetType="Label"
+                                 Binding="{Binding IsValid}"
+                                 Value="False">
+                        <Setter Property="TextColor" Value="#FF0000" />
+                        <Setter Property="Text" Value="Invalid" />
+                    </DataTrigger>
+                </Label.Triggers>
+            </Label>
+
+        </VerticalStackLayout>
+    </ScrollView>
+
+</ContentPage>

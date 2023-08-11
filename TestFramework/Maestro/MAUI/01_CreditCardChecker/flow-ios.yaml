@@ -1,0 +1,65 @@
+appId: jp.taktak.maui.ios.demo
+
+---
+- launchApp
+
+# Error
+- tapOn:
+    id: "EntryCardNumber" 
+- tapOn: "Clear text" 
+- tapOn:
+    id: "EntryCardNumber" 
+- inputText: "0100000000000000"
+- assertVisible: "Invalid"
+
+# VISA
+- tapOn:
+    id: "EntryCardNumber" 
+- tapOn: "Clear text" 
+- tapOn:
+    id: "EntryCardNumber" 
+- inputText: "4111111111111111"
+- assertVisible: "Valid"
+
+# Master
+- tapOn:
+    id: "EntryCardNumber" 
+- tapOn: "Clear text" 
+- tapOn:
+    id: "EntryCardNumber" 
+- inputText: "5555555555554444"
+- assertVisible: "Valid"
+
+# Master2
+- tapOn:
+    id: "EntryCardNumber" 
+- tapOn: "Clear text" 
+- tapOn:
+    id: "EntryCardNumber" 
+- inputText: "5105105105105100"
+- assertVisible: "Valid"
+
+# JCB
+- tapOn: "Clear text" 
+- tapOn:
+    id: "EntryCardNumber" 
+- inputText: "3530111333300000"
+- assertVisible: "Valid"
+
+# DINERS
+- tapOn:
+    id: "EntryCardNumber" 
+- tapOn: "Clear text" 
+- tapOn:
+    id: "EntryCardNumber" 
+- inputText: "30569309025904"
+- assertVisible: "Valid"
+
+# AMEX
+- tapOn:
+    id: "EntryCardNumber" 
+- tapOn: "Clear text" 
+- tapOn:
+    id: "EntryCardNumber" 
+- inputText: "378282246310005"
+- assertVisible: "Valid"
