@@ -31,6 +31,12 @@ namespace Demo.ViewModels
             set 
             {
                 this.SetProperty(ref this._CardNumber, value);
+                
+                if (string.IsNullOrEmpty(this._CardNumber))
+                {
+                    this.IsValid = false;
+                    return;
+                }
 
                 try
                 {

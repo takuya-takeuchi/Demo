@@ -30,12 +30,6 @@
                         <Setter Property="TextColor" Value="#FF0000" />
                         <Setter Property="Text" Value="Invalid" />
                     </DataTrigger>
-                    <DataTrigger TargetType="Label"
-                                 Binding="{Binding CardNumber}"
-                                 Value="">
-                        <Setter Property="TextColor" Value="#000000" />
-                        <Setter Property="Text" Value="" />
-                    </DataTrigger>
                 </Label.Triggers>
             </Label>
 
