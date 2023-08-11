@@ -12,7 +12,8 @@ namespace Demo.PInvoke
 
         private const string NativeLibrary = "Luhn";
 
-        [DllImport(NativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        // [DllImport(NativeLibrary, CallingConvention = CallingConvention.Cdecl)]
+        [DllImport(NativeLibrary)]
         [return: MarshalAs(UnmanagedType.Bool)]
         public static extern bool luhn_validateString(byte[] number, uint length);
 

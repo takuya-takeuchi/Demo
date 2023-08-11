@@ -11,12 +11,6 @@ namespace Demo.ViewModels
     internal sealed class MainPageViewModel : ViewModelBase, IMainPageViewModel
     {
 
-        #region Fields
-
-        private int _Count;
-
-        #endregion
-
         #region Constructors
 
         public MainPageViewModel(INavigationService navigationService)
