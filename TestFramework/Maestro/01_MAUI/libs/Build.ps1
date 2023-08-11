@@ -28,6 +28,7 @@ Param
 # root config
 $macosDeplolymentTarget = "11.0"
 $androidNativeApiLevel = 21
+$cmakeVersion = "3.22.1"
 
 $target = $Target
 $architecture = $Architecture
@@ -73,6 +74,15 @@ if ($ConfigurationArray.Contains($configuration) -eq $False)
    exit -1
 }
 
+if ($target -eq "android")
+{
+   switch ($architecture)
+   {
+      "arm64"  { $architecture = "arm64-v8a" }
+      "x86_64" { $architecture = "x86_64" }
+   }
+}
+
 $current = $PSScriptRoot
 $sourceDir = $current
 $buildDir = Join-Path $current build | `
@@ -106,24 +116,35 @@ if ($target -eq "android")
    if ($IsWindows)
    {
       $cmake = "cmake.exe"
+      $cmake = Join-Path $androidHome "cmake" | `
+               Join-Path -ChildPath ${cmakeVersion} | `
+               Join-Path -ChildPath "bin" | `
+               Join-Path -ChildPath $cmake
+
+      if (!(Test-Path($cmake)))
+      {
+         Write-Host "${cmake} does not exist" -ForegroundColor Red
+         exit
+      }
    }
    elseif ($IsLinux)
    {
       $cmake = "cmake"
+      $cmake = Join-Path $androidHome "cmake" | `
+               Join-Path -ChildPath ${cmakeVersion} | `
+               Join-Path -ChildPath "bin" | `
+               Join-Path -ChildPath $cmake
+
+      if (!(Test-Path($cmake)))
+      {
+         Write-Host "${cmake} does not exist" -ForegroundColor Red
+         exit
+      }
    }
    elseif ($IsMacOS)
    {
+      # Android SDK for OSX does not have cmake?
       $cmake = "cmake"
-   }
-
-   $cmake = Join-Path $androidHome "cmake" | `
-            Join-Path -ChildPath "3.22.1" | `
-            Join-Path -ChildPath "bin" | `
-            Join-Path -ChildPath $cmake
-   if (!(Test-Path($cmake)))
-   {
-      Write-Host "${cmake} does not exist" -ForegroundColor Red
-      exit
    }
 
    $androidNdkHome = $env:ANDROID_NDK_HOME
@@ -148,12 +169,6 @@ if ($target -eq "android")
       exit
    }
 
-   switch ($architecture)
-   {
-      "arm64"  { $ANDROID_ABI = "arm64-v8a" }
-      "x86_64" { $ANDROID_ABI = "x86_64" }
-   }
-
    & "${cmake}" -G Ninja `
                 -D CMAKE_BUILD_TYPE=${configuration} `
                 -D CMAKE_INSTALL_PREFIX=${installDir} `
@@ -165,10 +180,6 @@ if ($target -eq "android")
                 -D ANDROID_NDK="${androidNdkHome}"  `
                 -D ANDROID_NATIVE_API_LEVEL=$androidNativeApiLevel `
                 -D ANDROID_ABI="${ANDROID_ABI}"  `
-                -D CPUINFO_BUILD_TOOLS="OFF" `
-                -D CPUINFO_BUILD_UNIT_TESTS="OFF" `
-                -D CPUINFO_BUILD_MOCK_TESTS="OFF" `
-                -D CPUINFO_BUILD_BENCHMARKS="OFF" `
                 $sourceDir
    & "${cmake}" --build . --config ${configuration} --target install
 }
