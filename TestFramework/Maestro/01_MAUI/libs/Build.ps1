@@ -10,7 +10,7 @@ Param
    Mandatory=$True,
    Position = 1
    )][string]
-   $Architecture,
+   $Target,
 
    [Parameter(
    Mandatory=$True,
@@ -174,7 +174,7 @@ if ($target -eq "android")
 }
 else
 {
-   $rootDir = (git rev-parse --show-superproject-working-tree --show-toplevel)[0]
+   $rootDir = (git rev-parse --show-superproject-working-tree --show-toplevel)
    $toolchainDir = Join-Path $rootDir "toolchains"
    if (!(Test-Path($toolchainDir)))
    {
