@@ -64,18 +64,10 @@
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-ios'">
-	  <!-- <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64_x86_64-simulator/libLuhn.dylib" Link="libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" /> -->
 	  <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/ios-arm64/libLuhn.dylib" Link="libLuhn.dylib" CopyToOutputDirectory="PreserveNewest" />
-	  <!-- <Content Include="Platforms/iOS/Frameworks/Luhn.xcframework/Info.plist" Link="Frameworks/Info.plist" CopyToOutputDirectory="PreserveNewest" /> -->
 	</ItemGroup>
 
 	<ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
-		<!-- <AndroidNativeLibrary Include="Platforms/Android/libs/arm64-v8a/lib/libLuhn.so" Bind="false" >
-			<Abi>arm64-v8a</Abi>
-		</AndroidNativeLibrary>
-		<AndroidNativeLibrary Include="Platforms/Android/libs/x86_64/lib/libLuhn.so" Bind="false" >
-			<Abi>x86_64</Abi>
-		</AndroidNativeLibrary> -->
 		<AndroidNativeLibrary Include="Platforms\Android\lib\arm64-v8a\libLuhn.so" Bind="false">
 			<Abi>arm64-v8a</Abi>
 		</AndroidNativeLibrary>
@@ -84,10 +76,4 @@
 		</AndroidNativeLibrary>
 	</ItemGroup>
 
-	<!-- <ItemGroup Condition="'$(TargetFramework)' == 'net7.0-android'">
-		<AndroidNativeLibrary Include="Platforms\Android\lib\x86_64\libcpuinfo.so" Bind="false" >
-			<Abi>x86_64</Abi>
-		</AndroidNativeLibrary>
-	</ItemGroup> -->
-	
 </Project>

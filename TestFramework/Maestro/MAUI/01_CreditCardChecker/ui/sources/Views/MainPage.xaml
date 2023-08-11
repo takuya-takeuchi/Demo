@@ -8,14 +8,15 @@
                              Spacing="25"
                              VerticalOptions="Center">
 
-            <Entry x:Name="EntryCardNumber"
+            <Entry AutomationId="EntryCardNumber"
                    FontSize="18"
                    HorizontalOptions="Center"
                    Text="{Binding CardNumber, UpdateSourceEventName=PropertyChanged}"
                    MinimumWidthRequest="240"
                    MaxLength="16" />
 
-            <Label FontSize="18"
+            <Label AutomationId="LabelMessage"
+                   FontSize="18"
                    HorizontalOptions="Center">
                 <Label.Triggers>
                     <DataTrigger TargetType="Label"
