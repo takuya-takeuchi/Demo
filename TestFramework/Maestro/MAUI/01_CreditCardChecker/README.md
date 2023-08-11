@@ -49,4 +49,4 @@ Next,
 $ maestro test <flow-android.yaml/flow-ios.yaml>
 ````
 
-<img src="./images/ios.mp4" />
+https://github.com/takuya-takeuchi/Demo/assets/6241854/df1011f2-f3a5-4d3d-838a-5997d4d1aef3
