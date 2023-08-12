@@ -12,6 +12,7 @@
 |---|---|
 |iPhone|`flutter build ios --profile`|
 |iPhone Simulator|`flutter build ios --debug --simulator`|
+|Android|flutter build apk --debug|
 
 #### 2. Start Appium
 
@@ -39,7 +40,7 @@ $ npx appium -p 4725
 
 You shall check proper device or simulator names.
 
-For Android,
+###### Android
 
 ````sh
 $ adb devices
@@ -48,11 +49,9 @@ HQ618G0E28      device
 emulator-5554   device
 ````
 
-For iOS
+###### iOS
 
-````sh
-
-````
+You can use `xcrun simctl list devices` or `idb_companion`.
 
 ##### Python
 
@@ -98,6 +97,8 @@ After modfied scripts, you can run test scripts.
 |---|---|
 |iPhone|`python iphone-device.py`|
 |iPhone Simulator|`python iphone-simulator.py`|
+|Android|`python android-device.py`|
+|Android Emulator|`python android-emulator.py`|
 
 For examle or iPhone
 

@@ -3,7 +3,7 @@ import os
 from appium.webdriver import Remote
 from appium_flutter_finder.flutter_finder import FlutterElement, FlutterFinder
 
-driver = Remote('http://localhost:4725', dict(
+driver = Remote('http://localhost:4723', dict(
     platformName='Android',
     automationName='flutter',
     platformVersion='11.0',
@@ -27,6 +27,6 @@ counter_finder = finder.by_value_key("message_count")
 counter_element = FlutterElement(driver, counter_finder)
 print(counter_element.text)
 
-driver.save_screenshot("screenshot-simulator.png")
+driver.save_screenshot("screenshot-device.png")
 
 driver.quit()
