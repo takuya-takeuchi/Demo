@@ -40,18 +40,17 @@ $ npx appium -p 4725
 
 You shall check proper device or simulator names.
 
-###### Android
-
 ````sh
-$ adb devices
-List of devices attached
-HQ618G0E28      device
-emulator-5554   device
+$ flutter devices
+4 connected devices:
+
+SO 41B (mobile)        • HQ618G0E28                               • android-arm64 • Android 11 (API 30)
+iPhone (2) (mobile)    • 9a1e9bf15489282f50f795bd0768752f28d62604 • ios           • iOS 15.7.8 19H364
+iPhone 14 Pro (mobile) • 413F180D-9C99-4CF8-A315-0C6A8B31BB91     • ios           • com.apple.CoreSimulator.SimRuntime.iOS-16-0 (simulator)
+macOS (desktop)        • macos                                    • darwin-x64    • macOS 13.2.1 22D68 darwin-x64
+
+No wireless devices were found.
 ````
-
-###### iOS
-
-You can use `xcrun simctl list devices` or `idb_companion`.
 
 ##### Python
 
