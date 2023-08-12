@@ -6,6 +6,7 @@
 * Flutter 3 or later
 * npm
 * Xcode 14 or later
+* Android Studio 2022 or later
 * Apple Developper Accouont
 
 ## Setup
@@ -181,34 +182,3 @@ Therefore, we have to configure WebDriverAgent.
   * You will see the following screen in target device
 
 <img src="./images/wda-iphone.jpg" height="400" />
-
-## bulild flutter app
-
-````sh
-$ cd demo
-$ flutter build ios --debug [---simulator]
-````
-
-## run test
-
-### setup python
-
-````sh
-$ cd python
-$ python3 -m venv .venv
-$ source .venv/bin/activate
-$ python -m pip install -r requirement.txt
-````
-
-### start appium on other console
-
-````sh
-$ appium --base-path=/wd/hub 
-````
-
-````sh
-$ cd python
-$ python example.exe
-````
-
-script install application and WebDriverAgent to device
