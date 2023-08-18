@@ -7,7 +7,7 @@ int run_loop(int argc, const char_type* argv[])
     try
     {
     }
-    catch (const std::exception&)
+    catch (const std::exception& ex)
     {
     }
 
