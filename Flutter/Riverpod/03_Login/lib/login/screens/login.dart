@@ -17,50 +17,83 @@ class LoginScreen extends ConsumerWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'user name'),
-              onChanged: (String value) {
-                ref.read(usernameProvider.notifier).setValue(value);
-              },
-            ),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'password'),
-              onChanged: (String value) {
-                ref.read(passwordProvider.notifier).setValue(value);
-              },
-            ),
-            ElevatedButton(
-              child: const Text('Login'),
-              style: ElevatedButton.styleFrom(
-                textStyle: const TextStyle(fontSize: 20.0),
+            const SizedBox(
+              width: 320,
+              child: Image(
+                image: AssetImage('assets/images/logo.png'),
+                fit: BoxFit.cover,
               ),
-              onPressed: () async {
-                var username = ref.read(usernameProvider);
-                var password = ref.read(passwordProvider);
-                if (_authenticationService.Login(username, password)) {
-                  // final prefs = await SharedPreferences.getInstance();
-                  // await prefs.setBool('saveUser', isChecked);
-                  Navigator.pushNamed(
-                    context,
-                    '/count',
-                  );
-                } else {
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 60, 0, 0),
+              child: SizedBox(
+                width: 400,
+                height: 50,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'user name',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (String value) {
+                    ref.read(usernameProvider.notifier).setValue(value);
+                  },
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(0, 20, 0, 60),
+              child: SizedBox(
+                width: 400,
+                height: 50,
+                child: TextFormField(
+                  decoration: const InputDecoration(
+                    labelText: 'password',
+                    border: OutlineInputBorder(),
+                  ),
+                  obscureText: true,
+                  onChanged: (String value) {
+                    ref.read(passwordProvider.notifier).setValue(value);
+                  },
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ),
+            ),
+            SizedBox(
+              width: 400,
+              height: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  textStyle: const TextStyle(fontSize: 20.0),
+                ),
+                onPressed: () async {
+                  var username = ref.read(usernameProvider);
+                  var password = ref.read(passwordProvider);
+                  if (_authenticationService.Login(username, password)) {
+                    Navigator.pushNamed(
+                      context,
+                      '/count',
+                    );
+                    return;
+                  }
+                  
                   showDialog<String>(
                     context: context,
                     builder: (BuildContext context) => AlertDialog(
-                      title: const Text('Помилка'),
-                      content: const Text('Неправильний логін або пароль'),
+                      title: const Text('error'),
+                      content: const Text('failed to login'),
                       actions: <Widget>[
                         TextButton(
                           onPressed: () =>
-                              Navigator.pop(context, 'Спробувати ще раз'),
-                          child: const Text('Спробувати ще раз'),
+                              Navigator.pop(context, 'retry'),
+                          child: const Text('retry'),
                         ),
                       ],
                     ),
                   );
-                }
-              },
+                },
+                child: const Text('Login'),
+              ),
             ),
           ],
         ),

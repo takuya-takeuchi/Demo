@@ -20,14 +20,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         useMaterial3: true,
       ),
       home: const SplashScreen(),
       routes: <String, WidgetBuilder>{
         '/splashscreen': (BuildContext context) => const SplashScreen(),
         '/login': (BuildContext context) => LoginScreen(),
-        '/count': (BuildContext context) => const CountScreen(title: 'Flutter Demo Home Page'),
+        '/count': (BuildContext context) => const CountScreen(title: 'Flutter Demo Page'),
       },
     );
   }
