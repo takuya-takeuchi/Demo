@@ -18,11 +18,11 @@ class SplashScreenPage extends ConsumerState<SplashScreen> {
 
   void splashDelay() async {
     await Future.delayed(
-      const Duration(seconds: 4),
+      const Duration(seconds: 3),
     ).then((value) => 
       Navigator.pushNamed(
         context,
-        '/count',
+        '/login',
       )
     );
   }
@@ -33,7 +33,7 @@ class SplashScreenPage extends ConsumerState<SplashScreen> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/Flutter-logo-animation-v1-2_short.gif'),
+            image: AssetImage('assets/images/splashscreen.jpg'),
             fit: BoxFit.cover,
           ),
         ),

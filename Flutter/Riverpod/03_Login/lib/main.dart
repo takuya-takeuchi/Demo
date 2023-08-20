@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'count/index.dart';
-import 'splashscreen/index.dart';
+import 'package:demo/count/index.dart';
+import 'package:demo/login/index.dart';
+import 'package:demo/splashscreen/index.dart';
 
 void main() {
   runApp(
@@ -25,7 +26,8 @@ class MyApp extends StatelessWidget {
       home: const SplashScreen(),
       routes: <String, WidgetBuilder>{
         '/splashscreen': (BuildContext context) => const SplashScreen(),
-        '/count': (BuildContext context) => const CountScreen(title: 'Flutter Demo Home Page')
+        '/login': (BuildContext context) => LoginScreen(),
+        '/count': (BuildContext context) => const CountScreen(title: 'Flutter Demo Home Page'),
       },
     );
   }
