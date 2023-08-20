@@ -2,8 +2,9 @@
 
 ## Abstracts
 
-* Add splashscreen feature to [01_Counter](../01_Counter)
+* Add login feature to [02_SplashScreen](../02_SplashScreen)
 * Usage of page navigation
+* Adjust input fields according to device size
 
 ## Dependencies
 
@@ -11,9 +12,8 @@
 
 * [Flutter Logo , Computer, , , Background, and HD wallpaper](https://www.pxfuel.com/en/desktop-wallpaper-tzydn)
 
-
-* [Flutter logo animation for Splash screen](https://drive.google.com/drive/u/0/folders/1NWJGmv_j9f0HEVWYi0NAEUPzu2l0Verp)
-
 ## Screenshots
 
-<img src="./images/windows.gif" width="600" />
+|Windows|Android|
+|---|---|
+|<img src="./images/windows.gif" height="200" />|<img src="./images/android.gif" height="500" />|
