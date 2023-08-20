@@ -1,20 +1,21 @@
 import 'package:flutter/material.dart';
 
-class _CountPageState extends State<CountPage> {
-  int _counter = 0;
+import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
+import 'count.dart';
+import '../providers/counter.dart';
+
+class CountPage extends ConsumerWidget  {
+  String _title = "";
+  CountPage({super.key}){
+    // _title = title;
   }
-
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(widget.title),
+        title: Text(_title),
       ),
       body: Center(
         child: Column(
@@ -23,27 +24,15 @@ class _CountPageState extends State<CountPage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
+            CountWidget()
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () => ref.read(counterProvider.notifier).increment(),
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ),
     );
   }
-}
-
-class CountPage extends StatefulWidget {
-  const CountPage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<CountPage> createState() => _CountPageState();
 }
