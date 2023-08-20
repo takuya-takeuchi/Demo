@@ -5,23 +5,20 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import 'count.dart';
 import '../providers/counter.dart';
 
-class CountPage extends ConsumerWidget  {
-  String _title = "";
-  CountPage({super.key}){
-    // _title = title;
-  }
+class CountPage extends ConsumerWidget {
+  const CountPage({super.key});
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text(_title),
+        title: const Text('Flutter Demo Home Page'),
       ),
-      body: Center(
+      body: const Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Text(
+            Text(
               'You have pushed the button this many times:',
             ),
             CountWidget()
