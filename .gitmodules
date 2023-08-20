@@ -121,5 +121,6 @@
 	url = https://github.com/pytorch/pytorch
 	ignore = dirty
 [submodule "Misc/18_LinkError__std_find_trivial_1/opencv"]
-	path = Misc/18_LinkError__std_find_trivial_1/opencv
+	path = Misc/18_LinkError__std_min_element_4/opencv
 	url = https://github.com/opencv/opencv
+	ignore = dirty
