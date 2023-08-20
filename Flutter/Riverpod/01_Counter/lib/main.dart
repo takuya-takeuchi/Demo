@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'count/widgets/count_page.dart';
+import 'count/screens/count_page.dart';
 
 void main() {
   runApp(

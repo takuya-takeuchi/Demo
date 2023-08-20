@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
-import 'count.dart';
 import '../providers/counter.dart';
+import '../widgets/count.dart';
 
 class CountPage extends ConsumerWidget {
   const CountPage({super.key});
