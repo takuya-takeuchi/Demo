@@ -36,6 +36,13 @@ $installOpenCVDir = Join-Path $current install | `
                     Join-Path -ChildPath x64 | `
                     Join-Path -ChildPath vc17 | `
                     Join-Path -ChildPath staticlib
+$installOpenCVDir = Join-Path $current install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath $target | `
+                    Join-Path -ChildPath $shared | `
+                    Join-Path -ChildPath x64 | `
+                    Join-Path -ChildPath vc17 | `
+                    Join-Path -ChildPath staticlib
 $targetOpenCVCMake = Join-Path $installOpenCVDir "OpenCVConfig.cmake"
 
 if (!(Test-Path("${targetOpenCVCMake}")))
