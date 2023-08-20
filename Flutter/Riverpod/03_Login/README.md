@@ -14,6 +14,6 @@
 
 ## Screenshots
 
-|Windows|Android|
-|---|---|
-|<img src="./images/windows.gif" height="200" />|<img src="./images/android.gif" height="500" />|
+|Windows|Android|iOS|
+|---|---|---|
+|<img src="./images/windows.gif" height="200" />|<img src="./images/android.gif" height="500" />|<img src="./images/ios.gif" height="500" />|
