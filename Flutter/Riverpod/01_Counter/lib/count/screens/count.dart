@@ -5,8 +5,8 @@ import 'package:hooks_riverpod/hooks_riverpod.dart';
 import '../providers/counter.dart';
 import '../widgets/count.dart';
 
-class CountPage extends ConsumerWidget {
-  const CountPage(
+class CountScreen extends ConsumerWidget {
+  const CountScreen(
     {super.key,
     required this.title});
   final String? title;

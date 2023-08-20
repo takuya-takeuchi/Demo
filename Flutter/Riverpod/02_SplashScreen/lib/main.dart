@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
 import 'count/index.dart';
+import 'splashscreen/index.dart';
 
 void main() {
   runApp(
@@ -21,7 +22,11 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const CountScreen(title: 'Flutter Demo Home Page'),
+      home: const SplashScreen(),
+      routes: <String, WidgetBuilder>{
+        '/splashscreen': (BuildContext context) => const SplashScreen(),
+        '/count': (BuildContext context) => const CountScreen(title: 'Flutter Demo Home Page')
+      },
     );
   }
 }
