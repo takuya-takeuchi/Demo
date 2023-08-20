@@ -1,8 +1,9 @@
-# Counter
+# Splashscreen
 
 ## Abstracts
 
-* Modify Flutter template couter application by using `Riverpod`
+* Add splashscreen feature to [01_Counter](../01_Counter)
+* Usage of page navigation
 
 ## Screenshots
 
