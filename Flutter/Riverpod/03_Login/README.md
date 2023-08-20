@@ -1,10 +1,11 @@
-# Splashscreen
+# Login
 
 ## Abstracts
 
 * Add login feature to [02_SplashScreen](../02_SplashScreen)
 * Usage of page navigation
 * Adjust input fields according to device size
+* username and password are **admin/p@ssword**
 
 ## Dependencies
 
