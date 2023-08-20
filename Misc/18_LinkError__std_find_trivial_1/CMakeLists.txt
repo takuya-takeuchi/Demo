@@ -24,14 +24,8 @@ target_include_directories(${PROJ_NAME}
 # OpenCV_LIBRARIES is not supported for staticlib so defines each library manually
 target_link_libraries(${PROJ_NAME}
                       PRIVATE
-                      ade.lib
-                      ippicvmt.lib
-                      ippiw.lib
-                      ittnotify.lib
-                      libprotobuf.lib
-                      libwebp.lib
-                      opencv_world470.lib
-                      quirc.lib
-                      zlib.lib)
+                      ${OPENCV_LIB_DIRS}/ade.lib
+                      ${OPENCV_LIB_DIRS}/opencv_world470.lib
+                      ${OPENCV_LIB_DIRS}/zlib.lib)
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

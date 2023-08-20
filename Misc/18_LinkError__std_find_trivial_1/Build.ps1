@@ -24,7 +24,6 @@ $target = "opencv"
 $shared = "static"
 $sharedFlag = "OFF"
 
-$sourceDir = Join-Path $current $target
 $buildOpenCVDir = Join-Path $current build | `
                   Join-Path -ChildPath $os | `
                   Join-Path -ChildPath $target | `
@@ -32,49 +31,51 @@ $buildOpenCVDir = Join-Path $current build | `
 $installOpenCVDir = Join-Path $current install | `
                     Join-Path -ChildPath $os | `
                     Join-Path -ChildPath $target | `
-                    Join-Path -ChildPath $shared | `
-                    Join-Path -ChildPath x64 | `
-                    Join-Path -ChildPath vc17 | `
-                    Join-Path -ChildPath staticlib
-$installOpenCVDir = Join-Path $current install | `
-                    Join-Path -ChildPath $os | `
-                    Join-Path -ChildPath $target | `
-                    Join-Path -ChildPath $shared | `
-                    Join-Path -ChildPath x64 | `
-                    Join-Path -ChildPath vc17 | `
-                    Join-Path -ChildPath staticlib
-$targetOpenCVCMake = Join-Path $installOpenCVDir "OpenCVConfig.cmake"
+                    Join-Path -ChildPath $shared
+$targetOpenCVCMakeDir = Join-Path $installOpenCVDir x64 | `
+                        Join-Path -ChildPath vc17 | `
+                        Join-Path -ChildPath staticlib
+$targetOpenCVCMake = Join-Path $targetOpenCVCMakeDir "OpenCVConfig.cmake"
 
 if (!(Test-Path("${targetOpenCVCMake}")))
 {
     # build opencv
+    Write-Host "Build OpenCV" -ForegroundColor Blue
+
+    $sourceDir = Join-Path $current $target
+
     git submodule update --init --recursive .
 
     New-Item -Type Directory $buildOpenCVDir -Force | Out-Null
     New-Item -Type Directory $installOpenCVDir -Force | Out-Null
 
-    Push-Location $buildDir
+    Push-Location $buildOpenCVDir
     cmake -G "Visual Studio 17 2022" -A x64 -T host=x64 `
-          -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D BUILD_WITH_STATIC_CRT=ON `
+          -D CMAKE_INSTALL_PREFIX="${installOpenCVDir}" `
           -D CMAKE_BUILD_TYPE=$configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
-          -D CMAKE_INSTALL_PREFIX="${installDir}" `
           -D BUILD_opencv_world=ON `
           -D BUILD_opencv_java=OFF `
           -D BUILD_opencv_python=OFF `
           -D BUILD_opencv_python2=OFF `
           -D BUILD_opencv_python3=OFF `
+          -D BUILD_opencv_gapi=ON `
           -D BUILD_PERF_TESTS=OFF `
           -D BUILD_TESTS=OFF `
           -D BUILD_DOCS=OFF `
+          -D BUILD_WITH_STATIC_CRT=ON `
           -D WITH_CUDA=OFF `
-          -D WITH_JPEG=OFF `
-          -D WITH_PNG=OFF `
-          -D WITH_TIFF=OFF `
-          -D WITH_OPENJPEG=OFF `
+          -D WITH_IPP=OFF `
+          -D WITH_ITT=OFF `
           -D WITH_JASPER=OFF `
+          -D WITH_JPEG=OFF `
           -D WITH_OPENEXR=OFF `
+          -D WITH_OPENJPEG=OFF `
+          -D WITH_PNG=OFF `
+          -D WITH_PROTOBUF=OFF `
+          -D WITH_QUIRC=OFF `
+          -D WITH_TIFF=OFF `
+          -D WITH_WEBP=OFF `
           $sourceDir
     cmake --build . --config ${configuration} --target install
     Pop-Location
@@ -107,11 +108,11 @@ foreach ($key in $visualStudioVersions.Keys)
     New-Item -Type Directory $buildDir -Force | Out-Null
     New-Item -Type Directory $installDir -Force | Out-Null
 
-    Write-Host "Move to ${buildDir}" -ForegroundColor Blue
     Push-Location $buildDir
     cmake -G "${key}" -A x64 -T host=x64 `
           -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${installOpenCVDir}" `
+          -D CMAKE_PREFIX_PATH="${targetOpenCVCMakeDir}" `
+          -D OPENCV_LIB_DIRS="${targetOpenCVCMakeDir}" `
           $sourceDir
     cmake --build . --config ${configuration} --target install
     Pop-Location

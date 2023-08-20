@@ -2,5 +2,5 @@
 
 int main(int argc, const char** argv)
 {
-
+    std::cout << cv::getBuildInformation() << std::endl;
 }
