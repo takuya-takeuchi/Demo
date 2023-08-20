@@ -19,7 +19,6 @@
 $ pwsh Build.ps1
 
 opencv_world470.lib(ocl.obj) : error LNK2019: 未解決の外部シンボル __std_min_element_4 が関数 "int * __cdecl __std_min_element<int>(int *,int *)" (??$__std_min_element@H@@YAPEAHPEAH0@Z) で参照されました [D:\Demo\build\win\program\vs2019\Demo.vcxproj]
-D:\Demo\build\win\program\vs2019\Release\Demo.exe : fatal error LNK1120: 1 件の未解決の外部参照 [D:\Demo\build\win\program\vs2019\Demo.vcxproj]
 ````
 
 ### English message
@@ -28,7 +27,6 @@ D:\Demo\build\win\program\vs2019\Release\Demo.exe : fatal error LNK1120: 1 件�
 $ pwsh Build.ps1
 
 opencv_world470.lib(ocl.obj) : error LNK2019: unresolved external symbol __std_min_element_4 referenced in function "int * __cdecl __std_min_element<int>(int *,int *)" (??$__std_min_element@H@@YAPEAHPEAH0@Z) [D:\Demo\build\win\program\vs2019\Demo.vcxproj]
-D:\Demo\build\win\program\vs2019\Release\Demo.exe : fatal error LNK1120: 1 件の未解決の外部参照 [D:\Demo\build\win\program\vs2019\Demo.vcxproj]
 ````
 
 The root cause of this issue is linking prebuild static libraries built by Visual Studio 2022 to program built by Visual Studio 2019.
