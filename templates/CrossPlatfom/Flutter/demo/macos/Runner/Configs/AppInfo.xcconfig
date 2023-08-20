@@ -8,7 +8,7 @@
 PRODUCT_NAME = demo
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = com.example.demo
+PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2023 com.example. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2023 jp.taktak. All rights reserved.

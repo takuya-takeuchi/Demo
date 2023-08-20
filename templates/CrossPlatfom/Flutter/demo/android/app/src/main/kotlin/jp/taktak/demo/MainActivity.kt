@@ -1,4 +1,4 @@
-package com.example.demo
+package jp.taktak.demo
 
 import io.flutter.embedding.android.FlutterActivity
 
