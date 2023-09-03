@@ -50,6 +50,7 @@ template<class T> class ErrorOr {
  private:
   friend class ExampleHostApi;
   friend class MessageFlutterApi;
+  friend class NativeApi;
   ErrorOr() = default;
   T TakeValue() && { return std::get<T>(std::move(v_)); }
 
@@ -99,6 +100,8 @@ class MessageData {
   friend class ExampleHostApiCodecSerializer;
   friend class MessageFlutterApi;
   friend class MessageFlutterApiCodecSerializer;
+  friend class NativeApi;
+  friend class NativeApiCodecSerializer;
   std::optional<std::string> name_;
   std::optional<std::string> description_;
   Code code_;
@@ -166,5 +169,27 @@ class MessageFlutterApi {
   flutter::BinaryMessenger* binary_messenger_;
 };
 
+// Generated interface from Pigeon that represents a handler of messages from Flutter.
+class NativeApi {
+ public:
+  NativeApi(const NativeApi&) = delete;
+  NativeApi& operator=(const NativeApi&) = delete;
+  virtual ~NativeApi() {}
+  virtual ErrorOr<std::string> GetPlatformVersion() = 0;
+  virtual void GetPlatformVersionAsync(std::function<void(ErrorOr<std::string> reply)> result) = 0;
+
+  // The codec used by NativeApi.
+  static const flutter::StandardMessageCodec& GetCodec();
+  // Sets up an instance of `NativeApi` to handle messages through the `binary_messenger`.
+  static void SetUp(
+    flutter::BinaryMessenger* binary_messenger,
+    NativeApi* api);
+  static flutter::EncodableValue WrapError(std::string_view error_message);
+  static flutter::EncodableValue WrapError(const FlutterError& error);
+
+ protected:
+  NativeApi() = default;
+
+};
 }  // namespace pigeon_example
 #endif  // PIGEON_MESSAGES_G_H_

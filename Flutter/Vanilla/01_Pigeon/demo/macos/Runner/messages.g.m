@@ -213,3 +213,45 @@ NSObject<FlutterMessageCodec> *PGNMessageFlutterApiGetCodec(void) {
 }
 @end
 
+NSObject<FlutterMessageCodec> *PGNNativeApiGetCodec(void) {
+  static FlutterStandardMessageCodec *sSharedObject = nil;
+  sSharedObject = [FlutterStandardMessageCodec sharedInstance];
+  return sSharedObject;
+}
+
+void PGNNativeApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<PGNNativeApi> *api) {
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersion"
+        binaryMessenger:binaryMessenger
+        codec:PGNNativeApiGetCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(getPlatformVersionWithError:)], @"PGNNativeApi api (%@) doesn't respond to @selector(getPlatformVersionWithError:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        FlutterError *error;
+        NSString *output = [api getPlatformVersionWithError:&error];
+        callback(wrapResult(output, error));
+      }];
+    } else {
+      [channel setMessageHandler:nil];
+    }
+  }
+  {
+    FlutterBasicMessageChannel *channel =
+      [[FlutterBasicMessageChannel alloc]
+        initWithName:@"dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersionAsync"
+        binaryMessenger:binaryMessenger
+        codec:PGNNativeApiGetCodec()];
+    if (api) {
+      NSCAssert([api respondsToSelector:@selector(getPlatformVersionAsyncWithCompletion:)], @"PGNNativeApi api (%@) doesn't respond to @selector(getPlatformVersionAsyncWithCompletion:)", api);
+      [channel setMessageHandler:^(id _Nullable message, FlutterReply callback) {
+        [api getPlatformVersionAsyncWithCompletion:^(NSString *_Nullable output, FlutterError *_Nullable error) {
+          callback(wrapResult(output, error));
+        }];
+      }];
+    } else {
+      [channel setMessageHandler:nil];
+    }
+  }
+}

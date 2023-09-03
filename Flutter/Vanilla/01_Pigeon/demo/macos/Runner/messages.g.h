@@ -57,4 +57,15 @@ NSObject<FlutterMessageCodec> *PGNMessageFlutterApiGetCodec(void);
 - (void)flutterMethodAString:(nullable NSString *)aString completion:(void (^)(NSString *_Nullable, FlutterError *_Nullable))completion;
 @end
 
+/// The codec used by PGNNativeApi.
+NSObject<FlutterMessageCodec> *PGNNativeApiGetCodec(void);
+
+@protocol PGNNativeApi
+/// @return `nil` only when `error != nil`.
+- (nullable NSString *)getPlatformVersionWithError:(FlutterError *_Nullable *_Nonnull)error;
+- (void)getPlatformVersionAsyncWithCompletion:(void (^)(NSString *_Nullable, FlutterError *_Nullable))completion;
+@end
+
+extern void PGNNativeApiSetup(id<FlutterBinaryMessenger> binaryMessenger, NSObject<PGNNativeApi> *_Nullable api);
+
 NS_ASSUME_NONNULL_END

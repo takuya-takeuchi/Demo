@@ -28,7 +28,7 @@ class FlutterWindow : public Win32Window {
   flutter::DartProject project_;
 
   // A pigeon host API implementation.
-  std::unique_ptr<pigeon_example::ExampleHostApi> pigeonHostApi_;
+  std::unique_ptr<pigeon_example::NativeApi> pigeonNativeApi_;
 
   // The Flutter instance hosted by this window.
   std::unique_ptr<flutter::FlutterViewController> flutter_controller_;

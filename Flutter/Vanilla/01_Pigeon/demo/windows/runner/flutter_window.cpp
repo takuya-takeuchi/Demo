@@ -1,10 +1,13 @@
 #include "flutter_window.h"
 
 #include <optional>
+#include <sstream>
 
 #include "flutter/generated_plugin_registrant.h"
 
 #include "messages.g.h"
+
+#include <VersionHelpers.h>
 
 namespace {
 using pigeon_example::Code;
@@ -12,27 +15,43 @@ using pigeon_example::ErrorOr;
 using pigeon_example::ExampleHostApi;
 using pigeon_example::FlutterError;
 using pigeon_example::MessageData;
+using pigeon_example::NativeApi;
 
 // #docregion cpp-class
-class PigeonApiImplementation : public ExampleHostApi {
+class PigeonApiImplementation : public NativeApi {
  public:
   PigeonApiImplementation() {}
   virtual ~PigeonApiImplementation() {}
 
-  ErrorOr<std::string> GetHostLanguage() override { return "C++"; }
-  ErrorOr<int64_t> Add(int64_t a, int64_t b) {
-    if (a < 0 || b < 0) {
-      return FlutterError("code", "message", "details");
+  // ErrorOr<std::string> GetHostLanguage() override { return "C++"; }
+  // ErrorOr<int64_t> Add(int64_t a, int64_t b) {
+  //   if (a < 0 || b < 0) {
+  //     return FlutterError("code", "message", "details");
+  //   }
+  //   return a + b;
+  // }
+  // void SendMessage(const MessageData& message,
+  //                  std::function<void(ErrorOr<bool> reply)> result) {
+  //   if (message.code() == Code::one) {
+  //     result(FlutterError("code", "message", "details"));
+  //     return;
+  //   }
+  //   result(true);
+  // }
+  ErrorOr<std::string> GetPlatformVersion() override {
+    std::ostringstream version_stream;
+    version_stream << "Windows ";
+    if (IsWindows10OrGreater()) {
+      version_stream << "10+";
+    } else if (IsWindows8OrGreater()) {
+      version_stream << "8";
+    } else if (IsWindows7OrGreater()) {
+      version_stream << "7";
     }
-    return a + b;
+    return version_stream.str();
   }
-  void SendMessage(const MessageData& message,
-                   std::function<void(ErrorOr<bool> reply)> result) {
-    if (message.code() == Code::one) {
-      result(FlutterError("code", "message", "details"));
-      return;
-    }
-    result(true);
+  void GetPlatformVersionAsync(std::function<void(ErrorOr<std::string> reply)> result) override {
+    result(GetPlatformVersion());
   }
 };
 // #enddocregion cpp-class
@@ -61,9 +80,9 @@ bool FlutterWindow::OnCreate() {
   RegisterPlugins(flutter_controller_->engine());
   SetChildContent(flutter_controller_->view()->GetNativeWindow());
 
-  pigeonHostApi_ = std::make_unique<PigeonApiImplementation>();
-  ExampleHostApi::SetUp(flutter_controller_->engine()->messenger(),
-                        pigeonHostApi_.get());
+  pigeonNativeApi_ = std::make_unique<PigeonApiImplementation>();
+  NativeApi::SetUp(flutter_controller_->engine()->messenger(),
+                   pigeonNativeApi_.get());
 
   flutter_controller_->engine()->SetNextFrameCallback([&]() {
     this->Show();

@@ -55,3 +55,11 @@ abstract class ExampleHostApi {
 abstract class MessageFlutterApi {
   String flutterMethod(String? aString);
 }
+
+@HostApi()
+abstract class NativeApi {
+  String getPlatformVersion();
+
+  @async
+  String getPlatformVersionAsync();
+}

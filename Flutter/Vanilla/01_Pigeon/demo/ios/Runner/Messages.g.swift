@@ -184,3 +184,44 @@ class MessageFlutterApi {
     }
   }
 }
+/// Generated protocol from Pigeon that represents a handler of messages from Flutter.
+protocol NativeApi {
+  func getPlatformVersion() throws -> String
+  func getPlatformVersionAsync(completion: @escaping (Result<String, Error>) -> Void)
+}
+
+/// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
+class NativeApiSetup {
+  /// The codec used by NativeApi.
+  /// Sets up an instance of `NativeApi` to handle messages through the `binaryMessenger`.
+  static func setUp(binaryMessenger: FlutterBinaryMessenger, api: NativeApi?) {
+    let getPlatformVersionChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersion", binaryMessenger: binaryMessenger)
+    if let api = api {
+      getPlatformVersionChannel.setMessageHandler { _, reply in
+        do {
+          let result = try api.getPlatformVersion()
+          reply(wrapResult(result))
+        } catch {
+          reply(wrapError(error))
+        }
+      }
+    } else {
+      getPlatformVersionChannel.setMessageHandler(nil)
+    }
+    let getPlatformVersionAsyncChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersionAsync", binaryMessenger: binaryMessenger)
+    if let api = api {
+      getPlatformVersionAsyncChannel.setMessageHandler { _, reply in
+        api.getPlatformVersionAsync() { result in
+          switch result {
+            case .success(let res):
+              reply(wrapResult(res))
+            case .failure(let error):
+              reply(wrapError(error))
+          }
+        }
+      }
+    } else {
+      getPlatformVersionAsyncChannel.setMessageHandler(nil)
+    }
+  }
+}
