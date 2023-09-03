@@ -14,8 +14,8 @@ import 'package:pigeon/pigeon.dart';
   javaOptions: JavaOptions(),
   swiftOut: 'ios/Runner/Messages.g.swift',
   swiftOptions: SwiftOptions(),
-  objcHeaderOut: 'macos/Runner/messages.g.h',
-  objcSourceOut: 'macos/Runner/messages.g.m',
+  //objcHeaderOut: 'macos/Runner/messages.g.h',
+  //objcSourceOut: 'macos/Runner/messages.g.m',
   // Set this to a unique prefix for your plugin or application, per Objective-C naming conventions.
   objcOptions: ObjcOptions(prefix: 'PGN'),
   // copyrightHeader: 'pigeons/copyright.txt',
