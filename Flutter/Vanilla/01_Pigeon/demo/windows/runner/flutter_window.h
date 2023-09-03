@@ -6,6 +6,7 @@
 
 #include <memory>
 
+#include "messages.g.h"
 #include "win32_window.h"
 
 // A window that does nothing but host a Flutter view.
@@ -25,6 +26,9 @@ class FlutterWindow : public Win32Window {
  private:
   // The project to run.
   flutter::DartProject project_;
+
+  // A pigeon host API implementation.
+  std::unique_ptr<pigeon_example::ExampleHostApi> pigeonHostApi_;
 
   // The Flutter instance hosted by this window.
   std::unique_ptr<flutter::FlutterViewController> flutter_controller_;

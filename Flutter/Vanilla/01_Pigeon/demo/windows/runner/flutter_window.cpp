@@ -4,6 +4,40 @@
 
 #include "flutter/generated_plugin_registrant.h"
 
+#include "messages.g.h"
+
+namespace {
+using pigeon_example::Code;
+using pigeon_example::ErrorOr;
+using pigeon_example::ExampleHostApi;
+using pigeon_example::FlutterError;
+using pigeon_example::MessageData;
+
+// #docregion cpp-class
+class PigeonApiImplementation : public ExampleHostApi {
+ public:
+  PigeonApiImplementation() {}
+  virtual ~PigeonApiImplementation() {}
+
+  ErrorOr<std::string> GetHostLanguage() override { return "C++"; }
+  ErrorOr<int64_t> Add(int64_t a, int64_t b) {
+    if (a < 0 || b < 0) {
+      return FlutterError("code", "message", "details");
+    }
+    return a + b;
+  }
+  void SendMessage(const MessageData& message,
+                   std::function<void(ErrorOr<bool> reply)> result) {
+    if (message.code() == Code::one) {
+      result(FlutterError("code", "message", "details"));
+      return;
+    }
+    result(true);
+  }
+};
+// #enddocregion cpp-class
+}  // namespace
+
 FlutterWindow::FlutterWindow(const flutter::DartProject& project)
     : project_(project) {}
 
@@ -26,6 +60,10 @@ bool FlutterWindow::OnCreate() {
   }
   RegisterPlugins(flutter_controller_->engine());
   SetChildContent(flutter_controller_->view()->GetNativeWindow());
+
+  pigeonHostApi_ = std::make_unique<PigeonApiImplementation>();
+  ExampleHostApi::SetUp(flutter_controller_->engine()->messenger(),
+                        pigeonHostApi_.get());
 
   flutter_controller_->engine()->SetNextFrameCallback([&]() {
     this->Show();
