@@ -2,11 +2,6 @@
 
 ## Requirements
 
-* Flutter
-  * 3.0.6 or later
-* Riverpod
-  * 2.1.1 or later
-
 And all samples adopts folder By Feature.
 See about this style [Scalable Folder Structure for Flutter Applications](https://medium.com/flutter-community/scalable-folder-structure-for-flutter-applications-183746bdc320)
 
