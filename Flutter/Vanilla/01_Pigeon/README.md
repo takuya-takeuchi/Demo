@@ -1,10 +1,15 @@
-# Counter
+# Pigeon example
 
 ## Abstracts
 
-* Modify Flutter template couter application by using `Riverpod`
+* Rewrite all code of flutter plugin example by using `pigeon`
 
 ## Screenshots
 
-<img src="./images/ios.png" width="600" />
+|windows|
+|---|
+|<img src="./images/windows.png" width="640" />|
 
+|ios|android|
+|---|---|
+|<img src="./images/ios.png" width="320" />|<img src="./images/android.png" width="320" />|

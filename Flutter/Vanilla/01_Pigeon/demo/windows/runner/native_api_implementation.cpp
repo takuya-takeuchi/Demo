@@ -4,15 +4,15 @@
 
 #include <VersionHelpers.h>
 
-PigeonApiImplementation::PigeonApiImplementation()
+NativeApiImplementation::NativeApiImplementation()
 {    
 }
 
-PigeonApiImplementation::~PigeonApiImplementation()
+NativeApiImplementation::~NativeApiImplementation()
 {    
 }
 
-ErrorOr<std::string> PigeonApiImplementation::GetPlatformVersion()
+ErrorOr<std::string> NativeApiImplementation::GetPlatformVersion()
 {
     std::ostringstream version_stream;
     version_stream << "Windows ";
@@ -26,7 +26,7 @@ ErrorOr<std::string> PigeonApiImplementation::GetPlatformVersion()
     return version_stream.str();
 }
 
-void PigeonApiImplementation::GetPlatformVersionAsync(std::function<void(ErrorOr<std::string> reply)> result)
+void NativeApiImplementation::GetPlatformVersionAsync(std::function<void(ErrorOr<std::string> reply)> result)
 {
     result(this->GetPlatformVersion());
 }

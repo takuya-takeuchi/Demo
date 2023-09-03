@@ -8,10 +8,10 @@ using pigeon_example::FlutterError;
 using pigeon_example::NativeApi;
 
 // #docregion cpp-class
-class PigeonApiImplementation : public NativeApi {
+class NativeApiImplementation : public NativeApi {
  public:
-  PigeonApiImplementation();
-  virtual ~PigeonApiImplementation();
+  NativeApiImplementation();
+  virtual ~NativeApiImplementation();
 
   ErrorOr<std::string> GetPlatformVersion() override ;
   void GetPlatformVersionAsync(std::function<void(ErrorOr<std::string> reply)> result) override ;
