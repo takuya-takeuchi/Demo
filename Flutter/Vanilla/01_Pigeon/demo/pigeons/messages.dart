@@ -25,37 +25,6 @@ import 'package:pigeon/pigeon.dart';
 
 // This file and ./messages_test.dart must be identical below this line.
 
-// #docregion host-definitions
-enum Code { one, two }
-
-class MessageData {
-  MessageData({required this.code, required this.data});
-  String? name;
-  String? description;
-  Code code;
-  Map<String?, String?> data;
-}
-
-@HostApi()
-abstract class ExampleHostApi {
-  String getHostLanguage();
-
-  // These annotations create more idiomatic naming of methods in Objc and Swift.
-  @ObjCSelector('addNumber:toNumber:')
-  @SwiftFunction('add(_:to:)')
-  int add(int a, int b);
-
-  @async
-  bool sendMessage(MessageData message);
-}
-// #enddocregion host-definitions
-
-// #docregion flutter-definitions
-@FlutterApi()
-abstract class MessageFlutterApi {
-  String flutterMethod(String? aString);
-}
-
 @HostApi()
 abstract class NativeApi {
   String getPlatformVersion();
