@@ -6,5 +6,5 @@
 
 ## Screenshots
 
-<img src="./images/windows.gif" width="600" />
+<img src="./images/ios.png" width="600" />
 
