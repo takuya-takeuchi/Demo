@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 
 import 'package:hooks_riverpod/hooks_riverpod.dart';
@@ -10,21 +11,32 @@ class SplashScreen extends ConsumerStatefulWidget {
 }
 
 class SplashScreenPage extends ConsumerState<SplashScreen> {
+  Timer? timer;
+
   @override
-  initState() {
+  void initState() {
     super.initState();
-    splashDelay();
   }
 
-  void splashDelay() async {
-    await Future.delayed(
-      const Duration(seconds: 4),
-    ).then((value) => 
-      Navigator.pushNamed(
-        context,
-        '/count',
-      )
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    timer = Timer(
+      const Duration(seconds: 3),
+      () {
+        Navigator.pushNamed(
+          context,
+          '/login',
+        );
+      },
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    timer?.cancel();
   }
 
   @override
@@ -33,7 +45,7 @@ class SplashScreenPage extends ConsumerState<SplashScreen> {
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/Flutter-logo-animation-v1-2_short.gif'),
+            image: AssetImage('assets/images/splashscreen.jpg'),
             fit: BoxFit.cover,
           ),
         ),
