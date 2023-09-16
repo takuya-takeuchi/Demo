@@ -34,21 +34,39 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   @override
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Mobile Scanner')),
       body: MobileScanner(
-        // fit: BoxFit.contain,
+        fit: BoxFit.contain,
         controller: MobileScannerController(
-          detectionSpeed: DetectionSpeed.normal,
-          facing: CameraFacing.front,
-          torchEnabled: true,
+          facing: CameraFacing.back,
+          // torchEnabled: false,
+          returnImage: true,
         ),
         onDetect: (capture) {
           final List<Barcode> barcodes = capture.barcodes;
           final Uint8List? image = capture.image;
+          List<String> barcodeLists = [];
           for (final barcode in barcodes) {
             debugPrint('Barcode found! ${barcode.rawValue}');
+            barcodeLists.add(barcode.rawValue!);
+          }
+          if (image != null) {
+            showDialog(
+              context: context,
+              builder: (context) =>
+                  Column(
+                    children: [
+                      Text(barcodeLists.join(","), style: const TextStyle(fontSize: 16, color: Colors.black)),
+                      Image(image: MemoryImage(image)),
+                    ],
+                  ),
+            );
+            Future.delayed(const Duration(seconds: 5), () {
+              Navigator.pop(context);
+            });
           }
         },
       ),
