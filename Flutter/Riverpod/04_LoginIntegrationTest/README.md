@@ -51,8 +51,15 @@ $ flutter test --coverage
 $ genhtml coverage/lcov.info -o coverage/html
 ````
 
-## 
+## Integration Test
 
 ````bat
 $ flutter test integration_test
+````
+
+or you can speicify `--profile` option for non-web application
+
+````sh
+$ flutter drive --profile --driver=test_driver/integration_test.dart \
+                          --target=integration_test/main_test.dart
 ````
