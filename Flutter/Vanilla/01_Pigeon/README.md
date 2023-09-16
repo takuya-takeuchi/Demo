@@ -4,6 +4,11 @@
 
 * Rewrite all code of flutter plugin example by using `pigeon`
 
+## Dependencies
+
+* [pigeon](https://pub.dev/packages/pigeon)
+  * BSD-3-Clause license
+
 ## Screenshots
 
 |windows|

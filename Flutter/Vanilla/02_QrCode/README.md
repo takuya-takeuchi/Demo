@@ -16,6 +16,11 @@
 
 * [Build failed when updating to latest version](https://github.com/juliansteenbakker/mobile_scanner/issues/729)
 
+## Dependencies
+
+* [mobile_scanner](https://pub.dev/packages/mobile_scanner)
+  * BSD-3-Clause license
+
 ## Screenshots
 
 |ios|android|
