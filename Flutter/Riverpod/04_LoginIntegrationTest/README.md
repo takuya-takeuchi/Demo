@@ -50,3 +50,9 @@ After this,
 $ flutter test --coverage
 $ genhtml coverage/lcov.info -o coverage/html
 ````
+
+## 
+
+````bat
+$ flutter test integration_test
+````

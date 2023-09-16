@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:introduction/main.dart';
+
+import 'package:demo/count/index.dart';
  
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -9,7 +13,7 @@ void main() {
     testWidgets('tap on the floating action button, verify counter',
         (tester) async {
       // Load app widget.
-      await tester.pumpWidget(const MyApp());
+      await tester.pumpWidget(const CountScreen(title: 'test'));
  
       // Verify the counter starts at 0.
       expect(find.text('0'), findsOneWidget);
