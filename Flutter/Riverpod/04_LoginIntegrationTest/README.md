@@ -18,3 +18,35 @@
 |Windows|Android|iOS|
 |---|---|---|
 |<img src="./images/windows.gif" height="200" />|<img src="./images/android.gif" height="500" />|<img src="./images/ios.gif" height="500" />|
+
+## WidgetTest with coverage
+
+#### Windows 
+
+In administrator console,
+
+````bat
+$ choco install lcov
+$ choco install strawberryperl
+````
+
+After this,
+
+````bat
+$ flutter test --coverage
+$ mkdir coverage\html
+$ "C:\Strawberry\perl\bin\perl.exe" "C:\ProgramData\chocolatey\lib\lcov\tools\bin\genhtml" coverage\lcov.info -o coverage\html
+````
+
+#### osx
+
+````sh
+$ brew install lcov
+````
+
+After this,
+
+````bat
+$ flutter test --coverage
+$ genhtml coverage/lcov.info -o coverage/html
+````

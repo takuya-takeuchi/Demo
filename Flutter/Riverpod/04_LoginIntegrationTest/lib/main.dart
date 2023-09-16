@@ -37,7 +37,6 @@ class MyApp extends StatelessWidget {
       ),
       home: initScreen,
       routes: <String, WidgetBuilder>{
-        '/splashscreen': (BuildContext context) => const SplashScreen(),
         '/login': (BuildContext context) => LoginScreen(),
         '/count': (BuildContext context) => const CountScreen(title: 'Flutter Demo Page'),
       },

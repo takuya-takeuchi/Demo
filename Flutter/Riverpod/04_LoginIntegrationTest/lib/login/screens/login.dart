@@ -44,6 +44,7 @@ class LoginScreen extends ConsumerWidget {
                       ref.read(usernameProvider.notifier).setValue(value);
                     },
                     style: const TextStyle(fontSize: 20),
+                    key: const Key('textform_username'),
                   ),
                 ),
               ),
@@ -62,6 +63,7 @@ class LoginScreen extends ConsumerWidget {
                       ref.read(passwordProvider.notifier).setValue(value);
                     },
                     style: const TextStyle(fontSize: 20),
+                    key: const Key('textform_password'),
                   ),
                 ),
               ),
@@ -69,6 +71,7 @@ class LoginScreen extends ConsumerWidget {
                 width: textFieldWidth,
                 height: 50,
                 child: ElevatedButton(
+                  key: const Key('button_login'),
                   style: ElevatedButton.styleFrom(
                     textStyle: const TextStyle(fontSize: 20.0),
                   ),
@@ -87,9 +90,10 @@ class LoginScreen extends ConsumerWidget {
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
                         title: const Text('error'),
-                        content: const Text('failed to login'),
+                        content: const Text('failed to login', key: Key('dialog_message_login_failed')),
                         actions: <Widget>[
                           TextButton(
+                            key: const Key('button_retry'),
                             onPressed: () =>
                                 Navigator.pop(context, 'retry'),
                             child: const Text('retry'),
