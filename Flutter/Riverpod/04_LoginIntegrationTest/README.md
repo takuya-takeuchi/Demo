@@ -51,6 +51,8 @@ $ flutter test --coverage
 $ genhtml coverage/lcov.info -o coverage/html
 ````
 
+<img src="./images/coverage.png" />
+
 ## Integration Test
 
 ````bat
