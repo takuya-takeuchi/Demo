@@ -11,12 +11,15 @@ using pigeon_example::NativeApi;
 // #docregion cpp-class
 class NativeApiImplementation : public NativeApi {
   public:
-    NativeApiImplementation();
+    NativeApiImplementation(flutter::BinaryMessenger* binary_messenger);
     virtual ~NativeApiImplementation();
 
+    pigeon_example::FlutterApi* const GetFlutterApi();
     void StartAsync(std::function<void(std::optional<FlutterError> reply)> result) override ;
+    void SetThreadIsRunning(const bool value);
+
   private:
-    FlutterApi* _flutterApi;
+    pigeon_example::FlutterApi* _flutterApi;
     std::thread* _thread;
     bool _threadIsRunning;
 };

@@ -31,7 +31,7 @@ bool FlutterWindow::OnCreate() {
   RegisterPlugins(flutter_controller_->engine());
   SetChildContent(flutter_controller_->view()->GetNativeWindow());
 
-  pigeonNativeApi_ = std::make_unique<NativeApiImplementation>();
+  pigeonNativeApi_ = std::make_unique<NativeApiImplementation>(flutter_controller_->engine()->messenger());
   NativeApi::SetUp(flutter_controller_->engine()->messenger(),
                    pigeonNativeApi_.get());
 

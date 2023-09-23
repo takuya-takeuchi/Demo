@@ -36,8 +36,8 @@ abstract class NativeApi {
   void startAsync();
 }
 
-@FlutterApi()
-abstract class FlutterApi {
-  @async
-  void sendProgressAsync(ProgressRequest request);
-}
+// @FlutterApi()
+// abstract class FlutterApi {
+//   @async
+//   void sendProgressAsync(ProgressRequest request);
+// }

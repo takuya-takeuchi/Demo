@@ -1,11 +1,24 @@
-import 'package:flutter/material.dart';
 import 'dart:async';
 
-import 'package:flutter/services.dart';
+import 'package:flutter/material.dart';
 
 import 'src/messages.g.dart';
 
+// #docregion main-dart-flutter
+class _ExampleFlutterApi implements FlutterApi {
+  final _MyAppState _appState;
+  const _ExampleFlutterApi(this._appState);
+  @override
+  Future<void> sendProgressAsync(ProgressRequest request) {
+    // print('${request.progress} %');
+    _appState.update(request.progress!.toDouble() / 100);
+    return Future.value();
+  }
+}
+// #enddocregion main-dart-flutter
+
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(const MyApp());
 }
 
@@ -17,10 +30,13 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  var _value = 0.0;
   final NativeApi _api = NativeApi();
 
   @override
   void initState() {
+    FlutterApi.setup(_ExampleFlutterApi(this));
+
     super.initState();
   }
 
@@ -32,14 +48,29 @@ class _MyAppState extends State<MyApp> {
           title: const Text('Plugin example app by pigeon'),
         ),
         body: Center(
-          child: TextButton(
-            child: const Text('Start'),
-            onPressed: () {
-              _api.startAsync();
-            },
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              TextButton(
+                child: const Text('Start'),
+                onPressed: () async {
+                  await _api.startAsync();
+                },
+              ),
+              CircularProgressIndicator(
+                value: _value,
+                backgroundColor: Colors.grey,
+              )
+            ]
           ),
         ),
       ),
     );
+  }
+
+  void update(double value) {
+    setState(() {
+      _value = value;
+    });
   }
 }

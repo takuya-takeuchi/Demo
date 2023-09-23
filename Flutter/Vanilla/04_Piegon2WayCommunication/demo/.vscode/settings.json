@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "*.proc": "cpp",
+        "optional": "cpp"
+    }
+}
