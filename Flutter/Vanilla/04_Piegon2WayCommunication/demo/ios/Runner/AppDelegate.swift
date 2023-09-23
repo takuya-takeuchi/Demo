@@ -10,7 +10,7 @@ import Flutter
     GeneratedPluginRegistrant.register(with: self)
 
     let controller = window?.rootViewController as! FlutterViewController
-    let api = NativeApiImplementation()
+    let api = NativeApiImplementation(binaryMessenger: controller.binaryMessenger)
     NativeApiSetup.setUp(binaryMessenger: controller.binaryMessenger, api: api)
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)

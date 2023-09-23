@@ -1,18 +1,46 @@
 import UIKit
 import Flutter
 
+import Dispatch
+
+#if os(iOS)
+import Flutter
+#elseif os(macOS)
+import FlutterMacOS
+#else
+#error("Unsupported platform.")
+#endif
+
 extension FlutterError: Error {}
 
 class NativeApiImplementation: NativeApi {
-  func startAsync(completion: @escaping (Result<Void, Error>) -> Void) {
-    completion(.success(version))
-  }
-  // func getPlatformVersion() throws -> String {
-  //   return  "iOS " + UIDevice.current.systemVersion
-  // }
+  private var _isRunning: Bool = false;
+  private let _flutterApi: FlutterApi;
 
-  // func getPlatformVersionAsync(completion: @escaping (Result<String, Error>) -> Void) {
-  //   let version = try! self.getPlatformVersion()
-  //   completion(.success(version))
-  // }
+  init(binaryMessenger: FlutterBinaryMessenger) {
+    self._flutterApi = FlutterApi(binaryMessenger: binaryMessenger)
+  }
+
+  func startAsync(completion: @escaping (Result<Void, Error>) -> Void) {
+    if _isRunning == false {
+      DispatchQueue.main.async() { 
+        self._isRunning = true
+
+        for i in 0..<100 {
+          // try await Task.sleep(millisecond: 50)
+          Thread.sleep(forTimeInterval: 0.050)
+          var request = ProgressRequest()
+          request.progress = (Int64)(i + 1)
+          request.hasError = false
+          self._flutterApi.sendProgressAsync(request: request) {
+              // print("Completion called!")
+          }
+        }
+
+        self._isRunning = false
+      }
+    }
+
+    completion(.success(()))
+  }
 }
