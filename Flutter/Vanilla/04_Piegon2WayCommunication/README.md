@@ -1,8 +1,9 @@
-# Pigeon example
+# Pigeon example using 2-Way communication
 
 ## Abstracts
 
-* Rewrite all code of flutter plugin example by using `pigeon`
+* Use `FlutterApi` to communicate from platform code to flutter code
+  * Create thread in platform side and platform code send message to flutter side to notify progress
 
 ## Dependencies
 
@@ -13,8 +14,8 @@
 
 |windows|
 |---|
-|<img src="./images/windows.png" width="640" />|
+|<img src="./images/windows.gif" width="640" />|
 
 |ios|android|
 |---|---|
-|<img src="./images/ios.png" width="320" />|<img src="./images/android.png" width="320" />|
+|<img src="./images/ios.gif" width="320" />|<img src="./images/android.gif" width="320" />|
