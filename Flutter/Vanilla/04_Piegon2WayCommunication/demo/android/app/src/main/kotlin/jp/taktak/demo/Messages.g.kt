@@ -42,10 +42,31 @@ class FlutterError (
   val details: Any? = null
 ) : Throwable()
 
+/** Generated class from Pigeon that represents data sent in messages. */
+data class ProgressRequest (
+  val progress: Long? = null,
+  val hasError: Boolean? = null
+
+) {
+  companion object {
+    @Suppress("UNCHECKED_CAST")
+    fun fromList(list: List<Any?>): ProgressRequest {
+      val progress = list[0].let { if (it is Int) it.toLong() else it as Long? }
+      val hasError = list[1] as Boolean?
+      return ProgressRequest(progress, hasError)
+    }
+  }
+  fun toList(): List<Any?> {
+    return listOf<Any?>(
+      progress,
+      hasError,
+    )
+  }
+}
+
 /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
 interface NativeApi {
-  fun getPlatformVersion(): String
-  fun getPlatformVersionAsync(callback: (Result<String>) -> Unit)
+  fun startAsync(callback: (Result<Unit>) -> Unit)
 
   companion object {
     /** The codec used by NativeApi. */
@@ -56,32 +77,15 @@ interface NativeApi {
     @Suppress("UNCHECKED_CAST")
     fun setUp(binaryMessenger: BinaryMessenger, api: NativeApi?) {
       run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersion", codec)
+        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.pigeon_example_package.NativeApi.startAsync", codec)
         if (api != null) {
           channel.setMessageHandler { _, reply ->
-            var wrapped: List<Any?>
-            try {
-              wrapped = listOf<Any?>(api.getPlatformVersion())
-            } catch (exception: Throwable) {
-              wrapped = wrapError(exception)
-            }
-            reply.reply(wrapped)
-          }
-        } else {
-          channel.setMessageHandler(null)
-        }
-      }
-      run {
-        val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersionAsync", codec)
-        if (api != null) {
-          channel.setMessageHandler { _, reply ->
-            api.getPlatformVersionAsync() { result: Result<String> ->
+            api.startAsync() { result: Result<Unit> ->
               val error = result.exceptionOrNull()
               if (error != null) {
                 reply.reply(wrapError(error))
               } else {
-                val data = result.getOrNull()
-                reply.reply(wrapResult(data))
+                reply.reply(wrapResult(null))
               }
             }
           }
@@ -89,6 +93,45 @@ interface NativeApi {
           channel.setMessageHandler(null)
         }
       }
+    }
+  }
+}
+@Suppress("UNCHECKED_CAST")
+private object FlutterApiCodec : StandardMessageCodec() {
+  override fun readValueOfType(type: Byte, buffer: ByteBuffer): Any? {
+    return when (type) {
+      128.toByte() -> {
+        return (readValue(buffer) as? List<Any?>)?.let {
+          ProgressRequest.fromList(it)
+        }
+      }
+      else -> super.readValueOfType(type, buffer)
+    }
+  }
+  override fun writeValue(stream: ByteArrayOutputStream, value: Any?)   {
+    when (value) {
+      is ProgressRequest -> {
+        stream.write(128)
+        writeValue(stream, value.toList())
+      }
+      else -> super.writeValue(stream, value)
+    }
+  }
+}
+
+/** Generated class from Pigeon that represents Flutter messages that can be called from Kotlin. */
+@Suppress("UNCHECKED_CAST")
+class FlutterApi(private val binaryMessenger: BinaryMessenger) {
+  companion object {
+    /** The codec used by FlutterApi. */
+    val codec: MessageCodec<Any?> by lazy {
+      FlutterApiCodec
+    }
+  }
+  fun sendProgressAsync(requestArg: ProgressRequest, callback: () -> Unit) {
+    val channel = BasicMessageChannel<Any?>(binaryMessenger, "dev.flutter.pigeon.pigeon_example_package.FlutterApi.sendProgressAsync", codec)
+    channel.send(listOf(requestArg)) {
+      callback()
     }
   }
 }

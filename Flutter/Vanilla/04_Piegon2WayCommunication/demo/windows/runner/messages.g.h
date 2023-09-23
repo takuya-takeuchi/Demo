@@ -49,10 +49,44 @@ template<class T> class ErrorOr {
 
  private:
   friend class NativeApi;
+  friend class FlutterApi;
   ErrorOr() = default;
   T TakeValue() && { return std::get<T>(std::move(v_)); }
 
   std::variant<T, FlutterError> v_;
+};
+
+
+// Generated class from Pigeon that represents data sent in messages.
+class ProgressRequest {
+ public:
+  // Constructs an object setting all non-nullable fields.
+  ProgressRequest();
+
+  // Constructs an object setting all fields.
+  explicit ProgressRequest(
+    const int64_t* progress,
+    const bool* has_error);
+
+  const int64_t* progress() const;
+  void set_progress(const int64_t* value_arg);
+  void set_progress(int64_t value_arg);
+
+  const bool* has_error() const;
+  void set_has_error(const bool* value_arg);
+  void set_has_error(bool value_arg);
+
+
+ private:
+  static ProgressRequest FromEncodableList(const flutter::EncodableList& list);
+  flutter::EncodableList ToEncodableList() const;
+  friend class NativeApi;
+  friend class NativeApiCodecSerializer;
+  friend class FlutterApi;
+  friend class FlutterApiCodecSerializer;
+  std::optional<int64_t> progress_;
+  std::optional<bool> has_error_;
+
 };
 
 // Generated interface from Pigeon that represents a handler of messages from Flutter.
@@ -61,8 +95,7 @@ class NativeApi {
   NativeApi(const NativeApi&) = delete;
   NativeApi& operator=(const NativeApi&) = delete;
   virtual ~NativeApi() {}
-  virtual ErrorOr<std::string> GetPlatformVersion() = 0;
-  virtual void GetPlatformVersionAsync(std::function<void(ErrorOr<std::string> reply)> result) = 0;
+  virtual void StartAsync(std::function<void(std::optional<FlutterError> reply)> result) = 0;
 
   // The codec used by NativeApi.
   static const flutter::StandardMessageCodec& GetCodec();
@@ -77,5 +110,38 @@ class NativeApi {
   NativeApi() = default;
 
 };
+class FlutterApiCodecSerializer : public flutter::StandardCodecSerializer {
+ public:
+  FlutterApiCodecSerializer();
+  inline static FlutterApiCodecSerializer& GetInstance() {
+    static FlutterApiCodecSerializer sInstance;
+    return sInstance;
+  }
+
+  void WriteValue(
+    const flutter::EncodableValue& value,
+    flutter::ByteStreamWriter* stream) const override;
+
+ protected:
+  flutter::EncodableValue ReadValueOfType(
+    uint8_t type,
+    flutter::ByteStreamReader* stream) const override;
+
+};
+
+// Generated class from Pigeon that represents Flutter messages that can be called from C++.
+class FlutterApi {
+ public:
+  FlutterApi(flutter::BinaryMessenger* binary_messenger);
+  static const flutter::StandardMessageCodec& GetCodec();
+  void SendProgressAsync(
+    const ProgressRequest& request,
+    std::function<void(void)>&& on_success,
+    std::function<void(const FlutterError&)>&& on_error);
+
+ private:
+  flutter::BinaryMessenger* binary_messenger_;
+};
+
 }  // namespace pigeon_example
 #endif  // PIGEON_MESSAGES_G_H_

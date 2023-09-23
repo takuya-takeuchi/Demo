@@ -25,10 +25,19 @@ import 'package:pigeon/pigeon.dart';
 
 // This file and ./messages_test.dart must be identical below this line.
 
+class ProgressRequest {
+  int? progress;
+  bool? hasError;
+}
+
 @HostApi()
 abstract class NativeApi {
-  String getPlatformVersion();
-
   @async
-  String getPlatformVersionAsync();
+  void startAsync();
+}
+
+@FlutterApi()
+abstract class FlutterApi {
+  @async
+  void sendProgressAsync(ProgressRequest request);
 }

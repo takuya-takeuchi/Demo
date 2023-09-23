@@ -2,31 +2,42 @@
 
 #include "flutter_window.h"
 
-#include <VersionHelpers.h>
-
-NativeApiImplementation::NativeApiImplementation()
-{    
+NativeApiImplementation::NativeApiImplementation() :
+    _thread(nullptr),
+    _threadIsRunning(false),
+    _flutterApi(new FlutterApi())
+{
 }
 
 NativeApiImplementation::~NativeApiImplementation()
-{    
+{
+    if (this->_thread != nullptr) delete this->_thread;
+    this->_threadIsRunning = false;
+    if (this->_flutterApi != nullptr) delete this->_flutterApi;
 }
 
-ErrorOr<std::string> NativeApiImplementation::GetPlatformVersion()
-{
-    std::ostringstream version_stream;
-    version_stream << "Windows ";
-    if (IsWindows10OrGreater()) {
-        version_stream << "10+";
-    } else if (IsWindows8OrGreater()) {
-        version_stream << "8";
-    } else if (IsWindows7OrGreater()) {
-        version_stream << "7";
+void ThreadFunc() {
+    this->_threadIsRunning = true;
+
+    for (auto count = 0; count < 10; count++)
+    {
+        std::this_thread::sleep_for(std::chrono::seconds(1));
+
+        const ProgressRequest request;
+        request.set_progress((count + 1) * 10);
+        request.set_has_error(false);
+        this->_flutterApi->SendProgressAsync(request, () => {}, () => {});
     }
-    return version_stream.str();
+
+    this->_threadIsRunning = false;
 }
 
-void NativeApiImplementation::GetPlatformVersionAsync(std::function<void(ErrorOr<std::string> reply)> result)
+void NativeApiImplementation::StartAsync(std::function<void(std::optional<FlutterError> reply)> result)
 {
-    result(this->GetPlatformVersion());
+    if (!this->_threadIsRunning) {
+        if (this->_thread != nullptr) delete this->_thread;
+        this->_thread = new std::thread(ThreadFunc);
+    }
+
+    result();
 }

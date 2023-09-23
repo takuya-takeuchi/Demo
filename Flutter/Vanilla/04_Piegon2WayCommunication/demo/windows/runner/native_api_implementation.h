@@ -1,5 +1,6 @@
 #include <optional>
 #include <sstream>
+#include <thread>
 
 #include "messages.g.h"
 
@@ -9,10 +10,13 @@ using pigeon_example::NativeApi;
 
 // #docregion cpp-class
 class NativeApiImplementation : public NativeApi {
- public:
-  NativeApiImplementation();
-  virtual ~NativeApiImplementation();
+  public:
+    NativeApiImplementation();
+    virtual ~NativeApiImplementation();
 
-  ErrorOr<std::string> GetPlatformVersion() override ;
-  void GetPlatformVersionAsync(std::function<void(ErrorOr<std::string> reply)> result) override ;
+    void StartAsync(std::function<void(std::optional<FlutterError> reply)> result) override ;
+  private:
+    FlutterApi* _flutterApi;
+    std::thread* _thread;
+    bool _threadIsRunning;
 };

@@ -21,6 +21,63 @@ using flutter::EncodableList;
 using flutter::EncodableMap;
 using flutter::EncodableValue;
 
+// ProgressRequest
+
+ProgressRequest::ProgressRequest() {}
+
+ProgressRequest::ProgressRequest(
+  const int64_t* progress,
+  const bool* has_error)
+ : progress_(progress ? std::optional<int64_t>(*progress) : std::nullopt),
+    has_error_(has_error ? std::optional<bool>(*has_error) : std::nullopt) {}
+
+const int64_t* ProgressRequest::progress() const {
+  return progress_ ? &(*progress_) : nullptr;
+}
+
+void ProgressRequest::set_progress(const int64_t* value_arg) {
+  progress_ = value_arg ? std::optional<int64_t>(*value_arg) : std::nullopt;
+}
+
+void ProgressRequest::set_progress(int64_t value_arg) {
+  progress_ = value_arg;
+}
+
+
+const bool* ProgressRequest::has_error() const {
+  return has_error_ ? &(*has_error_) : nullptr;
+}
+
+void ProgressRequest::set_has_error(const bool* value_arg) {
+  has_error_ = value_arg ? std::optional<bool>(*value_arg) : std::nullopt;
+}
+
+void ProgressRequest::set_has_error(bool value_arg) {
+  has_error_ = value_arg;
+}
+
+
+EncodableList ProgressRequest::ToEncodableList() const {
+  EncodableList list;
+  list.reserve(2);
+  list.push_back(progress_ ? EncodableValue(*progress_) : EncodableValue());
+  list.push_back(has_error_ ? EncodableValue(*has_error_) : EncodableValue());
+  return list;
+}
+
+ProgressRequest ProgressRequest::FromEncodableList(const EncodableList& list) {
+  ProgressRequest decoded;
+  auto& encodable_progress = list[0];
+  if (!encodable_progress.IsNull()) {
+    decoded.set_progress(encodable_progress.LongValue());
+  }
+  auto& encodable_has_error = list[1];
+  if (!encodable_has_error.IsNull()) {
+    decoded.set_has_error(std::get<bool>(encodable_has_error));
+  }
+  return decoded;
+}
+
 /// The codec used by NativeApi.
 const flutter::StandardMessageCodec& NativeApi::GetCodec() {
   return flutter::StandardMessageCodec::GetInstance(&flutter::StandardCodecSerializer::GetInstance());
@@ -31,38 +88,17 @@ void NativeApi::SetUp(
   flutter::BinaryMessenger* binary_messenger,
   NativeApi* api) {
   {
-    auto channel = std::make_unique<BasicMessageChannel<>>(binary_messenger, "dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersion", &GetCodec());
+    auto channel = std::make_unique<BasicMessageChannel<>>(binary_messenger, "dev.flutter.pigeon.pigeon_example_package.NativeApi.startAsync", &GetCodec());
     if (api != nullptr) {
       channel->SetMessageHandler([api](const EncodableValue& message, const flutter::MessageReply<EncodableValue>& reply) {
         try {
-          ErrorOr<std::string> output = api->GetPlatformVersion();
-          if (output.has_error()) {
-            reply(WrapError(output.error()));
-            return;
-          }
-          EncodableList wrapped;
-          wrapped.push_back(EncodableValue(std::move(output).TakeValue()));
-          reply(EncodableValue(std::move(wrapped)));
-        } catch (const std::exception& exception) {
-          reply(WrapError(exception.what()));
-        }
-      });
-    } else {
-      channel->SetMessageHandler(nullptr);
-    }
-  }
-  {
-    auto channel = std::make_unique<BasicMessageChannel<>>(binary_messenger, "dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersionAsync", &GetCodec());
-    if (api != nullptr) {
-      channel->SetMessageHandler([api](const EncodableValue& message, const flutter::MessageReply<EncodableValue>& reply) {
-        try {
-          api->GetPlatformVersionAsync([reply](ErrorOr<std::string>&& output) {
-            if (output.has_error()) {
-              reply(WrapError(output.error()));
+          api->StartAsync([reply](std::optional<FlutterError>&& output) {
+            if (output.has_value()) {
+              reply(WrapError(output.value()));
               return;
             }
             EncodableList wrapped;
-            wrapped.push_back(EncodableValue(std::move(output).TakeValue()));
+            wrapped.push_back(EncodableValue());
             reply(EncodableValue(std::move(wrapped)));
           });
         } catch (const std::exception& exception) {
@@ -88,6 +124,54 @@ EncodableValue NativeApi::WrapError(const FlutterError& error) {
     EncodableValue(error.code()),
     EncodableValue(error.message()),
     error.details()
+  });
+}
+
+
+FlutterApiCodecSerializer::FlutterApiCodecSerializer() {}
+
+EncodableValue FlutterApiCodecSerializer::ReadValueOfType(
+  uint8_t type,
+  flutter::ByteStreamReader* stream) const {
+  switch (type) {
+    case 128:
+      return CustomEncodableValue(ProgressRequest::FromEncodableList(std::get<EncodableList>(ReadValue(stream))));
+    default:
+      return flutter::StandardCodecSerializer::ReadValueOfType(type, stream);
+  }
+}
+
+void FlutterApiCodecSerializer::WriteValue(
+  const EncodableValue& value,
+  flutter::ByteStreamWriter* stream) const {
+  if (const CustomEncodableValue* custom_value = std::get_if<CustomEncodableValue>(&value)) {
+    if (custom_value->type() == typeid(ProgressRequest)) {
+      stream->WriteByte(128);
+      WriteValue(EncodableValue(std::any_cast<ProgressRequest>(*custom_value).ToEncodableList()), stream);
+      return;
+    }
+  }
+  flutter::StandardCodecSerializer::WriteValue(value, stream);
+}
+
+// Generated class from Pigeon that represents Flutter messages that can be called from C++.
+FlutterApi::FlutterApi(flutter::BinaryMessenger* binary_messenger)
+ : binary_messenger_(binary_messenger) {}
+
+const flutter::StandardMessageCodec& FlutterApi::GetCodec() {
+  return flutter::StandardMessageCodec::GetInstance(&FlutterApiCodecSerializer::GetInstance());
+}
+
+void FlutterApi::SendProgressAsync(
+  const ProgressRequest& request_arg,
+  std::function<void(void)>&& on_success,
+  std::function<void(const FlutterError&)>&& on_error) {
+  auto channel = std::make_unique<BasicMessageChannel<>>(binary_messenger_, "dev.flutter.pigeon.pigeon_example_package.FlutterApi.sendProgressAsync", &GetCodec());
+  EncodableValue encoded_api_arguments = EncodableValue(EncodableList{
+    CustomEncodableValue(request_arg),
+  });
+  channel->Send(encoded_api_arguments, [on_success = std::move(on_success), on_error = std::move(on_error)](const uint8_t* reply, size_t reply_size) {
+    on_success();
   });
 }
 

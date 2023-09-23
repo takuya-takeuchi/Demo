@@ -38,10 +38,31 @@ private func nilOrValue<T>(_ value: Any?) -> T? {
   return value as! T?
 }
 
+/// Generated class from Pigeon that represents data sent in messages.
+struct ProgressRequest {
+  var progress: Int64? = nil
+  var hasError: Bool? = nil
+
+  static func fromList(_ list: [Any?]) -> ProgressRequest? {
+    let progress: Int64? = isNullish(list[0]) ? nil : (list[0] is Int64? ? list[0] as! Int64? : Int64(list[0] as! Int32))
+    let hasError: Bool? = nilOrValue(list[1])
+
+    return ProgressRequest(
+      progress: progress,
+      hasError: hasError
+    )
+  }
+  func toList() -> [Any?] {
+    return [
+      progress,
+      hasError,
+    ]
+  }
+}
+
 /// Generated protocol from Pigeon that represents a handler of messages from Flutter.
 protocol NativeApi {
-  func getPlatformVersion() throws -> String
-  func getPlatformVersionAsync(completion: @escaping (Result<String, Error>) -> Void)
+  func startAsync(completion: @escaping (Result<Void, Error>) -> Void)
 }
 
 /// Generated setup class from Pigeon to handle messages through the `binaryMessenger`.
@@ -49,33 +70,72 @@ class NativeApiSetup {
   /// The codec used by NativeApi.
   /// Sets up an instance of `NativeApi` to handle messages through the `binaryMessenger`.
   static func setUp(binaryMessenger: FlutterBinaryMessenger, api: NativeApi?) {
-    let getPlatformVersionChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersion", binaryMessenger: binaryMessenger)
+    let startAsyncChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.pigeon_example_package.NativeApi.startAsync", binaryMessenger: binaryMessenger)
     if let api = api {
-      getPlatformVersionChannel.setMessageHandler { _, reply in
-        do {
-          let result = try api.getPlatformVersion()
-          reply(wrapResult(result))
-        } catch {
-          reply(wrapError(error))
-        }
-      }
-    } else {
-      getPlatformVersionChannel.setMessageHandler(nil)
-    }
-    let getPlatformVersionAsyncChannel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersionAsync", binaryMessenger: binaryMessenger)
-    if let api = api {
-      getPlatformVersionAsyncChannel.setMessageHandler { _, reply in
-        api.getPlatformVersionAsync() { result in
+      startAsyncChannel.setMessageHandler { _, reply in
+        api.startAsync() { result in
           switch result {
-            case .success(let res):
-              reply(wrapResult(res))
+            case .success:
+              reply(wrapResult(nil))
             case .failure(let error):
               reply(wrapError(error))
           }
         }
       }
     } else {
-      getPlatformVersionAsyncChannel.setMessageHandler(nil)
+      startAsyncChannel.setMessageHandler(nil)
+    }
+  }
+}
+private class FlutterApiCodecReader: FlutterStandardReader {
+  override func readValue(ofType type: UInt8) -> Any? {
+    switch type {
+      case 128:
+        return ProgressRequest.fromList(self.readValue() as! [Any?])
+      default:
+        return super.readValue(ofType: type)
+    }
+  }
+}
+
+private class FlutterApiCodecWriter: FlutterStandardWriter {
+  override func writeValue(_ value: Any) {
+    if let value = value as? ProgressRequest {
+      super.writeByte(128)
+      super.writeValue(value.toList())
+    } else {
+      super.writeValue(value)
+    }
+  }
+}
+
+private class FlutterApiCodecReaderWriter: FlutterStandardReaderWriter {
+  override func reader(with data: Data) -> FlutterStandardReader {
+    return FlutterApiCodecReader(data: data)
+  }
+
+  override func writer(with data: NSMutableData) -> FlutterStandardWriter {
+    return FlutterApiCodecWriter(data: data)
+  }
+}
+
+class FlutterApiCodec: FlutterStandardMessageCodec {
+  static let shared = FlutterApiCodec(readerWriter: FlutterApiCodecReaderWriter())
+}
+
+/// Generated class from Pigeon that represents Flutter messages that can be called from Swift.
+class FlutterApi {
+  private let binaryMessenger: FlutterBinaryMessenger
+  init(binaryMessenger: FlutterBinaryMessenger){
+    self.binaryMessenger = binaryMessenger
+  }
+  var codec: FlutterStandardMessageCodec {
+    return FlutterApiCodec.shared
+  }
+  func sendProgressAsync(request requestArg: ProgressRequest, completion: @escaping () -> Void) {
+    let channel = FlutterBasicMessageChannel(name: "dev.flutter.pigeon.pigeon_example_package.FlutterApi.sendProgressAsync", binaryMessenger: binaryMessenger, codec: codec)
+    channel.sendMessage([requestArg] as [Any?]) { _ in
+      completion()
     }
   }
 }

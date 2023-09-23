@@ -55,6 +55,70 @@ public class Messages {
     return errorList;
   }
 
+  /** Generated class from Pigeon that represents data sent in messages. */
+  public static final class ProgressRequest {
+    private @Nullable Long progress;
+
+    public @Nullable Long getProgress() {
+      return progress;
+    }
+
+    public void setProgress(@Nullable Long setterArg) {
+      this.progress = setterArg;
+    }
+
+    private @Nullable Boolean hasError;
+
+    public @Nullable Boolean getHasError() {
+      return hasError;
+    }
+
+    public void setHasError(@Nullable Boolean setterArg) {
+      this.hasError = setterArg;
+    }
+
+    public static final class Builder {
+
+      private @Nullable Long progress;
+
+      public @NonNull Builder setProgress(@Nullable Long setterArg) {
+        this.progress = setterArg;
+        return this;
+      }
+
+      private @Nullable Boolean hasError;
+
+      public @NonNull Builder setHasError(@Nullable Boolean setterArg) {
+        this.hasError = setterArg;
+        return this;
+      }
+
+      public @NonNull ProgressRequest build() {
+        ProgressRequest pigeonReturn = new ProgressRequest();
+        pigeonReturn.setProgress(progress);
+        pigeonReturn.setHasError(hasError);
+        return pigeonReturn;
+      }
+    }
+
+    @NonNull
+    ArrayList<Object> toList() {
+      ArrayList<Object> toListResult = new ArrayList<Object>(2);
+      toListResult.add(progress);
+      toListResult.add(hasError);
+      return toListResult;
+    }
+
+    static @NonNull ProgressRequest fromList(@NonNull ArrayList<Object> list) {
+      ProgressRequest pigeonResult = new ProgressRequest();
+      Object progress = list.get(0);
+      pigeonResult.setProgress((progress == null) ? null : ((progress instanceof Integer) ? (Integer) progress : (Long) progress));
+      Object hasError = list.get(1);
+      pigeonResult.setHasError((Boolean) hasError);
+      return pigeonResult;
+    }
+  }
+
   public interface Result<T> {
     @SuppressWarnings("UnknownNullness")
     void success(T result);
@@ -64,10 +128,7 @@ public class Messages {
   /** Generated interface from Pigeon that represents a handler of messages from Flutter. */
   public interface NativeApi {
 
-    @NonNull 
-    String getPlatformVersion();
-
-    void getPlatformVersionAsync(@NonNull Result<String> result);
+    void startAsync(@NonNull Result<Void> result);
 
     /** The codec used by NativeApi. */
     static @NonNull MessageCodec<Object> getCodec() {
@@ -78,37 +139,15 @@ public class Messages {
       {
         BasicMessageChannel<Object> channel =
             new BasicMessageChannel<>(
-                binaryMessenger, "dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersion", getCodec());
+                binaryMessenger, "dev.flutter.pigeon.pigeon_example_package.NativeApi.startAsync", getCodec());
         if (api != null) {
           channel.setMessageHandler(
               (message, reply) -> {
                 ArrayList<Object> wrapped = new ArrayList<Object>();
-                try {
-                  String output = api.getPlatformVersion();
-                  wrapped.add(0, output);
-                }
- catch (Throwable exception) {
-                  ArrayList<Object> wrappedError = wrapError(exception);
-                  wrapped = wrappedError;
-                }
-                reply.reply(wrapped);
-              });
-        } else {
-          channel.setMessageHandler(null);
-        }
-      }
-      {
-        BasicMessageChannel<Object> channel =
-            new BasicMessageChannel<>(
-                binaryMessenger, "dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersionAsync", getCodec());
-        if (api != null) {
-          channel.setMessageHandler(
-              (message, reply) -> {
-                ArrayList<Object> wrapped = new ArrayList<Object>();
-                Result<String> resultCallback =
-                    new Result<String>() {
-                      public void success(String result) {
-                        wrapped.add(0, result);
+                Result<Void> resultCallback =
+                    new Result<Void>() {
+                      public void success(Void result) {
+                        wrapped.add(0, null);
                         reply.reply(wrapped);
                       }
 
@@ -118,12 +157,65 @@ public class Messages {
                       }
                     };
 
-                api.getPlatformVersionAsync(resultCallback);
+                api.startAsync(resultCallback);
               });
         } else {
           channel.setMessageHandler(null);
         }
       }
+    }
+  }
+
+  private static class FlutterApiCodec extends StandardMessageCodec {
+    public static final FlutterApiCodec INSTANCE = new FlutterApiCodec();
+
+    private FlutterApiCodec() {}
+
+    @Override
+    protected Object readValueOfType(byte type, @NonNull ByteBuffer buffer) {
+      switch (type) {
+        case (byte) 128:
+          return ProgressRequest.fromList((ArrayList<Object>) readValue(buffer));
+        default:
+          return super.readValueOfType(type, buffer);
+      }
+    }
+
+    @Override
+    protected void writeValue(@NonNull ByteArrayOutputStream stream, Object value) {
+      if (value instanceof ProgressRequest) {
+        stream.write(128);
+        writeValue(stream, ((ProgressRequest) value).toList());
+      } else {
+        super.writeValue(stream, value);
+      }
+    }
+  }
+
+  /** Generated class from Pigeon that represents Flutter messages that can be called from Java. */
+  public static class FlutterApi {
+    private final @NonNull BinaryMessenger binaryMessenger;
+
+    public FlutterApi(@NonNull BinaryMessenger argBinaryMessenger) {
+      this.binaryMessenger = argBinaryMessenger;
+    }
+
+    /** Public interface for sending reply. */ 
+    @SuppressWarnings("UnknownNullness")
+    public interface Reply<T> {
+      void reply(T reply);
+    }
+    /** The codec used by FlutterApi. */
+    static @NonNull MessageCodec<Object> getCodec() {
+      return FlutterApiCodec.INSTANCE;
+    }
+    public void sendProgressAsync(@NonNull ProgressRequest requestArg, @NonNull Reply<Void> callback) {
+      BasicMessageChannel<Object> channel =
+          new BasicMessageChannel<>(
+              binaryMessenger, "dev.flutter.pigeon.pigeon_example_package.FlutterApi.sendProgressAsync", getCodec());
+      channel.send(
+          new ArrayList<Object>(Collections.singletonList(requestArg)),
+          channelReply -> callback.reply(null));
     }
   }
 }

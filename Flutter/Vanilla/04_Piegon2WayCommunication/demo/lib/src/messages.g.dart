@@ -8,6 +8,32 @@ import 'dart:typed_data' show Float64List, Int32List, Int64List, Uint8List;
 import 'package:flutter/foundation.dart' show ReadBuffer, WriteBuffer;
 import 'package:flutter/services.dart';
 
+class ProgressRequest {
+  ProgressRequest({
+    this.progress,
+    this.hasError,
+  });
+
+  int? progress;
+
+  bool? hasError;
+
+  Object encode() {
+    return <Object?>[
+      progress,
+      hasError,
+    ];
+  }
+
+  static ProgressRequest decode(Object result) {
+    result as List<Object?>;
+    return ProgressRequest(
+      progress: result[0] as int?,
+      hasError: result[1] as bool?,
+    );
+  }
+}
+
 class NativeApi {
   /// Constructor for [NativeApi].  The [binaryMessenger] named argument is
   /// available for dependency injection.  If it is left null, the default
@@ -18,9 +44,9 @@ class NativeApi {
 
   static const MessageCodec<Object?> codec = StandardMessageCodec();
 
-  Future<String> getPlatformVersion() async {
+  Future<void> startAsync() async {
     final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersion', codec,
+        'dev.flutter.pigeon.pigeon_example_package.NativeApi.startAsync', codec,
         binaryMessenger: _binaryMessenger);
     final List<Object?>? replyList =
         await channel.send(null) as List<Object?>?;
@@ -35,40 +61,59 @@ class NativeApi {
         message: replyList[1] as String?,
         details: replyList[2],
       );
-    } else if (replyList[0] == null) {
-      throw PlatformException(
-        code: 'null-error',
-        message: 'Host platform returned null value for non-null return value.',
-      );
     } else {
-      return (replyList[0] as String?)!;
+      return;
+    }
+  }
+}
+
+class _FlutterApiCodec extends StandardMessageCodec {
+  const _FlutterApiCodec();
+  @override
+  void writeValue(WriteBuffer buffer, Object? value) {
+    if (value is ProgressRequest) {
+      buffer.putUint8(128);
+      writeValue(buffer, value.encode());
+    } else {
+      super.writeValue(buffer, value);
     }
   }
 
-  Future<String> getPlatformVersionAsync() async {
-    final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
-        'dev.flutter.pigeon.pigeon_example_package.NativeApi.getPlatformVersionAsync', codec,
-        binaryMessenger: _binaryMessenger);
-    final List<Object?>? replyList =
-        await channel.send(null) as List<Object?>?;
-    if (replyList == null) {
-      throw PlatformException(
-        code: 'channel-error',
-        message: 'Unable to establish connection on channel.',
-      );
-    } else if (replyList.length > 1) {
-      throw PlatformException(
-        code: replyList[0]! as String,
-        message: replyList[1] as String?,
-        details: replyList[2],
-      );
-    } else if (replyList[0] == null) {
-      throw PlatformException(
-        code: 'null-error',
-        message: 'Host platform returned null value for non-null return value.',
-      );
-    } else {
-      return (replyList[0] as String?)!;
+  @override
+  Object? readValueOfType(int type, ReadBuffer buffer) {
+    switch (type) {
+      case 128: 
+        return ProgressRequest.decode(readValue(buffer)!);
+      default:
+        return super.readValueOfType(type, buffer);
+    }
+  }
+}
+
+abstract class FlutterApi {
+  static const MessageCodec<Object?> codec = _FlutterApiCodec();
+
+  Future<void> sendProgressAsync(ProgressRequest request);
+
+  static void setup(FlutterApi? api, {BinaryMessenger? binaryMessenger}) {
+    {
+      final BasicMessageChannel<Object?> channel = BasicMessageChannel<Object?>(
+          'dev.flutter.pigeon.pigeon_example_package.FlutterApi.sendProgressAsync', codec,
+          binaryMessenger: binaryMessenger);
+      if (api == null) {
+        channel.setMessageHandler(null);
+      } else {
+        channel.setMessageHandler((Object? message) async {
+          assert(message != null,
+          'Argument for dev.flutter.pigeon.pigeon_example_package.FlutterApi.sendProgressAsync was null.');
+          final List<Object?> args = (message as List<Object?>?)!;
+          final ProgressRequest? arg_request = (args[0] as ProgressRequest?);
+          assert(arg_request != null,
+              'Argument for dev.flutter.pigeon.pigeon_example_package.FlutterApi.sendProgressAsync was null, expected non-null ProgressRequest.');
+          await api.sendProgressAsync(arg_request!);
+          return;
+        });
+      }
     }
   }
 }
