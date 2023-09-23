@@ -16,23 +16,39 @@ class NativeApiImplementation(binaryMessenger: BinaryMessenger): NativeApi {
   private var _thread : Thread? = null
   private var _isRunning : Boolean = false
 
+  @Volatile
+  private var _stop = false
+
   init {
     _flutterApi = FlutterApi(binaryMessenger)
   }
 
   override fun startAsync(callback: (Result<Unit>) -> Unit) {
     if (!this._isRunning) {
+      this._stop = true
+
+      if (this._thread != null && this._thread?.isAlive == true)
+        this._thread?.join()
+
       this._thread = Thread {
         this._isRunning = true
+        
         for(i in 0..100){
+          if (this._stop)
+            break
+
           Thread.sleep(50) // 50 ms
 
           var requestArg = ProgressRequest((i + 1).toLong(), false)
-          // this._flutterApi.sendProgressAsync(requestArg, () -> {})
+          this._flutterApi.sendProgressAsync(requestArg) {
+              // println("Callback has been executed!")
+          }
         }
+
         this._isRunning = false
       }
 
+      this._stop = false
       this._thread?.start()
     }
 
