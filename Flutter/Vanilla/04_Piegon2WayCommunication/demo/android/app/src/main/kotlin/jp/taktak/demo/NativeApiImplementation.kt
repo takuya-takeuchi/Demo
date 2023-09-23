@@ -5,6 +5,8 @@ import NativeApi
 import FlutterError
 import ProgressRequest
 
+import android.os.Handler
+import android.os.Looper
 import androidx.annotation.NonNull
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.engine.FlutterEngine
@@ -39,9 +41,13 @@ class NativeApiImplementation(binaryMessenger: BinaryMessenger): NativeApi {
 
           Thread.sleep(50) // 50 ms
 
-          var requestArg = ProgressRequest((i + 1).toLong(), false)
-          this._flutterApi.sendProgressAsync(requestArg) {
-              // println("Callback has been executed!")
+          // FlutterApi should be invoked in MainThread.
+          // Otherwise, program gets `Methods marked with @UiThread must be executed on the main thread`
+          Handler(Looper.getMainLooper()).post {
+            var requestArg = ProgressRequest((i + 1).toLong(), false)
+            this._flutterApi.sendProgressAsync(requestArg) {
+                println("Callback has been executed!")
+            }
           }
         }
 
