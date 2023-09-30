@@ -20,12 +20,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     // mobiel device has native splash screen
     Widget? initScreen;
-    if (Platform.isAndroid || Platform.isIOS)
-    {
-      initScreen = LoginScreen();
-    }
-    else
-    {
+    if (Platform.isAndroid || Platform.isIOS) {
+      initScreen = const SplashScreen();
+    } else {
       initScreen = const SplashScreen();
     }
 
@@ -38,7 +35,8 @@ class MyApp extends StatelessWidget {
       home: initScreen,
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginScreen(),
-        '/count': (BuildContext context) => const CountScreen(title: 'Flutter Demo Page'),
+        '/count': (BuildContext context) =>
+            const CountScreen(title: 'Flutter Demo Page'),
       },
     );
   }
