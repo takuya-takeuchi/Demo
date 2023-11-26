@@ -30,14 +30,33 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Text = "MainForm";
+            _labelMessage = new System.Windows.Forms.Label();
+            SuspendLayout();
+            // 
+            // _labelMessage
+            // 
+            _labelMessage.AutoSize = true;
+            _labelMessage.Location = new System.Drawing.Point(12, 9);
+            _labelMessage.Name = "_labelMessage";
+            _labelMessage.Size = new System.Drawing.Size(38, 15);
+            _labelMessage.TabIndex = 0;
+            _labelMessage.Text = "";
+            // 
+            // MainForm
+            // 
+            AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
+            AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            ClientSize = new System.Drawing.Size(520, 39);
+            Controls.Add(_labelMessage);
+            Name = "MainForm";
+            Text = "MainForm";
+            ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
 
+        private System.Windows.Forms.Label _labelMessage;
     }
 
 }
