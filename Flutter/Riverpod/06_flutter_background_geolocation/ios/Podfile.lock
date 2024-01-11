@@ -1,0 +1,43 @@
+PODS:
+  - background_fetch (1.2.1):
+    - Flutter
+  - CocoaLumberjack (3.7.4):
+    - CocoaLumberjack/Core (= 3.7.4)
+  - CocoaLumberjack/Core (3.7.4)
+  - Flutter (1.0.0)
+  - flutter_background_geolocation (4.13.5):
+    - CocoaLumberjack (~> 3.7.2)
+    - Flutter
+  - flutter_local_notifications (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - background_fetch (from `.symlinks/plugins/background_fetch/ios`)
+  - Flutter (from `Flutter`)
+  - flutter_background_geolocation (from `.symlinks/plugins/flutter_background_geolocation/ios`)
+  - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+
+SPEC REPOS:
+  trunk:
+    - CocoaLumberjack
+
+EXTERNAL SOURCES:
+  background_fetch:
+    :path: ".symlinks/plugins/background_fetch/ios"
+  Flutter:
+    :path: Flutter
+  flutter_background_geolocation:
+    :path: ".symlinks/plugins/flutter_background_geolocation/ios"
+  flutter_local_notifications:
+    :path: ".symlinks/plugins/flutter_local_notifications/ios"
+
+SPEC CHECKSUMS:
+  background_fetch: 896944864b038d2837fc750d470e9841e1e6a363
+  CocoaLumberjack: 543c79c114dadc3b1aba95641d8738b06b05b646
+  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  flutter_background_geolocation: f9756c4bee0da60f77a8b46d5a6254880c56de1c
+  flutter_local_notifications: 0c0b1ae97e741e1521e4c1629a459d04b9aec743
+
+PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
+
+COCOAPODS: 1.14.3
