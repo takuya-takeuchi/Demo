@@ -17,9 +17,20 @@
 
 ## Screenshots
 
-<img src="./images/windows.gif" width="600" />
-
 This demo apps can
 
 * Add/delete geofence
 * Send local notification when device enter to geoface or exit from geoface
+  * Local notification is sent even if applocatin is terminated 
+
+#### iOS
+
+<img src="./images/ios.gif" width="600" />
+
+#### Android
+
+<img src="./images/android.gif" width="600" />
+
+##### Note
+
+Android Emulator of geo location does not work. Even though change location from emulator setting, location change event is not fired. But it works if Google map is foreground. Please refer to [Problem with Android Emulator, location cannot be determined #1260](https://github.com/Baseflow/flutter-geolocator/issues/1260#issuecomment-1596793960)
