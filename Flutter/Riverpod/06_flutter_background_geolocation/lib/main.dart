@@ -145,7 +145,7 @@ Future<void> showNotification(String title, String body) async {
         msg: body,
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.SNACKBAR,
-        timeInSecForIosWeb: 1,
+        timeInSecForIosWeb: 3,
         backgroundColor: Colors.red,
         textColor: Colors.white,
         fontSize: 16.0);

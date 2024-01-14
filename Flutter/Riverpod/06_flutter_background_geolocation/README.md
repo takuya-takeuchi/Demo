@@ -25,5 +25,5 @@ This demo apps can
 
 * Add/delete geofence
 * Send local notification when device enter to geoface or exit from geoface
-  * For iOS, notification is not shown when app is foreground
+  * For iOS, notification is not shown when app is foreground. So this app show toast message.
     * [Handling notifications whilst the app is in the foreground](https://pub.dev/documentation/flutter_local_notifications/latest/#handling-notifications-whilst-the-app-is-in-the-foreground)
