@@ -40,7 +40,6 @@ dependencies:
   flutter_background_geolocation: ^4.13.5
   get_it: ^7.6.6
   flutter_local_notifications: ^16.3.0
-  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:

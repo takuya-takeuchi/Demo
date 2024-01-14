@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as background_geolocation;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -20,7 +19,7 @@ Future<void> main() async {
 
   GetIt.I.registerSingleton<DialogService>(DialogService());
 
-  await requestPermissions();
+  await requestPermissionsOfLocalNotification();
   await initializeLocalNotifications();
   await initializeBackgroundGeolocation();
 
@@ -34,9 +33,12 @@ Future<void> main() async {
   runApp(
     ProviderScope(child: MaterialApp(home: MyApp(geoFences: list))),
   );
+
+  // Register your headlessTask for Android
+  background_geolocation.BackgroundGeolocation.registerHeadlessTask(headlessTask);
 }
 
-Future<void> requestPermissions() async {
+Future<void> requestPermissionsOfLocalNotification() async {
   if (Platform.isIOS) {
     await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<IOSFlutterLocalNotificationsPlugin>()!.requestPermissions(
           alert: false,
@@ -48,13 +50,6 @@ Future<void> requestPermissions() async {
     FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
     await flutterLocalNotificationsPlugin.resolvePlatformSpecificImplementation<AndroidFlutterLocalNotificationsPlugin>()!.requestNotificationsPermission();
   }
-
-  var initializationSettingsAndroid = const AndroidInitializationSettings('@mipmap/ic_launcher');
-  var initializationSettingsIOS = DarwinInitializationSettings(
-    onDidReceiveLocalNotification: (id, title, body, payload) => {},
-  );
-  var initializationSettings = InitializationSettings(android: initializationSettingsAndroid, iOS: initializationSettingsIOS);
-  flutterLocalNotificationsPlugin.initialize(initializationSettings);
 }
 
 Future<void> initializeLocalNotifications() async {
@@ -82,21 +77,7 @@ Future<void> initializeBackgroundGeolocation() async {
     debugPrint('[providerchange] - $event');
   });
 
-  background_geolocation.BackgroundGeolocation.onGeofence((background_geolocation.GeofenceEvent event) {
-    if (event.action == 'ENTER') {
-      debugPrint('[onGeofence] [ENTER] - $event');
-
-      const title = "Enter to geofence";
-      final body = "${event.identifier} (${event.location.coords.latitude},${event.location.coords.longitude})";
-      showNotification(title, body);
-    } else if (event.action == 'EXIT') {
-      debugPrint('[onGeofence] [EXIT] - $event');
-
-      const title = "Exit from geofence";
-      final body = "${event.identifier} (${event.location.coords.latitude},${event.location.coords.longitude})";
-      showNotification(title, body);
-    }
-  });
+  background_geolocation.BackgroundGeolocation.onGeofence(onGeofence);
 
   await background_geolocation.BackgroundGeolocation.stop();
   await background_geolocation.BackgroundGeolocation.stopSchedule();
@@ -117,8 +98,8 @@ Future<void> initializeBackgroundGeolocation() async {
         forceReloadOnGeofence: true,
         logLevel: background_geolocation.Config.LOG_LEVEL_OFF,
         // logLevel: background_geolocation.Config.LOG_LEVEL_VERBOSE,
-        // enableHeadless: Platform.isAndroid),
-        enableHeadless: false),
+        enableHeadless: true),
+    //enableHeadless: Platform.isAndroid),
   ).then((value) async {
     if (!configState.enabled) {
       await background_geolocation.BackgroundGeolocation.startGeofences().then((state) {
@@ -139,40 +120,102 @@ Future<void> initializeBackgroundGeolocation() async {
   });
 }
 
-Future<void> showNotification(String title, String body) async {
-  if (isApplicationForeground) {
-    Fluttertoast.showToast(
-        msg: body,
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.SNACKBAR,
-        timeInSecForIosWeb: 3,
-        backgroundColor: Colors.red,
-        textColor: Colors.white,
-        fontSize: 16.0);
-  } else {
-    const androidChannelSpecifics = AndroidNotificationDetails(
-      '100',
-      'CHANNEL_NAME',
-      channelDescription: "CHANNEL_DESCRIPTION",
-      importance: Importance.max,
-      priority: Priority.high,
-      playSound: false,
-      timeoutAfter: 5000,
-      styleInformation: DefaultStyleInformation(true, true),
-    );
+onGeofence(background_geolocation.GeofenceEvent event) {
+  if (event.action == 'ENTER') {
+    debugPrint('[onGeofence] [ENTER] - $event');
 
-    const iosChannelSpecifics = DarwinNotificationDetails();
+    const title = "Enter to geofence";
+    final body = "${event.identifier} (${event.location.coords.latitude},${event.location.coords.longitude})";
+    showNotification(title, body);
+  } else if (event.action == 'EXIT') {
+    debugPrint('[onGeofence] [EXIT] - $event');
 
-    const platformChannelSpecifics = NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
-
-    await flutterLocalNotificationsPlugin.show(
-      100,
-      title,
-      body,
-      platformChannelSpecifics,
-      payload: 'New Payload',
-    );
+    const title = "Exit from geofence";
+    final body = "${event.identifier} (${event.location.coords.latitude},${event.location.coords.longitude})";
+    showNotification(title, body);
   }
+}
+
+@pragma('vm:entry-point')
+void headlessTask(background_geolocation.HeadlessEvent headlessEvent) async {
+  debugPrint('[BackgroundGeolocation HeadlessTask]: $headlessEvent');
+  // Implement a 'case' for only those events you're interested in.
+  switch (headlessEvent.name) {
+    case background_geolocation.Event.TERMINATE:
+      background_geolocation.State state = headlessEvent.event;
+      debugPrint('- State: $state');
+      break;
+    case background_geolocation.Event.HEARTBEAT:
+      background_geolocation.HeartbeatEvent event = headlessEvent.event;
+      debugPrint('- HeartbeatEvent: $event');
+      break;
+    case background_geolocation.Event.LOCATION:
+      background_geolocation.Location location = headlessEvent.event;
+      debugPrint('- Location: $location');
+      break;
+    case background_geolocation.Event.MOTIONCHANGE:
+      background_geolocation.Location location = headlessEvent.event;
+      debugPrint('- Location: $location');
+      break;
+    case background_geolocation.Event.GEOFENCE:
+      background_geolocation.GeofenceEvent geofenceEvent = headlessEvent.event;
+      debugPrint('- GeofenceEvent: $geofenceEvent');
+      onGeofence(geofenceEvent);
+      break;
+    case background_geolocation.Event.GEOFENCESCHANGE:
+      background_geolocation.GeofencesChangeEvent event = headlessEvent.event;
+      debugPrint('- GeofencesChangeEvent: $event');
+      break;
+    case background_geolocation.Event.SCHEDULE:
+      background_geolocation.State state = headlessEvent.event;
+      debugPrint('- State: $state');
+      break;
+    case background_geolocation.Event.ACTIVITYCHANGE:
+      background_geolocation.ActivityChangeEvent event = headlessEvent.event;
+      debugPrint('ActivityChangeEvent: $event');
+      break;
+    case background_geolocation.Event.HTTP:
+      background_geolocation.HttpEvent response = headlessEvent.event;
+      debugPrint('HttpEvent: $response');
+      break;
+    case background_geolocation.Event.POWERSAVECHANGE:
+      bool enabled = headlessEvent.event;
+      debugPrint('ProviderChangeEvent: $enabled');
+      break;
+    case background_geolocation.Event.CONNECTIVITYCHANGE:
+      background_geolocation.ConnectivityChangeEvent event = headlessEvent.event;
+      debugPrint('ConnectivityChangeEvent: $event');
+      break;
+    case background_geolocation.Event.ENABLEDCHANGE:
+      bool enabled = headlessEvent.event;
+      debugPrint('EnabledChangeEvent: $enabled');
+      break;
+  }
+}
+
+Future<void> showNotification(String title, String body) async {
+  const androidChannelSpecifics = AndroidNotificationDetails(
+    '100',
+    'CHANNEL_NAME',
+    channelDescription: "CHANNEL_DESCRIPTION",
+    importance: Importance.max,
+    priority: Priority.high,
+    playSound: true,
+    // timeoutAfter: 5000,
+    styleInformation: DefaultStyleInformation(true, true),
+  );
+
+  const iosChannelSpecifics = DarwinNotificationDetails();
+
+  const platformChannelSpecifics = NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
+
+  await flutterLocalNotificationsPlugin.show(
+    1000,
+    title,
+    body,
+    platformChannelSpecifics,
+    payload: 'New Payload',
+  );
 }
 
 class MyApp extends StatefulWidget {
