@@ -1,10 +1,10 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:flutter/material.dart';
 
 import 'package:flutter_background_geolocation/flutter_background_geolocation.dart' as background_geolocation;
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hooks_riverpod/hooks_riverpod.dart';
 
@@ -12,6 +12,8 @@ import 'package:demo/models/geofence.dart';
 import 'package:demo/services/index.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+bool isApplicationForeground = false;
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -109,6 +111,7 @@ Future<void> initializeBackgroundGeolocation() async {
         startOnBoot: true,
         debug: false,
         reset: true,
+        geofenceInitialTriggerEntry: true,
         foregroundService: true,
         allowIdenticalLocations: true,
         forceReloadOnGeofence: true,
@@ -137,28 +140,39 @@ Future<void> initializeBackgroundGeolocation() async {
 }
 
 Future<void> showNotification(String title, String body) async {
-  const androidChannelSpecifics = AndroidNotificationDetails(
-    '100',
-    'CHANNEL_NAME',
-    channelDescription: "CHANNEL_DESCRIPTION",
-    importance: Importance.max,
-    priority: Priority.high,
-    playSound: false,
-    timeoutAfter: 5000,
-    styleInformation: DefaultStyleInformation(true, true),
-  );
+  if (isApplicationForeground) {
+    Fluttertoast.showToast(
+        msg: body,
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.SNACKBAR,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  } else {
+    const androidChannelSpecifics = AndroidNotificationDetails(
+      '100',
+      'CHANNEL_NAME',
+      channelDescription: "CHANNEL_DESCRIPTION",
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: false,
+      timeoutAfter: 5000,
+      styleInformation: DefaultStyleInformation(true, true),
+    );
 
-  const iosChannelSpecifics = DarwinNotificationDetails();
+    const iosChannelSpecifics = DarwinNotificationDetails();
 
-  const platformChannelSpecifics = NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
+    const platformChannelSpecifics = NotificationDetails(android: androidChannelSpecifics, iOS: iosChannelSpecifics);
 
-  await flutterLocalNotificationsPlugin.show(
-    100,
-    title,
-    body,
-    platformChannelSpecifics,
-    payload: 'New Payload',
-  );
+    await flutterLocalNotificationsPlugin.show(
+      100,
+      title,
+      body,
+      platformChannelSpecifics,
+      payload: 'New Payload',
+    );
+  }
 }
 
 class MyApp extends StatefulWidget {
@@ -169,7 +183,7 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyApp();
 }
 
-class _MyApp extends State<MyApp> {
+class _MyApp extends State<MyApp> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -268,6 +282,34 @@ class _MyApp extends State<MyApp> {
                             .toList()));
               })),
     ));
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    // is is correct?
+    switch (state) {
+      case AppLifecycleState.inactive:
+        isApplicationForeground = true;
+        break;
+      case AppLifecycleState.paused:
+        isApplicationForeground = false;
+        break;
+      case AppLifecycleState.resumed:
+        isApplicationForeground = true;
+        break;
+      case AppLifecycleState.detached:
+        isApplicationForeground = false;
+        break;
+      case AppLifecycleState.hidden:
+        isApplicationForeground = false;
+        break;
+    }
   }
 
   Future<List<GeoFence>> _getDataRows() async {
