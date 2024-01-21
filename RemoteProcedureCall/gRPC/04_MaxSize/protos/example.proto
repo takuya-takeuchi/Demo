@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+message ExampleRequest {
+  bytes date = 1;
+  uint32 responseSize = 2;
+}
+
+message ExampleResponse {
+  bytes date = 1;
+}
+
+service Example {
+  // Unary
+  rpc UnaryCall (ExampleRequest) returns (ExampleResponse);
+
+  // Server streaming
+  rpc StreamingFromServer (ExampleRequest) returns (stream ExampleResponse);
+
+  // Client streaming
+  rpc StreamingFromClient (stream ExampleRequest) returns (ExampleResponse);
+
+  // Bi-directional streaming
+  rpc StreamingBothWays (stream ExampleRequest) returns (stream ExampleResponse);
+}
