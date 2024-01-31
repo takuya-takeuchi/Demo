@@ -10,4 +10,6 @@
 
 ## Screenshots
 
-<img src="./images/ios.png" width="640" />
+|app|console|
+|---|---|
+|<img src="./images/ios.png" width="320" />|<img src="./images/ios-console.png" width="640" />|
