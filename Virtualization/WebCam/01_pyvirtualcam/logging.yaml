@@ -1,0 +1,29 @@
+version: 1
+loggers:
+  server:
+    level: DEBUG
+    handlers: [console, fileServer]
+  receiver:
+    level: DEBUG
+    handlers: [console, fileReceiver]
+handlers:
+  console:
+    class: logging.StreamHandler
+    stream: ext://sys.stderr
+    formatter: console
+  fileServer:
+    class: logging.FileHandler
+    filename: logs/server.log
+    formatter: file
+  fileReceiver:
+    class: logging.FileHandler
+    filename: logs/receiver.log
+    formatter: file
+formatters:
+  console:
+    '()': 'colorlog.ColoredFormatter'
+    format: "{log_color}{asctime} [{levelname:.4}] {message}"
+    style: "{"
+  file:
+    format: "{asctime} [{levelname:.4}] {message}"
+    style: "{"
