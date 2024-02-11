@@ -1,8 +1,8 @@
-﻿using Prism.Mvvm;
+﻿using NLog;
+using Prism.Mvvm;
 using Prism.Regions;
 
 using Demo.ViewModels.Modules.Interfaces;
-using NLog;
 
 namespace Demo.ViewModels.Modules
 {
