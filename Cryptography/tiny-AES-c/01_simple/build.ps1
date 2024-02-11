@@ -48,30 +48,30 @@ cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
       -D CMAKE_BUILD_TYPE=$Configuration `
       -D TINY_AES_C_INSTALL_DIR=$targetDir `
       $sourceDir
-cmake --build . --config ${Configuration}
+cmake --build . --config ${Configuration} --target install
 Pop-Location
 
 # run
 if ($global:IsWindows)
 {
-    $programDir = Join-Path $current build | `
+    $programDir = Join-Path $current install | `
                   Join-Path -ChildPath $os | `
-                  Join-Path -ChildPath program | `
+                  Join-Path -ChildPath bin | `
                   Join-Path -ChildPath ${Configuration}
     $program = Join-Path $programDir Test.exe
 }
 elseif ($global:IsMacOS)
 {
-    $programDir = Join-Path $current build | `
+    $programDir = Join-Path $current install | `
                   Join-Path -ChildPath $os | `
-                  Join-Path -ChildPath program
+                  Join-Path -ChildPath bin
     $program = Join-Path $programDir Test
 }
 elseif ($global:IsLinux)
 {
-    $programDir = Join-Path $current build | `
+    $programDir = Join-Path $current install | `
                   Join-Path -ChildPath $os | `
-                  Join-Path -ChildPath program
+                  Join-Path -ChildPath bin
     $program = Join-Path $programDir Test
 }
 
