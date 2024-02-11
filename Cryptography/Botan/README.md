@@ -1,4 +1,4 @@
-# Tiny AES in C
+# Botan
 
 ## Requirements
 
@@ -7,6 +7,7 @@
 * Powershell
 * CMake 3.0.0 or later
 * C++ Compiler supports C++11
+* Python 3 or later
 
 ### Windows
 
@@ -22,11 +23,11 @@
 
 ## Dependencies
 
-* [Tiny AES in C](https://github.com/kokke/tiny-AES-c)
-  * Unlicense license
+* [Botan](https://github.com/randombit/botan)
+  * BSD-2-Clause license
 
 ## How to usage?
 
 ````shell
-$ pwsh build-tiny-AES-c.ps1 <Debug/Release>
+$ pwsh build-Botan.ps1 <Debug/Release>
 ````
