@@ -48,32 +48,35 @@ if (!(Test-Path($target)))
 Push-Location $target
 git checkout $branch
 
-python configure.py --with-cmake-config
-
-Push-Location $buildDir
-
 if ($global:IsWindows)
 {
+    function Call($batfile)
+    {
+        cmd.exe /c "call `"${batfile}`" && set > %temp%\vars.txt"
+        Get-Content "${env:temp}\vars.txt" | Foreach-Object {
+            if ($_ -match "^(.*?)=(.*)$") {
+                Set-Content "env:\$($matches[1])" $matches[2]
+            }
+        }
+    }
+
     Call("C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat")
+
+    python configure.py --with-cmake-config --prefix="${installDir}"
     nmake
     nmake install
 }
 elseif ($global:IsMacOS)
 {
+    python3 configure.py --with-cmake-config --prefix="${installDir}"
     make
     make install
 }
 elseif ($global:IsLinux)
 {
+    python3 configure.py --with-cmake-config --prefix="${installDir}"
     make
     make install
 }
 
-# cmake --build "${buildDir}" --config $Configuration
-
-# Copy-Item $library $installDir -Force | Out-Null
-# Copy-Item $headerH $installDir -Force | Out-Null
-# Copy-Item $headerHpp $installDir -Force | Out-Null
-
-Pop-Location
 Pop-Location
