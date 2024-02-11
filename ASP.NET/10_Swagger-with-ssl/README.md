@@ -1,14 +1,18 @@
-# Simple WebAPI (with Swagger)
+# Secured Swagger WebAPI (with self signed certificate)
 
 ## Abstracts
 
 * How to create simple web api by using Swagger
-* You can change property name of model by using `JsonPropertyName`
-* You can generate api comments by using xml document
+* Hwo to use self signed certificate on ASP.NET
 
 ## Requirements
 
-* .NET 6.0 SDK
+* .NET 8.0 SDK
+
+## Dependencies
+
+* [Swashbuckle.AspNetCore](https://github.com/domaindrivendev/Swashbuckle.AspNetCore)
+  * MIT license
 
 ## How to use?
 
@@ -30,8 +34,14 @@ root "信頼されたルート証明機関"
 CertUtil: -addstore コマンドは正常に完了しました。
 ````
 
-Lastly, run following command to run server
+Then, modify `hosts` file. Speficy localhost ip address and binds it and your domain.
+For example,
 
+````txt
+127.0.0.1 www.example.com
+````
+
+Lastly, run following command to run server
 
 ````powershell
 $ dotnet run -c Release
