@@ -32,7 +32,7 @@ $ cd ../../Misc/10_GenerateCertificateIPAddress
 $ pwsh Generate.ps1 192.168.11.21
 ````
 
-And copy `server.crt` and `server.key` into [09_docker-sample-with-nginx_ssl](./09_docker-sample-with-nginx_ssl).
+And copy `server.crt` and `server.key` into [09_docker-sample-with-nginx_ssl](../09_docker-sample-with-nginx_ssl).
 
 Then,
 

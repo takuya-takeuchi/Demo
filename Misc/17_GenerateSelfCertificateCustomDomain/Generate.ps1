@@ -4,7 +4,7 @@ Param
    Mandatory=$True,
    Position = 1
    )][string]
-   $IpAddress
+   $CommonName
 )
 
 $C="JP"              # Country Name
@@ -75,6 +75,10 @@ Write-Host "Create your CA crt and key:" -ForegroundColor Green
                    -keyout ca.key `
                    -out ca.crt
 
+Copy-Item "${opensslConfig}" "{sanFile}"
+echo "[SAN]" >> "{sanFile}"
+echo "subjectAltName=DNS:${CommonName}" >> "{sanFile}"
+
 Write-Host "Create a CSR:" -ForegroundColor Green
 & "${openssl}" req -newkey rsa:2048 `
                    -nodes `
@@ -82,7 +86,7 @@ Write-Host "Create a CSR:" -ForegroundColor Green
                    -keyout server.key `
                    -out server.csr `
                    -config "${opensslConfig}" `
-                   -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${IpAddress}"
+                   -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${CommonName}"
 
 Write-Host "Sign the CSR, resulting in CRT and add the v3 SAN extension:" -ForegroundColor Green
 & "${openssl}" x509 -req `
@@ -92,7 +96,9 @@ Write-Host "Sign the CSR, resulting in CRT and add the v3 SAN extension:" -Foreg
                     -CAkey ca.key `
                     -CAcreateserial `
                     -sha256 `
-                    -days 3650
+                    -days 3650 `
+                    -extensions SAN `
+                    -extfile "{sanFile}"
 
 if (Test-Path("{sanFile}"))
 {
@@ -117,4 +123,22 @@ foreach ($file in $files)
    {
       Remove-Item "${file}"
    }
+}
+
+Write-Host "Export as PFX file format" -ForegroundColor Green
+& "${openssl}" pkcs12 -export -inkey server.key -in server.crt -out server.pfx
+
+$files = @(
+   "ca.crt"
+   "ca.key"
+   "server.crt"
+   "server.csr"
+   "server.key"
+   "server.pfx"
+)
+New-Item -Type Directory certs -Force | Out-Null
+foreach ($file in $files)
+{
+   $dest = Join-Path certs $file
+   Move-Item "${file}" "${dest}" -Force
 }
