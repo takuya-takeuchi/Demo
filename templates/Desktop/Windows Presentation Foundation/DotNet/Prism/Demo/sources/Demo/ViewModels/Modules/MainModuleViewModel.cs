@@ -1,4 +1,5 @@
-﻿using Prism.Mvvm;
+﻿using NLog;
+using Prism.Mvvm;
 using Prism.Regions;
 
 using Demo.ViewModels.Modules.Interfaces;
@@ -13,6 +14,8 @@ namespace Demo.ViewModels.Modules
 
         public readonly IRegionManager _RegionManager;
 
+        private static readonly Logger Logger = LogManager.GetCurrentClassLogger();
+
         #endregion
 
         #region Constructors
@@ -20,6 +23,7 @@ namespace Demo.ViewModels.Modules
         public MainModuleViewModel(IRegionManager regionManager)
         {
             this._RegionManager = regionManager;
+            Logger.Info($"Constructor of {nameof(MainModuleViewModel)}");
         }
 
         #endregion

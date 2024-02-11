@@ -3,7 +3,6 @@ using Prism.Mvvm;
 using Prism.Regions;
 
 using Demo.ViewModels.Interfaces;
-using System.Windows.Controls;
 using Demo.Views.Modules;
 
 namespace Demo.ViewModels
