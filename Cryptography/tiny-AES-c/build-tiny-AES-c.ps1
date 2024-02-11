@@ -57,7 +57,8 @@ if ($global:IsWindows)
           -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
           $sourceDir
-    $library = Join-Path $buildDir tiny-aes.lib
+    $library = Join-Path $buildDir $Configuration | `
+    　　　　　　Join-Path -ChildPath tiny-aes.lib
     $headerH = Join-Path $sourceDir aes.h
     $headerHpp = Join-Path $sourceDir aes.hpp
 }

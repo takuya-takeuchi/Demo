@@ -56,8 +56,7 @@ if ($global:IsWindows)
 {
     $programDir = Join-Path $current install | `
                   Join-Path -ChildPath $os | `
-                  Join-Path -ChildPath bin | `
-                  Join-Path -ChildPath ${Configuration}
+                  Join-Path -ChildPath bin
     $program = Join-Path $programDir Test.exe
 }
 elseif ($global:IsMacOS)
