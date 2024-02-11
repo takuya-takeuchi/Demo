@@ -6,15 +6,13 @@ using NLog;
 using Prism.Ioc;
 using Prism.Unity;
 
-using Demo.ViewModels;
 using Demo.Views;
+using Demo.ViewModels;
 
 namespace Demo
 {
-    /// <summary>
-    /// Interaction logic for App.xaml
-    /// </summary>
-    public partial class App : PrismApplication
+
+    public sealed class Shell : PrismApplication
     {
 
         #region Fields
@@ -46,9 +44,8 @@ namespace Demo
 
                     Environment.Exit(1);
                 }
-
             };
-            
+
             AppDomain.CurrentDomain.UnhandledException += (o, args) =>
             {
                 Logger.Fatal($"{nameof(AppDomain.CurrentDomain.UnhandledException)}");
@@ -65,7 +62,7 @@ namespace Demo
                 // Marks the Exception as "observed," thus preventing it from triggering exception escalation policy, which, by default, terminates the process.
                 args.SetObserved();
             };
-            
+
             base.OnStartup(e);
         }
 
