@@ -14,7 +14,6 @@ Param
 $target = "tiny-AES-c"
 $url = "https://github.com/kokke/tiny-AES-c"
 $branch = "f06ac37fc31dfdaca2e0d9bec83f90d5663c319b"
-$buildOptions = " --with-system --with-filesystem --with-program_options"
 
 $current = $PSScriptRoot
 
@@ -58,7 +57,7 @@ if ($global:IsWindows)
           -D CMAKE_BUILD_TYPE=$Configuration `
           $sourceDir
     $library = Join-Path $buildDir $Configuration | `
-    　　　　　　Join-Path -ChildPath tiny-aes.lib
+               Join-Path -ChildPath tiny-aes.lib
     $headerH = Join-Path $sourceDir aes.h
     $headerHpp = Join-Path $sourceDir aes.hpp
 }
