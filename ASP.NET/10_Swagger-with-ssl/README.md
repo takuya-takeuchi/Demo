@@ -3,7 +3,7 @@
 ## Abstracts
 
 * How to create simple web api by using Swagger
-* Hwo to use self signed certificate on ASP.NET
+* How to use self signed certificate on ASP.NET
 
 ## Requirements
 
