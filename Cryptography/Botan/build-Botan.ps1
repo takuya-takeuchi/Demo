@@ -31,13 +31,9 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$sourceDir = Join-Path $current $target
-$buildDir = Join-Path $current build | `
-            Join-Path -ChildPath $os
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
 
-New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 if (!(Test-Path($target)))
