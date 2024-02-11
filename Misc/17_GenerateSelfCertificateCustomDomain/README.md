@@ -153,12 +153,17 @@ Certificate:
          d8:72:bc:fe:2e:fa:9f:10:ac:c2:23:18:0b:b0:94:48:c0:36:
          28:d8:10:80:db:bd:7f:fd:30:b4:fe:00:75:b9:57:75:0e:19:
          59:bb:ba:cc:5d:5f:8a:af
+Export as PFX file format
+WARNING: can't open config file: /usr/local/ssl/openssl.cnf
+Enter Export Password:
+Verifying - Enter Export Password:
 ````
 
-You can see the following files.
+You can see the following files in `certs` directory.
 
 * ca.crt
 * ca.key
 * server.crt
 * server.csr
 * server.key
+* server.pfx
