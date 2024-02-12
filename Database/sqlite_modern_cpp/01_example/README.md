@@ -33,7 +33,14 @@
 
 ## How to usage?
 
-At first, you must build Botan on [sqlite_modern_cpp](..) directory.
+At first, you must build `sqlite_modern_cpp` and `sqlite` on [sqlite_modern_cpp](..) directory.
+
+````shell
+$ pwsh build-sqlite_modern_cpp.ps1
+$ pwsh build-sqlite.ps1
+````
+
+After that, script generates artifacts so you can run the following command.
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>
