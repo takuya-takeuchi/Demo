@@ -5,7 +5,7 @@ if ($global:IsWindows)
 {
     # https://github.com/SqliteModernCpp/sqlite_modern_cpp/issues/127
     # This issue occurs build error in VS
-    $os = "master"
+    $branch = "master"
 }
 elseif ($global:IsMacOS)
 {

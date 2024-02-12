@@ -37,6 +37,7 @@ $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
 $targetDir = Join-Path $root install | `
              Join-Path -ChildPath $os
+$targetDir = $targetDir -replace "\\", "/"
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
