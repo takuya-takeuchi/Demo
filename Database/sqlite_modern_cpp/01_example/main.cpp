@@ -78,31 +78,23 @@ int main()
 
 		create_table(db);
 		
-		std::tuple<int, const char16_t*, double> bob = std::make_tuple(20, u"bob", 83.25);
-		insert_new_user(db, bob);
+		insert_new_user(db, std::make_tuple(20, u"bob", 83.25));
 
-		int age = 21;
-		float weight = 68.5;
-		string name = "jack";
-		std::tuple<int, std::string, double> jack = std::make_tuple(age, name, weight);
-		insert_new_user_utf16(db, jack);
+		insert_new_user_utf16(db, std::make_tuple(21, "jack", 68.5));
 
 		std::cout << "The new record got assigned id " << db.last_insert_rowid() << std::endl;
 	
-    	const auto lambda = [](int age, std::string name, double weight)
+		enumerate(db, [](int age, std::string name, double weight)
 		{
 			std::cout << age << ' ' << name << ' ' << weight << std::endl;
-		};
-		enumerate(db, lambda);
+		});
 
-		const auto count = select_count_from_user<int>(db);
-		std::cout << "count : " << count << std::endl;
+		std::cout << "count : " << select_count_from_user<int>(db) << std::endl;
 
 		const auto user = select_from_user(db);
 		std::cout << "Age = " << std::get<0>(user) << ", name = " << std::get<1>(user) << std::endl;
 
-		const auto str_count = select_count_from_user<std::string>(db);
-		std::cout << "scount : " << str_count << std::endl;
+		std::cout << "scount : " << select_count_from_user<std::string>(db) << std::endl;
 	}
 	catch (exception& e)
 	{
