@@ -1,6 +1,16 @@
 $target = "sqlite_modern_cpp"
 $url = "https://github.com/SqliteModernCpp/sqlite_modern_cpp"
-$branch = "v3.2"
+
+if ($global:IsWindows)
+{
+    # https://github.com/SqliteModernCpp/sqlite_modern_cpp/issues/127
+    # This issue occurs build error in VS
+    $os = "master"
+}
+elseif ($global:IsMacOS)
+{
+    $branch = "v3.2"
+}
 
 $current = $PSScriptRoot
 
