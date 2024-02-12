@@ -28,8 +28,6 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "sqlite_modern_cpp"
-
 # build
 $sourceDir = $current
 $buildDir = Join-Path $current build | `
