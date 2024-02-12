@@ -1,7 +1,7 @@
+#include <iostream>
+
 #include <botan/hash.h>
 #include <botan/hex.h>
-
-#include <iostream>
 
 int main(int32_t argc, char** argv)
 {
@@ -16,7 +16,7 @@ int main(int32_t argc, char** argv)
    const auto hash2 = Botan::HashFunction::create_or_throw("SHA-384");
    const auto hash3 = Botan::HashFunction::create_or_throw("SHA-3");
 
-   const auto size = strnlen_s(argv[1], 2048);
+   const auto size = strnlen(argv[1], 2048);
    std::vector<uint8_t> buf(2048);
    std::memcpy(buf.data(), argv[1], sizeof(char) * size);
 
