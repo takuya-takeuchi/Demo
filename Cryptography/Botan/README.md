@@ -6,7 +6,7 @@
 
 * Powershell
 * CMake 3.0.0 or later
-* C++ Compiler supports C++11
+* C++ Compiler supports C++20
 * Python 3 or later
 
 ### Windows

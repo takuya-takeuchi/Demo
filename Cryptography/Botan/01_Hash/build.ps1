@@ -39,18 +39,15 @@ $buildDir = Join-Path $current build | `
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
 $targetDir = Join-Path $root install | `
-             Join-Path -ChildPath $os | `
-             Join-Path -ChildPath lib | `
-             Join-Path -ChildPath cmake | `
-             Join-Path -ChildPath "${target}-${version}"
+             Join-Path -ChildPath $os
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
 cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-      -D CMAKE_PREFIX_PATH=${targetDir} `
       -D CMAKE_BUILD_TYPE=$Configuration `
+      -D BOTAN_ROOT_DIR=${targetDir} `
       $sourceDir
 cmake --build . --config ${Configuration} --target install
 Pop-Location
