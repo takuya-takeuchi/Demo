@@ -58,19 +58,19 @@ if ($global:IsWindows)
 
     Call("C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat")
 
-    python configure.py --with-cmake-config --with-pkg-config --prefix="${installDir}"
+    python configure.py --with-cmake-config --with-pkg-config --enable-static-library --prefix="${installDir}"
     nmake
     nmake install
 }
 elseif ($global:IsMacOS)
 {
-    python3 configure.py --with-cmake-config --with-pkg-config --prefix="${installDir}"
+    python3 configure.py --with-cmake-config --with-pkg-config --enable-static-library --prefix="${installDir}"
     make
     make install
 }
 elseif ($global:IsLinux)
 {
-    python3 configure.py --with-cmake-config --with-pkg-config --prefix="${installDir}"
+    python3 configure.py --with-cmake-config --with-pkg-config --enable-static-library --prefix="${installDir}"
     make
     make install
 }

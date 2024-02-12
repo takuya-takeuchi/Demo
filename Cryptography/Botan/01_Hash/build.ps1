@@ -76,5 +76,5 @@ elseif ($global:IsLinux)
 }
 
 Push-Location ${programDir}
-& ${program}
+& ${program} test
 Pop-Location
