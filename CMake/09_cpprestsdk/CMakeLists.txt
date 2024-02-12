@@ -17,7 +17,7 @@ else()
     find_package(Boost REQUIRED COMPONENTS system filesystem date_time regex random thread chrono)
 endif()
 
-if (NOT ${Boost_FOUND})
+if (NOT Boost_FOUND)
     message(FATAL_ERROR "Boost is not found!!")
 else()
     message("Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
@@ -26,7 +26,7 @@ endif()
 
 find_package(cpprestsdk REQUIRED CONFIG)
 
-if (NOT ${cpprestsdk_FOUND})
+if (NOT cpprestsdk_FOUND)
     message(FATAL_ERROR "cpprestsdk is not found!!")
 else()
     message("         cpprestsdk_DIR: ${cpprestsdk_DIR}")

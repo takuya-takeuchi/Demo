@@ -13,7 +13,7 @@ endif()
 
 find_package(Boost REQUIRED COMPONENTS system filesystem program_options)
 
-if (NOT ${Boost_FOUND})
+if (NOT Boost_FOUND)
     message(FATAL_ERROR "Boost is not found!!")
 else()
     message("Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
