@@ -1,8 +1,4 @@
-# Command line parser
-
-## Abstracts
-
-* Example of program how to use command line parser by boost library
+# Tiny AES in C
 
 ## Requirements
 
@@ -16,34 +12,21 @@
 
 * Visual Studio
 
-### Ubuntu
+### Linux
 
 * g++
 
-### OSX
+### Mac
 
 * Xcode
 
 ## Dependencies
 
-* [Boost](https://www.boost.org/)
-  * v1.84.0
-  * Boost License
+* [Tiny AES in C](https://github.com/kokke/tiny-AES-c)
+  * Unlicense license
 
 ## How to usage?
 
 ````shell
-$ pwsh build-boost.ps1 <Debug/Release> <BoostVersion, like 1.84.0>
-$ pwsh build.ps1 <Debug/Release> <BoostVersion, like 1.84.0>
-[Info]    loop: 3
-[Info] message: lower
-[Info]   upper: false
-lower
-lower
-lower
-[Info]    loop: 2
-[Info] message: upper
-[Info]   upper: true
-UPPER
-UPPER
+$ pwsh build-tiny-AES-c.ps1 <Debug/Release>
 ````
