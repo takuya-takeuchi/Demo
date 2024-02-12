@@ -1,4 +1,8 @@
-# Botan
+# Example
+
+## Abstracts
+
+* How to use `sqlite_modern_cpp`
 
 ## Requirements
 
@@ -29,6 +33,14 @@
 
 ## How to usage?
 
+At first, you must build Botan on [sqlite_modern_cpp](..) directory.
+
 ````shell
 $ pwsh build.ps1 <Debug/Release>
+The new record got assigned id 2
+20 bob 83.25
+21 jack 68.5
+count : 2
+Age = 20, name = bob
+scount : 2
 ````
