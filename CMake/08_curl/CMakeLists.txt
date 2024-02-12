@@ -13,7 +13,7 @@ endif()
 
 find_package(CURL REQUIRED CONFIG)
 
-if (NOT ${CURL_FOUND})
+if (NOT CURL_FOUND)
     message(FATAL_ERROR "CURL is not found!!")
 endif()
 
