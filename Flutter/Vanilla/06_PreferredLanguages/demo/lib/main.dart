@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Current Preferred Language: ${locale.languageCode}'),
+              Text('Current Preferred Language: ${locale.languageCode}-${locale.countryCode}'),
               ElevatedButton(
                 onPressed: () => AppSettings.openAppSettings(type: AppSettingsType.settings),
                 child: const Text('Open Settings'),
