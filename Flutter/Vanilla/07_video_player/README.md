@@ -2,18 +2,24 @@
 
 ## Abstracts
 
-* How to show 'Preferred Language' setting in application setting page
+* How to use `video_player` and check 4 movie format
 
 ## Dependencies
 
-* [app_settings](https://github.com/spencerccf/app_settings)
-  * MIT license
+* [video_player](https://pub.dev/packages/video_player)
+  * BSD-3-Clause license
 * [big-buck-bunny_trailer.webm](https://dl6.webmfiles.org/big-buck-bunny_trailer.webm)
   * Unknown license
 
-## Detailed description 
-
-
 ## Screenshots
 
-<img src="./images/ios.gif" width="320" />
+|iOS|Android|
+|---|---|
+|<img src="./images/ios.png" width="320" />|<img src="./images/android.png" width="320" />|
+
+|format|iOS|Android|
+|---|---|---|
+|MP4|✓|✓|
+|WEBM|-|✓|
+|APNG|-|-|
+|GIF|-|-|

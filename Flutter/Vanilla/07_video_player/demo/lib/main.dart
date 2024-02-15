@@ -26,9 +26,7 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   void initState() {
     super.initState();
-    // _controller = VideoPlayerController.asset("assets/Nippou_Line_815_series_20210401.apng")
-    // _controller = VideoPlayerController.asset("assets/Nippou_Line_815_series_20210401.webm")
-    _controller = VideoPlayerController.asset("assets/big-buck-bunny_trailer.mp4")
+    _controller = VideoPlayerController.asset("assets/big-buck-bunny_trailer.gif")
       ..initialize().then((_) {
         // Ensure the first frame is shown after the video is initialized, even before the play button has been pressed.
         setState(() {});
