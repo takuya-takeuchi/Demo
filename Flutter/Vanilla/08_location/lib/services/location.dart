@@ -26,7 +26,6 @@ class LocationService {
       }
     }
 
-    log("_serviceEnabled: $_serviceEnabled");
     if (!_serviceEnabled) {
       _serviceEnabled = await _location.requestService();
       if (!_serviceEnabled) {
@@ -34,10 +33,8 @@ class LocationService {
       }
     }
 
-    log("hasPermission");
     var permissionGranted = await _location.hasPermission();
     if (permissionGranted == PermissionStatus.denied) {
-      log("requestPermission");
       permissionGranted = await _location.requestPermission();
       if (permissionGranted != PermissionStatus.granted) {
         _serviceEnabled = false;
@@ -45,9 +42,7 @@ class LocationService {
       }
     }
 
-    log("enableBackgroundMode");
     await _location.enableBackgroundMode(enable: false);
-    log("changeSettings");
     _serviceEnabled = await _location.changeSettings(accuracy: LocationAccuracy.high);
   }
 
