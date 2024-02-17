@@ -8,21 +8,21 @@
             "name": "demo",
             "request": "launch",
             "type": "dart",
-            "program": "./demo/lib/main.dart"
+            "program": "./lib/main.dart"
         },
         {
             "name": "demo (profile mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "profile",
-            "program": "./demo/lib/main.dart"
+            "program": "./lib/main.dart"
         },
         {
             "name": "demo (release mode)",
             "request": "launch",
             "type": "dart",
             "flutterMode": "release",
-            "program": "./demo/lib/main.dart"
+            "program": "./lib/main.dart"
         }
     ]
 }
