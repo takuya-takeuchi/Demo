@@ -14,7 +14,7 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let url = Bundle.main.url(forResource: "chat", withExtension:"svg")
+        let url = Bundle.main.url(forResource: "chat_FILL0_wght400_GRAD0_opsz24", withExtension:"svg")
         let data: NSData = try! NSData(contentsOfFile: url!.path, options: .uncached)
         let svgImage = SVGKImage(data: data as Data)
         svgImage!.fillColor(color: .red, opacity: 1.0)

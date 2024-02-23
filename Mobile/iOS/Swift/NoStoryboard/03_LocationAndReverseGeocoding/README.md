@@ -1,9 +1,9 @@
-# UIButton with SVG image
+# Location and Reverse Geocoding
 
 ## Abstracts
 
 * Ignore Storyboard and construct UI components from code
-* Set svg image data s `UIImage` int `UIButton`
+* Get location and do reverse geocoding
 
 ## Requirements
 
