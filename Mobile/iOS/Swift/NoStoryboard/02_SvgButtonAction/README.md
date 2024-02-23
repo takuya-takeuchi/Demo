@@ -30,6 +30,14 @@
 |---|---|---|
 |[chat_FILL0_wght400_GRAD0_opsz24.svg](.//Demo/Assets/chat_FILL0_wght400_GRAD0_opsz24.svg)|[Google Fonts](ttps://fonts.google.com/icons)|Apache license 2.0|
 
+## How to build
+
+You must do the following command before build code in Xcode.
+
+````shell
+$ pod install
+````
+
 ## Screenshots
 
 <img src="./images/app.gif" width="384" />
