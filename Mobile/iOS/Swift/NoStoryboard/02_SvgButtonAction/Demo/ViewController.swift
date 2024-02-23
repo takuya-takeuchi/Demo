@@ -14,13 +14,20 @@ class ViewController: UIViewController {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        let imageSize = CGSize(width: 64, height: 64)
-        let svgImage = SVGKImage(named: "chat")
-        svgImage!.size = imageSize
+        let url = Bundle.main.url(forResource: "chat", withExtension:"svg")
+        let data: NSData = try! NSData(contentsOfFile: url!.path, options: .uncached)
+        let svgImage = SVGKImage(data: data as Data)
+        svgImage!.fillColor(color: .red, opacity: 1.0)
 
-        let button = UIButton(type: .system)
-        button.setImage(svgImage!.uiImage, for: .normal)
+        let buttonSize = CGSize(width: 48, height: 48)
+
+        let button = UIButton(type: .custom)
         button.addTarget(self, action: #selector(buttonTapped), for: .touchUpInside)
+        button.setImage(svgImage!.uiImage, for: .normal)
+        button.contentMode = .center
+        button.imageView?.contentMode = .scaleAspectFit
+        button.contentHorizontalAlignment = .fill
+        button.contentVerticalAlignment = .fill
         button.translatesAutoresizingMaskIntoConstraints = false
         self.view.addSubview(button)
 
@@ -28,13 +35,13 @@ class ViewController: UIViewController {
         NSLayoutConstraint.activate([
             button.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             button.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            button.widthAnchor.constraint(equalToConstant: 100),
-            button.heightAnchor.constraint(equalToConstant: 50),
+            button.widthAnchor.constraint(equalToConstant: buttonSize.width),
+            button.heightAnchor.constraint(equalToConstant: buttonSize.height),
         ])
     }
 
     @objc func buttonTapped() {
-        let alertController = UIAlertController(title: "title", message: "message", preferredStyle: .alert)
+        let alertController = UIAlertController(title: "greeting", message: "hello!", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
             print("OK button is tapped")
         }
