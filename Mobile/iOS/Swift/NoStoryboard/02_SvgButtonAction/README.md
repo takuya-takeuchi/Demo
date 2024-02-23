@@ -1,9 +1,9 @@
-# UIButton and show UIAlertController
+# UIButton with SVG image
 
 ## Abstracts
 
 * Ignore Storyboard and construct UI components from code
-* Add `UIButton` and binding function into `touchUpInside` event
+* Set svg image data s `UIImage` int `UIButton`
 
 ## Requirements
 
