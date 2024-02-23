@@ -1,8 +1,9 @@
-# Xcode without Stroryboard (No SwiftUI)
+# UIButton and show UIAlertController
 
 ## Abstracts
 
 * Ignore Storyboard and construct UI components from code
+* Add `UIButton` and binding function into `touchUpInside` event
 
 ## Requirements
 
@@ -20,3 +21,7 @@
 ## Dependencies
 
 N/A
+
+## Screenshots
+
+<img src="./images/app.gif" width="384" />
