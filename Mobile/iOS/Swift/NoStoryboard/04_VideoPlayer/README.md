@@ -1,9 +1,10 @@
-# UIButton with SVG image
+# Play video and overlay view
 
 ## Abstracts
 
 * Ignore Storyboard and construct UI components from code
-* Set svg image data s `UIImage` int `UIButton`
+* Play mp4 file by `AVPlayer` and repeat automatically
+* Add `UIButton` with svg `UIImage` to half-transparent `UIView`
 
 ## Requirements
 
@@ -28,8 +29,8 @@
 
 |Asset|Url|License|
 |---|---|---|
-|[close_FILL0_wght400_GRAD0_opsz24.svg](./Demo/Assets/close_FILL0_wght400_GRAD0_opsz24.svg)|[Google Fonts](https://fonts.google.com/icons)|Apache license 2.0|
-|[production_id_4040354_(1080p).mp4](./Demo/Assets/production_id_4040354_(1080p).mp4)|[Google Fonts](https://www.pexels.com/video/cherry-flowers-blooming-during-spring-season-4040354/)|[Free to use](https://www.pexels.com/license/)|
+|[close_FILL0_wght300_GRAD0_opsz20.svg](./Demo/Assets/close_FILL0_wght300_GRAD0_opsz20.svg)|[Google Fonts](https://fonts.google.com/icons)|Apache license 2.0|
+|[production_id_4040354_(1080p).mp4](./Demo/Assets/production_id_4040354_(1080p).mp4)|[Pexels](https://www.pexels.com/video/cherry-flowers-blooming-during-spring-season-4040354/)|[Free to use](https://www.pexels.com/license/)|
 
 ## How to build
 

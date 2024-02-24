@@ -28,7 +28,7 @@
 
 |Asset|Url|License|
 |---|---|---|
-|[chat_FILL0_wght400_GRAD0_opsz24.svg](.//Demo/Assets/chat_FILL0_wght400_GRAD0_opsz24.svg)|[Google Fonts](ttps://fonts.google.com/icons)|Apache license 2.0|
+|[chat_FILL0_wght400_GRAD0_opsz24.svg](./Demo/Assets/chat_FILL0_wght400_GRAD0_opsz24.svg)|[Google Fonts](https://fonts.google.com/icons)|Apache license 2.0|
 
 ## How to build
 
