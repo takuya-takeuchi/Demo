@@ -1,7 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 import 'package:camera/camera.dart';
-import 'package:native_device_orientation/native_device_orientation.dart';
 
 Future<void> main() async {
   runApp(const MainPage());
@@ -17,6 +18,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   late List<CameraDescription> _cameras;
   late CameraController _cameraController;
+  String? _picturePath;
   bool _isReady = false;
   bool _skipScanning = false;
   int _currentCamera = 0;
@@ -35,8 +37,8 @@ class _MainPageState extends State<MainPage> {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
-    final deviceRatio = size.width / size.height;
+    // final size = MediaQuery.of(context).size;
+    // final deviceRatio = size.width / size.height;
 
     return MaterialApp(
       home: Scaffold(
@@ -46,34 +48,60 @@ class _MainPageState extends State<MainPage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                width: double.infinity,
-                color: const Color.fromRGBO(255, 255, 255, 0.5),
-                child: GestureDetector(
-                  onTap: () async => await _onSwitchCamera(),
-                  child: _autoOrientedWidget(
-                    const Icon(Icons.switch_camera, size: 44),
-                  ),
+                  width: double.infinity,
+                  color: const Color.fromRGBO(255, 255, 255, 0.5),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                          onTap: () async => await _onSwitchCamera(),
+                          child: const Icon(Icons.switch_camera, size: 44)),
+                      GestureDetector(
+                          onTap: () async => await _onTakePicture(),
+                          child: const Icon(Icons.camera, size: 44)),
+                    ],
+                  )),
+            ),
+            Align(
+              alignment: Alignment.topRight,
+              child: Visibility(
+                visible: _picturePath != null,
+                child: Padding(
+                  padding: const EdgeInsets.all(20),
+                  child: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      border: Border.all(color: Colors.white, width: 2)),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(Radius.circular(15)),
+                    child: SizedBox(
+                      width: 300,
+                      height: 150,
+                      child: _picturePath != null ? Image.file(File(_picturePath!)) : const Spacer(),
+                    ),
+                  ),),
                 ),
               ),
-            )
+            ),
           ]),
         ),
       ),
     );
   }
 
-  Widget _autoOrientedWidget(Widget widget) {
-    return NativeDeviceOrientedWidget(
-        portraitUp: (context) => _orientedWidget(widget, 0),
-        landscapeLeft: (context) => _orientedWidget(widget, 1),
-        landscapeRight: (context) => _orientedWidget(widget, 3),
-        portraitDown: (context) => _orientedWidget(widget, 2),
-        fallback: (context) => _orientedWidget(widget, 0),
-        useSensor: true);
-  }
-
-  Widget _orientedWidget(Widget widget, int quarterTurns) {
-    return RotatedBox(quarterTurns: 0, child: widget);
+  Future<void> _onTakePicture() async {
+    try {
+      final image = await _cameraController.takePicture();
+      setState(() {
+        _picturePath = image.path;
+      });
+    } catch (e) {
+      // If an error occurs, log the error to the console.
+      print(e);
+    }
   }
 
   Future<void> _onSwitchCamera() async {
