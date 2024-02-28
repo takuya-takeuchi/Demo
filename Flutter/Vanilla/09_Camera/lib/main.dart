@@ -1,6 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:image_size_getter/image_size_getter.dart';
+import 'package:image_size_getter/file_input.dart';
+import 'package:native_device_orientation/native_device_orientation.dart';
 
 import 'package:camera/camera.dart';
 
@@ -18,7 +21,9 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   late List<CameraDescription> _cameras;
   late CameraController _cameraController;
-  String? _picturePath;
+  Image? _picture;
+  double? _pictureWidth;
+  double? _pictureHeight;
   bool _isReady = false;
   bool _skipScanning = false;
   int _currentCamera = 0;
@@ -65,24 +70,25 @@ class _MainPageState extends State<MainPage> {
             Align(
               alignment: Alignment.topRight,
               child: Visibility(
-                visible: _picturePath != null,
+                visible: _picture != null,
                 child: Padding(
                   padding: const EdgeInsets.all(20),
                   child: Container(
-                  width: 100,
-                  height: 100,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(15),
-                      border: Border.all(color: Colors.white, width: 2)),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(Radius.circular(15)),
-                    child: SizedBox(
-                      width: 300,
-                      height: 150,
-                      child: _picturePath != null ? Image.file(File(_picturePath!)) : const Spacer(),
+                    width: _pictureWidth,
+                    height: _pictureHeight,
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15),
+                        border: Border.all(color: Colors.white, width: 2)),
+                    child: ClipRRect(
+                      borderRadius: const BorderRadius.all(Radius.circular(15)),
+                      child: SizedBox(
+                        width: _pictureWidth,
+                        height: _pictureHeight,
+                        child: _picture ?? const Spacer(),
+                      ),
                     ),
-                  ),),
+                  ),
                 ),
               ),
             ),
@@ -94,9 +100,41 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> _onTakePicture() async {
     try {
-      final image = await _cameraController.takePicture();
+      final picture = await _cameraController.takePicture();
+
+      // Image.File does not retrieve width and height
+      final path = File(picture.path);
+      final size = ImageSizeGetter.getSize(FileInput(path));
+      final ratio = size.width / size.height;
+      final image = Image.file(File(picture.path));
+      const double base = 125;
+      final orientation = await NativeDeviceOrientationCommunicator()
+          .orientation(useSensor: false);
       setState(() {
-        _picturePath = image.path;
+        switch (orientation) {
+          case NativeDeviceOrientation.portraitUp:
+            _pictureWidth = base;
+            _pictureHeight = base * ratio;
+            break;
+          case NativeDeviceOrientation.portraitDown:
+            _pictureWidth = base;
+            _pictureHeight = base * ratio;
+            break;
+          case NativeDeviceOrientation.landscapeLeft:
+            _pictureWidth = base * ratio;
+            _pictureHeight = base;
+            break;
+          case NativeDeviceOrientation.landscapeRight:
+            _pictureWidth = base * ratio;
+            _pictureHeight = base;
+            break;
+          case NativeDeviceOrientation.unknown:
+            _pictureWidth = base * ratio;
+            _pictureHeight = base;
+            break;
+        }
+
+        _picture = image;
       });
     } catch (e) {
       // If an error occurs, log the error to the console.
