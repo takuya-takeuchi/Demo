@@ -24,7 +24,8 @@ class _MainPageState extends State<MainPage> {
   Image? _picture;
   double? _pictureWidth;
   double? _pictureHeight;
-  bool _isReady = false;
+  int _capturePictureWidth = 0;
+  int _capturePictureHeight = 0;
   bool _skipScanning = false;
   int _currentCamera = 0;
 
@@ -45,6 +46,9 @@ class _MainPageState extends State<MainPage> {
     // final size = MediaQuery.of(context).size;
     // final deviceRatio = size.width / size.height;
 
+    const double barHeight = 44;
+    const double padding = 8;
+
     return MaterialApp(
       home: Scaffold(
         body: Center(
@@ -54,16 +58,33 @@ class _MainPageState extends State<MainPage> {
               alignment: Alignment.bottomCenter,
               child: Container(
                   width: double.infinity,
-                  color: const Color.fromRGBO(255, 255, 255, 0.5),
+                  color: const Color.fromRGBO(0, 0, 0, 0.5),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
-                          onTap: () async => await _onSwitchCamera(),
-                          child: const Icon(Icons.switch_camera, size: 44)),
+                        onTap: () async => await _onSwitchCamera(),
+                        child: const Padding(
+                          padding: EdgeInsets.all(padding),
+                          child: Icon(Icons.switch_camera,
+                              size: barHeight, color: Colors.white),
+                        ),
+                      ),
+                      Text(
+                        "$_capturePictureWidth x $_capturePictureHeight",
+                        style: const TextStyle(color: Colors.white),
+                      ),
                       GestureDetector(
-                          onTap: () async => await _onTakePicture(),
-                          child: const Icon(Icons.camera, size: 44)),
+                        onTap: () async => await _onTakePicture(),
+                        child: const Padding(
+                          padding: EdgeInsets.all(padding),
+                          child: Icon(
+                            Icons.camera,
+                            size: barHeight,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
                     ],
                   )),
             ),
@@ -128,7 +149,6 @@ class _MainPageState extends State<MainPage> {
     }
 
     setState(() {
-      _isReady = true;
       _cameraController = cameraController;
     });
 
@@ -191,26 +211,15 @@ class _MainPageState extends State<MainPage> {
       _skipScanning = true;
     });
 
-    // final inputImage = convert(
-    //   camera: cameras[0],
-    //   cameraImage: availableImage,
-    // );
-
-    // _recognizedText = await _textRecognizer.processImage(inputImage);
-    // if (!mounted) return;
-    // setState(() {
-    //   _skipScanning = false;
-    // });
-    // if (_recognizedText != null && _recognizedText!.text.isNotEmpty) {
-    //   _controller.stopImageStream();
-    //   setState(() {
-    //     isScanned = true;
-    //   });
-    // }
+    setState(() {
+      _skipScanning = false;
+      _capturePictureWidth = availableImage.width;
+      _capturePictureHeight = availableImage.height;
+    });
   }
 
   Future<void> _setup() async {
-    _cameras = await availableCameras();    
+    _cameras = await availableCameras();
     _initialize(0, ResolutionPreset.max, false);
   }
 }
