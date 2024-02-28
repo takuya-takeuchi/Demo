@@ -98,6 +98,43 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
+  Future<void> _initialize(
+    int cameraIndex, [
+    ResolutionPreset resolutionPreset = ResolutionPreset.max,
+    bool enableAudio = false,
+  ]) async {
+    final cameraController = CameraController(
+      _cameras[cameraIndex],
+      resolutionPreset,
+      enableAudio: enableAudio,
+    );
+
+    // await _cameraController.initialize();
+    await cameraController.initialize().catchError((Object e) {
+      if (e is CameraException) {
+        switch (e.code) {
+          case 'CameraAccessDenied':
+            print('User denied camera access.');
+            break;
+          default:
+            print('Handle other errors.');
+            break;
+        }
+      }
+    });
+
+    if (!mounted) {
+      return;
+    }
+
+    setState(() {
+      _isReady = true;
+      _cameraController = cameraController;
+    });
+
+    await cameraController.startImageStream(_processImage);
+  }
+
   Future<void> _onTakePicture() async {
     try {
       final picture = await _cameraController.takePicture();
@@ -143,34 +180,9 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> _onSwitchCamera() async {
-    _cameraController.stopImageStream();
-
     _currentCamera = _currentCamera == 0 ? 1 : 0;
-    final cameraController = CameraController(
-      _cameras[_currentCamera],
-      ResolutionPreset.max,
-      enableAudio: false,
-    );
-
-    await cameraController.initialize().catchError((Object e) {
-      if (e is CameraException) {
-        switch (e.code) {
-          case 'CameraAccessDenied':
-            print('User denied camera access.');
-            break;
-          default:
-            print('Handle other errors.');
-            break;
-        }
-      }
-    });
-
-    await cameraController.startImageStream(_processImage);
-
-    // rebuild UI
-    setState(() {
-      _cameraController = cameraController;
-    });
+    _cameraController.stopImageStream();
+    _initialize(_currentCamera, ResolutionPreset.max, false);
   }
 
   Future<void> _processImage(CameraImage availableImage) async {
@@ -198,35 +210,7 @@ class _MainPageState extends State<MainPage> {
   }
 
   Future<void> _setup() async {
-    _cameras = await availableCameras();
-    _cameraController = CameraController(
-      _cameras[0],
-      ResolutionPreset.max,
-      enableAudio: false,
-    );
-
-    // await _cameraController.initialize();
-    await _cameraController.initialize().catchError((Object e) {
-      if (e is CameraException) {
-        switch (e.code) {
-          case 'CameraAccessDenied':
-            print('User denied camera access.');
-            break;
-          default:
-            print('Handle other errors.');
-            break;
-        }
-      }
-    });
-
-    if (!mounted) {
-      return;
-    }
-
-    setState(() {
-      _isReady = true;
-    });
-
-    await _cameraController.startImageStream(_processImage);
+    _cameras = await availableCameras();    
+    _initialize(0, ResolutionPreset.max, false);
   }
 }
