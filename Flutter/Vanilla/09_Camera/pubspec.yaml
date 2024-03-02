@@ -37,7 +37,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   app_settings: ^5.1.1
   camera: ^0.10.5+9
-  native_device_orientation: ^2.0.3
+  path_provider: ^2.1.2
+  image_size_getter: ^2.1.2
+  exif: ^3.3.0
 
 dev_dependencies:
   flutter_test:

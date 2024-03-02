@@ -8,13 +8,12 @@
 
 * [camera](https://github.com/flutter/packages/tree/main/packages/camera/camera)
   * BSD-3-Clause license
-* [native_device_orientation](https://github.com/rmtmckenzie/flutter_native_device_orientation)
-  * MIT  license
-
-## Detailed description 
-
-Basically, `Prefered Language` of application setting is not present.
-
+* [exif](https://github.com/bigflood/dartexif)
+  * MIT license
+* [image_size_getter](https://github.com/CaiJingLong/dart_image_size_getter/tree/master/library)
+  * Apache-2.0 license
+* [path_provider](https://github.com/flutter/packages/tree/main/packages/path_provider/path_provider)
+  * BSD-3-Clause license
 
 ## Screenshots
 

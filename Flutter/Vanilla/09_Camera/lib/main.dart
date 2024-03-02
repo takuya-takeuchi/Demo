@@ -1,11 +1,10 @@
 import 'dart:io';
 
+import 'package:camera/camera.dart';
+import 'package:exif/exif.dart';
 import 'package:flutter/material.dart';
 import 'package:image_size_getter/image_size_getter.dart';
 import 'package:image_size_getter/file_input.dart';
-import 'package:native_device_orientation/native_device_orientation.dart';
-
-import 'package:camera/camera.dart';
 
 Future<void> main() async {
   runApp(const MainPage());
@@ -20,7 +19,8 @@ class MainPage extends StatefulWidget {
 
 class _MainPageState extends State<MainPage> {
   late List<CameraDescription> _cameras;
-  late CameraController _cameraController;
+  late Future<CameraController?> _cameraController;
+  CameraController? _currentCameraController;
   Image? _picture;
   double? _pictureWidth;
   double? _pictureHeight;
@@ -32,20 +32,17 @@ class _MainPageState extends State<MainPage> {
   @override
   void initState() {
     super.initState();
-    _setup();
+    _cameraController = _setup();
   }
 
   @override
   void dispose() {
-    _cameraController.dispose();
+    _currentCameraController?.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    // final size = MediaQuery.of(context).size;
-    // final deviceRatio = size.width / size.height;
-
     const double barHeight = 44;
     const double padding = 8;
 
@@ -53,7 +50,18 @@ class _MainPageState extends State<MainPage> {
       home: Scaffold(
         body: Center(
           child: Stack(children: [
-            CameraPreview(_cameraController),
+            Container(
+              constraints: const BoxConstraints.expand(),
+              child: FutureBuilder(
+                future: _cameraController,
+                builder: (BuildContext context, AsyncSnapshot<CameraController?> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.done && snapshot.data != null && _currentCameraController != null) {
+                    return CameraPreview(snapshot.data!);
+                  }
+                  return const Spacer();
+                },
+              ),
+            ),
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
@@ -66,8 +74,7 @@ class _MainPageState extends State<MainPage> {
                         onTap: () async => await _onSwitchCamera(),
                         child: const Padding(
                           padding: EdgeInsets.all(padding),
-                          child: Icon(Icons.switch_camera,
-                              size: barHeight, color: Colors.white),
+                          child: Icon(Icons.switch_camera, size: barHeight, color: Colors.white),
                         ),
                       ),
                       Text(
@@ -97,10 +104,7 @@ class _MainPageState extends State<MainPage> {
                   child: Container(
                     width: _pictureWidth,
                     height: _pictureHeight,
-                    decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15),
-                        border: Border.all(color: Colors.white, width: 2)),
+                    decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(15), border: Border.all(color: Colors.white, width: 2)),
                     child: ClipRRect(
                       borderRadius: const BorderRadius.all(Radius.circular(15)),
                       child: SizedBox(
@@ -119,11 +123,12 @@ class _MainPageState extends State<MainPage> {
     );
   }
 
-  Future<void> _initialize(
+  Future<CameraController?> _initialize(
     int cameraIndex, [
     ResolutionPreset resolutionPreset = ResolutionPreset.max,
     bool enableAudio = false,
   ]) async {
+    _currentCameraController = null;
     final cameraController = CameraController(
       _cameras[cameraIndex],
       resolutionPreset,
@@ -135,9 +140,11 @@ class _MainPageState extends State<MainPage> {
       if (e is CameraException) {
         switch (e.code) {
           case 'CameraAccessDenied':
+            // ignore: avoid_print
             print('User denied camera access.');
             break;
           default:
+            // ignore: avoid_print
             print('Handle other errors.');
             break;
         }
@@ -145,63 +152,73 @@ class _MainPageState extends State<MainPage> {
     });
 
     if (!mounted) {
-      return;
+      return null;
     }
 
+    _currentCameraController = cameraController;
     setState(() {
-      _cameraController = cameraController;
+      _cameraController = Future.value(cameraController);
     });
 
     await cameraController.startImageStream(_processImage);
+    return cameraController;
   }
 
   Future<void> _onTakePicture() async {
     try {
-      final picture = await _cameraController.takePicture();
+      final picture = await _currentCameraController?.takePicture();
+      if (picture?.path == null) {
+        return;
+      }
 
       // Image.File does not retrieve width and height
-      final path = File(picture.path);
+      final path = File(picture!.path);
       final size = ImageSizeGetter.getSize(FileInput(path));
-      final ratio = size.width / size.height;
+      var ratio = size.width / size.height;
+      var isLandscape = ratio > 1;
+      final file = File(picture.path);
       final image = Image.file(File(picture.path));
+
+      final exifData = await readExifFromFile(file);
+      final imageOrientation = exifData['Image Orientation'];
+      // 1 = Horizontal (normal) : 標準
+      // 2 = Mirror horizontal   : 水平方向に反転
+      // 3 = Rotate 180          : 180°回転
+      // 4 = Mirror vertical     : 垂直方向に反転
+      // 5 = Mirror horizontal and rotate 270 CW :反時計回りに90°回転および垂直方向に反転
+      // 6 = Rotate 90 CW        : 反時計回りに90°回転
+      // 7 = Mirror horizontal and rotate 90 CW  : 時計回りに90°回転および垂直方向に反転
+      // 8 = Rotate 270 CW       :方向: 時計回りに90°回転
+      if (imageOrientation != null && imageOrientation.values.length == 1) {
+        final value = imageOrientation.values.firstAsInt();
+        if (value >= 5) {
+          ratio = size.height / size.width;
+          isLandscape = !isLandscape;
+        }
+      }
+
       const double base = 125;
-      final orientation = await NativeDeviceOrientationCommunicator()
-          .orientation(useSensor: false);
       setState(() {
-        switch (orientation) {
-          case NativeDeviceOrientation.portraitUp:
-            _pictureWidth = base;
-            _pictureHeight = base * ratio;
-            break;
-          case NativeDeviceOrientation.portraitDown:
-            _pictureWidth = base;
-            _pictureHeight = base * ratio;
-            break;
-          case NativeDeviceOrientation.landscapeLeft:
-            _pictureWidth = base * ratio;
-            _pictureHeight = base;
-            break;
-          case NativeDeviceOrientation.landscapeRight:
-            _pictureWidth = base * ratio;
-            _pictureHeight = base;
-            break;
-          case NativeDeviceOrientation.unknown:
-            _pictureWidth = base * ratio;
-            _pictureHeight = base;
-            break;
+        if (isLandscape) {
+          _pictureWidth = base;
+          _pictureHeight = base / ratio;
+        } else {
+          _pictureWidth = base * ratio;
+          _pictureHeight = base;
         }
 
         _picture = image;
       });
     } catch (e) {
       // If an error occurs, log the error to the console.
+      // ignore: avoid_print
       print(e);
     }
   }
 
   Future<void> _onSwitchCamera() async {
     _currentCamera = _currentCamera == 0 ? 1 : 0;
-    _cameraController.stopImageStream();
+    _currentCameraController?.stopImageStream();
     _initialize(_currentCamera, ResolutionPreset.max, false);
   }
 
@@ -218,8 +235,8 @@ class _MainPageState extends State<MainPage> {
     });
   }
 
-  Future<void> _setup() async {
+  Future<CameraController?> _setup() async {
     _cameras = await availableCameras();
-    _initialize(0, ResolutionPreset.max, false);
+    return await _initialize(0, ResolutionPreset.max, false);
   }
 }
