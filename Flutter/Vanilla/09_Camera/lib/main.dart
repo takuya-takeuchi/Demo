@@ -166,6 +166,7 @@ class _MainPageState extends State<MainPage> {
 
   Future<void> _onTakePicture() async {
     try {
+      _currentCameraController?.setFlashMode(FlashMode.off);
       final picture = await _currentCameraController?.takePicture();
       if (picture?.path == null) {
         return;

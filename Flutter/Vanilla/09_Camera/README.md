@@ -1,8 +1,10 @@
-# Select Preferred Language for iOS
+# Camera
 
 ## Abstracts
 
-* How to show 'Preferred Language' setting in application setting page
+* How to take photo by using `camera` package
+  * Support to change front/rear camera
+* How to check EXIF by using `exif` package
 
 ## Dependencies
 
@@ -17,4 +19,14 @@
 
 ## Screenshots
 
-<img src="./images/ios.gif" width="320" />
+#### iOS
+
+<img src="./images/ios.png" width="640" />
+
+This image is from [Mejiro McQueen in 1991's Tenno Sho (Spring)](https://dadada.works/jra-g1-2011/)
+
+#### Android
+
+<img src="./images/android.png" width="640" />
+
+This image is from [Silence Suzuka in 1998's Takarazuka Kinen](https://dadada.works/jra-g1-2011/)
