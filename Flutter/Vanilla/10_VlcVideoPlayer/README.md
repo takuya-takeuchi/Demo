@@ -22,12 +22,12 @@ For example,
 
 #### iOS
 
-<video width="640" height="360" src="./images/ios.webm"></video>
+<img src="./images/ios.gif" width="640" />
 
 This movie is from [2020's Tokyo Yushun (a.k.a Japanese Derby) (G1) | Contrail | JRA Official](https://www.youtube.com/watch?v=IhEX_AByG3A) as RTSP streaming
 
 #### Android
 
-<video width="640" height="360" src="./images/android.webm"></video>
+<img src="./images/android.gif" width="640" />
 
 This image is from [https://media.w3.org/2010/05/sintel/trailer.mp4](https://media.w3.org/2010/05/sintel/trailer.mp4)
