@@ -11,7 +11,7 @@
 
 ## Screenshots
 
-We can use network mp4 file and ip camera.
+We can use network, local movie file and ip camera.
 For example,
 
 |source|url|
