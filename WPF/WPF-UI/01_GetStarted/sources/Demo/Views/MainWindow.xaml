@@ -18,14 +18,6 @@
                  WindowStartupLocation="CenterScreen"
                  mc:Ignorable="d">
     <Grid>
-        <ui:TitleBar Title="{Binding Title, ElementName=_Window, Mode=OneWay}"
-                     Grid.Row="0"
-                     Grid.ColumnSpan="2"
-                     ShowClose="False"
-                     ShowHelp="False"
-                     ShowMaximize="False"
-                     ShowMinimize="False" />
-
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="Auto" />
@@ -36,51 +28,57 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
+        <ui:TitleBar Title="{Binding Title, ElementName=_Window, Mode=OneWay}"
+                     Grid.Row="0"
+                     Grid.ColumnSpan="2"
+                     ShowClose="False"
+                     ShowHelp="False"
+                     ShowMaximize="False"
+                     ShowMinimize="False" />
+
         <ui:SymbolIcon Grid.Row="1"
                        Grid.Column="0"
                        FontSize="256"
                        Symbol="Box24" />
 
-        <Grid Grid.Row="1"
-              Grid.Column="1"
-              Margin="32">
-            <StackPanel Margin="32"
-                        VerticalAlignment="Center"
-                        Orientation="Vertical">
-                <ui:TextBox Margin="8"
-                            PlaceholderText="User Name">
-                    <ui:TextBox.Icon>
-                        <ui:SymbolIcon Grid.Row="1"
-                                       Grid.Column="0"
-                                       FontSize="256"
-                                       Symbol="PersonAccounts20" />
-                    </ui:TextBox.Icon>
-                </ui:TextBox>
-                <ui:PasswordBox Margin="8"
-                                PlaceholderText="Password">
-                    <ui:PasswordBox.Icon>
-                        <ui:SymbolIcon Grid.Row="1"
-                                       Grid.Column="0"
-                                       FontSize="256"
-                                       Symbol="Key24" />
-                    </ui:PasswordBox.Icon>
-                </ui:PasswordBox>
+        <StackPanel Grid.Row="1"
+                    Grid.Column="1"
+                    Margin="32"
+                    VerticalAlignment="Center"
+                    Orientation="Vertical">
+            <ui:TextBox Margin="8"
+                        PlaceholderText="User Name">
+                <ui:TextBox.Icon>
+                    <ui:SymbolIcon Grid.Row="1"
+                                   Grid.Column="0"
+                                   FontSize="256"
+                                   Symbol="PersonAccounts20" />
+                </ui:TextBox.Icon>
+            </ui:TextBox>
+            <ui:PasswordBox Margin="8"
+                            PlaceholderText="Password">
+                <ui:PasswordBox.Icon>
+                    <ui:SymbolIcon Grid.Row="1"
+                                   Grid.Column="0"
+                                   FontSize="256"
+                                   Symbol="Key24" />
+                </ui:PasswordBox.Icon>
+            </ui:PasswordBox>
 
-                <StackPanel Margin="0,24,0,0"
-                            Orientation="Horizontal">
-                    <ui:Button Margin="10"
-                               Background="{DynamicResource AccentFillColorSecondaryBrush}"
-                               MouseOverBackground="{DynamicResource AccentFillColorTertiaryBrush}">
-                        <ui:TextBlock Margin="16,8,16,8"
-                                      Text="Login" />
-                    </ui:Button>
-                    <ui:Button Margin="10">
-                        <ui:TextBlock Margin="16,8,16,8"
-                                      Text="Change Password" />
-                    </ui:Button>
+            <StackPanel Margin="0,24,0,0"
+                        Orientation="Horizontal">
+                <ui:Button Margin="10"
+                           Background="{DynamicResource AccentFillColorSecondaryBrush}"
+                           MouseOverBackground="{DynamicResource AccentFillColorTertiaryBrush}">
+                    <ui:TextBlock Margin="16,8,16,8"
+                                  Text="Login" />
+                </ui:Button>
+                <ui:Button Margin="10">
+                    <ui:TextBlock Margin="16,8,16,8"
+                                  Text="Change Password" />
+                </ui:Button>
 
-                </StackPanel>
             </StackPanel>
-        </Grid>
+        </StackPanel>
     </Grid>
 </ui:FluentWindow>

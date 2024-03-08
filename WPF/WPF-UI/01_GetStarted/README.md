@@ -2,8 +2,7 @@
 
 ## Abstracts
 
-* How to embed `System.Windows.Forms` control into WPF
-  * .NET Framework and .NET control
+* How to use `WPF UI` to modernize WPF application
 
 ## Requirements
 
@@ -14,6 +13,8 @@
 
 * [NLog](https://github.com/NLog/NLog)
   * BSD-3-Clause License
+* [WPF UI](https://github.com/lepoco/wpfui)
+  * MIT License
 
 ## Screenshots
 
