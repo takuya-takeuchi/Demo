@@ -2,8 +2,8 @@
 
 ## Abstracts
 
-* What happend when resize mat with 4 byte alignment padding like Windows bitmap
-  * OpenCV keep padding of resized mat if specified stride explicitly
+* Play h264 movie file by opencv without ffmpeg backend
+  * Use OS decoder to avoid patent violation 
 
 ## Requirements
 
@@ -43,7 +43,7 @@
 Go to [OpenCV](..).
 
 ````shell
-$ pwsh build.ps1 <Debug/Release>
+$ pwsh build-disable_ffmpeg.ps1 <Debug/Release>
 ````
 
 Once time you built `opencv4`, you need not to do again.
@@ -55,17 +55,11 @@ $ pwsh build.ps1 <Debug/Release>
 ## How to test?
 
 ````bat
-$ ./install/linux/bin/Demo
-srcMat.steps: 104
-dstMat.steps: 52
+$ .\install\win\bin\Demo.exe bun33s.mp4
+[Info] Succeeded to fail opening 'bun33s.mp4' by using ffmpeg backend.
+[Info] Succeeded to open'bun33s.mp4' by using Any backend.
+[Info] Succeeded to read frame from 'bun33s.mp4' by using Any backend.
+[Info] Succeeded to open'bun33s.mp4' by using Microsoft Media Foundation backend.
+[Info] Succeeded to read frame from 'bun33s.mp4' by using Microsoft Media Foundation backend.
+[Warning] Failed to find 'bun33s.mp4' by using DirectShow backend. But System does not have proper codec to play video for DirectShow.
 ````
-
-### Before and After resize image 
-
-<img src="./images/srcMat.png" />
-<img src="./images/dstMat.png" />
-
-### Before and After resize image with padding
-
-<img src="./images/srcMatWithPadding.png" />
-<img src="./images/dstMatWithPadding.png" />
