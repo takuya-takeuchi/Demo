@@ -88,6 +88,9 @@ if ($global:IsWindows)
           -D BUILD_ZLIB=ON `
           -D WITH_JPEG=ON `
           -D WITH_PNG=ON `
+          -D WITH_TIFF=ON `
+          -D WITH_OPENEXR=OFF `
+          -D WITH_JASPER=OFF `
           -D WITH_FFMPEG=OFF `
           -D WITH_MSMF=ON `
           -D WITH_MSMF_DXVA=ON `
@@ -119,6 +122,7 @@ elseif ($global:IsMacOS)
           -D WITH_PNG=ON `
           -D WITH_TIFF=ON `
           -D WITH_OPENEXR=OFF `
+          -D WITH_JASPER=OFF `
           -D WITH_FFMPEG=OFF `
           -D WITH_AVFOUNDATION=ON `
           $sourceDir
@@ -147,6 +151,11 @@ elseif ($global:IsLinux)
           -D WITH_JPEG=ON `
           -D WITH_PNG=ON `
           -D WITH_TIFF=ON `
+          -D WITH_OPENEXR=OFF `
+          -D WITH_JASPER=OFF `
+          -D WITH_FFMPEG=OFF `
+          -D WITH_MFX=ON `
+          -D WITH_GSTREAMER=ON `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

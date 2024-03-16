@@ -1,9 +1,10 @@
-# Resize image with padding
+# Decode H.264 by not using ffmpeg
 
 ## Abstracts
 
 * Play h264 movie file by opencv without ffmpeg backend
-  * Use OS decoder to avoid patent violation 
+  * Use OS decoder to avoid patent violation
+    * But I'm not sure this approach can avoid paying patent fee
 
 ## Requirements
 
@@ -20,6 +21,8 @@
 ### Ubuntu
 
 * g++
+
+:warning: I could not find a way to play h264 file by OS decoder so this program does not support on linux.
 
 ### OSX
 
