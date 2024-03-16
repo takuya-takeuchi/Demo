@@ -37,9 +37,11 @@ $buildDir = Join-Path $current build | `
             Join-Path -ChildPath program
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
+$installBinaryDir = Join-Path $installDir bin
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
+New-Item -Type Directory $installBinaryDir -Force | Out-Null
 
 Push-Location $buildDir
 if ($global:IsWindows)

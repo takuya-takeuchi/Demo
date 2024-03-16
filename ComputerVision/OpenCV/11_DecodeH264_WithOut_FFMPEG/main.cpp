@@ -68,7 +68,7 @@ int32_t main(int32_t argc, const char** argv)
         std::cout << "[Info] Succeeded to read frame from '" << inputVideoPath << "' by using Any backend." << std::endl;
     }
 
-#ifdef _WINDOWS
+#ifdef defined _WIN32 || defined _WIN64
     if (!checkBackend(videoCapture, inputVideoPath, cv::CAP_MSMF))
     {
         std::cout << "[Error] Failed to find '" << inputVideoPath << "' by using Microsoft Media Foundation backend." << std::endl;
@@ -107,7 +107,27 @@ int32_t main(int32_t argc, const char** argv)
             std::cout << "[Info] Succeeded to read frame from '" << inputVideoPath << "' by using DirectShow backend." << std::endl;
         }
     }
-#endif
+#elif __APPLE__
+    if (!checkBackend(videoCapture, inputVideoPath, cv::CAP_AVFOUNDATION))
+    {
+        std::cout << "[Error] Failed to find '" << inputVideoPath << "' by using AVFoundation backend." << std::endl;
+        return -1;
+    }
+    else
+    {
+        std::cout << "[Info] Succeeded to open'" << inputVideoPath << "' by using AVFoundation backend." << std::endl;
+    }
+
+    if (!tryGrabFrame(videoCapture, inputVideoPath, cv::CAP_AVFOUNDATION))
+    {
+        std::cout << "[Error] Failed to read frame by using AVFoundation backend." << std::endl;
+        return -1;
+    }
+    else
+    {
+        std::cout << "[Info] Succeeded to read frame from '" << inputVideoPath << "' by using AVFoundation backend." << std::endl;
+    }
+#endif 
 
     return 0;
 }

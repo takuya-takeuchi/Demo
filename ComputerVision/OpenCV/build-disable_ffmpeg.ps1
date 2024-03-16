@@ -118,6 +118,7 @@ elseif ($global:IsMacOS)
           -D WITH_JPEG=ON `
           -D WITH_PNG=ON `
           -D WITH_TIFF=ON `
+          -D WITH_OPENEXR=OFF `
           -D WITH_FFMPEG=OFF `
           -D WITH_AVFOUNDATION=ON `
           $sourceDir
