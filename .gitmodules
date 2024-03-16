@@ -124,3 +124,6 @@
 	path = Misc/18_LinkError__std_min_element_4/opencv
 	url = https://github.com/opencv/opencv
 	ignore = dirty
+[submodule "ComputerVision/OpenCV/opencv_contrib"]
+	path = ComputerVision/OpenCV/opencv_contrib
+	url = https://github.com/opencv/opencv_contrib.git
