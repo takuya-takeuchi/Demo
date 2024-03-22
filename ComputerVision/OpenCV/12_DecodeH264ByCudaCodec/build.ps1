@@ -18,13 +18,26 @@ if ($global:IsWindows)
 {
     $os = "win"
 }
-elseif ($global:IsMacOS)
-{
-    $os = "osx"
-}
 elseif ($global:IsLinux)
 {
     $os = "linux"
+}
+else
+{
+    Write-Host "[Error] This platform does not support CUDA" -ForegroundColor Red
+    exit
+}
+
+# check CUDA
+if (!($env:CUDA_PATH))
+{
+    Write-Host "CUDA_PATH environmental variable is missing" -ForegroundColor Red
+    return
+}
+if (!(Test-Path($env:CUDA_PATH)))
+{
+    Write-Host "${env:CUDA_PATH} is missing" -ForegroundColor Red
+    return
 }
 
 $target = "opencv4"
@@ -47,7 +60,7 @@ Push-Location $buildDir
 if ($global:IsWindows)
 {
     $rootDir = Split-Path $current -Parent
-    $openCVInstallDir = Join-Path $rootDir install-without-ffmpeg | `
+    $openCVInstallDir = Join-Path $rootDir install-with-cudacodec | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath $target | `
                         Join-Path -ChildPath $shared
@@ -64,25 +77,10 @@ if ($global:IsWindows)
           -D CMAKE_PREFIX_PATH="${openCVInstallDir}" `
           $sourceDir
 }
-elseif ($global:IsMacOS)
-{
-    $rootDir = Split-Path $current -Parent
-    $openCVInstallDir = Join-Path $rootDir install-without-ffmpeg | `
-                        Join-Path -ChildPath $os | `
-                        Join-Path -ChildPath $target | `
-                        Join-Path -ChildPath $shared | `
-                        Join-Path -ChildPath lib | `
-                        Join-Path -ChildPath cmake | `
-                        Join-Path -ChildPath $target
-
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openCVInstallDir}" `
-          $sourceDir
-}
 elseif ($global:IsLinux)
 {
     $rootDir = Split-Path $current -Parent
-    $openCVInstallDir = Join-Path $rootDir install-without-ffmpeg | `
+    $openCVInstallDir = Join-Path $rootDir install-with-cudacodec | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath $target | `
                         Join-Path -ChildPath $shared | `
