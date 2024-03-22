@@ -46,7 +46,7 @@
 Go to [OpenCV](..).
 
 ````shell
-$ pwsh build-disable_ffmpeg.ps1 <Debug/Release>
+$ pwsh build-disable-ffmpeg.ps1 <Debug/Release>
 ````
 
 Once time you built `opencv4`, you need not to do again.
