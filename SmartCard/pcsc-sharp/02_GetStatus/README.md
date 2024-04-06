@@ -1,8 +1,8 @@
-# Enumerate SmartCard Readers
+# Get status of SmartCard
 
 ## Abstracts
 
-* Enumerate SmartCard Readers connected to machine by using `PCSC`
+* Retrieve status of SmartCard by using `PCSC`
 
 ## Requirements
 
