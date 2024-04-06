@@ -53,6 +53,8 @@ namespace Demo
             Console.ReadKey();
         }
 
+        #region Events
+
         private static void OnCardRemoved(SmartCardReader sender, CardRemovedEventArgs args)
         {
             Logger.Info($"CardRemoved: {args.SmartCard.Reader.Name}");
@@ -62,6 +64,8 @@ namespace Demo
         {
             Logger.Info($"CardAdded: {args.SmartCard.Reader.Name}");
         }
+
+        #endregion
 
         #endregion
 
