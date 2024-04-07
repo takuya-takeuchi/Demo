@@ -58,19 +58,19 @@ namespace Demo
 
                 var result = await ConnectToJapanesePublicKeyInfrastructure(smartCardConnection);
                 var success = IsSuccess(result);
-                Logger.Info($"\tSELECT FILE JPKI: {success} [{BitConverter.ToString(result)}]");
+                Logger.Info($"\tSELECT FILE 公的個人認証AP: {success} [{BitConverter.ToString(result)}]");
                 if (!success)
                 {
-                    Logger.Error("No JPKI file");
+                    Logger.Error("No 公的個人認証AP");
                     return;
                 }
 
                 result = await ConnectToAuthenticationPIN(smartCardConnection);
                 success = IsSuccess(result);
-                Logger.Info($"\tSELECT FILE PIN: {success} [{BitConverter.ToString(result)}]");
+                Logger.Info($"\tSELECT FILE 認証用PIN IEF: {success} [{BitConverter.ToString(result)}]");
                 if (!success)
                 {
-                    Logger.Error("No PIN file");
+                    Logger.Error("No 認証用PIN");
                     return;
                 }
 

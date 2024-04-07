@@ -39,10 +39,10 @@ Refer: [Windows.Devices.SmartCards.SmartCardReader.FromIdAsync(string deviceId)�
 
 ````bat
 $ dotnet run --project .\sources\Demo -c Release
-2024-04-06 21:53:02.6519 [INFO ] SmartCardReader: SONY FeliCa Port/PaSoRi 4.0 0 
-2024-04-06 21:53:02.7341 [INFO ] Press any key When put card on device 
-2024-04-06 21:53:04.0925 [INFO ]        SELECT FILE JPKI: True [90-00] 
-2024-04-06 21:53:04.1250 [INFO ]        SELECT FILE PIN: True [90-00] 
-2024-04-06 21:53:04.1524 [INFO ]        RETRY COUNT: 3 
-2024-04-06 21:53:04.1608 [INFO ] Press any key to exit. 
+2024-04-06 23:54:10.5154 [INFO ] SmartCardReader: SONY FeliCa Port/PaSoRi 4.0 0 
+2024-04-06 23:54:10.5976 [INFO ] Press any key When put card on device 
+2024-04-06 23:54:11.7728 [INFO ]        SELECT FILE 公的個人認証AP: True [90-00] 
+2024-04-06 23:54:11.8060 [INFO ]        SELECT FILE 認証用PIN IEF: True [90-00] 
+2024-04-06 23:54:11.8337 [INFO ]        RETRY COUNT: 3 
+2024-04-06 23:54:11.8424 [INFO ] Press any key to exit. 
 ````
