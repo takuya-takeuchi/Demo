@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "E:\Works\OpenSource\Demo\ASP.NET\02_SOAP\sources\Demo\Demo.csproj", "{BAB824F2-2772-4D3C-BCFC-A95D98CA198D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Demo", "sources\Demo\Demo.csproj", "{BAB824F2-2772-4D3C-BCFC-A95D98CA198D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
