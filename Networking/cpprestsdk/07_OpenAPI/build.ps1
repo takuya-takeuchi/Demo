@@ -75,7 +75,7 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${targetDir};${targetOpenAPIDir}" 
+          -D CMAKE_PREFIX_PATH="${targetDir};${targetOpenAPIDir}" `
           -D OPENSSL_ROOT_DIR=/usr/local/opt/openssl `
           -D OPENSSL_LIBRARIES=/usr/local/opt/openssl/lib `
           $sourceDir
@@ -83,7 +83,7 @@ elseif ($global:IsMacOS)
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${targetDir};${targetOpenAPIDir}" 
+          -D CMAKE_PREFIX_PATH="${targetDir};${targetOpenAPIDir}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

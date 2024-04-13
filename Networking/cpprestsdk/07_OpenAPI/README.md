@@ -17,6 +17,7 @@
 * Visual Studio
 * vcpkg
 * cpprestsdk
+  * `vcpkg --triplet x64-windows-static install cpprestsdk`
 * Java
 
 ### Ubuntu
@@ -28,8 +29,11 @@
 ### OSX
 
 * Xcode
+* brew
 * cpprestsdk
-  * via `brew` command
+  * `brew install cpprestsdk`
+* openssl
+  * `brew install openssl`
 
 ## Dependencies
 
@@ -39,22 +43,12 @@
 
 ## How to build?
 
-#### Windows
-
-At first, you must install `cpprestsdk` by using `vcpkg`. And `VCPKG_ROOT_DIR` should be defined.
-
-````bat
-$ vcpkg --triplet x64-windows-static install cpprestsdk
-````
-
-#### Common
-
 At first, you must launch web api server.
 This repositry uses [ASP.NET\01_Swagger](../../../ASP.NET\01_Swagger).
 
 ````bat
 $ dotnet run -c Release --urls http://localhost:9000
-ビルドしています...
+Building...
 info: Microsoft.Hosting.Lifetime[14]
       Now listening on: http://localhost:9000
 info: Microsoft.Hosting.Lifetime[0]

@@ -75,8 +75,6 @@ elseif ($global:IsMacOS)
           -D OPENSSL_ROOT_DIR=/usr/local/opt/openssl `
           -D OPENSSL_LIBRARIES=/usr/local/opt/openssl/lib `
           -D BUILD_SHARED_LIBS=OFF `
-          -D CMAKE_CXX_FLAGS_RELEASE="/MT" `
-          -D CMAKE_CXX_FLAGS="/MT" `
           $sourceDir
 }
 elseif ($global:IsLinux)
