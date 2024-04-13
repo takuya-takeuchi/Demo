@@ -15,20 +15,22 @@
 ### Windows
 
 * Visual Studio
+* Java
 * vcpkg
 * cpprestsdk
   * `vcpkg --triplet x64-windows-static install cpprestsdk`
-* Java
 
 ### Ubuntu
 
 * g++
+* Java
 * libcpprest-dev
-  * via `apt` command
+  * `apt install libcpprest-dev`
 
 ### OSX
 
 * Xcode
+* Java
 * brew
 * cpprestsdk
   * `brew install cpprestsdk`
@@ -71,8 +73,26 @@ $ pwsh build.ps1 Release
 
 ## How to usage?
 
+#### Windows
+
 ````bat
 $ install\win\bin\Test.exe "http://localhost:9000"
 [Info] message: Hello!!
 [Info]    date: 2024-04-13T12:34:38.2261984Z
+````
+
+#### OSX
+
+````bat
+$ ./install/osx/bin/Test "http://localhost:9000"
+[Info] message: Hello!!
+[Info]    date: 2024-04-13T13:02:18.355794Z
+````
+
+#### Linux
+
+````bat
+$ ./install/linux/bin/Test "http://localhost:9000"
+[Info] message: Hello!!
+[Info]    date: 2024-04-13T13:52:37.9457844Z
 ````
