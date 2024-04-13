@@ -1,0 +1,7 @@
+{
+    "apiPackage" : "demo.client.api",
+    "modelPackage" : "demo.client.model",
+    "packageName" : "OpenAPIClient",
+    "packageVersion" : "1.0.0",
+    "variableNameFirstCharacterUppercase" : false
+}
