@@ -3,10 +3,10 @@ using System.IO;
 using System.Reflection;
 
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-
 using Serilog;
 
 namespace Demo
@@ -20,13 +20,20 @@ namespace Demo
         static void Main(string[] args)
         {
             // Configure Serilog
-            Log.Logger = new LoggerConfiguration().WriteTo
-                .Console()
+            var configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json")
+                .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
+                .Build();
+
+            var logger = new LoggerConfiguration()
+                .ReadFrom.Configuration(configuration)
+                .Enrich.FromLogContext() // Add useful info to log
                 .CreateLogger();
 
             try
             {
-                Log.Information("Starting web application");
+                logger.Information("Starting web application");
 
                 var builder = WebApplication.CreateBuilder(args);
 
@@ -63,6 +70,8 @@ namespace Demo
 
                 var app = builder.Build();
 
+                // app.UseSerilogRequestLogging();
+
                 // Configure the HTTP request pipeline.
                 if (app.Environment.IsDevelopment())
                 {
@@ -84,11 +93,7 @@ namespace Demo
             }
             catch (Exception e)
             {
-                Log.Fatal(e, "Application terminated unexpectedly");
-            }
-            finally
-            {
-                Log.CloseAndFlush();
+                logger.Fatal(e, "Application terminated unexpectedly");
             }
         }
 

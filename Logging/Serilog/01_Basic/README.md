@@ -1,8 +1,8 @@
-# Output Request ID
+# Serilog Tutorial
 
 ## Abstracts
 
-* Output request id by Serilog
+* Output log to console and file
 
 ## Requirements
 

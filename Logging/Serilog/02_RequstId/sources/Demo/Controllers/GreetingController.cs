@@ -3,6 +3,7 @@ using System;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 using Demo.Models;
 
@@ -46,6 +47,7 @@ namespace Demo.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Message> Get()
         {
+            _Logger.LogInformation($"Request {nameof(Get)}");
             return this.Ok(new Message
             {
                 Date = DateTime.Now,
