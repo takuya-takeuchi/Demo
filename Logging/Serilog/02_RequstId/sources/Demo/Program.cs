@@ -26,16 +26,19 @@ namespace Demo
                 .AddJsonFile($"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Production"}.json", true)
                 .Build();
 
-            var logger = new LoggerConfiguration()
+            Log.Logger = new LoggerConfiguration()
                 .ReadFrom.Configuration(configuration)
                 .Enrich.FromLogContext() // Add useful info to log
                 .CreateLogger();
 
             try
             {
-                logger.Information("Starting web application");
+                Log.Logger.Information("Starting web application");
 
                 var builder = WebApplication.CreateBuilder(args);
+
+                // Use Serilog
+                builder.Host.UseSerilog();
 
                 // Add services to the container.
                 builder.Services.AddControllers();
@@ -93,7 +96,7 @@ namespace Demo
             }
             catch (Exception e)
             {
-                logger.Fatal(e, "Application terminated unexpectedly");
+                Log.Logger.Fatal(e, "Application terminated unexpectedly");
             }
         }
 

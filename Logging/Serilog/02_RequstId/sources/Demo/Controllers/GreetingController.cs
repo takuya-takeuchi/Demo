@@ -47,7 +47,7 @@ namespace Demo.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Message> Get()
         {
-            _Logger.LogInformation($"Request {nameof(Get)}");
+            _Logger.LogInformation($"Request {nameof(Get)}, RequestId (HttpContext.TraceIdentifier): {HttpContext.TraceIdentifier}");
             return this.Ok(new Message
             {
                 Date = DateTime.Now,
