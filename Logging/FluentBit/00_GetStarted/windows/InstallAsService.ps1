@@ -1,10 +1,13 @@
-$target = "fluentbit"
-$version = "3.0.2"
-$filename = "fluent-bit-${version}-win64.zip"
-$url = "https://packages.fluentbit.io/windows/${filename}"
-$serviceName = "fluent-bit"
-
 $current = $PSScriptRoot
+
+$configPath = Join-Path $current "config.json"
+$config = Get-Content -Path "${configPath}" | ConvertFrom-Json
+
+$target = $config.target
+$version = $config.version
+$filename = $config.filename
+$url = $config.url
+$serviceName = $config.serviceName
 
 $packageDir = Join-Path $current $target | `
              Join-Path -ChildPath $version

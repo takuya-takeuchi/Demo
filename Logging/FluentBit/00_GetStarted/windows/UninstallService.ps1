@@ -1,8 +1,9 @@
-$target = "fluentbit"
-$version = "3.0.2"
-$filename = "fluent-bit-${version}-win64.zip"
-$url = "https://packages.fluentbit.io/windows/${filename}"
-$serviceName = "fluent-bit"
+$current = $PSScriptRoot
+
+$configPath = Join-Path $current "config.json"
+$config = Get-Content -Path "${configPath}" | ConvertFrom-Json
+
+$serviceName = $config.serviceName
 
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Administrators"))
 {
