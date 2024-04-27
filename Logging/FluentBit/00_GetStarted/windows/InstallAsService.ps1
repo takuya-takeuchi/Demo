@@ -14,7 +14,7 @@ $packageDir = Join-Path $current $target | `
 
 if (!(Test-Path("${packageDir}")))
 {
-    Write-Host "Please invoke `Download.ps1` before install ${target}" -ForegroundColor Red
+    Write-Host "Please invoke 'Download.ps1' before install ${target}" -ForegroundColor Red
     exit
 }
 
