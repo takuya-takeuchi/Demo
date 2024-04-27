@@ -2,6 +2,7 @@
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+
 using NLog;
 
 using Client.Service;
@@ -66,6 +67,8 @@ namespace Client
             {
                 Logger.Error(e, "Error");
             }
+
+            Console.ReadLine();
         }
 
         #endregion
