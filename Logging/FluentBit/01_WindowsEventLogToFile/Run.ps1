@@ -1,7 +1,6 @@
 $current = $PSScriptRoot
-$os = Split-Path $current -Leaf
-$currentProject = Split-Path $current -Parent
-$root = Split-Path $currentProject -Parent
+$os = "windows"
+$root = Split-Path $current -Parent
 $base = Join-Path $root "00_GetStarted" | Join-Path -ChildPath $os
 
 $configPath = Join-Path $base "config.json"
@@ -25,7 +24,7 @@ if (!(Test-Path("${packageDir}")))
 
 $binary = Join-Path $packageDir bin | `
           Join-Path -ChildPath "fluent-bit.exe"
-$config = Join-Path $current "fluent-bit.conf"
+$config = Join-Path $current "fluent-bit-${os}.conf"
 
 Write-Host "Creating output directory for fluentbit plugins" -ForegroundColor Blue
 New-Item -Type Directory -Force "C:\fluentbit\winevtlog" | Out-Null
