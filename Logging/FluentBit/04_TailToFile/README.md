@@ -27,7 +27,7 @@ Here is configuration of input and output plugins.
 |Key|Value|
 |---|---|
 |name|tail|
-|tag|tail.app_logs.*,memory|
+|tag|tail.app_logs.*|
 |path|${PROJECT_ROOT}\http-service\Logs\access*.log|
 |path_key|application_log_file_path|
 |read_from_head|true|
