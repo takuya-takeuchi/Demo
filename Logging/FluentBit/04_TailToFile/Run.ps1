@@ -65,9 +65,15 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
+    # Set environmental variables to recognize current directory by fluent-bit
+    # PROJECT_ROOT is used in fluent-bit-osx.conf
+    $env:PROJECT_ROOT = $current
     & "${package}"-c "${config}"
 }
 elseif ($global:IsLinux)
 {
+    # Set environmental variables to recognize current directory by fluent-bit
+    # PROJECT_ROOT is used in fluent-bit-linux.conf
+    $env:PROJECT_ROOT = $current
     & "/opt/fluent-bit/bin/fluent-bit"-c "${config}"
 }
