@@ -1,0 +1,4 @@
+{
+    "target": "fluentbit",
+    "packageName": "fluent-bit"
+}

@@ -1,5 +1,13 @@
 $current = $PSScriptRoot
-$os = "windows"
+if ($global:IsWindows)
+{
+    $os = "windows"
+}
+else
+{
+    Write-Host "Error: This plaform is not support" -ForegroundColor Red
+    exit -1
+}
 $root = Split-Path $current -Parent
 $base = Join-Path $root "00_GetStarted" | Join-Path -ChildPath $os
 
@@ -8,9 +16,6 @@ $config = Get-Content -Path "${configPath}" | ConvertFrom-Json
 
 $target = $config.target
 $version = $config.version
-$filename = $config.filename
-$url = $config.url
-$serviceName = $config.serviceName
 
 $packageDir = Join-Path $base $target | `
              Join-Path -ChildPath $version

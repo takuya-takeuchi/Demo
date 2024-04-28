@@ -48,8 +48,8 @@ You can use `\` as path delimiter for `Path` on Windows.
 
 ## How to run?
 
-Af first, you must download fluentbit package.
-Please execute [windows/Download.ps1](../00_GetStarted/windows/Download.ps1).
+Af first, you must download or install fluentbit.
+Please refer [README.md](../00_GetStarted/README.md).
 
 ````bat
 $ pwsh Run.ps1
