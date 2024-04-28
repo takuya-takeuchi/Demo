@@ -12,8 +12,12 @@ req_extensions = req_ext
 
 [req_dn]
 countryName = "JP"
+stateOrProvinceName = "Tokyo"
+localityName = "Minato-ku"
 organizationName ="Contoso"
+organizationalUnitName = "Docs, Contoso"
 commonName = "Contoso Root CA"
+emailAddress = "ca@contso.com"
 
 [req_ext]
 basicConstraints = critical,CA:true
@@ -40,8 +44,9 @@ policy = policy_match
 
 [policy_match]
 countryName = supplied
-stateOrProvinceName = optional
+stateOrProvinceName = supplied
 organizationName = supplied
-organizationalUnitName = optional
+organizationalUnitName = supplied
+localityName = supplied
 commonName = supplied
 emailAddress = optional
