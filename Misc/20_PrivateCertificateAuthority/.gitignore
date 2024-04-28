@@ -1,2 +1,4 @@
 pki
 root-ca.conf
+server.csr
+server.crt

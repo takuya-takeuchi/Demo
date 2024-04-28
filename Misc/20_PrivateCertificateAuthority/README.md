@@ -112,6 +112,58 @@ Data Base Updated
 unable to write 'random state'
 ````
 
-
+````bat
+$ pwsh CheckServerCSR.ps1
+Check server's certificate signing request...
+WARNING: can't open config file: /usr/local/ssl/openssl.cnf
+Unable to load config info from /usr/local/ssl/openssl.cnf
+Certificate Request:
+    Data:
+        Version: 0 (0x0)
+        Subject: C=US, ST=California, L=Palo Alto, O=VMware, Inc, OU=VMware ESX Server Default Certificate/emailAddress=ssl-certificates@vmware.com, CN=192.168.11.43/unstructuredName=1672285880,564d7761726520496e632e
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+                Public-Key: (2048 bit)
+                Modulus:
+                    00:cd:30:a1:16:0f:2a:da:2b:ea:6e:f9:26:e2:68:
+                    1d:29:20:9c:02:5d:33:40:f7:7e:aa:68:88:cf:08:
+                    b4:f2:2c:38:f2:ae:de:59:6a:06:17:2c:98:07:f0:
+                    e2:29:2f:74:1a:5a:7f:c4:50:8f:cb:7d:1f:12:12:
+                    ad:e3:03:18:f3:d1:fa:79:01:d6:c2:32:71:2f:cd:
+                    e3:70:d7:ab:b5:66:2a:4f:11:c0:1f:ad:06:de:db:
+                    3d:5c:5e:49:0a:85:a2:06:fb:3e:68:25:d2:7d:8a:
+                    04:7a:46:a5:e0:72:d3:35:eb:c3:20:e3:3c:0f:dd:
+                    38:63:d5:70:3c:3c:b1:22:91:24:f6:13:45:f3:43:
+                    59:87:22:14:d1:21:d3:d3:e0:8c:7e:58:4f:fa:03:
+                    4e:25:90:13:3b:6b:b0:e7:27:36:c3:1c:15:aa:d0:
+                    9d:92:a8:4d:06:2f:18:02:e0:10:3a:af:81:82:e4:
+                    55:d6:86:57:22:11:a9:62:e0:0f:59:52:e2:eb:68:
+                    03:b2:90:d9:b0:c6:e1:ab:aa:cc:c3:54:ea:d6:43:
+                    68:70:08:f0:db:01:dc:ab:d1:e3:7e:fa:d5:9b:52:
+                    73:78:8b:e6:e4:fb:89:79:2d:33:a5:8c:62:ce:74:
+                    2e:5c:ba:ad:34:34:f0:a6:6d:5f:84:8b:8a:36:dc:
+                    9c:29
+                Exponent: 65537 (0x10001)
+        Attributes:
+        Requested Extensions:
+            X509v3 Subject Alternative Name:
+                IP Address:192.168.11.43
+    Signature Algorithm: sha256WithRSAEncryption
+         cb:3f:e3:6e:fc:7b:75:76:ac:6a:b7:fc:7f:cb:88:93:19:a4:
+         b4:d6:57:f8:37:3d:07:f0:b5:0b:7f:ec:97:e4:8e:a8:4f:81:
+         fb:3a:bf:1f:c2:6a:ec:3f:d0:6c:45:eb:f7:7a:12:fe:df:8f:
+         9b:ff:33:39:2e:e7:18:1f:3c:2d:ae:9b:b0:62:f5:97:22:73:
+         6c:a4:b1:9e:21:7f:b7:c8:c9:d3:3e:e6:7b:a8:35:de:2a:83:
+         a0:40:3c:8e:70:88:ed:9e:ae:f3:cd:b1:88:a8:ee:37:a0:8c:
+         62:3f:90:ba:cb:b4:86:9e:a2:f7:0a:7e:8a:18:66:40:d0:0a:
+         d5:2f:a7:ea:f2:e5:00:39:ac:58:ed:ed:56:dd:d9:75:c9:e6:
+         89:60:fb:98:ff:d6:35:c4:2f:a2:31:0c:c4:c6:f4:6a:b4:6b:
+         17:73:49:07:08:3b:68:dc:4b:3e:48:c7:d5:10:54:0a:fc:d4:
+         7a:14:7b:c9:ed:e7:a5:6f:60:f3:92:59:0e:13:d7:85:c3:b6:
+         7c:4d:bf:1e:8e:12:e8:0d:31:60:8e:90:27:80:ff:41:40:ab:
+         b2:c4:98:f2:23:07:cd:26:54:b5:40:ad:68:df:77:0f:18:32:
+         b1:73:a7:42:4c:1b:c9:3a:4f:69:4a:e6:4e:1e:cc:e8:5a:de:
+         9e:8a:3c:94
+````
 
 Lastly, install `root-ca.crt` into OS certification manager,
