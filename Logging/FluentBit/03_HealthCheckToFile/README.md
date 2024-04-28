@@ -104,7 +104,7 @@ But it show error log after shutdown http service.
 [2024/04/28 17:57:13] [error] [net] TCP connection failed: 127.0.0.1:5001 (Connection refused)
 ````
 
-Outout log file is [health.0](./logs/health.0)].
+For example, `health.0` will be created in [logs](./logs).
 
 ````txt
 health.0: [1714294626.943048000, {"alive":true}]
