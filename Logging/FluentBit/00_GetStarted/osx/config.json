@@ -1,0 +1,4 @@
+{
+    "target": "fluentbit",
+    "serviceName": "fluent-bit"
+}

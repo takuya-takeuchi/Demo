@@ -1,0 +1,7 @@
+{
+    "target": "fluentbit",
+    "version": "3.0.2",
+    "filename": "fluent-bit-3.0.2-win64.zip",
+    "url": "https://packages.fluentbit.io/windows/fluent-bit-3.0.2-win64.zip",
+    "serviceName": "fluent-bit"
+}
