@@ -46,9 +46,6 @@ $package = $config.serviceName
 
 $config = Join-Path $current "fluent-bit-${os}.conf"
 
-Write-Host "Creating output directory for fluentbit plugins" -ForegroundColor Blue
-New-Item -Type Directory -Force "${current}/logs" | Out-Null
-
 Write-Host "Starting ${target}..." -ForegroundColor Blue
 if ($global:IsWindows)
 {
