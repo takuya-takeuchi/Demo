@@ -1,0 +1,7 @@
+{
+    "target": "fluentbit",
+    "version": "3.0.2",
+    "filename": "install.sh",
+    "url": "https://raw.githubusercontent.com/fluent/fluent-bit/v3.0.2/install.sh",
+    "serviceName": "fluent-bit"
+}

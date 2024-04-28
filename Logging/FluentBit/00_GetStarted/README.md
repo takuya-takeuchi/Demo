@@ -26,3 +26,9 @@
 |---|---|
 |[Install.ps1](./windows/InstallAsService.ps1)|Install FluentBit by `homebrew`|
 |[Uninstall.ps1](./windows/UninstallService.ps1)|Uninstall installed FluentBit|
+
+#### Linux
+
+|File|Description|
+|---|---|
+|[Install.ps1](./windows/InstallAsService.ps1)|Install FluentBit by official script|

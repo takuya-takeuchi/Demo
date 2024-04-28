@@ -18,6 +18,8 @@ $base = Join-Path $root "00_GetStarted" | Join-Path -ChildPath $os
 $configPath = Join-Path $base "config.json"
 $config = Get-Content -Path "${configPath}" | ConvertFrom-Json
 
+$package = $config.serviceName
+
 $config = Join-Path $current "fluent-bit-${os}.conf"
 
 Write-Host "Creating output directory for fluentbit plugins" -ForegroundColor Blue
@@ -33,8 +35,9 @@ elseif ($global:IsLinux)
 Write-Host "Starting ${target}..." -ForegroundColor Blue
 if ($global:IsMacOS)
 {
-    & fluent-bit -c "${config}"
+    & "${package}"-c "${config}"
 }
 elseif ($global:IsLinux)
 {
+    & "/opt/fluent-bit/bin/fluent-bit"-c "${config}"
 }

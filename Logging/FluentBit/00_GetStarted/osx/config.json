@@ -1,4 +1,4 @@
 {
     "target": "fluentbit",
-    "packageName": "fluent-bit"
+    "serviceName": "fluent-bit"
 }
