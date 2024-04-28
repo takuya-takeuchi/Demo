@@ -1,0 +1,52 @@
+name_opt = utf8,esc_ctrl,multiline,lname,align
+
+[req]
+default_bits = 4096
+encrypt_key = no
+default_md = sha256
+utf8 = yes
+string_mask = utf8only
+prompt = no
+distinguished_name = req_dn
+req_extensions = req_ext
+
+[req_dn]
+countryName = "JP"
+stateOrProvinceName = "Tokyo"
+localityName = "Minato-ku"
+organizationName ="Contoso"
+organizationalUnitName = "Docs, Contoso"
+commonName = "Contoso Root CA"
+emailAddress = "ca@contso.com"
+
+[req_ext]
+basicConstraints = critical,CA:true
+keyUsage = critical,keyCertSign
+subjectKeyIdentifier = hash
+
+[ca]
+default_ca = CA_default
+
+[CA_default]
+name = root-ca
+home = .
+database = pki/CA/db/index
+serial = pki/CA/db/serial
+certificate = pki/CA/$name.crt
+private_key = pki/CA/private/$name.key
+RANDFILE = pki/CA/private/random
+new_certs_dir = pki/CA/certs
+unique_subject = no
+copy_extensions = none
+default_days = 3650
+default_md = sha256
+policy = policy_match
+
+[policy_match]
+countryName = supplied
+stateOrProvinceName = supplied
+organizationName = supplied
+organizationalUnitName = supplied
+localityName = supplied
+commonName = supplied
+emailAddress = optional
