@@ -54,14 +54,14 @@ $ pwsh 02_GenerateRootCA.ps1
 Create private key and certificate signing request...
 WARNING: can't open config file: /usr/local/ssl/openssl.cnf
 Generating a RSA private key
-...............................................++++
+......................................................................................................................................................++++
 ...++++
 unable to write 'random state'
-writing new private key to 'E:\Works\OpenSource\Demo2\Misc\20_PrivateCertificateAuthority\pki\CA\private\root-ca.key'
+writing new private key to 'E:\Works\OpenSource\Demo2\Misc\21_Test\pki\CA\private\root-ca.key'
 -----
 Do Self-Sign certificate signing request...
 WARNING: can't open config file: /usr/local/ssl/openssl.cnf
-Using configuration from E:\Works\OpenSource\Demo2\Misc\20_PrivateCertificateAuthority\root-ca.conf
+Using configuration from E:\Works\OpenSource\Demo2\Misc\21_Test\root-ca.conf
 Check that the request matches the signature
 Signature ok
 Certificate Details:
@@ -69,65 +69,65 @@ Certificate:
     Data:
         Version: 3 (0x2)
         Serial Number:
-            d7:6e:25:55:87:5a:96:91:45:12:f4:23:b5:1a:a0:0e
+            f7:ea:40:85:61:19:db:5e:b2:d7:f8:d6:eb:57:f8:f6
         Issuer:
             countryName               = JP
-            stateOrProvinceName       = Aichi
-            organizationName          = Takuya Takeuchi
-            organizationalUnitName    = Takuya Takeuchi
-            localityName              = Togo-cho
-            commonName                = Takuya Takeuchi Root CA
-            emailAddress              = spitzbergen@gmail.com
+            stateOrProvinceName       = Tokyo
+            organizationName          = Contoso
+            organizationalUnitName    = Docs, Contoso
+            localityName              = Minato-ku
+            commonName                = Contoso Root CA
+            emailAddress              = ca@contso.com
         Validity
-            Not Before: Apr 28 18:06:14 2024 GMT
-            Not After : Apr 26 18:06:14 2034 GMT
+            Not Before: Apr 28 18:26:24 2024 GMT
+            Not After : Apr 26 18:26:24 2034 GMT
         Subject:
             countryName               = JP
-            stateOrProvinceName       = Aichi
-            organizationName          = Takuya Takeuchi
-            organizationalUnitName    = Takuya Takeuchi
-            localityName              = Togo-cho
-            commonName                = Takuya Takeuchi Root CA
-            emailAddress              = spitzbergen@gmail.com
+            stateOrProvinceName       = Tokyo
+            organizationName          = Contoso
+            organizationalUnitName    = Docs, Contoso
+            localityName              = Minato-ku
+            commonName                = Contoso Root CA
+            emailAddress              = ca@contso.com
         Subject Public Key Info:
             Public Key Algorithm: rsaEncryption
                 Public-Key: (4096 bit)
                 Modulus:
-                    00:c0:69:d4:c8:76:91:58:b1:31:83:8f:6b:f8:03:
-                    57:f5:ca:d6:fa:41:6a:40:66:54:f0:a3:45:68:e2:
-                    ea:0b:d0:fb:30:3b:e8:c0:f1:04:60:87:52:20:53:
-                    07:cd:d0:9d:67:95:b8:b5:8c:44:de:d1:4b:11:dd:
-                    4f:21:c6:95:5b:e8:e6:90:ab:21:9e:3b:2b:e1:d8:
-                    a7:14:eb:30:64:46:de:ba:a9:16:10:ed:be:57:fc:
-                    61:a4:65:7e:76:c2:f8:66:99:27:61:95:5b:a2:c4:
-                    61:c5:d3:32:64:0e:78:db:15:63:93:00:7e:d1:a0:
-                    77:8b:89:55:d1:cd:04:23:06:ed:5c:cf:d6:41:b9:
-                    0b:f2:b3:3e:65:e5:ed:3a:97:1e:56:4c:98:a7:fb:
-                    92:eb:46:4e:98:21:84:72:2d:a7:38:6f:53:4f:6d:
-                    6d:f5:c1:d3:4e:ad:54:86:88:79:6b:f1:99:ea:56:
-                    e1:ce:c9:45:50:db:fb:ef:de:a0:ae:03:65:f4:b3:
-                    2a:79:ec:c6:20:cf:9a:92:fb:96:03:1e:dc:71:65:
-                    29:c1:65:6e:bd:e6:9e:bf:f0:f1:03:89:eb:90:ec:
-                    ee:e3:45:d9:ec:b7:3e:b2:a1:dd:1e:ed:81:1a:fb:
-                    0c:f2:24:e6:0c:75:6c:4c:5f:8f:a9:da:ef:63:fb:
-                    a3:c9:46:ed:52:b9:c2:64:57:c1:0c:a3:c5:4e:08:
-                    de:53:c9:79:54:79:7d:34:7c:bb:de:64:43:31:00:
-                    78:cb:5e:37:a0:a4:f7:d3:3b:2c:23:6b:38:af:63:
-                    ab:ac:5c:6c:d8:22:5a:29:f9:49:1b:b2:65:05:c2:
-                    d1:52:39:e8:6f:e3:93:d0:ea:81:73:e8:57:65:ad:
-                    8e:70:6b:91:45:0e:66:f0:f6:b0:ca:4c:6d:c0:1b:
-                    9d:7c:2c:3b:12:69:94:22:c2:ba:d8:2d:ed:25:cb:
-                    10:91:de:d7:83:c8:bf:50:e4:35:1d:17:c4:2f:43:
-                    04:8c:c3:a7:82:0c:b2:22:b5:8a:53:05:95:79:5a:
-                    1f:5d:c5:c0:2f:de:45:8f:f7:83:2a:df:be:c6:cc:
-                    a4:dc:14:a6:66:34:44:98:28:66:02:a2:04:9e:b8:
-                    8d:7f:ce:d2:5e:93:10:fc:f0:7d:09:41:d2:92:0e:
-                    21:9f:bc:a4:a4:b4:ff:c9:c9:94:7b:e5:63:7c:a3:
-                    78:b8:47:77:da:5d:13:2e:43:8d:58:f6:10:53:1e:
-                    4f:01:af:69:d2:19:51:b2:1a:4c:82:2b:bb:f2:9f:
-                    c6:4f:05:ef:cf:ea:2d:dd:4a:06:2f:73:46:41:d3:
-                    77:61:ba:bb:6f:61:21:37:bf:a2:30:8b:ff:98:6d:
-                    6a:76:5d
+                    00:bc:e5:0e:b8:b2:3b:cc:79:74:35:62:d6:f8:33:
+                    5d:16:36:26:6a:10:38:15:02:fa:4b:01:17:68:66:
+                    b8:13:61:77:12:fe:64:2d:11:86:20:01:52:43:35:
+                    10:b5:e0:e5:17:a2:b8:bd:cb:de:6b:71:52:02:5c:
+                    ac:b3:6d:d1:7b:3e:c2:1e:be:6e:f0:a0:3a:45:85:
+                    e2:fb:62:35:f4:87:c9:c2:58:7c:5c:29:0d:4f:0b:
+                    15:4f:f1:63:58:ec:69:75:b7:53:32:8a:2d:fc:16:
+                    b2:37:08:51:2d:b1:31:4b:d7:c9:62:ef:98:ef:58:
+                    ac:e0:f1:9e:f1:6e:3b:23:56:0c:1f:04:ef:a8:6b:
+                    6f:6e:1f:37:91:a9:48:fb:81:97:d8:2c:e8:50:85:
+                    84:00:36:f4:ea:a4:e0:0f:54:95:5d:ae:13:bf:ab:
+                    20:3e:33:26:dd:28:a7:ef:89:e4:3d:fc:3b:2d:f4:
+                    63:15:2d:13:ff:e3:4e:73:df:f8:18:dc:16:f2:5f:
+                    7b:7a:d9:9c:bb:fc:2e:6d:5e:69:14:61:b6:3e:08:
+                    ad:00:94:b6:41:15:f3:85:dc:92:34:80:cb:31:38:
+                    9c:1c:d5:9d:c1:48:f4:5f:78:90:92:53:84:19:3d:
+                    8e:56:a8:a6:e0:1e:62:c0:9b:be:b4:eb:f8:e7:b5:
+                    05:61:23:03:83:d1:dc:36:ef:bd:0a:e5:d9:e4:ac:
+                    3c:70:96:20:6d:2e:c7:1e:36:d8:fe:4c:5b:50:39:
+                    60:13:64:59:90:0e:bc:91:dc:21:6b:6d:22:85:ec:
+                    66:92:62:d7:b3:3a:21:35:a1:dd:88:6b:25:04:2f:
+                    c6:b5:6e:9a:75:29:bd:56:93:2a:3c:d5:55:60:e0:
+                    ff:cc:27:3b:79:70:57:85:48:47:9f:45:da:c1:ba:
+                    4f:8e:47:70:a1:9a:9f:b3:91:91:0d:e2:45:6b:18:
+                    00:81:2f:e6:56:79:62:ad:df:85:42:5d:6b:1a:e5:
+                    e9:fd:9f:78:b5:c5:70:fd:9b:fd:5d:33:2a:33:17:
+                    eb:5e:21:2a:fc:c3:ce:22:4a:72:c6:cb:3a:15:47:
+                    c9:77:e8:51:e6:b7:fd:32:6f:30:56:34:4b:5b:ce:
+                    63:f9:18:bd:72:8f:35:37:0e:b2:d6:5c:9b:0e:85:
+                    fa:6b:f0:bf:53:47:b7:e0:19:65:0f:1b:ea:5d:68:
+                    eb:03:6c:14:72:8b:1b:49:dd:fc:c3:86:58:45:26:
+                    5c:a3:68:83:f8:d5:54:c8:00:83:be:43:13:f0:65:
+                    48:7b:af:09:70:17:55:81:5b:c6:e4:e0:79:55:86:
+                    c2:b6:86:ad:21:48:62:c4:c9:8a:89:c9:36:57:79:
+                    64:e3:15
                 Exponent: 65537 (0x10001)
         X509v3 extensions:
             X509v3 Basic Constraints: critical
@@ -135,8 +135,8 @@ Certificate:
             X509v3 Key Usage: critical
                 Certificate Sign
             X509v3 Subject Key Identifier:
-                18:11:01:FF:C7:10:E9:97:3E:CA:05:C7:F0:7A:7B:45:65:2F:CB:86
-Certificate is to be certified until Apr 26 18:06:14 2034 GMT (3650 days)
+                DC:9D:B3:F6:5F:B8:F5:16:CC:E1:8C:BC:A1:B7:23:4F:6B:B8:53:25
+Certificate is to be certified until Apr 26 18:26:24 2034 GMT (3650 days)
 Sign the certificate? [y/n]:y
 
 
@@ -222,18 +222,18 @@ Certificate:
     Data:
         Version: 3 (0x2)
         Serial Number:
-            d7:6e:25:55:87:5a:96:91:45:12:f4:23:b5:1a:a0:0f
+            f7:ea:40:85:61:19:db:5e:b2:d7:f8:d6:eb:57:f8:f7
         Issuer:
             countryName               = JP
-            stateOrProvinceName       = Aichi
-            organizationName          = Takuya Takeuchi
-            organizationalUnitName    = Takuya Takeuchi
-            localityName              = Togo-cho
-            commonName                = Takuya Takeuchi Root CA
-            emailAddress              = spitzbergen@gmail.com
+            stateOrProvinceName       = Tokyo
+            organizationName          = Contoso
+            organizationalUnitName    = Docs, Contoso
+            localityName              = Minato-ku
+            commonName                = Contoso Root CA
+            emailAddress              = ca@contso.com
         Validity
-            Not Before: Apr 28 18:06:46 2024 GMT
-            Not After : Apr 28 18:06:46 2025 GMT
+            Not Before: Apr 28 18:26:34 2024 GMT
+            Not After : Apr 28 18:26:34 2025 GMT
         Subject:
             countryName               = US
             stateOrProvinceName       = California
@@ -266,8 +266,8 @@ Certificate:
                     9c:29
                 Exponent: 65537 (0x10001)
         X509v3 extensions:
-            X509v3 Authority Key Identifier: 
-                keyid:18:11:01:FF:C7:10:E9:97:3E:CA:05:C7:F0:7A:7B:45:65:2F:CB:86
+            X509v3 Authority Key Identifier:
+                keyid:DC:9D:B3:F6:5F:B8:F5:16:CC:E1:8C:BC:A1:B7:23:4F:6B:B8:53:25
 
             X509v3 Basic Constraints: critical
                 CA:FALSE
@@ -279,7 +279,7 @@ Certificate:
                 6B:AC:76:08:D3:A6:BC:B5:88:14:08:74:1D:6D:77:9B:05:6F:95:FF
             X509v3 Subject Alternative Name:
                 IP Address:192.168.11.43
-Certificate is to be certified until Apr 28 18:06:46 2025 GMT (365 days)
+Certificate is to be certified until Apr 28 18:26:34 2025 GMT (365 days)
 Sign the certificate? [y/n]:y
 
 
