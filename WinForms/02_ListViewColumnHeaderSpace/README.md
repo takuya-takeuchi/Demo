@@ -1,8 +1,9 @@
-# ProcessCmdKey
+# Fill right space of most right column header
 
 ## Abstracts
 
-* Check behavior of *ProcessCmdKey* method
+* Fill right space of most right column header
+  * Instead, resize by double-click of column's border is unabled
 
 ## Requirements
 
@@ -15,4 +16,4 @@
 
 ## Screenshots
 
-<img src="./images/windows.gif" width="640" />
+<img src="./images/windows.gif" />
