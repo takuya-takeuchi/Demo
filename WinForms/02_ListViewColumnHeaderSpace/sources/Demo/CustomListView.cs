@@ -16,12 +16,6 @@ namespace Demo
         [DllImport("user32.dll", EntryPoint = "GetWindowLongPtr", CharSet = CharSet.Auto)]
         private static extern IntPtr GetWindowLongPtr64(IntPtr hWnd, int nIndex);
 
-        [DllImport("user32.dll", EntryPoint = "SetWindowLong", CharSet = CharSet.Auto)]
-        private static extern IntPtr SetWindowLongPtr32(IntPtr hWnd, int nIndex, int dwNewLong);
-
-        [DllImport("user32.dll", EntryPoint = "SetWindowLongPtr", CharSet = CharSet.Auto)]
-        private static extern IntPtr SetWindowLongPtr64(IntPtr hWnd, int nIndex, int dwNewLong);
-
         private const int GWL_STYLE = -16;
 
         private const int WS_VSCROLL = 0x00200000;
@@ -38,9 +32,9 @@ namespace Demo
 
         private const int ColumnExtraSpace = 4;
 
-        private bool _IsVerticalScrollBarVisible = false;
+        private bool _IsVerticalScrollBarVisible;
 
-        private bool _IsHorizontalScrollBarVisible = false;
+        private bool _IsHorizontalScrollBarVisible;
 
         #endregion
 
