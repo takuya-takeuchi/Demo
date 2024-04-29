@@ -7,6 +7,7 @@
 ## Requirements
 
 * .NET 7
+* Visual Studio 2022 (if use)
 
 ## Dependencies
 
