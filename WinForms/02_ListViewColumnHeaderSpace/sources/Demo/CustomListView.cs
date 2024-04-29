@@ -82,18 +82,7 @@ namespace Demo
                 return;
 
             var nextMostRightColumnDisplayIndex = e.OldDisplayIndex == mostRightDisplayColumnIndex ? e.NewDisplayIndex : e.OldDisplayIndex;
-
-            ColumnHeader mostRightColumn = null;
-            for (var index = 0; index < columnsCount; index++)
-            {
-                var column = listView.Columns[index];
-                if (column.DisplayIndex != nextMostRightColumnDisplayIndex)
-                    continue;
-
-                mostRightColumn = column;
-                break;
-            }
-
+            var mostRightColumn = FindColumnWithDisplayIndex(mostRightDisplayColumnIndex);
             if (mostRightColumn == null)
                 return;
 
@@ -118,17 +107,7 @@ namespace Demo
             var columnsCount = columns.Count;
             var mostRightDisplayColumnIndex = columnsCount - 1;
 
-            ColumnHeader mostRightColumn = null;
-            for (var index = 0; index < columnsCount; index++)
-            {
-                var column = listView.Columns[index];
-                if (column.DisplayIndex != mostRightDisplayColumnIndex)
-                    continue;
-
-                mostRightColumn = column;
-                break;
-            }
-
+            var mostRightColumn = FindColumnWithDisplayIndex(mostRightDisplayColumnIndex);
             if (mostRightColumn == null)
                 return;
 
@@ -168,6 +147,10 @@ namespace Demo
             var columnsCount = columns.Count;
             var mostRightDisplayColumnIndex = columnsCount - 1;
 
+            var mostRightColumn = FindColumnWithDisplayIndex(mostRightDisplayColumnIndex);
+            if (mostRightColumn == null)
+                return;
+
             var width = 0;
             for (var index = 0; index < columnsCount; index++)
             {
@@ -177,20 +160,6 @@ namespace Demo
 
                 width += column.Width;
             }
-
-            ColumnHeader mostRightColumn = null;
-            for (var index = 0; index < columnsCount; index++)
-            {
-                var column = listView.Columns[index];
-                if (column.DisplayIndex != mostRightDisplayColumnIndex)
-                    continue;
-
-                mostRightColumn = column;
-                break;
-            }
-
-            if (mostRightColumn == null)
-                return;
 
             // new size is smaller than total column header width
             //if (listView.Width <= (width + mostRightColumn.Width - 4))
@@ -269,7 +238,7 @@ namespace Demo
             for (var index = 0; index < columnsCount; index++)
             {
                 var column = listView.Columns[index];
-                if (column.DisplayIndex != displayIndex)
+                if (column.DisplayIndex == displayIndex)
                     return column;
             }
 
