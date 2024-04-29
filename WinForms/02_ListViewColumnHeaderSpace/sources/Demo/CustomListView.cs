@@ -9,7 +9,7 @@ namespace Demo
     {
 
         #region P/Invoke
-        
+
         [DllImport("user32.dll", EntryPoint = "GetWindowLong", CharSet = CharSet.Auto)]
         private static extern IntPtr GetWindowLong32(IntPtr hWnd, int nIndex);
 
@@ -26,6 +26,8 @@ namespace Demo
 
         private const int WS_VSCROLL = 0x00200000;
 
+        private const int WS_HSCROLL = 0x00100000;
+
         private const int WM_NCCALCSIZE = 0x83;
 
         private readonly int _VerticalScrollBarWidth = SystemInformation.VerticalScrollBarWidth;
@@ -35,6 +37,8 @@ namespace Demo
         #region Fields
 
         private bool _IsVerticalScrollBarVisible = false;
+
+        private bool _IsHorizontalScrollBarVisible = false;
 
         #endregion
 
@@ -202,12 +206,23 @@ namespace Demo
             {
                 case WM_NCCALCSIZE:
                     var style = GetWindowLong(this.Handle, GWL_STYLE);
+                    var updateSize = false;
                     var isVerticalScrollBarVisible = (style & WS_VSCROLL) == WS_VSCROLL;
                     if (isVerticalScrollBarVisible != this._IsVerticalScrollBarVisible)
                     {
                         this._IsVerticalScrollBarVisible = isVerticalScrollBarVisible;
-                        this.OnColumnWidthChanged(new ColumnWidthChangedEventArgs(0));
+                        updateSize = true;
                     }
+                    var isHorizontalScrollBarVisible = (style & WS_HSCROLL) == WS_HSCROLL;
+                    if (isHorizontalScrollBarVisible != this._IsHorizontalScrollBarVisible)
+                    {
+                        this._IsHorizontalScrollBarVisible = isHorizontalScrollBarVisible;
+                        updateSize = true;
+                    }
+
+                    if (updateSize)
+                        this.OnColumnWidthChanged(new ColumnWidthChangedEventArgs(0));
+
                     base.WndProc(ref m);
                     break;
                 default:
