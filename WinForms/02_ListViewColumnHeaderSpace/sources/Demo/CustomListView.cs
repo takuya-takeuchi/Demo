@@ -231,6 +231,51 @@ namespace Demo
             }
         }
 
+        #endregion
+
+        #region Helpers
+
+        private void FillColumn(ColumnHeader mostRightColumn)
+        {
+            var listView = this;
+            var columns = listView.Columns;
+            var columnsCount = columns.Count;
+            var mostRightDisplayColumnIndex = columnsCount - 1;
+
+            var width = 0;
+            for (var index = 0; index < columnsCount; index++)
+            {
+                var column = listView.Columns[index];
+                if (column.DisplayIndex == mostRightDisplayColumnIndex)
+                    continue;
+
+                width += column.Width;
+            }
+
+            // new size is smaller than total column header width
+            //if (listView.Width <= (width + mostRightColumn.Width - 4))
+            //    return;
+
+            width = listView.Width - width;
+            mostRightColumn.Width = width - 4 - (this._IsVerticalScrollBarVisible ? this._VerticalScrollBarWidth : 0);
+        }
+
+        private ColumnHeader FindColumnWithDisplayIndex(int displayIndex)
+        {
+            var listView = this;
+            var columns = listView.Columns;
+            var columnsCount = columns.Count;
+
+            for (var index = 0; index < columnsCount; index++)
+            {
+                var column = listView.Columns[index];
+                if (column.DisplayIndex != displayIndex)
+                    return column;
+            }
+
+            return null;
+        }
+
         private static int GetWindowLong(IntPtr hWnd, int nIndex)
         {
             return IntPtr.Size == 4 ? (int)GetWindowLong32(hWnd, nIndex) : (int)(long)GetWindowLongPtr64(hWnd, nIndex);
