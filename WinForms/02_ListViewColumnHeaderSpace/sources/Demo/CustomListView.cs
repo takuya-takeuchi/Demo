@@ -30,11 +30,13 @@ namespace Demo
 
         private const int WM_NCCALCSIZE = 0x83;
 
-        private readonly int _VerticalScrollBarWidth = SystemInformation.VerticalScrollBarWidth;
-
         #endregion
 
         #region Fields
+
+        private readonly int _VerticalScrollBarWidth = SystemInformation.VerticalScrollBarWidth;
+
+        private const int ColumnExtraSpace = 4;
 
         private bool _IsVerticalScrollBarVisible = false;
 
@@ -47,21 +49,6 @@ namespace Demo
         public CustomListView()
         {
             this.DoubleBuffered = true;
-        }
-
-        #endregion
-
-        #region Properties
-
-        private int _MinimumMostRightColumnHeaderWidth = 200;
-
-        public int MinimumMostRightColumnHeaderWidth
-        {
-            get => this._MinimumMostRightColumnHeaderWidth;
-            set
-            {
-                this._MinimumMostRightColumnHeaderWidth = value;
-            }
         }
 
         #endregion
@@ -82,22 +69,11 @@ namespace Demo
                 return;
 
             var nextMostRightColumnDisplayIndex = e.OldDisplayIndex == mostRightDisplayColumnIndex ? e.NewDisplayIndex : e.OldDisplayIndex;
-            var mostRightColumn = FindColumnWithDisplayIndex(mostRightDisplayColumnIndex);
+            var mostRightColumn = FindColumnWithDisplayIndex(nextMostRightColumnDisplayIndex);
             if (mostRightColumn == null)
                 return;
 
-            var width = 0;
-            for (var index = 0; index < columnsCount; index++)
-            {
-                var column = listView.Columns[index];
-                if (column.DisplayIndex == nextMostRightColumnDisplayIndex)
-                    continue;
-
-                width += column.Width;
-            }
-
-            width = listView.Width - width;
-            mostRightColumn.Width = width - 4 - (this._IsVerticalScrollBarVisible ? this._VerticalScrollBarWidth : 0);
+            this.FillColumn(mostRightColumn);
         }
         
         protected override void OnSizeChanged(EventArgs e)
@@ -111,22 +87,7 @@ namespace Demo
             if (mostRightColumn == null)
                 return;
 
-            var width = 0;
-            for (var index = 0; index < columnsCount; index++)
-            {
-                var column = listView.Columns[index];
-                if (column == mostRightColumn)
-                    continue;
-
-                width += column.Width;
-            }
-
-            // new size is smaller than total column header width
-            if (listView.Width <= (width + mostRightColumn.Width - 4))
-                return;
-
-            width = listView.Width - width;
-            mostRightColumn.Width = width - 4 - (this._IsVerticalScrollBarVisible ? this._VerticalScrollBarWidth : 0);
+            this.FillColumn(mostRightColumn);
         }
 
         protected override void OnColumnWidthChanging(ColumnWidthChangingEventArgs e)
@@ -151,22 +112,7 @@ namespace Demo
             if (mostRightColumn == null)
                 return;
 
-            var width = 0;
-            for (var index = 0; index < columnsCount; index++)
-            {
-                var column = listView.Columns[index];
-                if (column.DisplayIndex == mostRightDisplayColumnIndex)
-                    continue;
-
-                width += column.Width;
-            }
-
-            // new size is smaller than total column header width
-            //if (listView.Width <= (width + mostRightColumn.Width - 4))
-            //    return;
-
-            width = listView.Width - width;
-            mostRightColumn.Width = width - 4 - (this._IsVerticalScrollBarVisible ? this._VerticalScrollBarWidth : 0);
+            this.FillColumn(mostRightColumn);
         }
 
         protected override void WndProc(ref Message m)
@@ -175,6 +121,7 @@ namespace Demo
             {
                 case WM_NCCALCSIZE:
                     var style = GetWindowLong(this.Handle, GWL_STYLE);
+
                     var updateSize = false;
                     var isVerticalScrollBarVisible = (style & WS_VSCROLL) == WS_VSCROLL;
                     if (isVerticalScrollBarVisible != this._IsVerticalScrollBarVisible)
@@ -204,29 +151,29 @@ namespace Demo
 
         #region Helpers
 
-        private void FillColumn(ColumnHeader mostRightColumn)
+        private void FillColumn(ColumnHeader mostRightDisplayColumn)
         {
             var listView = this;
             var columns = listView.Columns;
             var columnsCount = columns.Count;
-            var mostRightDisplayColumnIndex = columnsCount - 1;
 
             var width = 0;
             for (var index = 0; index < columnsCount; index++)
             {
                 var column = listView.Columns[index];
-                if (column.DisplayIndex == mostRightDisplayColumnIndex)
+                if (column == mostRightDisplayColumn)
                     continue;
 
                 width += column.Width;
             }
 
             // new size is smaller than total column header width
-            //if (listView.Width <= (width + mostRightColumn.Width - 4))
-            //    return;
+            if (listView.Width <= (width + mostRightDisplayColumn.Width - ColumnExtraSpace))
+                return;
 
-            width = listView.Width - width;
-            mostRightColumn.Width = width - 4 - (this._IsVerticalScrollBarVisible ? this._VerticalScrollBarWidth : 0);
+            var newWidth = listView.Width - width - ColumnExtraSpace - (this._IsVerticalScrollBarVisible ? this._VerticalScrollBarWidth : 0);
+            if (mostRightDisplayColumn.Width != newWidth)
+                mostRightDisplayColumn.Width = newWidth;
         }
 
         private ColumnHeader FindColumnWithDisplayIndex(int displayIndex)
@@ -248,11 +195,6 @@ namespace Demo
         private static int GetWindowLong(IntPtr hWnd, int nIndex)
         {
             return IntPtr.Size == 4 ? (int)GetWindowLong32(hWnd, nIndex) : (int)(long)GetWindowLongPtr64(hWnd, nIndex);
-        }
-
-        private static int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong)
-        {
-            return IntPtr.Size == 4 ? (int)SetWindowLongPtr32(hWnd, nIndex, dwNewLong) : (int)(long)SetWindowLongPtr64(hWnd, nIndex, dwNewLong);
         }
 
         #endregion
