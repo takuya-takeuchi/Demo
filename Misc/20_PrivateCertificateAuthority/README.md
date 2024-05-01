@@ -278,11 +278,8 @@ Certificate:
 Certificate is to be certified until Apr 28 18:26:34 2025 GMT (365 days)
 Sign the certificate? [y/n]:y
 
-
-1 out of 1 certificate requests certified, commit? [y/n]y
 Write out database with 1 new entries
-Data Base Updated
-unable to write 'random state'
+Database updated
 ````
 
 #### 5. Install Root CA certificate to client (optional)

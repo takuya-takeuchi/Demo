@@ -30,4 +30,4 @@ elseif ($global:IsLinux)
 }
 
 Write-Host "Do sign server's certificate signing request..." -ForegroundColor Blue
-& "${openssl}" ca -config sign-server.conf -in server.csr -out server.crt -extensions server_ext
+& "${openssl}" ca -batch -config sign-server.conf -in server.csr -out server.crt -extensions server_ext

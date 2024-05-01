@@ -30,7 +30,7 @@ elseif ($global:IsLinux)
 }
 
 $privateKey = "private-key.pem"
-$certificateSigningRequest = "your.csr"
+$certificateSigningRequest = "server.csr"
 $sanFile = "request.conf"
 
 $C="JP"                # Country Name
@@ -48,6 +48,7 @@ echo "[SAN]" >> "${sanFile}"
 echo "subjectAltName=@san_names" >> "${sanFile}"
 echo "basicConstraints=CA:FALSE" >> "${sanFile}"
 echo "keyUsage = nonRepudiation, digitalSignature, keyEncipherment" >> "${sanFile}"
+echo "extendedKeyUsage = serverAuth, clientAuth" >> "${sanFile}"
 echo "[san_names]" >> "${sanFile}"
 echo "DNS.1=localhost" >> "${sanFile}"
 echo "IP.1=127.0.0.1`")" >> "${sanFile}"
@@ -59,7 +60,5 @@ Write-Host "Create certificate signing request ..." -ForegroundColor Blue
                    -key "${privateKey}" `
                    -out "${certificateSigningRequest}" `
                    -config "${opensslConfig}" `
-                   -subj "/C=${C}/ST=${ST}/L=${L}/CN=${CN}/OU=${OU}/O=${O}" `
-                   -addext "keyUsage=digitalSignature,keyEncipherment" `
-                   -addext "extendedKeyUsage=serverAuth,clientAuth"
+                   -subj "/C=${C}/ST=${ST}/L=${L}/CN=${CN}/OU=${OU}/O=${O}"
 Remove-Item "${sanFile}"
