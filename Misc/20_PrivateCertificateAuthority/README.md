@@ -11,10 +11,9 @@
 
 ## Dependencies
 
-* [OpenSSL](https://github.com/PrismLibrary/Prism)
+* [OpenSSL](https://github.com/openssl/openssl)
   * OpenSSL License/SSLeay License
-    * Download 1.0.2u from https://indy.fulgan.com/SSL/
-    * openssl.cnf is obtained from source code
+    * Download 3.3.0 from https://kb.firedaemon.com/support/solutions/articles/4000121705
 
 ## How to use
 
@@ -139,11 +138,8 @@ Certificate:
 Certificate is to be certified until Apr 26 18:26:24 2034 GMT (3650 days)
 Sign the certificate? [y/n]:y
 
-
-1 out of 1 certificate requests certified, commit? [y/n]y
 Write out database with 1 new entries
-Data Base Updated
-unable to write 'random state'
+Database updated
 ````
 
 #### 3. Check server's certificate signing request (optional)
