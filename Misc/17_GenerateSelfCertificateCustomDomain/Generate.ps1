@@ -75,9 +75,9 @@ Write-Host "Create your CA crt and key:" -ForegroundColor Green
                    -keyout ca.key `
                    -out ca.crt
 
-Copy-Item "${opensslConfig}" "{sanFile}"
-echo "[SAN]" >> "{sanFile}"
-echo "subjectAltName=DNS:${CommonName}" >> "{sanFile}"
+Copy-Item "${opensslConfig}" "${sanFile}"
+echo "[SAN]" >> "${sanFile}"
+echo "subjectAltName=DNS:${CommonName}" >> "${sanFile}"
 
 Write-Host "Create a CSR:" -ForegroundColor Green
 & "${openssl}" req -newkey rsa:2048 `
@@ -98,11 +98,11 @@ Write-Host "Sign the CSR, resulting in CRT and add the v3 SAN extension:" -Foreg
                     -sha256 `
                     -days 3650 `
                     -extensions SAN `
-                    -extfile "{sanFile}"
+                    -extfile "${sanFile}"
 
-if (Test-Path("{sanFile}"))
+if (Test-Path("${sanFile}"))
 {
-   Remove-Item "{sanFile}"
+   Remove-Item "${sanFile}"
 }
 
 Write-Host "Check contents of CSR:" -ForegroundColor Green
