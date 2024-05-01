@@ -287,3 +287,14 @@ Database updated
 Install `root-ca.crt` into `Trusted Root CA` store in system certification manager.
 Otherwise, client machine can not trust server's certification if not install `root-ca.crt`.
 So web brower keep showing certification warning.
+
+#### 6. Create PFX file (optional)
+
+You can generate pfx file from `server.crt` and `server.pem`.
+`server.pem` should have generated when creating `server.csr`.
+
+````bat
+$ pwsh CreatePFX.ps1
+Enter Password: ***********
+Create personal information exchange...
+````

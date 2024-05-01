@@ -1,3 +1,16 @@
+#***************************************
+#Arguments
+#%1: Common Name. You can specify FQDN (e.g. www,contoso.com) or your name (e.g. Taro Yamada) if use ceritificate for client auth
+#***************************************
+Param
+(
+   [Parameter(
+   Mandatory=$True,
+   Position = 1
+   )][string]
+   $commonName
+)
+
 $version = "3.3.0"
 
 $current = $PSScriptRoot
@@ -29,7 +42,7 @@ elseif ($global:IsLinux)
                     Join-Path -ChildPath openssl.cnf
 }
 
-$privateKey = "private-key.pem"
+$privateKey = "server.pem"
 $certificateSigningRequest = "server.csr"
 $sanFile = "request.conf"
 
@@ -38,7 +51,7 @@ $ST="Tokyo"            # State or Province Name
 $L="Minato-ku"         # Locality Name
 $O="Contoso"           # Organization Name
 $OU="Docs,Contoso"     # Organizational Unit Name
-$CN="www.contoso.com"  # Organizational Unit Name
+$CN="${commonName}"    # Common Name
 
 Write-Host "Create private key ..." -ForegroundColor Blue
 & "${openssl}" genpkey -algorithm RSA -out "${privateKey}"
