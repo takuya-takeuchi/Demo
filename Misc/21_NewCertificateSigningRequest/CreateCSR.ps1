@@ -44,7 +44,6 @@ elseif ($global:IsLinux)
 
 $privateKey = "server.pem"
 $certificateSigningRequest = "server.csr"
-$sanFile = "request.conf"
 
 $C="JP"                # Country Name
 $ST="Tokyo"            # State or Province Name
@@ -55,23 +54,10 @@ $CN="${commonName}"    # Common Name
 
 Write-Host "Create private key ..." -ForegroundColor Blue
 & "${openssl}" genpkey -algorithm RSA -out "${privateKey}"
-
-Copy-Item "${opensslConfig}" "${sanFile}"
-echo "[SAN]" >> "${sanFile}"
-echo "subjectAltName=@san_names" >> "${sanFile}"
-echo "basicConstraints=CA:FALSE" >> "${sanFile}"
-echo "keyUsage = nonRepudiation, digitalSignature, keyEncipherment" >> "${sanFile}"
-echo "extendedKeyUsage = serverAuth, clientAuth" >> "${sanFile}"
-echo "[san_names]" >> "${sanFile}"
-echo "DNS.1=localhost" >> "${sanFile}"
-echo "IP.1=127.0.0.1`")" >> "${sanFile}"
-# echo "IP.1=${IpAddress}" >> "${sanFile}"
-# echo "IP.2=127.0.0.1`")" >> "${sanFile}"
-
 Write-Host "Create certificate signing request ..." -ForegroundColor Blue
 & "${openssl}" req -new `
                    -key "${privateKey}" `
                    -out "${certificateSigningRequest}" `
                    -config "${opensslConfig}" `
-                   -subj "/C=${C}/ST=${ST}/L=${L}/CN=${CN}/OU=${OU}/O=${O}"
-Remove-Item "${sanFile}"
+                   -subj "/C=${C}/ST=${ST}/L=${L}/CN=${CN}/OU=${OU}/O=${O}" `
+                   -addext "subjectAltName = DNS:${commonName}"
