@@ -1,0 +1,62 @@
+name_opt = utf8,esc_ctrl,multiline,lname,align
+
+[req]
+default_bits = 4096
+encrypt_key = no
+default_md = sha256
+utf8 = yes
+string_mask = utf8only
+prompt = no
+distinguished_name = req_dn
+req_extensions = req_ext
+
+[req_dn]
+countryName = "JP"
+stateOrProvinceName = "Tokyo"
+localityName = "Minato-ku"
+organizationName ="Contoso"
+organizationalUnitName = "Docs, Contoso"
+commonName = "www.contoso.com"
+emailAddress = "ca@contso.com"
+
+[ alternate_names ]
+DNS.1 = www.contoso.com
+
+#DNS.1 = localhost
+#DNS.2 = localhost.localdomain
+#DNS.3 = 127.0.0.1
+
+[req_ext]
+basicConstraints = critical,CA:false
+keyUsage = digitalSignature,keyEncipherment
+subjectKeyIdentifier = hash
+extendedKeyUsage = serverAuth, clientAuth
+subjectAltName = @alternate_names
+
+[ca]
+default_ca = CA_default
+
+[CA_default]
+home = .
+database = pki/Server/db/index
+serial = pki/Server/db/serial
+certificate = pki/Server/csr.pem
+private_key = pki/Server/private/key.pem
+crlnumber = pki/Server/db/crlnumber
+crl = pki/Server/crl.pem
+RANDFILE = pki/Server/private/random
+new_certs_dir = pki/Server/certs
+unique_subject = no
+copy_extensions = none
+default_days = 365
+default_md = sha256
+policy = policy_match
+
+[policy_match]
+countryName = supplied
+stateOrProvinceName = supplied
+organizationName = supplied
+organizationalUnitName = supplied
+localityName = supplied
+commonName = supplied
+emailAddress = optional

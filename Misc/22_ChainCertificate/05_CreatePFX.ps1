@@ -29,26 +29,29 @@ elseif ($global:IsLinux)
                     Join-Path -ChildPath openssl.cnf
 }
 
-$directories = @(
-   "CA"
-   "ICA"
-   "Server"
-)
-
-foreach ($directory in $directories)
+if (!(Test-Path("server.pem")))
 {
-   $root = Join-Path $current pki | Join-Path -ChildPath $directory
-   New-Item -Type Directory -Force $root | Out-Null
-   Push-Location $root
-   New-Item -Type Directory -Force certs | Out-Null
-   New-Item -Type Directory -Force db | Out-Null
-   New-Item -Type Directory -Force private | Out-Null
-   # chmod 700 private
-   $index = Join-Path db index
-   New-Item -Type File -Force $index | Out-Null
-   $serial = Join-Path db serial
-   & "${openssl}" rand -hex 16 | Out-File -FilePath "${serial}"
-   $crlnumber = Join-Path db crlnumber
-   & "${openssl}" rand -hex 16 | Out-File -FilePath "${crlnumber}"
-   Pop-Location
+   Write-Host "'server.pem' is missing" -ForegroundColor Red
+   exit
 }
+
+$password = Read-Host "Enter Password" -AsSecureString
+$confirmPassword = Read-Host "Confirm Password" -AsSecureString
+
+function SecureString2PlainString($secure){
+    $bstr = [System.Runtime.InteropServices.Marshal]::SecureStringToBSTR($secure)
+    $plain = [System.Runtime.InteropServices.Marshal]::PtrToStringBSTR($bstr)
+    [System.Runtime.InteropServices.Marshal]::ZeroFreeBSTR($bstr)
+    return $plain
+}
+
+$p1 = SecureString2PlainString $password
+$p2 = SecureString2PlainString $confirmPassword
+if (!($p1 -eq $p2))
+{
+   Write-Host "password is incorrect" -ForegroundColor Red
+   exit
+}
+
+Write-Host "Create personal information exchange..." -ForegroundColor Blue
+& "${openssl}" pkcs12 -export -in server.crt -inkey server.pem -out server.pfx -password pass:${p1}
