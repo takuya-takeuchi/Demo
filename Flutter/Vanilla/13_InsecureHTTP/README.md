@@ -1,16 +1,38 @@
-# demo
+# TextField and TextFormField consume CPU resource
 
-A new Flutter project.
+## Abstracts
 
-## Getting Started
+* `TextField` and `TextFormField` consume CPU when focused
+  * But `cursorOpacityAnimates` is `false`, this problem goes away
 
-This project is a starting point for a Flutter application.
+## Requirements
 
-A few resources to get you started if this is your first Flutter project:
+* Android
+  * API Level 33 or later
+* iOS
+  * 11.0 or later
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Dependencies
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+* [cupertino_http](https://github.com/dart-lang/http/tree/master/pkgs/cupertino_http)
+  * 1.3.0
+  * BSD-3-Clause License
+* [cronet_http](https://github.com/dart-lang/http/tree/master/pkgs/cronet_http)
+  * 1.2.0
+  * BSD-3-Clause License
+* [http](https://github.com/dart-lang/http/tree/master/pkgs/http)
+  * 1.2.0
+  * BSD-3-Clause License
+
+## Screenshots
+
+When widget get focus, usage of CPU raise up rapidly.
+But `cursorOpacityAnimates` is false, usage of CPU keeps low.
+
+#### cursorOpacityAnimates is true
+
+<img src="./images/true.gif" width="640" />
+
+#### cursorOpacityAnimates is false
+
+<img src="./images/false.gif" width="640" />
