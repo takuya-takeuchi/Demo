@@ -11,13 +11,7 @@ distinguished_name = req_dn
 req_extensions = req_ext
 
 [req_dn]
-countryName = "JP"
-stateOrProvinceName = "Tokyo"
-localityName = "Minato-ku"
-organizationName ="Contoso"
-organizationalUnitName = "Docs, Contoso"
 commonName = "www.contoso.com"
-emailAddress = "ca@contso.com"
 
 [ alternate_names ]
 DNS.1 = www.contoso.com
@@ -32,6 +26,7 @@ keyUsage = digitalSignature,keyEncipherment
 subjectKeyIdentifier = hash
 extendedKeyUsage = serverAuth, clientAuth
 subjectAltName = @alternate_names
+certificatePolicies = @policies
 
 [ca]
 default_ca = CA_default
@@ -41,10 +36,10 @@ home = .
 database = pki/Server/db/index
 serial = pki/Server/db/serial
 certificate = pki/Server/csr.pem
-private_key = pki/Server/private/key.pem
+private_key = pki/Server/key.pem
 crlnumber = pki/Server/db/crlnumber
 crl = pki/Server/crl.pem
-RANDFILE = pki/Server/private/random
+RANDFILE = pki/Server/random
 new_certs_dir = pki/Server/certs
 unique_subject = no
 copy_extensions = none
@@ -53,10 +48,13 @@ default_md = sha256
 policy = policy_match
 
 [policy_match]
-countryName = supplied
-stateOrProvinceName = supplied
-organizationName = supplied
-organizationalUnitName = supplied
-localityName = supplied
+countryName = optional
+stateOrProvinceName = optional
+organizationName = optional
+organizationalUnitName = optional
+localityName = optional
 commonName = supplied
 emailAddress = optional
+
+[policies]
+policyIdentifier = 2.23.140.1.2.1

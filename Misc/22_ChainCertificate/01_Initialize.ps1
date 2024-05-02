@@ -42,7 +42,6 @@ foreach ($directory in $directories)
    Push-Location $root
    New-Item -Type Directory -Force certs | Out-Null
    New-Item -Type Directory -Force db | Out-Null
-   New-Item -Type Directory -Force private | Out-Null
    # chmod 700 private
    $index = Join-Path db index
    New-Item -Type File -Force $index | Out-Null

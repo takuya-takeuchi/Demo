@@ -29,12 +29,6 @@ elseif ($global:IsLinux)
                     Join-Path -ChildPath openssl.cnf
 }
 
-if (!(Test-Path("server.pem")))
-{
-   Write-Host "'server.pem' is missing" -ForegroundColor Red
-   exit
-}
-
 $password = Read-Host "Enter Password" -AsSecureString
 $confirmPassword = Read-Host "Confirm Password" -AsSecureString
 
@@ -53,5 +47,22 @@ if (!($p1 -eq $p2))
    exit
 }
 
-Write-Host "Create personal information exchange..." -ForegroundColor Blue
-& "${openssl}" pkcs12 -export -in server.crt -inkey server.pem -out server.pfx -password pass:${p1}
+
+$settings = @()
+$settings += New-Object PSObject -Property @{Target = "Root CA";         RootDirectory="CA";     Name = "rca";    }
+$settings += New-Object PSObject -Property @{Target = "Intermediate CA"; RootDirectory="ICA";    Name = "ica";    }
+$settings += New-Object PSObject -Property @{Target = "Server";          RootDirectory="Server"; Name = "server"; }
+
+foreach ($setting in $settings)
+{
+   $name = $setting.Name
+   $target = $setting.Target
+   Write-Host "`n[${target}]" -ForegroundColor Blue
+
+   Write-Host "Create personal information exchange..." -ForegroundColor Blue
+   $root = Join-Path $current pki | Join-Path -ChildPath $setting.RootDirectory
+   $privateKey = Join-Path $root key.pem
+   $certificate = Join-Path $root "${name}.crt"
+   $pfx = Join-Path $root "${name}.pfx"
+   & "${openssl}" pkcs12 -export -in "${certificate}" -inkey "${privateKey}" -out "${pfx}" -password pass:${p1}
+}

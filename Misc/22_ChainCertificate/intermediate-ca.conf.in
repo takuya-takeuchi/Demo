@@ -12,18 +12,15 @@ req_extensions = req_ext
 
 [req_dn]
 countryName = "JP"
-stateOrProvinceName = "Tokyo"
-localityName = "Minato-ku"
 organizationName ="Contoso"
-organizationalUnitName = "Docs, Contoso"
 commonName = "Contoso Intermediate CA"
-emailAddress = "ca@contso.com"
 
 [req_ext]
-basicConstraints = critical,CA:true
+basicConstraints = critical,CA:true,pathlen:0
 keyUsage = critical,keyCertSign,cRLSign,digitalSignature
 subjectKeyIdentifier = hash
 extendedKeyUsage = serverAuth, clientAuth
+certificatePolicies = @policies
 
 [ca]
 default_ca = CA_default
@@ -33,10 +30,10 @@ home = .
 database = pki/ICA/db/index
 serial = pki/ICA/db/serial
 certificate = pki/ICA/csr.pem
-private_key = pki/ICA/private/key.pem
+private_key = pki/ICA/key.pem
 crlnumber = pki/ICA/db/crlnumber
 crl = pki/ICA/crl.pem
-RANDFILE = pki/ICA/private/random
+RANDFILE = pki/ICA/random
 new_certs_dir = pki/ICA/certs
 unique_subject = no
 copy_extensions = none
@@ -46,9 +43,12 @@ policy = policy_match
 
 [policy_match]
 countryName = supplied
-stateOrProvinceName = supplied
+stateOrProvinceName = optional
 organizationName = supplied
-organizationalUnitName = supplied
-localityName = supplied
+organizationalUnitName = optional
+localityName = optional
 commonName = supplied
 emailAddress = optional
+
+[policies]
+policyIdentifier = 2.23.140.1.2.1

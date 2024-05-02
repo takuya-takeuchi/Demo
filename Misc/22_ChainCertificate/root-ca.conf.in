@@ -12,12 +12,8 @@ req_extensions = req_ext
 
 [req_dn]
 countryName = "JP"
-stateOrProvinceName = "Tokyo"
-localityName = "Minato-ku"
 organizationName ="Contoso"
-organizationalUnitName = "Docs, Contoso"
 commonName = "Contoso Root CA"
-emailAddress = "ca@contso.com"
 
 [req_ext]
 basicConstraints = critical,CA:true
@@ -32,10 +28,10 @@ home = .
 database = pki/CA/db/index
 serial = pki/CA/db/serial
 certificate = pki/CA/csr.pem
-private_key = pki/CA/private/key.pem
+private_key = pki/CA/key.pem
 crlnumber = pki/CA/db/crlnumber
 crl = pki/CA/crl.pem
-RANDFILE = pki/CA/private/random
+RANDFILE = pki/CA/random
 new_certs_dir = pki/CA/certs
 unique_subject = no
 copy_extensions = none
@@ -45,9 +41,9 @@ policy = policy_match
 
 [policy_match]
 countryName = supplied
-stateOrProvinceName = supplied
+stateOrProvinceName = optional
 organizationName = supplied
-organizationalUnitName = supplied
-localityName = supplied
+organizationalUnitName = optional
+localityName = optional
 commonName = supplied
 emailAddress = optional
