@@ -1,9 +1,10 @@
-# TextField and TextFormField consume CPU resource
+# Behavior of insecure HTTP
 
 ## Abstracts
 
-* `TextField` and `TextFormField` consume CPU when focused
-  * But `cursorOpacityAnimates` is `false`, this problem goes away
+* Check behavior of http library for insecure http
+  * GET for [http://example.com](http://example.com)
+  * `App Transport Security` for iOS and `usesCleartextTraffic` for Android are not configured so insecure http connection could be not allowed
 
 ## Requirements
 
@@ -26,13 +27,8 @@
 
 ## Screenshots
 
-When widget get focus, usage of CPU raise up rapidly.
-But `cursorOpacityAnimates` is false, usage of CPU keeps low.
+#### iOS
 
-#### cursorOpacityAnimates is true
-
-<img src="./images/true.gif" width="640" />
-
-#### cursorOpacityAnimates is false
-
-<img src="./images/false.gif" width="640" />
+|iOS|Android|
+|---|---|
+|<img src="./images/ios.gif" width="320" />|<img src="./images/android.gif" width="320" />|
