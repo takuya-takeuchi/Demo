@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
-namespace Demo.Controllers
+namespace Server.Controllers
 {
 
     /// <summary>

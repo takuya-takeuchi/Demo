@@ -1,16 +1,21 @@
 using System;
 using System.IO;
 using System.Reflection;
+using System.Security.Authentication;
 
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Server.Kestrel.Https;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 
-using Demo.Extensions;
+using Server.Middlewares;
+using Server.Services;
 
-namespace Demo
+namespace Server
 {
 
     internal sealed class Program
@@ -51,9 +56,29 @@ namespace Demo
             });
 
             // for mTLS
-            builder.Services.AddCertificateAuthentication();
+            builder.WebHost.ConfigureKestrel(serverOptions =>
+            {
+                serverOptions.ConfigureHttpsDefaults(httpsOptions =>
+                {
+                    httpsOptions.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
+                    httpsOptions.CheckCertificateRevocation = false;
+                    httpsOptions.SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13;
+                    httpsOptions.ClientCertificateValidation = (certificate, chain, errors) =>
+                    {
+                        // Validation will be executed in ValidateCertificateMiddleware
+                        // This statement is mandatory and must return true
+                        // HttpContext.Connection.ClientCertificate is always null in ValidateCertificateMiddleware.Validate if this statement is missing
+                        return true;
+                    };
+                });
+            });
+            builder.Services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
+            builder.Services.AddTransient<ICertificateValidator>(provider => new ThumbprintCertificateValidator("756f6c3103f1b2e9a87ffd4c1431eb4d8db36e0c"));
 
             var app = builder.Build();
+
+            // for mTLS
+            app.UseMiddleware<ValidateCertificateMiddleware>();
 
             if (app.Environment.IsDevelopment())
             {
