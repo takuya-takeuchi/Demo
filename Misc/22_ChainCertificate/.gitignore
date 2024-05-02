@@ -1,0 +1,6 @@
+pki
+root-ca.conf
+intermediate-ca.conf
+server.csr
+server.crt
+server.key
