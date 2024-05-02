@@ -1,0 +1,60 @@
+name_opt = utf8,esc_ctrl,multiline,lname,align
+
+[req]
+default_bits = 4096
+encrypt_key = no
+default_md = sha256
+utf8 = yes
+string_mask = utf8only
+prompt = no
+distinguished_name = req_dn
+req_extensions = req_ext
+
+[req_dn]
+commonName = "www.contoso.com"
+
+[ alternate_names ]
+DNS.1 = www.contoso.com
+
+#DNS.1 = localhost
+#DNS.2 = localhost.localdomain
+#DNS.3 = 127.0.0.1
+
+[req_ext]
+basicConstraints = critical,CA:false
+keyUsage = digitalSignature,keyEncipherment
+subjectKeyIdentifier = hash
+extendedKeyUsage = serverAuth, clientAuth
+subjectAltName = @alternate_names
+certificatePolicies = @policies
+
+[ca]
+default_ca = CA_default
+
+[CA_default]
+home = .
+database = pki/Server/db/index
+serial = pki/Server/db/serial
+certificate = pki/Server/csr.pem
+private_key = pki/Server/key.pem
+crlnumber = pki/Server/db/crlnumber
+crl = pki/Server/crl.pem
+RANDFILE = pki/Server/random
+new_certs_dir = pki/Server/certs
+unique_subject = no
+copy_extensions = none
+default_days = 365
+default_md = sha256
+policy = policy_match
+
+[policy_match]
+countryName = optional
+stateOrProvinceName = optional
+organizationName = optional
+organizationalUnitName = optional
+localityName = optional
+commonName = supplied
+emailAddress = optional
+
+[policies]
+policyIdentifier = 2.23.140.1.2.1

@@ -1,0 +1,54 @@
+name_opt = utf8,esc_ctrl,multiline,lname,align
+
+[req]
+default_bits = 4096
+encrypt_key = no
+default_md = sha256
+utf8 = yes
+string_mask = utf8only
+prompt = no
+distinguished_name = req_dn
+req_extensions = req_ext
+
+[req_dn]
+countryName = "JP"
+organizationName ="Contoso"
+commonName = "Contoso Intermediate CA"
+
+[req_ext]
+basicConstraints = critical,CA:true,pathlen:0
+keyUsage = critical,keyCertSign,cRLSign,digitalSignature
+subjectKeyIdentifier = hash
+extendedKeyUsage = serverAuth, clientAuth
+certificatePolicies = @policies
+
+[ca]
+default_ca = CA_default
+
+[CA_default]
+home = .
+database = pki/ICA/db/index
+serial = pki/ICA/db/serial
+certificate = pki/ICA/csr.pem
+private_key = pki/ICA/key.pem
+crlnumber = pki/ICA/db/crlnumber
+crl = pki/ICA/crl.pem
+RANDFILE = pki/ICA/random
+new_certs_dir = pki/ICA/certs
+unique_subject = no
+copy_extensions = none
+default_days = 1825
+default_md = sha256
+policy = policy_match
+
+[policy_match]
+countryName = supplied
+stateOrProvinceName = optional
+organizationName = supplied
+organizationalUnitName = optional
+localityName = optional
+commonName = supplied
+emailAddress = optional
+
+[policies]
+policyIdentifier = 2.23.140.1.2.1

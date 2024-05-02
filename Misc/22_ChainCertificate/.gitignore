@@ -1,0 +1,4 @@
+pki
+root-ca.conf
+intermediate-ca.conf
+server.conf
