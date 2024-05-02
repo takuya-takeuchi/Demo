@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Net.Security;
 using System.Reflection;
 using System.Security.Authentication;
 
@@ -61,6 +62,7 @@ namespace Server
                 serverOptions.ConfigureHttpsDefaults(httpsOptions =>
                 {
                     httpsOptions.ClientCertificateMode = ClientCertificateMode.RequireCertificate;
+                    // You can set true but chainStatus could have RevocationStatusUnknown
                     httpsOptions.CheckCertificateRevocation = false;
                     httpsOptions.SslProtocols = SslProtocols.Tls12 | SslProtocols.Tls13;
                     httpsOptions.ClientCertificateValidation = (certificate, chain, errors) =>
@@ -68,12 +70,21 @@ namespace Server
                         // Validation will be executed in ValidateCertificateMiddleware
                         // This statement is mandatory and must return true
                         // HttpContext.Connection.ClientCertificate is always null in ValidateCertificateMiddleware.Validate if this statement is missing
-                        return true;
+
+                        if (errors == SslPolicyErrors.None)
+                            return true;
+
+                        // Do check chain.ChainStatus.
+                        // NotValidForUsage: Check whether client authentication has flag clientAuth in extendedKeyUsage
+                        if (errors == SslPolicyErrors.RemoteCertificateChainErrors)
+                            return true;
+
+                        return false;
                     };
                 });
             });
             builder.Services.AddAuthentication(CertificateAuthenticationDefaults.AuthenticationScheme).AddCertificate();
-            builder.Services.AddTransient<ICertificateValidator>(provider => new ThumbprintCertificateValidator("756f6c3103f1b2e9a87ffd4c1431eb4d8db36e0c"));
+            builder.Services.AddTransient<ICertificateValidator>(provider => new ThumbprintCertificateValidator("d917a6c41d5623c48b92358b67bc301c9f915254"));
 
             var app = builder.Build();
 

@@ -40,6 +40,8 @@ namespace Client
                 };
 
                 var cert = new X509Certificate2(certificatePath, certificatePassword);
+                Logger.Info($"Thumbprint: {cert.Thumbprint}");
+
                 handler.SslOptions.ClientCertificates.Add(cert);
                 handler.SslOptions.LocalCertificateSelectionCallback = (object sender, string targetHost, X509CertificateCollection localCertificates, X509Certificate remoteCertificate, string[] acceptableIssuers) => cert;
 
