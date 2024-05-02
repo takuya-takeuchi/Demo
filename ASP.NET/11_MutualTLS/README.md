@@ -1,9 +1,9 @@
-# Secured Swagger WebAPI (with self signed certificate)
+# Mutual TLS
 
 ## Abstracts
 
-* How to create simple web api by using Swagger
-* How to use self signed certificate on ASP.NET
+* How to use Mutual TLS (mTLS) for ASP.NET
+  * This sample check thumbprint of client certificate
 
 ## Requirements
 
@@ -20,38 +20,41 @@
 
 ## How to use?
 
-You must generate certificates by using [17_GenerateSelfCertificateCustomDomain](../../Misc/17_GenerateSelfCertificateCustomDomain).
-For example,
+#### 01. Create certificates
 
-````pwoershell
-$ pwsh Generate.ps1 www.example.com
+First, you need to create server and client certificates.
+You can use these scripts
+
+* [Misc/20_PrivateCertificateAuthority](../../Misc/20_PrivateCertificateAuthority)
+* [Misc/21_NewCertificateSigningRequest](../../Misc/21_NewCertificateSigningRequest)
+
+#### 02. Config server
+
+Copy `server.pfx` to [server.pfx](./sources/Server/certs/server.pfx) and modify `Pasword` section in [appsettings.json](sources/Server/appsettings.json).
+
+````json
+"Certificate": {
+  "Path": "certs/server.pfx",
+  "Password": "p@ssword123"
+}
 ````
 
-After that, copy `certs/server.pfx` into [10_Swagger-with-ssl](10_Swagger-with-ssl).
-And install `certs/ca.crt` to `Trusted Root Certification Authority store` by following command.
+Next, change certificate thumbprint to validate in [sources/Server/Program.cs](sources/Server/Program.cs).
+You can see thumbprint at here.
 
-````powershell
-$ certutil.exe -addstore root certs\ca.crt
-root "信頼されたルート証明機関"
-署名は公開キーと一致します
-証明書 "Contoso Insecure Certificate Authority" がストアに追加されました。
-CertUtil: -addstore コマンドは正常に完了しました。
+<img src="./images/client_certificate.png" />
+
+````csharp
+builder.Services.AddTransient<ICertificateValidator>(provider => new ThumbprintCertificateValidator("d917a6c41d5623c48b92358b67bc301c9f915254"));
 ````
 
-Then, modify `hosts` file. Speficy localhost ip address and binds it and your domain.
-For example,
+#### 03. Launch server
 
-````txt
-127.0.0.1 www.example.com
-````
-
-Lastly, run following command to run server
-
-````powershell
+````bat
+$ cd sources/Server
 $ dotnet run -c Release
-ビルドしています...
-warn: Microsoft.AspNetCore.Server.Kestrel[0]
-      Overriding address(es) 'https://localhost:7262, http://localhost:5287'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
+arn: Microsoft.AspNetCore.Server.Kestrel[0]
+      Overriding address(es) 'http://localhost:5234'. Binding to endpoints defined via IConfiguration and/or UseKestrel() instead.
 info: Microsoft.Hosting.Lifetime[14]
       Now listening on: http://[::]:80
 info: Microsoft.Hosting.Lifetime[14]
@@ -61,9 +64,46 @@ info: Microsoft.Hosting.Lifetime[0]
 info: Microsoft.Hosting.Lifetime[0]
       Hosting environment: Development
 info: Microsoft.Hosting.Lifetime[0]
-      Content root path: E:\Works\OpenSource\Demo\ASP.NET\10_Swagger-with-ssl\
+      Content root path: E:\Works\OpenSource\Demo2\ASP.NET\11_MutualTLS\sources\Server
 ````
 
-## Result
+You can see Swagger UI but browser show error.
 
-[![swagger](./images/preview.png "swagger")](./images/preview.png)
+<img src="./images/swagger.png" />
+
+But it is expected behavior.
+
+#### 04. Connect to server
+
+At first, check behavior when not passing client certificate.
+1st argument should specify your domain.
+
+````bat
+$ cd sources/Client
+$ dotnet run -c Release -- https://devpc2.taktak.com/api/Test                                                                                                         
+2024-05-02 11:01:00.3557 [INFO ] No certificate 
+2024-05-02 11:01:00.5588 [ERROR] Failed to connect System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 (Forbidden).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at Client.Program.Main(String[] args) in E:\Works\OpenSource\Demo2\ASP.NET\11_MutualTLS\sources\Client\Program.cs:line 59
+````
+
+Next, check behavior when passing client certificate.
+3rd argument is password of client certificate rather than server's.
+
+````bat
+$ cd sources/Client
+$ dotnet run -c Release -- https://devpc2.taktak.com/api/Test client.pfx password
+2024-05-02 11:02:38.7542 [INFO ] Thumbprint: D917A6C41D5623C48B92358B67BC301C9F915254 
+2024-05-02 11:02:38.9237 [INFO ] OK
+````
+
+Lastly, check behavior when passing client certificate with wrong thumbprint.
+
+````bat
+$ cd sources/Client
+$ dotnet run -c Release -- https://devpc2.taktak.com/api/Test wrong.pfx password
+2024-05-02 11:02:38.7542 [INFO ] Thumbprint: 756F6C3103F1B2E9A87FFD4C1431EB4D8DB36E0C 
+2024-05-02 11:04:16.5112 [ERROR] Failed to connect System.Net.Http.HttpRequestException: Response status code does not indicate success: 403 (Forbidden).
+   at System.Net.Http.HttpResponseMessage.EnsureSuccessStatusCode()
+   at Client.Program.Main(String[] args) in E:\Works\OpenSource\Demo2\ASP.NET\11_MutualTLS\sources\Client\Program.cs:line 59
+````

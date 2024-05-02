@@ -23,29 +23,38 @@ namespace Client
             try
             {
                 var url = args[0];
-                var certificatePath = args[1];
-                var certificatePassword = args[2];
-                var handler = new SocketsHttpHandler
+
+                HttpClient client;
+                if (args.Length == 3) 
                 {
-                    MaxConnectionsPerServer = 100,
-                    AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
-                    PooledConnectionLifetime = TimeSpan.FromMinutes(1),
-                    ConnectTimeout = TimeSpan.FromSeconds(10),
-                    PooledConnectionIdleTimeout = TimeSpan.FromSeconds(10),
-                    ResponseDrainTimeout = TimeSpan.FromSeconds(10),
-                };
-                handler.SslOptions = new SslClientAuthenticationOptions()
+                    var certificatePath = args[1];
+                    var certificatePassword = args[2];
+                    var handler = new SocketsHttpHandler
+                    {
+                        MaxConnectionsPerServer = 100,
+                        AutomaticDecompression = DecompressionMethods.GZip | DecompressionMethods.Deflate,
+                        PooledConnectionLifetime = TimeSpan.FromMinutes(1),
+                        ConnectTimeout = TimeSpan.FromSeconds(10),
+                        PooledConnectionIdleTimeout = TimeSpan.FromSeconds(10),
+                        ResponseDrainTimeout = TimeSpan.FromSeconds(10),
+                    };
+                    handler.SslOptions = new SslClientAuthenticationOptions()
+                    {
+                        ClientCertificates = new X509CertificateCollection(),
+                    };
+
+                    var cert = new X509Certificate2(certificatePath, certificatePassword);
+                    Logger.Info($"Thumbprint: {cert.Thumbprint}");
+
+                    handler.SslOptions.ClientCertificates.Add(cert);
+                    
+                    client = new HttpClient(handler);
+                }
+                else
                 {
-                    ClientCertificates = new X509CertificateCollection(),
-                };
-
-                var cert = new X509Certificate2(certificatePath, certificatePassword);
-                Logger.Info($"Thumbprint: {cert.Thumbprint}");
-
-                handler.SslOptions.ClientCertificates.Add(cert);
-                handler.SslOptions.LocalCertificateSelectionCallback = (object sender, string targetHost, X509CertificateCollection localCertificates, X509Certificate remoteCertificate, string[] acceptableIssuers) => cert;
-
-                var client = new HttpClient(handler);
+                    Logger.Info($"No certificate");
+                    client = new HttpClient();
+                }
 
                 var response = await client.GetAsync(url);
                 response.EnsureSuccessStatusCode();
