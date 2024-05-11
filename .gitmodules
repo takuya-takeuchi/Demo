@@ -127,3 +127,8 @@
 [submodule "ComputerVision/OpenCV/opencv_contrib"]
 	path = ComputerVision/OpenCV/opencv_contrib
 	url = https://github.com/opencv/opencv_contrib.git
+	ignore = dirty
+[submodule "MachineLearning/ONNX/ONNXRuntime/C/onnxruntime"]
+	path = MachineLearning/ONNX/ONNXRuntime/C/onnxruntime
+	url = https://github.com/microsoft/onnxruntime
+	ignore = dirty
