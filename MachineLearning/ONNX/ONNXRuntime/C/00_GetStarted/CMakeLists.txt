@@ -145,6 +145,7 @@ else()
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
+                          -pthread
                           Iconv::Iconv
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_common.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_flatbuffers.a
@@ -187,7 +188,9 @@ else()
                           ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_throw_delegate.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_time.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_time_zone.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/clog/libclog.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/flatbuffers/libflatbuffers.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/google_nsync/libnsync_cpp.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx_proto.a
                           debug ${ONNXRUNTIME_ROOT}/lib/deps/protobuf/libprotobufd.a

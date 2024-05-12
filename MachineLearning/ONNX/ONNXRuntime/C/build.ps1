@@ -111,16 +111,16 @@ elseif ($global:IsMacOS)
     cmake --install $artifactDir --config ${Configuration}
 
     $deps = @()
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\base"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\container"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\debugging"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\hash"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\numeric"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\profiling"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\strings"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\synchronization"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\time"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\types"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/base"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/container"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/debugging"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/hash"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/numeric"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/profiling"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/strings"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/synchronization"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/time"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/types"; }
     $deps += New-Object PSObject -Property @{ Name = "flatbuffers";     Target = "flatbuffers-build"; }
     $deps += New-Object PSObject -Property @{ Name = "google_nsync";    Target = "google_nsync-build"; }
     $deps += New-Object PSObject -Property @{ Name = "onnx";            Target = "onnx-build"; }
@@ -148,31 +148,33 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
-    # python3 tools/ci_build/build.py --config ${Configuration} `
-    #                                 --parallel `
-    #                                 --build_dir ${buildDir} `
-    #                                 --skip_tests `
-    #                                 --use_full_protobuf `
-    #                                 --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
+    python3 tools/ci_build/build.py --config ${Configuration} `
+                                    --parallel `
+                                    --build_dir ${buildDir} `
+                                    --skip_tests `
+                                    --use_full_protobuf `
+                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
 
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}
 
     $deps = @()
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\base"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\container"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\debugging"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\hash"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\numeric"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\profiling"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\strings"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\synchronization"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\time"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\types"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/base"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/container"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/debugging"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/hash"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/numeric"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/profiling"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/strings"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/synchronization"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/time"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/types"; }
     $deps += New-Object PSObject -Property @{ Name = "flatbuffers";     Target = "flatbuffers-build"; }
+    $deps += New-Object PSObject -Property @{ Name = "google_nsync";    Target = "google_nsync-build"; }
     $deps += New-Object PSObject -Property @{ Name = "onnx";            Target = "onnx-build"; }
     $deps += New-Object PSObject -Property @{ Name = "protobuf";        Target = "protobuf-build"; }
     $deps += New-Object PSObject -Property @{ Name = "pytorch_cpuinfo"; Target = "pytorch_cpuinfo-build"; }
+    $deps += New-Object PSObject -Property @{ Name = "clog";            Target = "pytorch_cpuinfo-build/deps/clog"; }
     $deps += New-Object PSObject -Property @{ Name = "re2";             Target = "re2-build"; }
     $exts = @(
         "*.a"
