@@ -91,7 +91,7 @@ elseif (APPLE)
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_graph.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_mlas.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_optimizer.a
-                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.a
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.so
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_session.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_util.a
@@ -136,19 +136,23 @@ elseif (APPLE)
                           ${ONNXRUNTIME_ROOT}/lib/deps/pytorch_cpuinfo/libcpuinfo.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/re2/libre2.a)
 else()
+    find_package(Iconv REQUIRED)
+
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               ${ONNXRUNTIME_ROOT}/include)
+                               ${ONNXRUNTIME_ROOT}/include
+                               Iconv::Iconv)
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
+                          Iconv::Iconv
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_common.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_flatbuffers.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_framework.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_graph.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_mlas.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_optimizer.a
-                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.a
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.so
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_session.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_util.a
@@ -202,7 +206,15 @@ if (MSVC)
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist.onnx
     )
 elseif (APPLE)
+    set(BINARY_DATA
+        ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.so
+        ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist.onnx
+    )
 else()
+    set(BINARY_DATA
+        ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.so
+        ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist.onnx
+    )
 endif()
 
 add_custom_command(TARGET ${PROJ_NAME} POST_BUILD

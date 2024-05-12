@@ -5,7 +5,6 @@
 
 #ifndef _WINDOWS
 #include <iconv.h>
-// #include <strconv2.h>
 #include <filesystem>
 #endif
 
@@ -23,7 +22,7 @@ static void ThrowExceptionIfHasError(OrtStatus* status)
         g_exception_message = std::string(msg);
         
         g_ort->ReleaseStatus(status);
-        throw std::exception(g_exception_message.c_str());
+        throw std::runtime_error(g_exception_message.c_str());
     }
 }
 
@@ -60,7 +59,22 @@ std::wstring convString(const std::string& input)
     delete[] buffer;
     return result;
 #else
-    return iconv_translit<wchar_t>("WCHAR_T", "UTF-8", input);
+    iconv_t cd = iconv_open("WCHAR_T", "UTF-8");
+    size_t inBytesLeft = input.size();
+    const char* inputPtr = input.data();
+    size_t outBytesLeft = input.size() * sizeof(wchar_t);
+    std::vector<wchar_t> buffer(input.size() + 1); // +1 for null terminator
+    auto outputPtr = reinterpret_cast<char*>(buffer.data());
+
+    const size_t result = iconv(cd, const_cast<char**>(&inputPtr), &inBytesLeft, &outputPtr, &outBytesLeft);
+    if (result == (size_t)-1)
+    {
+        iconv_close(cd);
+        throw std::runtime_error("iconv failed to convert utf-8 to wchar_t");
+    }
+
+    iconv_close(cd);
+    return std::wstring(buffer.data(), buffer.data() + (buffer.size() - outBytesLeft / sizeof(wchar_t)));
 #endif
 }
 
@@ -95,8 +109,7 @@ int32_t main(int32_t argc, const char** argv)
         ThrowExceptionIfHasError(g_ort->CreateSession(env, model.c_str(), session_options, &session)); 
 #else
         const std::filesystem::path p(model);
-        std::ifstream ifs(p, std::ios::in | std::ios::binary);
-        ThrowExceptionIfHasError(g_ort->CreateSession(env, model.c_str(), session_options, &session)); 
+        ThrowExceptionIfHasError(g_ort->CreateSession(env, p.c_str(), session_options, &session)); 
 #endif       
 
         std::vector<int64_t> input_dims( {1, c, h, w} );

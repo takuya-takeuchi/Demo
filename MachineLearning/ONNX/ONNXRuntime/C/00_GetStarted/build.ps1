@@ -80,16 +80,18 @@ elseif ($global:IsMacOS)
 elseif ($global:IsLinux)
 {
     $rootDir = Split-Path $current -Parent
-    $openCVInstallDir = Join-Path $rootDir install-with-cudacodec | `
+    $targetInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath $target | `
-                        Join-Path -ChildPath $shared | `
-                        Join-Path -ChildPath lib | `
-                        Join-Path -ChildPath cmake | `
-                        Join-Path -ChildPath $target
+                        Join-Path -ChildPath $Configuration
+    if (!(Test-Path(${targetInstallDir})))
+    {
+        Write-Host "${targetInstallDir} is missing" -ForegroundColor Red
+        return
+    }
 
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openCVInstallDir}" `
+          -D ONNXRUNTIME_ROOT="${targetInstallDir}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
