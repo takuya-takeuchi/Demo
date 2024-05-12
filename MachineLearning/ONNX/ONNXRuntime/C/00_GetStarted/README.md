@@ -52,6 +52,23 @@ $ pwsh build.ps1 <Debug/Release>
 
 ## How to test?
 
+#### Windows
+
 ````bat
 $ .\install\win\bin\Demo.exe testdata\mnist.onnx Input3 1 28 28 Plus214_Output_0
+[Info] output tensor: {1, 10}
+````
+
+#### Linux
+
+````bat
+$ .\install\win\bin\Demo.exe testdata\mnist.onnx Input3 1 28 28 Plus214_Output_0
+[Info] output tensor: {1, 10}
+````
+
+#### OSX
+
+````shell
+$ ./install/osx/bin/Demo testdata/mnist.onnx Input3 1 28 28 Plus214_Output_0 
+[Info] output tensor: {1, 10}
 ````

@@ -85,6 +85,7 @@ elseif (APPLE)
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           Iconv::Iconv
+                          "-framework Foundation"
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_common.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_flatbuffers.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_framework.a
@@ -211,7 +212,6 @@ if (MSVC)
     )
 elseif (APPLE)
     set(BINARY_DATA
-        ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.so
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist.onnx
     )
 else()
