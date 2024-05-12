@@ -100,29 +100,15 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=${sharedFlag} `
-          -D CMAKE_INSTALL_PREFIX="${installDir}" `
-          -D BUILD_opencv_world=OFF `
-          -D BUILD_opencv_java=OFF `
-          -D BUILD_opencv_python=OFF `
-          -D BUILD_opencv_python2=OFF `
-          -D BUILD_opencv_python3=OFF `
-          -D BUILD_PERF_TESTS=OFF `
-          -D BUILD_TESTS=OFF `
-          -D BUILD_DOCS=OFF `
-          -D WITH_CUDA=OFF `
-          -D BUILD_PROTOBUF=ON `
-          -D BUILD_JPEG=ON `
-          -D BUILD_PACKAGE=ON `
-          -D BUILD_PNG=ON `
-          -D BUILD_TIFF=ON `
-          -D BUILD_ZLIB=ON `
-          -D WITH_JPEG=ON `
-          -D WITH_PNG=ON `
-          -D WITH_TIFF=ON `
-          $sourceDir
+    python3 tools/ci_build/build.py --config ${Configuration} `
+                                    --parallel `
+                                    --build_dir ${buildDir} `
+                                    --skip_tests `
+                                    --use_full_protobuf `
+                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
+
+    $artifactDir = Join-Path $buildDir $Configuration
+    cmake --install $artifactDir --config ${Configuration}
 }
 elseif ($global:IsLinux)
 {
