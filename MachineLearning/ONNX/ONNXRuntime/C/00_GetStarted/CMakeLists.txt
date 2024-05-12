@@ -85,11 +85,60 @@ elseif (APPLE)
 else()
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               ${OpenCV_INCLUDE_DIRS})
+                               ${ONNXRUNTIME_ROOT}/include)
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          ${OpenCV_LIBRARIES})
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_common.a
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_flatbuffers.a
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_framework.a
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_graph.a
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_mlas.a
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_optimizer.a
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.a
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers.a
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_session.a
+                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_util.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_bad_optional_access.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_bad_variant_access.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_base.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_city.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_civil_time.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_cord.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_cord_internal.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_cordz_functions.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_cordz_handle.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_cordz_info.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_debugging_internal.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_demangle_internal.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_exponential_biased.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_graphcycles_internal.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_hash.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_hashtablez_sampler.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_int128.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_log_severity.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_low_level_hash.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_malloc_internal.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_raw_hash_set.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_raw_logging_internal.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_spinlock_wait.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_stacktrace.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_strings.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_strings_internal.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_symbolize.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_synchronization.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_throw_delegate.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_time.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_time_zone.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/flatbuffers/libflatbuffers.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx_proto.a
+                          debug ${ONNXRUNTIME_ROOT}/lib/deps/protobuf/libprotobufd.a
+                          optimized ${ONNXRUNTIME_ROOT}/lib/deps/protobuf/libprotobuf.a
+                          debug ${ONNXRUNTIME_ROOT}/lib/deps/protobuf/libprotocd.a
+                          optimized ${ONNXRUNTIME_ROOT}/lib/deps/protobuf/libprotoc.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/pytorch_cpuinfo/libcpuinfo.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/re2/libre2.a)
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
