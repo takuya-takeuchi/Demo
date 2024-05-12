@@ -18,26 +18,13 @@ if ($global:IsWindows)
 {
     $os = "win"
 }
+elseif ($global:IsMacOS)
+{
+    $os = "osx"
+}
 elseif ($global:IsLinux)
 {
     $os = "linux"
-}
-else
-{
-    Write-Host "[Error] This platform does not support CUDA" -ForegroundColor Red
-    exit
-}
-
-# check CUDA
-if (!($env:CUDA_PATH))
-{
-    Write-Host "CUDA_PATH environmental variable is missing" -ForegroundColor Red
-    return
-}
-if (!(Test-Path($env:CUDA_PATH)))
-{
-    Write-Host "${env:CUDA_PATH} is missing" -ForegroundColor Red
-    return
 }
 
 $target = "onnxruntime"
@@ -57,6 +44,23 @@ New-Item -Type Directory $installBinaryDir -Force | Out-Null
 
 Push-Location $buildDir
 if ($global:IsWindows)
+{
+    $rootDir = Split-Path $current -Parent
+    $targetInstallDir = Join-Path $rootDir install | `
+                        Join-Path -ChildPath $os | `
+                        Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath $Configuration
+    if (!(Test-Path(${targetInstallDir})))
+    {
+        Write-Host "${targetInstallDir} is missing" -ForegroundColor Red
+        return
+    }
+
+    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D ONNXRUNTIME_ROOT="${targetInstallDir}" `
+          $sourceDir
+}
+elseif ($global:IsMacOS)
 {
     $rootDir = Split-Path $current -Parent
     $targetInstallDir = Join-Path $rootDir install | `

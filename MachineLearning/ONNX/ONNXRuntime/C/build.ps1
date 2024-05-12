@@ -109,6 +109,41 @@ elseif ($global:IsMacOS)
 
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}
+
+    $deps = @()
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\base"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\container"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\debugging"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\hash"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\numeric"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\profiling"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\strings"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\synchronization"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\time"; }
+    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\types"; }
+    $deps += New-Object PSObject -Property @{ Name = "flatbuffers";     Target = "flatbuffers-build"; }
+    $deps += New-Object PSObject -Property @{ Name = "onnx";            Target = "onnx-build"; }
+    $deps += New-Object PSObject -Property @{ Name = "protobuf";        Target = "protobuf-build"; }
+    $deps += New-Object PSObject -Property @{ Name = "pytorch_cpuinfo"; Target = "pytorch_cpuinfo-build"; }
+    $deps += New-Object PSObject -Property @{ Name = "re2";             Target = "re2-build"; }
+    $exts = @(
+        "*.a"
+    )
+
+    $depsInstallDir = Join-Path $installDir lib | Join-Path -ChildPath deps
+    $depsDir = Join-Path $artifactDir _deps
+    foreach ($dep in $deps)
+    {
+        $depSourceDir = Join-Path $depsDir $dep.Target
+        $depsDestDir = Join-Path $depsInstallDir $dep.Name
+        New-Item -Type Directory $depsDestDir -Force | Out-Null
+
+        foreach ($ext in $exts)
+        {
+            $src = Join-Path $depSourceDir $ext
+            Copy-Item "${src}" "${depsDestDir}" -Force
+        }
+    }
 }
 elseif ($global:IsLinux)
 {

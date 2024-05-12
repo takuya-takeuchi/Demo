@@ -3,6 +3,12 @@
 #include <string>
 #include <vector>
 
+#ifndef _WINDOWS
+#include <iconv.h>
+// #include <strconv2.h>
+#include <filesystem>
+#endif
+
 #include <onnxruntime/core/session/onnxruntime_c_api.h>
 
 static const OrtApi* g_ort = OrtGetApiBase()->GetApi(ORT_API_VERSION);
@@ -85,7 +91,13 @@ int32_t main(int32_t argc, const char** argv)
         ThrowExceptionIfHasError(g_ort->CreateSessionOptions(&session_options));
 
         OrtSession* session;
-        ThrowExceptionIfHasError(g_ort->CreateSession(env, model.c_str(), session_options, &session));        
+#ifdef _WINDOWS
+        ThrowExceptionIfHasError(g_ort->CreateSession(env, model.c_str(), session_options, &session)); 
+#else
+        const std::filesystem::path p(model);
+        std::ifstream ifs(p, std::ios::in | std::ios::binary);
+        ThrowExceptionIfHasError(g_ort->CreateSession(env, model.c_str(), session_options, &session)); 
+#endif       
 
         std::vector<int64_t> input_dims( {1, c, h, w} );
         const int32_t tensor_size = 1 * c * h * w;
