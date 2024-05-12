@@ -122,6 +122,7 @@ elseif ($global:IsMacOS)
     $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\time"; }
     $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\types"; }
     $deps += New-Object PSObject -Property @{ Name = "flatbuffers";     Target = "flatbuffers-build"; }
+    $deps += New-Object PSObject -Property @{ Name = "google_nsync";    Target = "google_nsync-build"; }
     $deps += New-Object PSObject -Property @{ Name = "onnx";            Target = "onnx-build"; }
     $deps += New-Object PSObject -Property @{ Name = "protobuf";        Target = "protobuf-build"; }
     $deps += New-Object PSObject -Property @{ Name = "pytorch_cpuinfo"; Target = "pytorch_cpuinfo-build"; }

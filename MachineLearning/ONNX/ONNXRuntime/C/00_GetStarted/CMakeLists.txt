@@ -91,7 +91,6 @@ elseif (APPLE)
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_graph.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_mlas.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_optimizer.a
-                          ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.so
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_session.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_util.a
@@ -127,6 +126,7 @@ elseif (APPLE)
                           ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_time.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_time_zone.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/flatbuffers/libflatbuffers.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/google_nsync/libnsync_cpp.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx_proto.a
                           debug ${ONNXRUNTIME_ROOT}/lib/deps/protobuf/libprotobufd.a
