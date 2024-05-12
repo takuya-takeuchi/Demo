@@ -126,6 +126,7 @@ elseif ($global:IsMacOS)
     $deps += New-Object PSObject -Property @{ Name = "onnx";            Target = "onnx-build"; }
     $deps += New-Object PSObject -Property @{ Name = "protobuf";        Target = "protobuf-build"; }
     $deps += New-Object PSObject -Property @{ Name = "pytorch_cpuinfo"; Target = "pytorch_cpuinfo-build"; }
+    $deps += New-Object PSObject -Property @{ Name = "clog";            Target = "pytorch_cpuinfo-build/deps/clog"; }
     $deps += New-Object PSObject -Property @{ Name = "re2";             Target = "re2-build"; }
     $exts = @(
         "*.a"
