@@ -2,49 +2,43 @@
 
 ## Abstracts
 
-* Decode H.264 file by using `NVIDIA VIDEO CODEC SDK`
+* Input simple onnx file and inference sample tensor
 
 ## Requirements
 
 ### Common
 
 * Powershell 7 or later
-* CMake 3.0.0 or later
-* C++ Compiler supports C++17
-* CUDA 12.0
+* CMake
+  * 3.26 or higher
 
 ### Windows
 
-* Visual Studio
-* NVIDIA VIDEO CODEC SDK 12.1
-  * Install all header files of NVIDIA VIDEO CODEC SDK into `include` of `CUDA_PATH`
-  * Install all library files of NVIDIA VIDEO CODEC SDK into `lib` of `CUDA_PATH`
+* Visual Studio 2022
+
+### Ubuntu
+
+* g++
+* libiconv
+
+### OSX
+
+* Xcode
+* libiconv
 
 ## Dependencies
 
-* [opencv](https://github.com/opencv/opencv)
-  * 4.7.0
-  * Apache-2.0 License
-* [opencv_contrib](https://github.com/opencv/opencv_contrib)
-  * 4.7.0
-  * Apache-2.0 License
-
-## Test Data
-
-* [INTER-STREAM®サポートページ](https://inter-stream.jp/interstream_support/ems/08_05.html)
-  * bun33s.mp4 (h264)
+* [ONNX Runtime](https://onnxruntime.ai/)
+  * 1.16.3
+  * MIT license
 
 ## How to build?
 
-### OpenCV 4
+### ONNX Runtime
 
-Go to [OpenCV](..).
+Go to [ONNXRuntime/C](..).
 
-````shell
-$ pwsh build-enable-cudacodec.ps1 <Debug/Release>
-````
-
-Once time you built `opencv4`, you need not to do again.
+Once time you built `ONNX Runtime`, you need not to do again.
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>
@@ -62,7 +56,7 @@ $ .\install\win\bin\Demo.exe testdata\mnist.onnx Input3 1 28 28 Plus214_Output_0
 #### Linux
 
 ````bat
-$ .\install\win\bin\Demo.exe testdata\mnist.onnx Input3 1 28 28 Plus214_Output_0
+$ ./install/linux/bin/Demo testdata/mnist.onnx Input3 1 28 28 Plus214_Output_0
 [Info] output tensor: {1, 10}
 ````
 
