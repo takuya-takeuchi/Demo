@@ -56,6 +56,7 @@ if ($global:IsWindows)
                                    --parallel `
                                    --build_dir ${buildDir} `
                                    --skip_tests `
+                                   --skip_onnx_tests `
                                    --use_full_protobuf `
                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
 
@@ -104,6 +105,7 @@ elseif ($global:IsMacOS)
                                     --parallel `
                                     --build_dir ${buildDir} `
                                     --skip_tests `
+                                    --skip_onnx_tests `
                                     --use_full_protobuf `
                                     --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
 
@@ -153,8 +155,9 @@ elseif ($global:IsLinux)
                                     --parallel `
                                     --build_dir ${buildDir} `
                                     --skip_tests `
+                                    --skip_onnx_tests `
                                     --use_full_protobuf `
-                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
+                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir `
 
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}

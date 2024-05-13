@@ -13,6 +13,10 @@ endif()
 
 if (MSVC)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
+elseif (APPLE)
+else ()
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ldl")
 endif()
 
 add_executable(${PROJ_NAME} main.cpp)
@@ -85,7 +89,6 @@ elseif (APPLE)
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           Iconv::Iconv
-                          "-framework Foundation"
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_common.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_flatbuffers.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_framework.a
@@ -126,7 +129,6 @@ elseif (APPLE)
                           ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_throw_delegate.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_time.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/abseil/libabsl_time_zone.a
-                          ${ONNXRUNTIME_ROOT}/lib/deps/clog/libclog.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/flatbuffers/libflatbuffers.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/google_nsync/libnsync_cpp.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx.a
@@ -145,10 +147,12 @@ else()
                                ${ONNXRUNTIME_ROOT}/include
                                Iconv::Iconv)
 
-    target_link_libraries(${PROJ_NAME}
-                          PRIVATE
-                          -pthread
+    set(LINKER_FLAGS "${LINKER_FLAGS} -Wl,--as-needed -Wl,--gc-sections -Wl,--no-undefined -Wl,--strip-all")
+    target_link_libraries(${PROJ_NAME} PRIVATE
                           Iconv::Iconv
+                          -Wl,--whole-archive
+                          ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx.a
+                          ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx_proto.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_common.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_flatbuffers.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_framework.a
@@ -193,14 +197,16 @@ else()
                           ${ONNXRUNTIME_ROOT}/lib/deps/clog/libclog.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/flatbuffers/libflatbuffers.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/google_nsync/libnsync_cpp.a
-                          ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx.a
-                          ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx_proto.a
                           debug ${ONNXRUNTIME_ROOT}/lib/deps/protobuf/libprotobufd.a
                           optimized ${ONNXRUNTIME_ROOT}/lib/deps/protobuf/libprotobuf.a
                           debug ${ONNXRUNTIME_ROOT}/lib/deps/protobuf/libprotocd.a
                           optimized ${ONNXRUNTIME_ROOT}/lib/deps/protobuf/libprotoc.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/pytorch_cpuinfo/libcpuinfo.a
-                          ${ONNXRUNTIME_ROOT}/lib/deps/re2/libre2.a)
+                          ${ONNXRUNTIME_ROOT}/lib/deps/re2/libre2.a
+                          -Wl,--no-whole-archive
+                          dl
+                          z
+                          pthread)
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
@@ -212,6 +218,7 @@ if (MSVC)
     )
 elseif (APPLE)
     set(BINARY_DATA
+        ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.so
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist.onnx
     )
 else()
