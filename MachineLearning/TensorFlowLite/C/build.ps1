@@ -52,11 +52,14 @@ if ($BuildSystem -eq "bazel")
    $arguments = @()
    $arguments += New-Object PSObject -Property @{ Version = "v2.5.3";  BazelVersion = "3.7.2"; PythonVersion = "3.8.9"; PythonIntegerVersion = "38"; CPythonVersion = "3.8"; }
    $arguments += New-Object PSObject -Property @{ Version = "v2.10.1"; BazelVersion = "5.1.1"; PythonVersion = "3.8.9"; PythonIntegerVersion = "38"; CPythonVersion = "3.8"; }
+   $arguments += New-Object PSObject -Property @{ Version = "v2.11.1"; BazelVersion = "5.3.0"; PythonVersion = "3.8.9"; PythonIntegerVersion = "38"; CPythonVersion = "3.8"; }
+   $arguments += New-Object PSObject -Property @{ Version = "v2.12.1"; BazelVersion = "5.3.0"; PythonVersion = "3.8.9"; PythonIntegerVersion = "38"; CPythonVersion = "3.8"; }
    
    $targetArgument = $arguments | Where-Object { $_.Version -eq $TensorflowVersion } | Select-Object -First 1
    if (!($targetArgument))
    {
-      Write-Host "[Error] Specify Tensorflow version '${TensorflowVersion}' is not supported" -ForegroundColor Red
+      $candidate = ($arguments | Select-Object -ExpandProperty Version) -join "/"
+      Write-Host "[Error] Specify Tensorflow version '${TensorflowVersion}' is not supported. Supported versions are [${candidate}]" -ForegroundColor Red
       exit -1
    }
    

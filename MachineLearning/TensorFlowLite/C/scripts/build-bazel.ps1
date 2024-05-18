@@ -300,18 +300,6 @@ if ($global:IsWindows)
             $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "c_api_types.h";        Target = "lite\c"; }
             $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "common.h";             Target = "lite\c"; }
             $includes += New-Object PSObject -Property @{ Source = "lite";          Name = "builtin_ops.h";        Target = "lite"; }
-            $includeInstallDir = Join-Path $installDir include
-            foreach ($include in $includes)
-            {
-                $includeDestDir = Join-Path $includeInstallDir tensorflow | `
-                                    Join-Path -ChildPath $include.Target
-                New-Item -Type Directory $includeDestDir -Force | Out-Null
-
-                $includeSourceDir = Join-Path $sourceDir tensorflow | `
-                                    Join-Path -ChildPath $include.Source
-                $src = Join-Path $includeSourceDir $include.Name
-                Copy-Item "${src}" "${includeDestDir}" -Force
-            }
         }
         "v2.10.1"
         {
@@ -321,18 +309,44 @@ if ($global:IsWindows)
             $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "c_api_types.h";        Target = "lite\c"; }
             $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "common.h";             Target = "lite\c"; }
             $includes += New-Object PSObject -Property @{ Source = "lite";          Name = "builtin_ops.h";        Target = "lite"; }
-            $includeInstallDir = Join-Path $installDir include
-            foreach ($include in $includes)
-            {
-                $includeDestDir = Join-Path $includeInstallDir tensorflow | `
-                                    Join-Path -ChildPath $include.Target
-                New-Item -Type Directory $includeDestDir -Force | Out-Null
+        }
+        "v2.11.1"
+        {
+            $includes = @()
+            $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "c_api.h";              Target = "lite\c"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "c_api_experimental.h"; Target = "lite\c"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "c_api_types.h";        Target = "lite\c"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "common.h";             Target = "lite\c"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite";          Name = "builtin_ops.h";        Target = "lite"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite\core\c";   Name = "c_api.h";              Target = "lite\core\c"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite";          Name = "builtin_ops.h";        Target = "lite"; }
+        }
+        "v2.12.1"
+        {
+            $includes = @()
+            $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "c_api.h";              Target = "lite\c"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "c_api_experimental.h"; Target = "lite\c"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "c_api_types.h";        Target = "lite\c"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite\c";        Name = "common.h";             Target = "lite\c"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite";          Name = "builtin_ops.h";        Target = "lite"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite\core\c";   Name = "c_api.h";              Target = "lite\core\c"; }
+            $includes += New-Object PSObject -Property @{ Source = "lite";          Name = "builtin_ops.h";        Target = "lite"; }
+        }
+    }
 
-                $includeSourceDir = Join-Path $sourceDir tensorflow | `
-                                    Join-Path -ChildPath $include.Source
-                $src = Join-Path $includeSourceDir $include.Name
-                Copy-Item "${src}" "${includeDestDir}" -Force
-            }
+    if ($includes)
+    {
+        $includeInstallDir = Join-Path $installDir include
+        foreach ($include in $includes)
+        {
+            $includeDestDir = Join-Path $includeInstallDir tensorflow | `
+                                Join-Path -ChildPath $include.Target
+            New-Item -Type Directory $includeDestDir -Force | Out-Null
+    
+            $includeSourceDir = Join-Path $sourceDir tensorflow | `
+                                Join-Path -ChildPath $include.Source
+            $src = Join-Path $includeSourceDir $include.Name
+            Copy-Item "${src}" "${includeDestDir}" -Force
         }
     }
 }

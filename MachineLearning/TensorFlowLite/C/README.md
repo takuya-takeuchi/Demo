@@ -20,7 +20,7 @@
 ## Dependencies
 
 * [TensorFlow](https://github.com/tensorflow/tensorflow)
-  * 2.5.3, v2.10.1
+  * v2.5.3, v2.10.1, v2.11.1, v2.12.1
   * Apache-2.0 license
 * [CPython](https://github.com/python/cpython)
   * Python License

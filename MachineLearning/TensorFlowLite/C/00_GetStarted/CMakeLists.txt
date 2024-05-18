@@ -38,7 +38,13 @@ install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
 if (MSVC)
    set(BINARY_DATA
        ${TFLITE_BINS}
-    #    ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist.onnx
+       ${CMAKE_CURRENT_SOURCE_DIR}/saved_model/mobilenetv2-12_dynamic_range_quant.tflite
+       ${CMAKE_CURRENT_SOURCE_DIR}/saved_model/mobilenetv2-12_float16.tflite
+       ${CMAKE_CURRENT_SOURCE_DIR}/saved_model/mobilenetv2-12_float32.tflite
+       ${CMAKE_CURRENT_SOURCE_DIR}/saved_model/mobilenetv2-12_full_integer_quant_with_int16_act.tflite
+       ${CMAKE_CURRENT_SOURCE_DIR}/saved_model/mobilenetv2-12_full_integer_quant.tflite
+       ${CMAKE_CURRENT_SOURCE_DIR}/saved_model/mobilenetv2-12_integer_quant_with_int16_act.tflite
+       ${CMAKE_CURRENT_SOURCE_DIR}/saved_model/mobilenetv2-12_integer_quant.tflite
    )
 elseif (APPLE)
 else()
