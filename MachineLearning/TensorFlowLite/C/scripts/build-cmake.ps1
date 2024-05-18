@@ -70,7 +70,7 @@ if ($global:IsWindows)
     cmake -G "Visual Studio 17 2022" -A x64 `
          -D CMAKE_BUILD_TYPE="${Configuration}" `
          -D BUILD_SHARED_LIBS=ON `
-         -D TFLITE_C_BUILD_SHARED_LIBS=OFF `
+         -D TFLITE_C_BUILD_SHARED_LIBS=ON `
          "${TFLITE}"
     cmake --build . --config $Configuration --target install
 
