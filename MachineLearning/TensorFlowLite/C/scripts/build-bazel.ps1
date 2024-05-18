@@ -1,7 +1,3 @@
-#***************************************
-#Arguments
-#%1: Build Configuration (Release/Debug)
-#***************************************
 Param
 (
    [Parameter(
