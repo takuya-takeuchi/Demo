@@ -40,7 +40,8 @@ $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
             Join-Path -ChildPath $target | `
             Join-Path -ChildPath $lang | `
-            Join-Path -ChildPath $buildSystem
+            Join-Path -ChildPath $buildSystem | `
+            Join-Path -ChildPath $version
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
               Join-Path -ChildPath $target | `
