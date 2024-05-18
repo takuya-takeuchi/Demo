@@ -206,8 +206,9 @@ if ($global:IsWindows)
     if (!(Test-Path($pip)))
     {
         Write-Host "Install pip..." -ForegroundColor Blue
-        Invoke-WebRequest https://bootstrap.pypa.io/get-pip.py -OutFile get-pip.py
-        & "${python}" get-pip.py
+        Invoke-WebRequest https://bootstrap.pypa.io/get-pip.py -OutFile "get-pip.py"
+        & "${python}" "get-pip.py"
+        Remove-Item "get-pip.py"
     }
     # install numpy
     $numpy = Join-Path "${installPythonDir}" "Lib" | Join-Path -ChildPath "site-packages" | Join-Path -ChildPath numpy
