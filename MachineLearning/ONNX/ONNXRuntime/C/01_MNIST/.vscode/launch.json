@@ -1,0 +1,17 @@
+{
+    // IntelliSense を使用して利用可能な属性を学べます。
+    // 既存の属性の説明をホバーして表示します。
+    // 詳細情報は次を確認してください: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "(Windows) demo",
+            "type": "cppvsdbg",
+            "request": "launch",
+            "program": "Demo.exe",
+            "args": ["mnist.onnx", "mnist-7.bmp"],
+            "stopAtEntry": false,
+            "cwd": "${workspaceFolder}/install/win/bin"
+        },
+    ]
+}

@@ -135,3 +135,8 @@
 [submodule "MachineLearning/TensorFlow/C/tensorflow"]
 	path = MachineLearning/TensorFlowLite/C/tensorflow
 	url = https://github.com/tensorflow/tensorflow
+	ignore = dirty
+[submodule "MachineLearning/ONNX/ONNXRuntime/C/opencv"]
+	path = MachineLearning/ONNX/ONNXRuntime/C/opencv
+	url = https://github.com/opencv/opencv
+	ignore = dirty

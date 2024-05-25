@@ -18,15 +18,25 @@ else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ldl")
 endif()
 
+find_package(OpenCV)
+
+if (${OpenCV_FOUND})
+    message("     OpenCV_VERSION: ${OpenCV_VERSION}")
+    message("OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}")
+    message("   OpenCV_LIBRARIES: ${OpenCV_LIBRARIES}")
+endif()
+
 add_executable(${PROJ_NAME} main.cpp)
 
 if (MSVC)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               ${ONNXRUNTIME_ROOT}/include)
+                               ${ONNXRUNTIME_ROOT}/include
+                               ${OpenCV_INCLUDE_DIRS})
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
+                          ${OpenCV_LIBRARIES}
                           ${ONNXRUNTIME_ROOT}/lib/onnxruntime_common.lib
                           ${ONNXRUNTIME_ROOT}/lib/onnxruntime_flatbuffers.lib
                           ${ONNXRUNTIME_ROOT}/lib/onnxruntime_framework.lib
@@ -83,10 +93,12 @@ elseif (APPLE)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                ${ONNXRUNTIME_ROOT}/include
-                               Iconv::Iconv)
+                               Iconv::Iconv
+                               ${OpenCV_INCLUDE_DIRS})
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
+                          ${OpenCV_LIBRARIES}
                           Iconv::Iconv
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_common.a
                           ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_flatbuffers.a
@@ -144,11 +156,13 @@ else()
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                ${ONNXRUNTIME_ROOT}/include
-                               Iconv::Iconv)
+                               Iconv::Iconv
+                               ${OpenCV_INCLUDE_DIRS})
 
     set(LINKER_FLAGS "${LINKER_FLAGS} -Wl,--as-needed -Wl,--gc-sections -Wl,--no-undefined -Wl,--strip-all")
     target_link_libraries(${PROJ_NAME} PRIVATE
                           Iconv::Iconv
+                          ${OpenCV_LIBRARIES}
                           -Wl,--whole-archive
                           ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx.a
                           ${ONNXRUNTIME_ROOT}/lib/deps/onnx/libonnx_proto.a
@@ -213,16 +227,21 @@ install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
 if (MSVC)
     set(BINARY_DATA
         ${ONNXRUNTIME_ROOT}/lib/onnxruntime_providers_shared.dll
+        ${ONNXRUNTIME_ROOT}/lib/onnxruntime_providers_cuda.dll
+        ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist-7.bmp
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist.onnx
     )
 elseif (APPLE)
     set(BINARY_DATA
         ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.so
+        ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist-7.bmp
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist.onnx
     )
 else()
     set(BINARY_DATA
         ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.so
+        ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_cuda.so
+        ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist-7.bmp
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist.onnx
     )
 endif()
