@@ -1,0 +1,14 @@
+cmake_minimum_required(VERSION 3.15.0)
+
+set(PROJ_NAME Demo2)
+
+project(${PROJ_NAME} VERSION 1.0.0)
+
+set(CMAKE_CXX_FLAGS_RELEASE "/MT")
+set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/MT")
+set(CMAKE_CXX_FLAGS_MINSIZEREL "/MT")
+set(CMAKE_CXX_FLAGS_DEBUG "/MTd")
+
+add_executable(${PROJ_NAME} ${PROJECT_SOURCE_DIR}/../main.cpp)
+
+install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
