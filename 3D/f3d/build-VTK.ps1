@@ -47,9 +47,9 @@ Push-Location $buildDir
 
 if ($global:IsWindows)
 {
+    # BUILD_SHARED_LIBS:OFF will occur build error
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=OFF `
+          -D BUILD_SHARED_LIBS=ON `
           $sourceDir
 }
 elseif ($global:IsMacOS)

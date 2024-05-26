@@ -27,7 +27,7 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "f3d"
+$target = "glfw"
 
 # build
 $sourceDir = Join-Path $current $target
@@ -40,35 +40,16 @@ $installDir = Join-Path $current install | `
               Join-Path -ChildPath $target | `
               Join-Path -ChildPath $Configuration
 
-$vtkInstallDir = Join-Path $current install | `
-                 Join-Path -ChildPath $os | `
-                 Join-Path -ChildPath VTK | `
-                 Join-Path -ChildPath $Configuration
-
-$glfwInstallDir = Join-Path $current install | `
-                  Join-Path -ChildPath $os | `
-                  Join-Path -ChildPath glfw | `
-                  Join-Path -ChildPath $Configuration | `
-                  Join-Path -ChildPath lib | `
-                  Join-Path -ChildPath cmake | `
-                  Join-Path -ChildPath glfw3
-
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
-Push-Location $buildDir | Out-Null
+Push-Location $buildDir
 
 if ($global:IsWindows)
 {
-    # to build testing
-    Push-Location $sourceDir | Out-Null
-    git lfs pull
-    Pop-Location
-
-    $env:glfw3_DIR=${glfwInstallDir}
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH=$vtkInstallDir `
-          -D BUILD_TESTING=ON `
+          -D GLFW_INSTALL=ON `
+          -D GLFW_BUILD_DOCS=OFF `
           $sourceDir
 }
 elseif ($global:IsMacOS)
