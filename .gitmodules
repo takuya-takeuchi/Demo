@@ -140,3 +140,15 @@
 	path = MachineLearning/ONNX/ONNXRuntime/C/opencv
 	url = https://github.com/opencv/opencv
 	ignore = dirty
+[submodule "3D/f3d/f3d"]
+	path = 3D/f3d/f3d
+	url = https://github.com/f3d-app/f3d
+	ignore = dirty
+[submodule "3D/f3d/VTK"]
+	path = 3D/f3d/VTK
+	url = https://github.com/Kitware/VTK
+	ignore = dirty
+[submodule "3D/f3d/glfw"]
+	path = 3D/f3d/glfw
+	url = https://github.com/glfw/glfw
+	ignore = dirty
