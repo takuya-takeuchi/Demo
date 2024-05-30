@@ -1,0 +1,9 @@
+if(MSVC)
+    add_compile_options(
+        $<$<CONFIG:>:/MT>
+        $<$<CONFIG:Debug>:/MTd>
+        $<$<CONFIG:RelWithDebInfo>:/MT>
+        $<$<CONFIG:MinSizeRel>:/MT>
+        $<$<CONFIG:Release>:/MT>
+    )
+endif()

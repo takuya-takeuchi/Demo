@@ -66,22 +66,6 @@ New-Item -Type Directory $installDir -Force | Out-Null
 Push-Location $buildDir
 if ($global:IsWindows)
 {
-    if (!($env:VCPKG_ROOT_DIR))
-    {
-        Write-Host "VCPKG_ROOT_DIR environmental variable is missing" -ForegroundColor Red
-        return
-    }
-
-    $toolchain = "${env:VCPKG_ROOT_DIR}\scripts\buildsystems\vcpkg.cmake"
-    if (!(Test-Path(${toolchain})))
-    {
-        Write-Host "${toolchain} is missing" -ForegroundColor Red
-        return
-    }
-
-    $library_type = "x64-windows"
-    $vcpkg_base_directory = "${env:VCPKG_ROOT_DIR}\installed\${library_type}"
-
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
