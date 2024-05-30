@@ -71,8 +71,8 @@ $harfbuzz_installDir = Join-Path $current install | `
                        Join-Path -ChildPath $os | `
                        Join-Path -ChildPath harfbuzz | `
                        Join-Path -ChildPath $shared
-$harfbuzz_include_dir = Join-Path $freetype_installDir include
-$harfbuzz_lib_dir = Join-Path $freetype_installDir lib
+$harfbuzz_include_dir = Join-Path $harfbuzz_installDir include
+$harfbuzz_lib_dir = Join-Path $harfbuzz_installDir lib
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -84,17 +84,12 @@ if ($global:IsWindows)
     # So specify each argument
     cmake -D BUILD_SHARED_LIBS=OFF `
           -D BUILD_WITH_STATIC_CRT=ON `
-          -D CMAKE_INSTALL_PREFIX="${install_dir}" `
-          -D CMAKE_PREFIX_PATH="${freetype_installDir}/lib/cmake/freetype;${harfbuzz_installDir}/lib/cmake/harfbuzz" `
-          -D harfbuzz_DIR:PATH="${$harfbuzz_dir}/lib/cmake/harfbuzz" `
-          -D HARFBUZZ_DIR:PATH="${$harfbuzz_dir}" `
+          -D CMAKE_INSTALL_PREFIX="${installDir}" `
           -D HARFBUZZ_FOUND:BOOL=ON `
           -D HARFBUZZ_INCLUDE_DIRS:PATH="${harfbuzz_include_dir}/harfbuzz" `
           -D HARFBUZZ_LIBRARIES:PATH="${harfbuzz_lib_dir}/harfbuzz.lib" `
           -D HARFBUZZ_LIBRARY:FILEPATH="${harfbuzz_lib_dir}/harfbuzz.lib" `
           -D FREETYPE_FOUND:BOOL=ON `
-          -D freetype_DIR:PATH="${$freetype_dir}/lib/cmake/freetype" `
-          -D FREETYPE_DIR:PATH="${freetype_dir}" `
           -D FREETYPE_INCLUDE_DIRS:PATH="${freetype_include_dir}/freetype2" `
           -D FREETYPE_LIBRARY_DEBUG:FILEPATH="${freetype_lib_dir}/freetyped.lib" `
           -D FREETYPE_LIBRARY_RELEASE:FILEPATH="${freetype_lib_dir}/freetyped.lib" `
