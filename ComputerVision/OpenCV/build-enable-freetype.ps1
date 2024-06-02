@@ -173,6 +173,7 @@ if ($global:IsWindows)
           -D BUILD_opencv_xobjdetect=OFF `
           -D BUILD_opencv_xphoto=OFF `
           -D BUILD_JASPER=OFF `
+          -D BUILD_OPENEXR=OFF `
           -D BUILD_OPENJPEG=OFF `
           -D BUILD_PROTOBUF=OFF `
           -D BUILD_TIFF=OFF `
@@ -183,6 +184,7 @@ if ($global:IsWindows)
           -D WITH_FFMPEG=OFF `
           -D WITH_IPP=ON `
           -D WITH_JASPER=OFF `
+          -D WITH_OPENEXR=OFF `
           -D WITH_OPENJPEG=OFF `
           -D WITH_PROTOBUF=OFF `
           -D WITH_QUIRC=OFF `
@@ -285,6 +287,7 @@ elseif ($global:IsMacOS)
           -D BUILD_opencv_xobjdetect=OFF `
           -D BUILD_opencv_xphoto=OFF `
           -D BUILD_JASPER=OFF `
+          -D BUILD_OPENEXR=OFF `
           -D BUILD_OPENJPEG=OFF `
           -D BUILD_PROTOBUF=OFF `
           -D BUILD_TIFF=OFF `
@@ -295,6 +298,7 @@ elseif ($global:IsMacOS)
           -D WITH_FFMPEG=OFF `
           -D WITH_IPP=ON `
           -D WITH_JASPER=OFF `
+          -D WITH_OPENEXR=OFF `
           -D WITH_OPENJPEG=OFF `
           -D WITH_PROTOBUF=OFF `
           -D WITH_QUIRC=OFF `
@@ -397,6 +401,7 @@ elseif ($global:IsLinux)
           -D BUILD_opencv_xobjdetect=OFF `
           -D BUILD_opencv_xphoto=OFF `
           -D BUILD_JASPER=OFF `
+          -D BUILD_OPENEXR=OFF `
           -D BUILD_OPENJPEG=OFF `
           -D BUILD_PROTOBUF=OFF `
           -D BUILD_TIFF=OFF `
@@ -407,6 +412,7 @@ elseif ($global:IsLinux)
           -D WITH_FFMPEG=OFF `
           -D WITH_IPP=ON `
           -D WITH_JASPER=OFF `
+          -D WITH_OPENEXR=OFF `
           -D WITH_OPENJPEG=OFF `
           -D WITH_PROTOBUF=OFF `
           -D WITH_QUIRC=OFF `
