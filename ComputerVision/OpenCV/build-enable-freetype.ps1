@@ -32,18 +32,6 @@ else
     exit
 }
 
-# check CUDA
-if (!($env:CUDA_PATH))
-{
-    Write-Host "CUDA_PATH environmental variable is missing" -ForegroundColor Red
-    return
-}
-if (!(Test-Path($env:CUDA_PATH)))
-{
-    Write-Host "${env:CUDA_PATH} is missing" -ForegroundColor Red
-    return
-}
-
 $target = "opencv4"
 $shared = "static"
 $sharedFlag = "OFF"
@@ -208,6 +196,7 @@ elseif ($global:IsMacOS)
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
           -D CMAKE_INSTALL_PREFIX="${installDir}" `
+          -D CMAKE_PREFIX_PATH="${freetype_installDir};${harfbuzz_installDir}" `
           -D OPENCV_EXTRA_MODULES_PATH="${contribDir}" `
           -D BUILD_opencv_world=OFF `
           -D BUILD_opencv_java=OFF `
@@ -319,6 +308,7 @@ elseif ($global:IsLinux)
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
           -D CMAKE_INSTALL_PREFIX="${installDir}" `
+          -D CMAKE_PREFIX_PATH="${freetype_installDir};${harfbuzz_installDir}" `
           -D OPENCV_EXTRA_MODULES_PATH="${contribDir}" `
           -D BUILD_opencv_world=OFF `
           -D BUILD_opencv_java=OFF `
