@@ -61,12 +61,9 @@ if ($global:IsWindows)
     Copy-Item -Recurse $patch $sourceDir -Force
 
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D BUILD_SHARED_LIBS=OFF `
           -D CMAKE_PROJECT_INCLUDE=custom_options.cmake `
-          -D FREETYPE_INCLUDE_DIR_freetype2="${freetype_include_dir}" `
-          -D FREETYPE_INCLUDE_DIR_ft2build="${freetype_include_dir}/freetype2" `
-          -D FREETYPE_LIBRARY_DEBUG="${freetype_lib_dir}/freetyped.lib" `
-          -D FREETYPE_LIBRARY_RELEASE="${freetype_lib_dir}/freetype.lib" `
+          -D BUILD_SHARED_LIBS=OFF `
+          -D CMAKE_PREFIX_PATH="${freetype_installDir}" `
           -D HB_HAVE_FREETYPE=ON `
           $sourceDir
 }
