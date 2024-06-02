@@ -66,7 +66,7 @@ if ($global:IsWindows)
           -D FREETYPE_INCLUDE_DIR_freetype2="${freetype_include_dir}" `
           -D FREETYPE_INCLUDE_DIR_ft2build="${freetype_include_dir}/freetype2" `
           -D FREETYPE_LIBRARY_DEBUG="${freetype_lib_dir}/freetyped.lib" `
-          -D FREETYPE_LIBRARY_RELEASE="${freetype_lib_dir}/freetyped.lib" `
+          -D FREETYPE_LIBRARY_RELEASE="${freetype_lib_dir}/freetype.lib" `
           -D HB_HAVE_FREETYPE=ON `
           $sourceDir
 }
@@ -77,7 +77,7 @@ elseif ($global:IsMacOS)
           -D FREETYPE_INCLUDE_DIR_freetype2="${freetype_include_dir}" `
           -D FREETYPE_INCLUDE_DIR_ft2build="${freetype_include_dir}/freetype2" `
           -D FREETYPE_LIBRARY_DEBUG="${freetype_lib_dir}/freetyped.lib" `
-          -D FREETYPE_LIBRARY_RELEASE="${freetype_lib_dir}/freetyped.lib" `
+          -D FREETYPE_LIBRARY_RELEASE="${freetype_lib_dir}/freetype.lib" `
           $sourceDir
 }
 elseif ($global:IsLinux)
@@ -87,7 +87,7 @@ elseif ($global:IsLinux)
           -D FREETYPE_INCLUDE_DIR_freetype2="${freetype_include_dir}" `
           -D FREETYPE_INCLUDE_DIR_ft2build="${freetype_include_dir}/freetype2" `
           -D FREETYPE_LIBRARY_DEBUG="${freetype_lib_dir}/freetyped.lib" `
-          -D FREETYPE_LIBRARY_RELEASE="${freetype_lib_dir}/freetyped.lib" `
+          -D FREETYPE_LIBRARY_RELEASE="${freetype_lib_dir}/freetype.lib" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

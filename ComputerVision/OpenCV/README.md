@@ -10,7 +10,8 @@
 ### Common
 
 * Powershell 7 or later
-* CMake 3.0.0 or later
+* CMake 3.15.0 or later
+  * Use `CMAKE_PROJECT_INCLUDE` syntax
 * C++ Compiler
 
 ### Windows
