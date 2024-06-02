@@ -152,3 +152,11 @@
 	path = 3D/f3d/glfw
 	url = https://github.com/glfw/glfw
 	ignore = dirty
+[submodule "ComputerVision/OpenCV/freetype"]
+	path = ComputerVision/OpenCV/freetype
+	url = https://github.com/freetype/freetype
+	ignore = dirty
+[submodule "ComputerVision/OpenCV/harfbuzz"]
+	path = ComputerVision/OpenCV/harfbuzz
+	url = https://github.com/harfbuzz/harfbuzz
+	ignore = dirty
