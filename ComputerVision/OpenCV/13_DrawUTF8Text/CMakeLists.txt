@@ -41,9 +41,7 @@ add_executable(${PROJ_NAME} main.cpp)
 if (MSVC)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               ${OpenCV_INCLUDE_DIRS}
-                               Freetype::Freetype
-                               harfbuzz::harfbuzz)
+                               ${OpenCV_INCLUDE_DIRS})
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
@@ -58,7 +56,7 @@ elseif (APPLE)
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           ${OpenCV_LIBRARIES}
-                          ${FREETYPE_LIBRARIES})
+                          Freetype::Freetype)
 else()
     target_include_directories(${PROJ_NAME}
                                PRIVATE
@@ -67,7 +65,7 @@ else()
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           ${OpenCV_LIBRARIES}
-                          ${FREETYPE_LIBRARIES})
+                          Freetype::Freetype)
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
