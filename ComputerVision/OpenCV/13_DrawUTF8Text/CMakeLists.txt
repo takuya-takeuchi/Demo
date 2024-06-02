@@ -31,15 +31,10 @@ if (${FREETYPE_FOUND})
     message("     FREETYPE_LIBRARIES: ${FREETYPE_LIBRARIES}")
 endif()
 
-if (${HarfBuzz_FOUND})
+if (${harfbuzz_FOUND})
     # HarfBuzz cmake configuration does not provide any variables
-    message("           HarfBuzz_DIR: ${HarfBuzz_DIR}")
+    message("           harfbuzz_DIR: ${harfbuzz_DIR}")
 endif()
-
-# get_cmake_property(_variableNames VARIABLES)
-# foreach (_variableName ${_variableNames})
-#     message(STATUS "${_variableName}=${${_variableName}}")
-# endforeach()
 
 add_executable(${PROJ_NAME} main.cpp)
 
