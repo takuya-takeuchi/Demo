@@ -17,7 +17,7 @@ endif()
 
 find_package(OpenCV REQUIRED)
 find_package(freetype REQUIRED)
-find_package(HarfBuzz REQUIRED)
+find_package(harfbuzz REQUIRED)
 
 if (${OpenCV_FOUND})
     message("         OpenCV_VERSION: ${OpenCV_VERSION}")
