@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.9.0)
+cmake_minimum_required(VERSION 3.0.0)
 set(PROJ_NAME Demo)
 
 project(${PROJ_NAME} VERSION 1.0.0)

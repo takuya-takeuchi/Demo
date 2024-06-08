@@ -18,7 +18,9 @@ void test()
     // or s.template hello<10>();
     s.hello<10>();
 #else
-    // s.hello<10>(); // gcc says ' error: invalid operands of types ‘<unresolved overloaded function type>’ and ‘int’ to binary ‘operator<’'
+    // gcc says 'error: invalid operands of types ‘<unresolved overloaded function type>’ and ‘int’ to binary ‘operator<’'
+    // xcode says 'error: missing 'template' keyword prior to dependent template name 'hello''
+    // s.hello<10>();
     s.template hello<10>();
 #endif
 }
