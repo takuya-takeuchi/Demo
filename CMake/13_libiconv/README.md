@@ -32,7 +32,7 @@ $ ./configure
 $ make
 $ sudo make install
 $ popd
-``````
+````
 
 ### OSX
 

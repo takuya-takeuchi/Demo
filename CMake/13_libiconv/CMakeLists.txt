@@ -49,11 +49,11 @@ if (MSVC)
 elseif (APPLE)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               Iconv::Iconv)
+                               ${iconv_INCLUDE_DIR})
     
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          "Iconv::Iconv")
+                          ${Iconv_LIBRARIES})
 
     install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
     install(FILES sjis.txt DESTINATION bin)
