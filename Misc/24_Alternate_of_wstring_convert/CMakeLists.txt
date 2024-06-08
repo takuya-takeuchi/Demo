@@ -36,11 +36,11 @@ elseif (APPLE)
 else()
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               "/usr/local/include")
+                               ${iconv_INCLUDE_DIR})
     
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          iconv)
+                          ${Iconv_LIBRARIES})
 endif()
 
 # define install taget
