@@ -160,3 +160,7 @@
 	path = ComputerVision/OpenCV/harfbuzz
 	url = https://github.com/harfbuzz/harfbuzz
 	ignore = dirty
+[submodule "Serialization/json/rapidjson/rapidjson"]
+	path = Serialization/json/rapidjson/rapidjson
+	url = https://github.com/Tencent/rapidjson
+	ignore = dirty

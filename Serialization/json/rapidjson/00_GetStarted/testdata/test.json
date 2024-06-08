@@ -1,0 +1,10 @@
+{
+    "name": "test",
+    "version": 1.2,
+    "year": 2024,
+    "error": false,
+    "dependencies": [
+        "a.lib",
+        "b.lib"
+    ]
+}
