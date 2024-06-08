@@ -15,12 +15,11 @@ if (MSVC)
     set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 endif()
 
-if (MSVC)
-    find_package(iconv REQUIRED)
-    
-    message("ICONV_INCLUDE_DIR: $ENV{ICONV_INCLUDE_DIR}")
-    message("   CHARSET_BINARY: $ENV{CHARSET_BINARY}")
-    message("     ICONV_BINARY: $ENV{ICONV_BINARY}")
+if (MSVC)    
+    message("  Iconv_INCLUDE_DIRS: ${Iconv_INCLUDE_DIRS}")
+    message("     Iconv_LIBRARIES: ${Iconv_LIBRARIES}")
+    message("Iconv_CHARSET_BINARY: ${Iconv_CHARSET_BINARY}")
+    message("        ICONV_BINARY: ${ICONV_BINARY}")    
 elseif (APPLE)
     find_package(iconv REQUIRED)
     message("Iconv_INCLUDE_DIRS: ${Iconv_INCLUDE_DIRS}")
@@ -36,20 +35,20 @@ add_executable(${PROJ_NAME} main.cpp)
 if (MSVC)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               Iconv::Iconv)
+                               ${Iconv_INCLUDE_DIRS})
     
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          Iconv::Iconv)
+                          ${Iconv_LIBRARIES})
 
     install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
     install(FILES sjis.txt DESTINATION bin)
-    install(FILES $ENV{CHARSET_BINARY} DESTINATION bin)
-    install(FILES $ENV{ICONV_BINARY} DESTINATION bin)
+    install(FILES ${Iconv_CHARSET_BINARY} DESTINATION bin)
+    install(FILES ${ICONV_BINARY} DESTINATION bin)
 elseif (APPLE)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               ${iconv_INCLUDE_DIR})
+                               ${Iconv_INCLUDE_DIRS})
     
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
@@ -60,7 +59,7 @@ elseif (APPLE)
 else()
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               ${iconv_INCLUDE_DIR})
+                               ${Iconv_INCLUDE_DIRS})
     
     target_link_libraries(${PROJ_NAME}
                           PRIVATE

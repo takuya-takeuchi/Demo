@@ -57,13 +57,16 @@ if ($global:IsWindows)
 
     $library_type = "x64-windows"
     $vcpkg_base_directory = "${env:VCPKG_ROOT_DIR}\installed\${library_type}"
-    $Env:ICONV_ROOT="${vcpkg_base_directory}"
-    $Env:ICONV_INCLUDE_DIR="${vcpkg_base_directory}\include\"
-    $Env:ICONV_LIBRARY_DIR="${vcpkg_base_directory}\lib\"
-    $Env:CHARSET_BINARY="${vcpkg_base_directory}\bin\charset-1.dll"
-    $Env:ICONV_BINARY="${vcpkg_base_directory}\bin\iconv-2.dll"
+    $Iconv_INCLUDE_DIRS="${vcpkg_base_directory}\include"
+    $Iconv_LIBRARIES="${vcpkg_base_directory}\lib\iconv.lib"
+    $Iconv_CHARSET_BINARY="${vcpkg_base_directory}\bin\charset-1.dll"
+    $ICONV_BINARY="${vcpkg_base_directory}\bin\iconv-2.dll"
 
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D Iconv_INCLUDE_DIRS=$Iconv_INCLUDE_DIRS `
+          -D Iconv_LIBRARIES=$Iconv_LIBRARIES `
+          -D Iconv_CHARSET_BINARY=$Iconv_CHARSET_BINARY `
+          -D ICONV_BINARY=$ICONV_BINARY `
           $sourceDir
 }
 elseif ($global:IsMacOS)
