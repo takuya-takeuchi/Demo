@@ -27,8 +27,6 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "libicon"
-
 # build
 $sourceDir = $current
 $buildDir = Join-Path $current build | `
@@ -39,48 +37,27 @@ $installDir = Join-Path $current install | `
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
-Push-Location $buildDir
+Push-Location $buildDir | Out-Null
 if ($global:IsWindows)
 {
-    if (!($env:VCPKG_ROOT_DIR))
-    {
-        Write-Host "VCPKG_ROOT_DIR environmental variable is missing" -ForegroundColor Red
-        return
-    }
-
-    $toolchain = "${env:VCPKG_ROOT_DIR}\scripts\buildsystems\vcpkg.cmake"
-    if (!(Test-Path(${toolchain})))
-    {
-        Write-Host "${toolchain} is missing" -ForegroundColor Red
-        return
-    }
-
-    $library_type = "x64-windows"
-    $vcpkg_base_directory = "${env:VCPKG_ROOT_DIR}\installed\${library_type}"
-    $Iconv_INCLUDE_DIRS="${vcpkg_base_directory}\include"
-    $Iconv_LIBRARIES="${vcpkg_base_directory}\lib\iconv.lib"
-    $Iconv_CHARSET_BINARY="${vcpkg_base_directory}\bin\charset-1.dll"
-    $ICONV_BINARY="${vcpkg_base_directory}\bin\iconv-2.dll"
-
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D Iconv_INCLUDE_DIRS=$Iconv_INCLUDE_DIRS `
-          -D Iconv_LIBRARIES=$Iconv_LIBRARIES `
-          -D Iconv_CHARSET_BINARY=$Iconv_CHARSET_BINARY `
-          -D ICONV_BINARY=$ICONV_BINARY `
+    cmake -D CMAKE_BUILD_TYPE=$Configuration `
+          -D CMAKE_INSTALL_PREFIX=${installDir} `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+    cmake -D CMAKE_BUILD_TYPE=$Configuration `
+          -D CMAKE_INSTALL_PREFIX=${installDir} `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+    cmake -D CMAKE_BUILD_TYPE=$Configuration `
+          -D CMAKE_INSTALL_PREFIX=${installDir} `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
-Pop-Location
+Pop-Location | Out-Null
 
 # run
 if ($global:IsWindows)
@@ -100,6 +77,6 @@ elseif ($global:IsLinux)
     $env:LD_LIBRARY_PATH="/usr/local/lib"
 }
 
-Push-Location $programDir
+Push-Location $programDir | Out-Null
 & "${program}"
 Pop-Location
