@@ -51,12 +51,17 @@ $ popd
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>
-[Info] iconv_open
-[Info] iconv_close
+  UTF-8 String: こんにちは、世界！ (27)
+WCHAR_T String: こんにちは、世界！ (9)
 ````
 
 ### OSX
 
+````shell
+$ pwsh build.ps1 <Debug/Release>
+  UTF-8 String: こんにちは、世界！ (27)
+WCHAR_T String: こんにちは、世界！ (9)
+````
 
 ### Linux
 
@@ -66,4 +71,12 @@ You may have to do.
 $ sudo locale-gen ja_JP.UTF-8
 $ sudo update-locale LANG=ja_JP.UTF-8
 $ sudo dpkg-reconfigure console-setup
+````
+
+But result of `WCHAR_T` is mojibake.
+
+````shell
+$ pwsh build.ps1 <Debug/Release>
+  UTF-8 String: こんにちは、世界！ (27)
+WCHAR_T String: S�kaoL (9)
 ````
