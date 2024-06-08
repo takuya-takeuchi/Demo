@@ -47,8 +47,23 @@ $ popd
 
 ## How to use?
 
+### Windows
+
 ````shell
 $ pwsh build.ps1 <Debug/Release>
 [Info] iconv_open
 [Info] iconv_close
+````
+
+### OSX
+
+
+### Linux
+
+You may have to do.
+
+````shell
+$ sudo locale-gen ja_JP.UTF-8
+$ sudo update-locale LANG=ja_JP.UTF-8
+$ sudo dpkg-reconfigure console-setup
 ````
