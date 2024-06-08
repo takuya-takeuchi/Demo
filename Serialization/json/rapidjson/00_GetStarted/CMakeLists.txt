@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.26.0)
+cmake_minimum_required(VERSION 3.0.0)
 
 set(PROJ_NAME Demo)
 set(CMAKE_CXX_STANDARD 17)
