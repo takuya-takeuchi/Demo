@@ -1,7 +1,9 @@
 ﻿#include <iostream>
 #include <string>
 
-#ifndef _WINDOWS
+#ifdef _WINDOWS
+#include <Windows.h>
+#else
 #include <iconv.h>
 #endif
 
@@ -70,12 +72,15 @@ std::wstring string_to_wstring(const std::string &str)
 
 int main()
 {
+    std::locale::global(std::locale("ja_JP.UTF-8"));
+    std::wcout.imbue(std::locale("ja_JP.UTF-8"));
+    
     std::wstring wstr = L"こんにちは、世界！";
     std::string str = wstring_to_string(wstr);
-    std::cout << "  UTF-8 String: " << str << std::endl;
+    std::cout << "  UTF-8 String: " << str << " (" << str.size() << ")" << std::endl;
 
     std::wstring converted_wstr = string_to_wstring(str);
-    std::wcout << L"WCHAR_T String: " << converted_wstr << std::endl;
+    std::wcout << L"WCHAR_T String: " << converted_wstr << " (" << converted_wstr.size() << ")" << std::endl;
 
     return 0;
 }
