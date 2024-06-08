@@ -76,6 +76,13 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
+    $targetInstallDir = Join-Path $rootDir install | `
+                        Join-Path -ChildPath $os | `
+                        Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath $Configuration | `
+                        Join-Path -ChildPath lib | `
+                        Join-Path -ChildPath cmake
+
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D CMAKE_PREFIX_PATH="${targetInstallDir}" `

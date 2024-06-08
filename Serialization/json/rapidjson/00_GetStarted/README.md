@@ -61,8 +61,15 @@ $ .\install\win\bin\Demo.exe testdata\test.json
 #### Linux
 
 ````bat
-$ ./install/linux/bin/Demo testdata/test.json
-[Info] output tensor: {1, 10}
+$ ./install/linux/bin/Demo testdata/test.json 
+[Info] json_path: testdata/test.json
+[Info]           name: test
+[Info]           year: 2024
+[Info]        version: 1.2
+[Info]          error: false
+[Info]   dependencies: 
+[Info]           - a.lib
+[Info]           - b.lib
 ````
 
 #### OSX
