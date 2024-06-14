@@ -49,6 +49,9 @@ $ popd
 * [tessdata](https://github.com/tesseract-ocr/tessdata)
   * 4.1.0
   * Apache-2.0 license
+* [leptonica](https://github.com/danbloomberg/leptonica)
+  * 1.84.1
+  * BSD 2-clause license
 
 ## How to use?
 

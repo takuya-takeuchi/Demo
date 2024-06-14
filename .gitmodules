@@ -172,3 +172,6 @@
 	path = ComputerVision/Tesseract/tessdata
 	url = https://github.com/tesseract-ocr/tessdata
 	ignore = dirty
+[submodule "ComputerVision/Tesseract/leptonica"]
+	path = ComputerVision/Tesseract/leptonica
+	url = https://github.com/danbloomberg/leptonica
