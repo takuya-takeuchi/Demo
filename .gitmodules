@@ -164,3 +164,6 @@
 	path = Serialization/json/rapidjson/rapidjson
 	url = https://github.com/Tencent/rapidjson
 	ignore = dirty
+[submodule "ComputerVision/Tesseract/tesseract"]
+	path = ComputerVision/Tesseract/tesseract
+	url = https://github.com/tesseract-ocr/tesseract/
