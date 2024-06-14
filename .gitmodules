@@ -175,3 +175,4 @@
 [submodule "ComputerVision/Tesseract/leptonica"]
 	path = ComputerVision/Tesseract/leptonica
 	url = https://github.com/danbloomberg/leptonica
+	ignore = dirty

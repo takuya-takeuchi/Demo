@@ -71,9 +71,9 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
+    $env:Leptonica_DIR="${leptonicaInstallDir}"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
-          -D CMAKE_PREFIX_PATH="${leptonicaInstallDir}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

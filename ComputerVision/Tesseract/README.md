@@ -22,16 +22,10 @@
 ### Ubuntu
 
 * g++
-* install `libiconv` from source code
+* install the following packages
 
 ````shell
-$ wget https://ftp.gnu.org/pub/gnu/libiconv/libiconv-1.17.tar.gz
-$ tar xvfzp libiconv-1.17.tar.gz
-$ pushd libiconv-1.17
-$ ./configure
-$ make
-$ sudo make install
-$ popd
+$ sudo apt install -y libicu-dev libcairo2-dev libsdl-pango-dev
 ````
 
 ### OSX
