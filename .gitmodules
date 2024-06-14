@@ -167,3 +167,8 @@
 [submodule "ComputerVision/Tesseract/tesseract"]
 	path = ComputerVision/Tesseract/tesseract
 	url = https://github.com/tesseract-ocr/tesseract/
+	ignore = dirty
+[submodule "ComputerVision/Tesseract/tessdata"]
+	path = ComputerVision/Tesseract/tessdata
+	url = https://github.com/tesseract-ocr/tessdata
+	ignore = dirty
