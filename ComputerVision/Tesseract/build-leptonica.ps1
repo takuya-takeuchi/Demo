@@ -61,6 +61,9 @@ elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
+          -D ENABLE_TIFF=OFF `
+          -D ENABLE_WEBP=OFF `
+          -D ENABLE_OPENJPEG=OFF `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

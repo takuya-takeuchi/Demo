@@ -25,13 +25,9 @@ endif()
 if (NOT MSVC)
     find_package(Tesseract REQUIRED)
     find_package(Leptonica REQUIRED)
-    find_package(Curl REQUIRED)
+    find_package(CURL REQUIRED)
+    find_package(PNG REQUIRED)
 endif()
-
-get_cmake_property(_variableNames VARIABLES)
-foreach (_variableName ${_variableNames})
-    message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
 
 add_executable(${PROJ_NAME} main.cpp)
 
@@ -55,6 +51,24 @@ elseif (APPLE)
                           leptonica
                           ${Tesseract_LIBRARY_DIRS}/libtesseract.a)
 else()
+    target_include_directories(${PROJ_NAME}
+                               PRIVATE
+                               ${Leptonica_INCLUDE_DIRS}
+                               ${Tesseract_INCLUDE_DIRS})
+# get_cmake_property(_variableNames VARIABLES)
+# foreach (_variableName ${_variableNames})
+#     message(STATUS "${_variableName}=${${_variableName}}")
+# endforeach()
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          "-Wl,--no-as-needed -Wl,--whole-archive"
+                          -pthread
+                          ${PNG_LIBRARIES}
+                          ${ZLIB_LIBRARIES}
+                          ${Leptonica_LIBRARIES}
+                          "-Wl,--as-needed -Wl,--no-whole-archive"
+                          ${Tesseract_LIBRARY_DIRS}/libtesseract.a
+                          )
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

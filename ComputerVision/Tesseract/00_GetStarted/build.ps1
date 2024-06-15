@@ -40,15 +40,11 @@ $rootDir = Split-Path $current -Parent
 $tesseractInstallDir = Join-Path $rootDir install | `
                        Join-Path -ChildPath $os | `
                        Join-Path -ChildPath tesseract | `
-                       Join-Path -ChildPath $Configuration | `
-                       Join-Path -ChildPath lib | `
-                       Join-Path -ChildPath cmake
+                       Join-Path -ChildPath $Configuration
 $leptonicaInstallDir = Join-Path $rootDir install | `
                        Join-Path -ChildPath $os | `
                        Join-Path -ChildPath leptonica | `
-                       Join-Path -ChildPath $Configuration | `
-                       Join-Path -ChildPath lib | `
-                       Join-Path -ChildPath cmake
+                       Join-Path -ChildPath $Configuration
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -107,13 +103,18 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${tesseractInstallDir};${leptonicaInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${tesseractInstallDir}/lib/cmake;${leptonicaInstallDir}/lib/cmake" `
+          -D Tesseract_LIBRARIES="${tesseractInstallDir}/lib/libtesseract.a" `
+          -D Leptonica_LIBRARIES="${leptonicaInstallDir}/lib/libleptonica.a" `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
+    Write-Host "${leptonicaInstallDir}/lib/libleptonica.a"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${tesseractInstallDir};${leptonicaInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${tesseractInstallDir}/lib/cmake;${leptonicaInstallDir}/lib/cmake" `
+          -D Tesseract_LIBRARIES="${tesseractInstallDir}/lib/libtesseract.a" `
+          -D Leptonica_LIBRARIES="${leptonicaInstallDir}/lib/libleptonica.a" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
