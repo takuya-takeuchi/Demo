@@ -36,6 +36,20 @@ $buildDir = Join-Path $current build | `
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
 
+$rootDir = Split-Path $current -Parent
+$tesseractInstallDir = Join-Path $rootDir install | `
+                       Join-Path -ChildPath $os | `
+                       Join-Path -ChildPath tesseract | `
+                       Join-Path -ChildPath $Configuration | `
+                       Join-Path -ChildPath lib | `
+                       Join-Path -ChildPath cmake
+$leptonicaInstallDir = Join-Path $rootDir install | `
+                       Join-Path -ChildPath $os | `
+                       Join-Path -ChildPath leptonica | `
+                       Join-Path -ChildPath $Configuration | `
+                       Join-Path -ChildPath lib | `
+                       Join-Path -ChildPath cmake
+
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
@@ -93,51 +107,13 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=${sharedFlag} `
-          -D BUILD_opencv_world=OFF `
-          -D BUILD_opencv_java=OFF `
-          -D BUILD_opencv_python=OFF `
-          -D BUILD_opencv_python2=OFF `
-          -D BUILD_opencv_python3=OFF `
-          -D BUILD_PERF_TESTS=OFF `
-          -D BUILD_TESTS=OFF `
-          -D BUILD_DOCS=OFF `
-          -D WITH_CUDA=OFF `
-          -D BUILD_PROTOBUF=ON `
-          -D BUILD_JPEG=ON `
-          -D BUILD_PACKAGE=ON `
-          -D BUILD_PNG=ON `
-          -D BUILD_TIFF=ON `
-          -D BUILD_ZLIB=ON `
-          -D WITH_JPEG=ON `
-          -D WITH_PNG=ON `
-          -D WITH_TIFF=ON `
+          -D CMAKE_PREFIX_PATH="${tesseractInstallDir};${leptonicaInstallDir}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=${sharedFlag} `
-          -D BUILD_opencv_world=OFF `
-          -D BUILD_opencv_java=OFF `
-          -D BUILD_opencv_python=OFF `
-          -D BUILD_opencv_python2=OFF `
-          -D BUILD_opencv_python3=OFF `
-          -D BUILD_PERF_TESTS=OFF `
-          -D BUILD_TESTS=OFF `
-          -D BUILD_DOCS=OFF `
-          -D WITH_CUDA=OFF `
-          -D BUILD_PROTOBUF=ON `
-          -D BUILD_JPEG=ON `
-          -D BUILD_PACKAGE=ON `
-          -D BUILD_PNG=ON `
-          -D BUILD_TIFF=ON `
-          -D BUILD_ZLIB=ON `
-          -D WITH_JPEG=ON `
-          -D WITH_PNG=ON `
-          -D WITH_TIFF=ON `
+          -D CMAKE_PREFIX_PATH="${tesseractInstallDir};${leptonicaInstallDir}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

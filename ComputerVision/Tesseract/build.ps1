@@ -65,8 +65,10 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
+    $env:Leptonica_DIR="${leptonicaInstallDir}"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
+          -D CMAKE_DISABLE_FIND_PACKAGE_PkgConfig=ON `
           $sourceDir
 }
 elseif ($global:IsLinux)

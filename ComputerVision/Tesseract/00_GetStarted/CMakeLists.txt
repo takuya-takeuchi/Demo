@@ -24,7 +24,14 @@ endif()
 
 if (NOT MSVC)
     find_package(Tesseract REQUIRED)
+    find_package(Leptonica REQUIRED)
+    find_package(Curl REQUIRED)
 endif()
+
+get_cmake_property(_variableNames VARIABLES)
+foreach (_variableName ${_variableNames})
+    message(STATUS "${_variableName}=${${_variableName}}")
+endforeach()
 
 add_executable(${PROJ_NAME} main.cpp)
 
@@ -37,6 +44,16 @@ if (MSVC)
                           PRIVATE
                           ${Tesseract_LIBRARIES})
 elseif (APPLE)
+    target_include_directories(${PROJ_NAME}
+                               PRIVATE
+                               ${Leptonica_INCLUDE_DIRS}
+                               ${Tesseract_INCLUDE_DIRS})
+
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          ${CURL_LIBRARY}
+                          leptonica
+                          ${Tesseract_LIBRARY_DIRS}/libtesseract.a)
 else()
 endif()
 

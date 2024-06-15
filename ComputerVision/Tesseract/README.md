@@ -31,9 +31,11 @@ $ sudo apt install -y libicu-dev libcairo2-dev libsdl-pango-dev
 ### OSX
 
 * Xcode
-* libiconv
-  * via `brew` command
-    * `brew install libiconv`
+* install the following packages
+
+````shell
+$ brew install icu4c
+````
 
 ## Dependencies
 
