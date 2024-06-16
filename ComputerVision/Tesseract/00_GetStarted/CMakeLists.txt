@@ -55,10 +55,6 @@ else()
                                PRIVATE
                                ${Leptonica_INCLUDE_DIRS}
                                ${Tesseract_INCLUDE_DIRS})
-# get_cmake_property(_variableNames VARIABLES)
-# foreach (_variableName ${_variableNames})
-#     message(STATUS "${_variableName}=${${_variableName}}")
-# endforeach()
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           "-Wl,--no-as-needed -Wl,--whole-archive"
@@ -67,8 +63,7 @@ else()
                           ${ZLIB_LIBRARIES}
                           ${Leptonica_LIBRARIES}
                           "-Wl,--as-needed -Wl,--no-whole-archive"
-                          ${Tesseract_LIBRARY_DIRS}/libtesseract.a
-                          )
+                          ${Tesseract_LIBRARY_DIRS}/libtesseract.a)
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
