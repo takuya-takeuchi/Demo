@@ -179,3 +179,4 @@
 [submodule "Robot/ROS2/examples"]
 	path = Robot/ROS2/examples
 	url = https://github.com/ros2/examples
+	ignore = dirty

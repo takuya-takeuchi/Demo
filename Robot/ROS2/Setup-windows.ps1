@@ -107,6 +107,50 @@ if (!(Test-Path(${python})))
     Remove-Item "${pth}" -Force | Out-Null
 }
 
+# build CPython
+$libDir = Join-Path $installPythonDir "libs"
+if (!(Test-Path(${libDir})))
+{
+    # build cpython to get include and libs
+    $cpython_version = "3.8"
+    $installCPythonDir = Join-Path $current install | `
+                         Join-Path -ChildPath windows | `
+                         Join-Path -ChildPath cpython
+    New-Item -Type Directory $installCPythonDir -Force | Out-Null
+    $installCPythonDir = Join-Path $installCPythonDir $cpython_version 
+    $buildCPythonDir = Join-Path $installCPythonDir "PCbuild"
+    $bat = Join-Path $buildCPythonDir "build.bat"
+    if (!(Test-Path $installCPythonDir))
+    {
+        git clone -b $cpython_version "https://github.com/python/cpython" $installCPythonDir
+    }
+    else
+    {
+        Write-Host "[Info] CPython is already cloned" -ForegroundColor Yellow
+    }
+
+    Push-Location $buildCPythonDir | Out-Null
+    git checkout $cpython_version
+    $args = "-e -p x64"
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c", ${bat}, $args -Wait
+    Start-Process -FilePath "cmd.exe" -ArgumentList "/c", ${bat}, $args -Wait
+    Pop-Location
+
+    # copy inlcude dir
+    $includeDir = Join-Path $installCPythonDir include
+    Copy-Item "${includeDir}" "${installPythonDir}" -Force -Recurse
+    
+    # copy libs
+    New-Item -Type Directory $libDir -Force | Out-Null
+    $cpythonLibs = @( "_tkinter.lib", "python3.lib", "python${python_major_version}.lib" )
+    foreach ($lib in $cpythonLibs)
+    {
+        $src = Join-Path $buildCPythonDir "amd64" | Join-Path -ChildPath $lib
+        $dst  = Join-Path $libDir $lib
+        Copy-Item "${src}" "${dst}" -Force
+    }
+}
+
 $chocoPackages = @{
     "asio 1.12.1"="https://github.com/ros2/choco-packages/releases/download/2022-03-15/asio.1.12.1.nupkg"
     "eigen 3.3.4"="https://github.com/ros2/choco-packages/releases/download/2022-03-15/eigen.3.3.4.nupkg"
@@ -138,6 +182,12 @@ if (!(${installedPackages} -contains "openssl 1.1.1.2100"))
     [Environment]::SetEnvironmentVariable("OPENSSL_CONF", "C:\Program Files\OpenSSL-Win64\bin\openssl.cfg", "Machine")
 }
 
+# Check whether cppcheck is installed or not
+if (!(${installedPackages} -contains "cppcheck"))
+{
+    & "${choco}" install -y cppcheck
+}
+
 # Check whether opencv is installed or not
 $opencv_url_filename = "opencv-3.4.1-vc15.VS2017.zip"
 $url = "https://github.com/ros2/ros2/releases/download/opencv-archives/${opencv_url_filename}"
@@ -160,12 +210,26 @@ $pythonPackages = @{
 	"opencv-python"="opencv-python"
 	"pyparsing"="pyparsing"
 	"pyyaml"="PyYAML"
-	"setuptools"="setuptools"
+	"setuptools"="setuptools==66.1.1" # https://stackoverflow.com/questions/76043689/pkg-resources-is-deprecated-as-an-api
 	"pydot"="pydot"
 	"PyQt5"="PyQt5"
 	"lxml"="lxml"
 	"packaging"="packaging"
     "colcon-common-extensions"="colcon-common-extensions"
+    "flake8"="flake8"
+    "flake8-blind-except"="flake8-blind-except"
+    "flake8-builtins"="flake8-builtins"
+    "flake8-class-newline"="flake8-class-newline"
+    "flake8-comprehensions"="flake8-comprehensions"
+    "flake8-deprecated"="flake8-deprecated"
+    "flake8-docstrings"="flake8-docstrings"
+    "flake8-import-order"="flake8-import-order"
+    "flake8-quotes"="flake8-quotes"
+    "pep8"="pep8"
+    "pydocstyle"="pydocstyle"
+    "pytest"="pytest"
+    "coverage"="coverage"
+    "mock"="mock"
 }
 foreach($entry in $pythonPackages.GetEnumerator())
 {
