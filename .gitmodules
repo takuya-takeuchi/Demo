@@ -176,3 +176,6 @@
 	path = ComputerVision/Tesseract/leptonica
 	url = https://github.com/danbloomberg/leptonica
 	ignore = dirty
+[submodule "Robot/ROS2/examples"]
+	path = Robot/ROS2/examples
+	url = https://github.com/ros2/examples
