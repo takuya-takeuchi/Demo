@@ -89,7 +89,7 @@ if ($global:IsWindows)
         }
     }
     
-    $env:PATH = "C:\Python38;C:\Python38\Scripts;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files\CMake\bin;C:\Windows\System32;"
+    $env:PATH = "C:\Python38;C:\Python38\Scripts;C:\Windows\System32\WindowsPowerShell\v1.0;C:\Program Files\CMake\bin;C:\Windows\System32;C:\Program Files\Cppcheck;"
     $env:PYTHONPATH = "C:\Python38\python.exe"
     $env:PYTHONHOME = "C:\Python38"
     $env:PATHEXT = $env:PATHEXT + ";.PY;.PYW"
@@ -105,11 +105,10 @@ elseif ($global:IsLinux)
 }
 
 # build
-$buildLog = Join-Path $current build.log
+$testLog = Join-Path $current test.log
 # `--event-handlers desktop_notification-` argument suppress the following error message
 # WNDPROC return value cannot be converted to LRESULT
 # TypeError: WPARAM is simple, so must be an int object (got NoneType)
-colcon build --event-handlers desktop_notification- 2>&1 | Tee-Object -FilePath $buildLog
-# colcon build --symlink-install --event-handlers desktop_notification- --event-handlers console_direct+ --cmake-args -DCMAKE_VERBOSE_MAKEFILE=OFF 2>&1 | Tee-Object -FilePath $buildLog
-# colcon build --symlink-install --event-handlers desktop_notification- --event-handlers console_direct+ --cmake-args -DCMAKE_VERBOSE_MAKEFILE=ON 2>&1 | Tee-Object -FilePath $buildLog
+colcon test --event-handlers desktop_notification- 2>&1 | Tee-Object -FilePath $testLog
+# colcon test --event-handlers desktop_notification- --event-handlers console_direct+ 2>&1 | Tee-Object -FilePath $testLog
 Pop-Location
