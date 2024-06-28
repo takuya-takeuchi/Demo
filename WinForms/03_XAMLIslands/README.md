@@ -9,6 +9,7 @@
 
 * .NET 4.8
 * Windows 10 SDK 10.0.18362.0
+ * `C:\Program Files (x86)\Windows Kits\10\UnionMetadata\Windows.winmd` may be missing so we should use specified version sdk.
 * Visual Studio 2022 (if use)
 
 ## Dependencies
