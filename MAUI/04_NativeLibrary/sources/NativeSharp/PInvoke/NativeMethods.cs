@@ -12,7 +12,7 @@ namespace NativeSharp
 #if XAMARINIOS
         public const string NativeLibrary = "__Internal";
 #else
-        public const string NativeLibrary = "DlibDotNetNative";
+        public const string NativeLibrary = "Native";
 #endif
 
         public const CallingConvention CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl;

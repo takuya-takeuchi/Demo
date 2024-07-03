@@ -69,8 +69,9 @@ function Build()
 Build NativeAdd
 
 Write-Host "Build iOS Managed Library" -Foreground Green
-Set-Location $curret
-Set-Location NativeSharp
+
+$sourceDir = Join-Path $curret sources | Join-Path -ChildPath NativeSharp
+Set-Location $sourceDir
 dotnet build -c "Release_Xamarin.iOS"
 
 Set-Location $curret
