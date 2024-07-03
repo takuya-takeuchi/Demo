@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <Optimize>true</Optimize>
+    <DocumentationFile>docs\netstandard2.0\NativeSharp.xml</DocumentationFile>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug_Xamarin.iOS'">
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG;XAMARINIOS</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release_Xamarin.iOS'">
+    <Optimize>true</Optimize>
+    <DocumentationFile>docs\XamariniOS\NativeSharp.xml</DocumentationFile>
+    <DefineConstants>$(DefineConstants);XAMARINIOS</DefineConstants>
+  </PropertyGroup>
+
+</Project>
