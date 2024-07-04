@@ -4,6 +4,10 @@ using Microsoft.Maui;
 using Microsoft.Maui.Controls.Hosting;
 using Microsoft.Maui.Hosting;
 
+using Prism;
+using Prism.Ioc;
+using Prism.Navigation;
+
 using Demo.ViewModels;
 using Demo.Views;
 
@@ -27,10 +31,9 @@ namespace Demo
 
         public static MauiApp CreateMauiApp()
         {
-            var builder = MauiApp.CreateBuilder();
-            builder.UseMauiApp<App>()
-                   .UsePrism(prism =>
-                   {
+            return MauiApp.CreateBuilder()
+                .UseMauiApp<App>()
+                       .UsePrism(prism =>
                        prism.ConfigureModuleCatalog(moduleCatalog =>
                        {
                            //moduleCatalog.AddModule<MauiAppModule>();
@@ -40,7 +43,7 @@ namespace Demo
                        {
                            PlatformRegisterTypes?.Invoke(containerRegistry);
 
-                           containerRegistry.RegisterGlobalNavigationObserver();
+                           //containerRegistry.RegisterGlobalNavigationObserver();
                            containerRegistry.RegisterForNavigation<MainPage>();
                        })
                        .AddGlobalNavigationObserver(context => context.Subscribe(x =>
@@ -56,20 +59,16 @@ namespace Demo
                            if (status == "Failed" && !string.IsNullOrEmpty(x.Result?.Exception?.Message))
                                Console.Error.WriteLine(x.Result.Exception.Message);
                        }))
-                       .OnAppStart(navigationService =>
+                       .CreateWindow(navigationService => navigationService.CreateBuilder()
+                           .AddSegment<MainPageViewModel>()
+                           .NavigateAsync(HandleNavigationError))
+                       )
+                       .ConfigureFonts(fonts =>
                        {
-                           navigationService.CreateBuilder()
-                                            .AddSegment<MainPageViewModel>()
-                                            .Navigate(HandleNavigationError);
-                       });
-                   })
-                   .ConfigureFonts(fonts =>
-                   {
-                       fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                       fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
-                   });
-
-            return builder.Build();
+                           fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                           fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                       })
+                       .Build();
         }
 
         #region Helpers

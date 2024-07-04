@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
-		<TargetFrameworks>net8.0-android;net8.0-ios;net8.0-maccatalyst</TargetFrameworks>
+		<TargetFrameworks>net8.0-android;net8.0-ios</TargetFrameworks>
 		<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
@@ -20,8 +20,8 @@
 		<ImplicitUsings>disable</ImplicitUsings>
 		<Nullable>enable</Nullable>
 
-                <!-- https://github.com/dotnet/maui/issues/12080 -->
-                <!-- <WindowsAppSdkDeploymentManagerInitialize>false</WindowsAppSdkDeploymentManagerInitialize> -->
+        <!-- https://github.com/dotnet/maui/issues/12080 -->
+       <!-- <WindowsAppSdkDeploymentManagerInitialize>false</WindowsAppSdkDeploymentManagerInitialize> -->
 
 		<!-- Display name -->
 		<ApplicationTitle>Demo</ApplicationTitle>
@@ -39,6 +39,14 @@
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</SupportedOSPlatformVersion>
 		<TargetPlatformMinVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'windows'">10.0.17763.0</TargetPlatformMinVersion>
 		<SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
+	  <MtouchLink>Full</MtouchLink>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
+	  <MtouchLink>Full</MtouchLink>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -60,17 +68,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <PackageReference Include="Microsoft.Maui.Controls" Version="8.0.61" />
-	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="8.0.61" />
-	  <PackageReference Include="Prism.DryIoc.Maui" Version="8.1.273-pre" />
-	  <PackageReference Include="Prism.Maui" Version="8.1.273-pre" />
-	  <PackageReference Include="Prism.Maui.Rx" Version="8.1.273-pre" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="Platforms\Android\Services\FolderPickerService.cs">
-	    <ExcludeFromCurrentConfiguration>true</ExcludeFromCurrentConfiguration>
-	  </Compile>
+	  <PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
+	  <PackageReference Include="Microsoft.Maui.Controls.Compatibility" Version="$(MauiVersion)" />
+	  <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
+	  <PackageReference Include="Native.Maui" Version="1.0.0" />
+	  <PackageReference Include="Prism.DryIoc.Maui" Version="9.0.401-pre" />
+	  <PackageReference Include="Prism.Maui" Version="9.0.401-pre" />
+	  <PackageReference Include="Prism.Maui.Rx" Version="9.0.401-pre" />
 	</ItemGroup>
 
 </Project>

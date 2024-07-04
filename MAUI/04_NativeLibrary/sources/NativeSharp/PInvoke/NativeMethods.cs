@@ -9,10 +9,10 @@ namespace NativeSharp
 
         #region Fields
 
-#if XAMARINIOS
+#if IOS
         public const string NativeLibrary = "__Internal";
 #else
-        public const string NativeLibrary = "Native";
+        public const string NativeLibrary = "NativeAdd";
 #endif
 
         public const CallingConvention CallingConvention = System.Runtime.InteropServices.CallingConvention.Cdecl;

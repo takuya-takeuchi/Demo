@@ -9,15 +9,22 @@
     <copyright>© Takuya Takeuchi 2024</copyright>
     <description>Example</description>
     <serviceable>true</serviceable>
-    <frameworkAssemblies>
-      <frameworkAssembly assemblyName="Xamarin.iOS" targetFramework="Xamarin.iOS1.0" />
-    </frameworkAssemblies>
+    <dependencies>
+      <group targetFramework="net8.0-ios17.0" />
+      <group targetFramework="net8.0-android34.0 " />
+    </dependencies>
   </metadata>
   <files>
-    <file src="Native.Maui.targets" target="build/XamariniOS/Native.Maui.targets" />
+    <file src="Native.Maui.targets" target="build\Native.Maui.targets" />
 
-    <file src="sources/NativeSharp/bin/Release_Xamarin.iOS/netstandard2.0/NativeSharp.dll" target="lib/XamariniOS" />
+    <!-- Android -->  
+    <file src="Native.Maui.targets" target="build/net8.0-android34.0 /Native.Maui.targets"/>
+    <file src="sources/NativeSharp/bin/Release/netstandard2.0/NativeSharp.dll" target="lib/net8.0-android34.0 " />
+    <file src="install/NativeAdd/android/lib/libNativeAdd.so" target="native/android/arm64-v8a" />
 
+    <!-- iOS -->
+    <file src="Native.Maui.targets" target="build/net8.0-ios17.0/Native.Maui.targets" />
+    <file src="sources/NativeSharp/bin/Release_iOS/netstandard2.0/NativeSharp.dll" target="lib/net8.0-ios17.0" />
     <file src="install/NativeAdd/ios_device_static/lib/libNativeAdd.a"    target="native/ios-device/libNativeAdd.a" />
     <file src="install/NativeAdd/ios_simulator_static/lib/libNativeAdd.a" target="native/ios-simulator/libNativeAdd.a" />
   </files>

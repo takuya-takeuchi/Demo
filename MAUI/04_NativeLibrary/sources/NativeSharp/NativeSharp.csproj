@@ -10,17 +10,15 @@
 
   <PropertyGroup Condition="'$(Configuration)'=='Release'">
     <Optimize>true</Optimize>
-    <DocumentationFile>docs\netstandard2.0\NativeSharp.xml</DocumentationFile>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Debug_Xamarin.iOS'">
-    <DefineConstants>$(DefineConstants);TRACE;DEBUG;XAMARINIOS</DefineConstants>
+  <PropertyGroup Condition="'$(Configuration)'=='Debug_iOS'">
+    <DefineConstants>$(DefineConstants);TRACE;DEBUG;IOS</DefineConstants>
   </PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)'=='Release_Xamarin.iOS'">
+  <PropertyGroup Condition="'$(Configuration)'=='Release_iOS'">
     <Optimize>true</Optimize>
-    <DocumentationFile>docs\XamariniOS\NativeSharp.xml</DocumentationFile>
-    <DefineConstants>$(DefineConstants);XAMARINIOS</DefineConstants>
+    <DefineConstants>$(DefineConstants);IOS</DefineConstants>
   </PropertyGroup>
 
 </Project>

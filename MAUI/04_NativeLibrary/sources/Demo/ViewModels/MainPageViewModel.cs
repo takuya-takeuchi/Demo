@@ -1,4 +1,7 @@
-﻿using Demo.Services.Interfaces;
+﻿using Prism.Commands;
+using Prism.Navigation;
+
+using Demo.Services.Interfaces;
 using Demo.ViewModels.Interfaces;
 
 namespace Demo.ViewModels
@@ -9,17 +12,17 @@ namespace Demo.ViewModels
 
         #region Fields
 
-        private readonly IFolderPickerService _FolderPickerService;
+        private readonly INativeService _NativeService;
 
         #endregion
 
         #region Constructors
 
         public MainPageViewModel(INavigationService navigationService,
-                                 IFolderPickerService folderPickerService)
+                                 INativeService nativeService)
             : base(navigationService)
         {
-            this._FolderPickerService = folderPickerService;
+            this._NativeService = nativeService;
         }
 
         #endregion
@@ -32,9 +35,9 @@ namespace Demo.ViewModels
         {
             get
             {
-                return this._OpenFolderCommand ??= new DelegateCommand(async () =>
+                return this._OpenFolderCommand ??= new DelegateCommand(() =>
                 {
-                    var ret = await this._FolderPickerService.PickFolder();
+                    var ret = this._NativeService.Add(1, 2);
                 });
             }
         }

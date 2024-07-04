@@ -2,7 +2,9 @@
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
 
-using Demo.Platforms.iOS.Services;
+using Prism.Ioc;
+
+using Demo.Services;
 using Demo.Services.Interfaces;
 
 namespace Demo
@@ -21,7 +23,7 @@ namespace Demo
             MauiProgram.PlatformRegisterTypes = RegisterServices;
 
             return MauiProgram.CreateMauiApp();
-    }
+        }
 
         #endregion
 
@@ -29,7 +31,7 @@ namespace Demo
 
         private static void RegisterServices(IContainerRegistry container)
         {
-            container.Register<IFolderPickerService, FolderPickerService>();
+            container.Register<INativeService, NativeService>();
         }
 
         #endregion

@@ -1,4 +1,7 @@
-﻿namespace Demo.ViewModels
+﻿using Prism.Mvvm;
+using Prism.Navigation;
+
+namespace Demo.ViewModels
 {
 
     internal abstract class ViewModelBase : BindableBase

@@ -1,10 +1,13 @@
 ﻿using System;
 using Android.App;
 using Android.Runtime;
-using Demo.Platforms.Android.Services;
-using Demo.Services.Interfaces;
 using Microsoft.Maui;
 using Microsoft.Maui.Hosting;
+
+using Prism.Ioc;
+
+using Demo.Services;
+using Demo.Services.Interfaces;
 
 namespace Demo
 {
@@ -39,8 +42,8 @@ namespace Demo
 
         private static void RegisterServices(IContainerRegistry container)
         {
-            container.Register<IFolderPickerService, FolderPickerService>();
-    }
+            container.Register<INativeService, NativeService>();
+        }
 
         #endregion
 

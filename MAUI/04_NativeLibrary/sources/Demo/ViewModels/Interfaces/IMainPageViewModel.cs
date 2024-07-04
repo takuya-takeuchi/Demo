@@ -1,4 +1,6 @@
-﻿namespace Demo.ViewModels.Interfaces
+﻿using Prism.Commands;
+
+namespace Demo.ViewModels.Interfaces
 {
 
     internal interface IMainPageViewModel

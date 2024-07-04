@@ -8,7 +8,11 @@
 
 ## Requirements
 
-* Visual Studio 2022
+### OSX
+
+* Ninja
+* CMake
+* Andorid SDK
 * .NET 8.0
 
 ## Dependencies
