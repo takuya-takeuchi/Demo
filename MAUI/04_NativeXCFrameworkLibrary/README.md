@@ -1,8 +1,9 @@
-# Use Native C++ library
+# Use Native C++ xcframework library
 
 ## Abstracts
 
-* How to use C++ native library from nuget
+* How to use C++ native library in xcframework from nuget
+  * Pack xcframework into nuget package
 
 ## Requirements
 
