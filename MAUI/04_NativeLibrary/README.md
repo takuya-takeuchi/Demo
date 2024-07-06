@@ -24,6 +24,10 @@
 * [Prism.Maui.Rx](https://github.com/PrismLibrary/Prism.Maui)
   * MIT License
 
+https://github.com/xamarin/xamarin-macios/issues/20578
+
+
+
 ### Caution
 
 All Prism.Maui libraries are pre-release so we should not adopt them on production!!

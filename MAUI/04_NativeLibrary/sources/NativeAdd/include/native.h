@@ -4,9 +4,6 @@
 #include "export.h"
 #include <cstdint>
 
-DLLEXPORT int32_t native_add(int32_t x, int32_t y)
-{
-    return x + y;
-}
+DLLEXPORT int32_t native_add(int32_t x, int32_t y);
 
 #endif

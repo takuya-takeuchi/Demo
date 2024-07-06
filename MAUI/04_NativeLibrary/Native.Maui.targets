@@ -1,21 +1,19 @@
 <Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)..\native\android\arm64-v8a\libNativeAdd.so">
-      <Link>Libs\arm64-v8a\libNativeAdd.so</Link>
-    </AndroidNativeLibrary>
-  </ItemGroup>
-  <ItemGroup Condition="(('$(Platform)' == 'iPhone'))">
-    <NativeReference Include="$(MSBuildThisFileDirectory)..\native\ios-device\libNativeAdd.a">
-      <Kind>Static</Kind>
-      <ForceLoad>True</ForceLoad>
-      <SmartLink>True</SmartLink>
-    </NativeReference>
-  </ItemGroup>
-  <ItemGroup Condition="(('$(Platform)' == 'iPhoneSimulator'))">
-    <NativeReference Include="$(MSBuildThisFileDirectory)..\native\ios-simulator\libNativeAdd.a">
-      <Kind>Static</Kind>
-      <ForceLoad>True</ForceLoad>
-      <SmartLink>True</SmartLink>
-    </NativeReference>
-  </ItemGroup>
+    <ItemGroup>
+        <AndroidNativeLibrary Include="$(MSBuildThisFileDirectory)../native/android/arm64-v8a/libNativeAdd.so">
+            <Link>Libs/arm64-v8a/libNativeAdd.so</Link>
+        </AndroidNativeLibrary>
+    </ItemGroup>
+    <Target Name="BeforeCompile">
+        <ItemGroup>
+            <BindingResources Include="$(MSBuildThisFileDirectory)../../content/Native.Maui.iOS.resources/**/*.*" />
+        </ItemGroup>
+        <Copy SourceFiles="@(BindingResources)" DestinationFolder="$(TargetDir)Native.Maui.iOS.resources/%(RecursiveDir)" ContinueOnError="false" />
+        <ItemGroup>
+            <NativeReference Include="$(TargetDir)Native.Maui.iOS.resources/NativeAdd.xcframework">
+                <Kind>Framework</Kind>
+                <SmartLink>False</SmartLink>
+            </NativeReference>
+        </ItemGroup>
+    </Target>
 </Project>

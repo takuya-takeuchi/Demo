@@ -22,7 +22,7 @@ message("-- Project: ${CMAKE_CURRENT_SOURCE_DIR}")
 message("-- Binaries: ${CMAKE_CURRENT_BINARY_DIR}")
 message("-------------------------------------------------------")
 
-FILE(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/src/*.h)
+FILE(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/include/*.h)
 FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
 
 add_library(${PROJ_NAME} ${HEADERS}
