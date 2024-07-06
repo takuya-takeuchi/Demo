@@ -6,6 +6,7 @@ using Microsoft.Maui.Hosting;
 
 using Prism;
 using Prism.Ioc;
+using Prism.Modularity;
 using Prism.Navigation;
 
 using Demo.ViewModels;

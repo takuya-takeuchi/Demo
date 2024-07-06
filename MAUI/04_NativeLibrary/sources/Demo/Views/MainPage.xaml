@@ -24,10 +24,10 @@
                    SemanticProperties.HeadingLevel="Level2"
                    Text="Welcome to .NET Multi-platform App UI" />
 
-            <Button Command="{Binding OpenFolderCommand}"
+            <Button Command="{Binding InvokeNativeCommand}"
                     HorizontalOptions="Center"
-                    SemanticProperties.Hint="Counts the number of times you click"
-                    Text="Select folder" />
+                    SemanticProperties.Hint="Invoke C++ Native Function"
+                    Text="Invoke C++ Native Function" />
 
         </VerticalStackLayout>
     </ScrollView>

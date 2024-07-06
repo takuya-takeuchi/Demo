@@ -19,8 +19,9 @@ namespace Demo.ViewModels
         #region Constructors
 
         public MainPageViewModel(INavigationService navigationService,
+                                 IDialogService dialogService,
                                  INativeService nativeService)
-            : base(navigationService)
+            : base(navigationService, dialogService)
         {
             this._NativeService = nativeService;
         }
@@ -29,15 +30,16 @@ namespace Demo.ViewModels
 
         #region IMainPageViewModel Members
 
-        private DelegateCommand _OpenFolderCommand;
+        private DelegateCommand _InvokeNativeCommand;
 
-        public DelegateCommand OpenFolderCommand
+        public DelegateCommand InvokeNativeCommand
         {
             get
             {
-                return this._OpenFolderCommand ??= new DelegateCommand(() =>
+                return this._InvokeNativeCommand ??= new DelegateCommand(async () =>
                 {
                     var ret = this._NativeService.Add(1, 2);
+                    await this.DialogService.ShowAlert("Info", $"1 + 2 = {ret}", "OK");
                 });
             }
         }

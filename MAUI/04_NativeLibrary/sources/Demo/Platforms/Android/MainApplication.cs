@@ -43,6 +43,7 @@ namespace Demo
         private static void RegisterServices(IContainerRegistry container)
         {
             container.Register<INativeService, NativeService>();
+            container.Register<IDialogService, DialogService>();
         }
 
         #endregion
