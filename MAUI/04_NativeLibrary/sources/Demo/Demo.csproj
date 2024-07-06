@@ -27,7 +27,7 @@
 		<ApplicationTitle>Demo</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.demo</ApplicationId>
+		<ApplicationId>jp.taktak.maui.demo</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
