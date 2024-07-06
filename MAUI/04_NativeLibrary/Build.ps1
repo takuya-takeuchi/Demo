@@ -173,6 +173,8 @@ function BuildIOS()
                  -library install/NativeAdd/ios_device/lib/libNativeAdd.a -headers sources/NativeAdd/include `
                  -library install/NativeAdd/ios_simulator/lib/libNativeAdd.a -headers sources/NativeAdd/include `
                  -output install/NativeAdd/ios/NativeAdd.xcframework
+      Remove-Item install/NativeAdd/ios_device -Recurse -Force | Out-Null
+      Remove-Item install/NativeAdd/ios_simulator -Recurse -Force | Out-Null
 }
 
 BuildAndroid NativeAdd
