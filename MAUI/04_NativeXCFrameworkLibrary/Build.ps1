@@ -169,6 +169,11 @@ function BuildIOS()
       lipo -info $lib
       Pop-Location
 
+      if (Test-Path("install/NativeAdd/ios"))
+      {
+            Remove-Item "install/NativeAdd/ios" -Recurse -Force | Out-Null
+      }
+
       xcodebuild -create-xcframework `
                  -library install/NativeAdd/ios_device/lib/libNativeAdd.a -headers sources/NativeAdd/include `
                  -library install/NativeAdd/ios_simulator/lib/libNativeAdd.a -headers sources/NativeAdd/include `
