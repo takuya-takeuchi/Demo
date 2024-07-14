@@ -1,0 +1,42 @@
+cmake_minimum_required(VERSION 3.15.0)
+
+set(PROJ_NAME wrapper)
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+
+project(${PROJ_NAME} VERSION 1.0.0)
+
+find_package(OpenCV REQUIRED)
+
+if (${OpenCV_FOUND})
+    message("   OpenCV_LIBRARIES: ${OpenCV_LIBRARIES}")
+    message("OpenCV_INCLUDE_DIRS: ${OpenCV_INCLUDE_DIRS}")
+endif()
+
+FILE(GLOB_RECURSE HEADERS ${PROJECT_SOURCE_DIR}/include/*.h)
+FILE(GLOB_RECURSE SOURCES ${PROJECT_SOURCE_DIR}/src/*.cpp)
+
+add_library(${PROJ_NAME} SHARED ${HEADERS}
+                                ${SOURCES})
+
+target_link_libraries(${PROJ_NAME} PRIVATE ${OpenCV_LIBRARIES})
+target_include_directories(${PROJ_NAME} PRIVATE ${OpenCV_INCLUDE_DIRS})
+
+set(CompilerFlags
+    CMAKE_CXX_FLAGS
+    CMAKE_CXX_FLAGS_DEBUG
+    CMAKE_CXX_FLAGS_RELEASE
+    CMAKE_C_FLAGS
+    CMAKE_C_FLAGS_DEBUG
+    CMAKE_C_FLAGS_RELEASE
+)
+
+set(CPACK_PROJECT_NAME ${PROJECT_NAME})
+set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})
+include(CPack)
+
+set_target_properties(${PROJ_NAME} PROPERTIES PUBLIC_HEADER "${HEADERS}")
+INSTALL(TARGETS ${PROJ_NAME} 
+        LIBRARY DESTINATION lib
+        PUBLIC_HEADER DESTINATION include
+)

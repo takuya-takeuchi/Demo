@@ -176,3 +176,6 @@
 	path = ComputerVision/Tesseract/leptonica
 	url = https://github.com/danbloomberg/leptonica
 	ignore = dirty
+[submodule "Mobile/Android/03_CheckNativeLibraryDependency/opencv"]
+	path = Mobile/Android/03_CheckNativeLibraryDependency/opencv
+	url = https://github.com/opencv/opencv
