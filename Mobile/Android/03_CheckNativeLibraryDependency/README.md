@@ -149,4 +149,4 @@ And you can see detail of linker error in other shell.
 
 You can see `libomp.so` is missing in android system.
 And you will find out that we should make disable openmp for opnecv.
-Indeed, [build_and_run_with_error.ps1](./build_and_run_with_error.ps1) makes enable `WITH_OPENMP`
+Indeed, [build_and_run_with_error.ps1](./build_and_run_with_error.ps1) makes enable `WITH_OPENMP`.
