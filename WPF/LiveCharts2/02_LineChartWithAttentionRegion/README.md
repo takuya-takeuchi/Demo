@@ -1,9 +1,8 @@
-# Get Started
+# Sync timer and thumb region of line chart
 
 ## Abstracts
 
-* How to use `LiveCharts2` with `Prism` module design
-  * Show NASDAQ Composite Index (COMP) Historical Data as Line Chart
+* Move thumb region area according to `Tick` event
 
 ## Requirements
 
