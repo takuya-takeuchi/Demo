@@ -1,0 +1,18 @@
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="BeforeCompile">
+        <ItemGroup Condition="(('$(RuntimeIdentifier)' == 'ios-arm64'))">
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../native/ios-device/libNativeAdd.a">
+                <Kind>Static</Kind>
+                <ForceLoad>True</ForceLoad>
+                <SmartLink>True</SmartLink>
+            </NativeReference>
+        </ItemGroup>
+        <ItemGroup Condition="(('$(RuntimeIdentifier)' == 'iossimulator-arm64'))">
+            <NativeReference Include="$(MSBuildThisFileDirectory)../../native/ios-simulator/libNativeAdd.a">
+                <Kind>Static</Kind>
+                <ForceLoad>True</ForceLoad>
+                <SmartLink>True</SmartLink>
+            </NativeReference>
+        </ItemGroup>
+    </Target>
+</Project>

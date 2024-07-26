@@ -15,7 +15,7 @@
 		<ApplicationTitle>Target</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>takuyatakeuchi.demo.deeplink.target</ApplicationId>
+		<ApplicationId>jp.taktak.maui.demo.deeplink.target</ApplicationId>
 		<ApplicationIdGuid>bb04c57f-8024-469c-baaf-f67709d856da</ApplicationIdGuid>
 
 		<!-- Versions -->
