@@ -179,3 +179,8 @@
 [submodule "Mobile/Android/03_CheckNativeLibraryDependency/opencv"]
 	path = Mobile/Android/03_CheckNativeLibraryDependency/opencv
 	url = https://github.com/opencv/opencv
+	ignore = dirty
+[submodule "Robot/ROS2/examples"]
+	path = Robot/ROS2/examples
+	url = https://github.com/ros2/examples
+	ignore = dirty
