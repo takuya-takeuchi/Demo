@@ -23,7 +23,7 @@ def benchmark(model_path):
         _ = session.run([], {input_name: input_data})
         end = (time.perf_counter() - start) * 1000
         total += end
-        print(f"{end:.2f}ms")
+        # print(f"{end:.2f}ms")
     total /= runs
     print(f"Avg: {total:.2f}ms")
 
@@ -31,9 +31,7 @@ def get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument("--input_model", required=True, help="input model")
     parser.add_argument("--output_model", required=True, help="output model")
-    parser.add_argument(
-        "--calibrate_dataset", default="./test_images", help="calibration data set"
-    )
+    parser.add_argument("--calibrate_dataset", default="./images/train", help="calibration data set")
     parser.add_argument(
         "--quant_format",
         default=QuantFormat.QDQ,

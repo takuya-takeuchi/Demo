@@ -1,10 +1,25 @@
 import pathlib
-import numpy
+import numpy as np
 import onnxruntime
 from onnxruntime.quantization import CalibrationDataReader
 from PIL import Image
 from tqdm import tqdm
 
+def _normalize(image, mean = [0.485, 0.456, 0.406], std = [0.229, 0.224, 0.225]):
+    mean = np.array(mean, dtype=np.float32)
+    std = np.array(std, dtype=np.float32)
+    image = np.array(image, dtype=np.float32) / 255.0
+    normalized_image = (image - mean) / std    
+    return normalized_image
+
+def _preprocess_image(image_filepath: str, height: int, width: int):
+    pillow_img = Image.new("RGB", (width, height))
+    pillow_img.paste(Image.open(image_filepath).resize((width, height)))
+    input_data = _normalize(pillow_img)
+    nhwc_data = np.expand_dims(input_data, axis=0)
+    nchw_data = nhwc_data.transpose(0, 3, 1, 2)  # ONNX Runtime standard
+        
+    return nchw_data
 
 def _preprocess_images(images_folder: str, height: int, width: int, size_limit=0):
     p = pathlib.Path(images_folder)
@@ -16,17 +31,9 @@ def _preprocess_images(images_folder: str, height: int, width: int, size_limit=0
     unconcatenated_batch_data = []
 
     for image_name in tqdm(batch_filenames):
-        image_filepath = image_name
-        pillow_img = Image.new("RGB", (width, height))
-        pillow_img.paste(Image.open(image_filepath).resize((width, height)))
-        input_data = numpy.float32(pillow_img) - numpy.array(
-            [123.68, 116.78, 103.94], dtype=numpy.float32
-        )
-        nhwc_data = numpy.expand_dims(input_data, axis=0)
-        nchw_data = nhwc_data.transpose(0, 3, 1, 2)  # ONNX Runtime standard
-        unconcatenated_batch_data.append(nchw_data)
-    batch_data = numpy.concatenate(
-        numpy.expand_dims(unconcatenated_batch_data, axis=0), axis=0
+        unconcatenated_batch_data.append(_preprocess_image(image_name, height, width))
+    batch_data = np.concatenate(
+        np.expand_dims(unconcatenated_batch_data, axis=0), axis=0
     )
     return batch_data
 

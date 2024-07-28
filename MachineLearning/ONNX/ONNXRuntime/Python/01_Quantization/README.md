@@ -34,7 +34,7 @@ $ python -m onnxruntime.quantization.preprocess --input resnetv2_50_Opset18.onnx
 It takes a long time.
 
 ````shell
-$ E:\Works\OpenSource\Demo\MachineLearning\ONNX\ONNXRuntime\Python\01_Quantization>python run.py --input_model resnetv2_50_Opset18_preprocessed.onnx --output_model resnetv2_50_Opset18_quant.onnx --calibrate_dataset ./images/train/
+$ python run.py --input_model resnetv2_50_Opset18_preprocessed.onnx --output_model resnetv2_50_Opset18_quant.onnx --calibrate_dataset ./images/train/
 100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 38400/38400 [03:48<00:00, 168.22it/s]
 Calibrated and quantized start
 Calibrated and quantized model saved. 2325.7759482860565 sec
