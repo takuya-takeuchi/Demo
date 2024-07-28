@@ -10,7 +10,7 @@
 ### Common
 
 * Powershell 7 or later
-* Python 3
+* Python 3.8 - 3.11
 
 ## Dependencies
 
@@ -69,22 +69,17 @@ Avg: 34.00ms
 
 #### 3. Benchmark
 
-This example runs on Intel(R) Core(TM) i7-8700 CPU @ 3.20GHz.
-
-##### Quantized
+Run [benchmark.py](./benchmark.py).
+For examples,
 
 ````shell
 $ python benchmark.py --input_model resnetv2_50_Opset18_quant.onnx
-benchmarking int8 model...
+benchmarking model...
 100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1000/1000 [00:37<00:00, 26.35it/s]
 Avg: 37.79ms
 ````
 
-##### Original
-
-````shell
-$ python benchmark.py --input_model resnetv2_50_Opset18.onnx
-benchmarking int8 model...
-100%|█████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 1000/1000 [00:36<00:00, 27.31it/s]
-Avg: 36.47ms
-````
+|CPU|Quantized (int8)|Original (float32)|
+|---|---|---|
+|Intel Core i7-8700 CPU @ 3.20GHz|37.79 ms|36.47 ms|
+|Apple M2|20.78 ms|28.50 ms|

@@ -31,7 +31,7 @@ def main():
     args = get_args()
     input_model_path = args.input_model
 
-    print("benchmarking int8 model...")
+    print("benchmarking model...")
     benchmark(input_model_path, 1000)
 
 if __name__ == "__main__":

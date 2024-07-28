@@ -9,7 +9,7 @@
 ### Common
 
 * Powershell 7 or later
-* Python 3
+* Python 3.8 - 3.11
 
 ## Dependencies
 
@@ -19,7 +19,6 @@
 * [ONNX Runtime](https://onnxruntime.ai/)
   * 1.16.3
   * MIT license
-
 
 #### Miscellaneous
 
