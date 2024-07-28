@@ -1,4 +1,4 @@
-# ONNX Runtime (C API)
+# ONNX Runtime (Python API)
 
 ## Abstracts
 
@@ -9,27 +9,21 @@
 ### Common
 
 * Powershell 7 or later
-* CMake
-  * 3.26 or higher
-
-### Windows
-
-* Visual Studio 2022
-
-### Ubuntu
-
-* g++
-
-### OSX
-
-* Xcode
-* libiconv
+* Python 3
 
 ## Dependencies
 
+* [ONNX](https://github.com/onnx/onnx)
+  * 1.16.1
+  * Apache-2.0 license
 * [ONNX Runtime](https://onnxruntime.ai/)
   * 1.16.3
   * MIT license
+
+
+#### Miscellaneous
+
+* [miniImageNet](https://lyy.mpi-inf.mpg.de/mtl/download)
 
 ## How to use?
 
