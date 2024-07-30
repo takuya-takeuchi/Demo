@@ -30,7 +30,6 @@
 * [ONNX Runtime](https://onnxruntime.ai/)
   * 1.16.3
   * MIT license
-* 
 
 ## How to use?
 
