@@ -19,13 +19,3 @@
 * [ONNX Runtime](https://onnxruntime.ai/)
   * 1.16.3
   * MIT license
-
-#### Miscellaneous
-
-* [miniImageNet](https://lyy.mpi-inf.mpg.de/mtl/download)
-
-## How to use?
-
-````shell
-$ pwsh build.ps1  <Debug/Release>
-````

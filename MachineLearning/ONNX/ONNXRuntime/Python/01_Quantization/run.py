@@ -53,7 +53,7 @@ def main():
 
     # Calibrate and quantize model
     # Turn off model optimization during quantization
-    print("Calibrated and quantized start")
+    print("Calibration and quantization start")
     start = time.time()
     quantize_static(
         input_model_path,
