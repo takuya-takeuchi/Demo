@@ -184,3 +184,7 @@
 	path = Robot/ROS2/examples
 	url = https://github.com/ros2/examples
 	ignore = dirty
+[submodule "MachineLearning/ONNX/ONNXRuntime/Web/onnxruntime"]
+	path = MachineLearning/ONNX/ONNXRuntime/Web/onnxruntime
+	url = https://github.com/microsoft/onnxruntime
+	ignore = dirty
