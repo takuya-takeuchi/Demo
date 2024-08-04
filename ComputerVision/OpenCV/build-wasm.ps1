@@ -100,7 +100,7 @@ if ($global:IsWindows)
     # * https://github.com/opencv/opencv/issues/18657
     #   Occur `Compiler doesn't support baseline optimization flags`
     # On Windows, CV_DISABLE_OPTIMIZATION shall be specified..
-    $buildFlag = "-s WASM=1 -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=4 -s DISABLE_EXCEPTION_CATCHING=0 "
+    $buildFlag = "-s WASM=1 -s USE_PTHREADS=0 "
     $CV_DISABLE_OPTIMIZATION="ON"
 }
 elseif ($global:IsMacOS)
@@ -133,7 +133,8 @@ elseif ($global:IsMacOS)
     # * https://github.com/opencv/opencv/issues/18657
     #   Occur `Compiler doesn't support baseline optimization flags`
     #   It supress by adding `-D CV_DISABLE_OPTIMIZATION=ON` or removing `-msimd128 -s USE_WEBNN=1 `
-    $buildFlag = "-s WASM=1 -s USE_PTHREADS=0 "
+    # $buildFlag = "-s WASM=1 -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=4 -s DISABLE_EXCEPTION_CATCHING=0 "
+    $buildFlag = "-s WASM=1 -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=4 -s DISABLE_EXCEPTION_CATCHING=0 -s MODULARIZE=1 -s EXPORT_NAME='cv' "
     $CV_DISABLE_OPTIMIZATION="OFF"
 }
 elseif ($global:IsLinux)
