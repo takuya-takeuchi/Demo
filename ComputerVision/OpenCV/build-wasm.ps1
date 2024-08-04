@@ -220,3 +220,15 @@ cmake -D PYTHON_DEFAULT_EXECUTABLE="${pythonPath}" `
       "${sourceDir}"
 cmake --build . --config ${Configuration} --target install
 Pop-Location
+
+# copy opencv.js
+if ($global:IsWindows)
+{
+}
+elseif ($global:IsMacOS)
+{
+    Copy-Item (Join-Path $buildDir bin | Join-Path -ChildPath opencv.js) (Join-Path $installDir bin | Join-Path -ChildPath opencv.js) -Force | Out-Null
+}
+elseif ($global:IsLinux)
+{
+}
