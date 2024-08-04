@@ -68,6 +68,10 @@ if (!(Test-Path($emsdkDir)))
 Push-Location $buildDir
 if ($global:IsWindows)
 {
+    # On Windows, we can not avoid `Compiler doesn't support baseline optimization flags`
+    Write-Host "[Error] For now, we can not support building binary on windows" -ForegroundColor Red
+    exit
+
     # use submodule instead of system installed emscripten!!
     Push-Location $emsdkDir | Out-Null
     $emsdk = Join-Path $emsdkDir emsdk.bat
@@ -90,7 +94,14 @@ if ($global:IsWindows)
         exit
     }
 
-    $pythonPath = (Get-Command python3).Path
+    $pythonPath = (Get-Command python).Path
+    
+    # * build_js.py can not override install prefix. So we specify argument manually...
+    # * https://github.com/opencv/opencv/issues/18657
+    #   Occur `Compiler doesn't support baseline optimization flags`
+    # On Windows, CV_DISABLE_OPTIMIZATION shall be specified..
+    $buildFlag = "-s WASM=1 -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=4 -s DISABLE_EXCEPTION_CATCHING=0 "
+    $CV_DISABLE_OPTIMIZATION="ON"
 }
 elseif ($global:IsMacOS)
 {
@@ -117,16 +128,18 @@ elseif ($global:IsMacOS)
     # # Supress 'The term 'python' is not recognized as a name of a cmdlet, function, script file, or executable program. Check the spelling of the name, or if a path was included, verify that the path is correct and try again.'
     alias python=python3
     $pythonPath = (Get-Command python3).Path
+
+    # * build_js.py can not override install prefix. So we specify argument manually...
+    # * https://github.com/opencv/opencv/issues/18657
+    #   Occur `Compiler doesn't support baseline optimization flags`
+    #   It supress by adding `-D CV_DISABLE_OPTIMIZATION=ON` or removing `-msimd128 -s USE_WEBNN=1 `
+    $buildFlag = "-s WASM=1 -s USE_PTHREADS=0 "
+    $CV_DISABLE_OPTIMIZATION="OFF"
 }
 elseif ($global:IsLinux)
 {
 }
 
-# * build_js.py can not override install prefix. So we specify argument manually...
-# * https://github.com/opencv/opencv/issues/18657
-#   Occur `Compiler doesn't support baseline optimization flags`
-#   It supress by adding `-D CV_DISABLE_OPTIMIZATION=ON` or removing `-msimd128 -s USE_WEBNN=1 `
-$buildFlag = "-s WASM=1 -s USE_PTHREADS=1 -s PTHREAD_POOL_SIZE=4 -s DISABLE_EXCEPTION_CATCHING=0 "
 $env:EMMAKEN_JUST_CONFIGURE = Join-Path $current $target | `
                               Join-Path -ChildPath platforms | `
                               Join-Path -ChildPath js | `
@@ -138,7 +151,7 @@ cmake -D PYTHON_DEFAULT_EXECUTABLE="${pythonPath}" `
       -D ENABLE_PIC=FALSE `
       -D CMAKE_BUILD_TYPE=$Configuration `
       -D CMAKE_TOOLCHAIN_FILE="${toolchainFile}" `
-      -D CV_DISABLE_OPTIMIZATION=OFF `
+      -D CV_DISABLE_OPTIMIZATION="${CV_DISABLE_OPTIMIZATION}" `
       -D CPU_BASELINE="" `
       -D CMAKE_INSTALL_PREFIX="${installDir}" `
       -D CPU_DISPATCH='' `
