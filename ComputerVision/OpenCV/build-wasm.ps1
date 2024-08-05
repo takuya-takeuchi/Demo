@@ -93,53 +93,8 @@ $dockerBuildDir = Join-Path ${buildDirName} $os | `
                   Join-Path -ChildPath $target | `
                   Join-Path -ChildPath $shared
 
-if ($global:IsWindows)
-{
-    # # On Windows, we can not avoid `Compiler doesn't support baseline optimization flags`
-    # Write-Host "[Error] For now, we can not support building binary on windows" -ForegroundColor Red
-    # exit
-
-    # # use submodule instead of system installed emscripten!!
-    # Push-Location $emsdkDir | Out-Null
-    # $emsdk = Join-Path $emsdkDir emsdk.bat
-    # git pull
-    # & "${emsdk}" install $emsdkVersion
-    # $emsdk = Join-Path $emsdkDir emsdk.ps1
-    # & "${emsdk}" activate $emsdkVersion
-    # source ./emsdk_env.sh --build=$Configuration
-    # Pop-Location
-
-    # $env:EMSCRIPTEN = Join-Path $current emsdk | `
-    #                   Join-Path -ChildPath upstream | `
-    #                   Join-Path -ChildPath emscripten
-    # $toolchainFile = Join-Path $env:EMSCRIPTEN cmake | `
-    #                  Join-Path -ChildPath Modules | `
-    #                  Join-Path -ChildPath Platform | `
-    #                  Join-Path -ChildPath Emscripten.cmake
-    # if (!(Test-Path($toolchainFile)))
-    # {
-    #     Write-Host "[Error] ${toolchainFile} is missing" -ForegroundColor Red
-    #     exit
-    # }
-
-    # $pythonPath = (Get-Command python).Path
-    
-    # # * build_js.py can not override install prefix. So we specify argument manually...
-    # # * https://github.com/opencv/opencv/issues/18657
-    # #   Occur `Compiler doesn't support baseline optimization flags`
-    # # On Windows, CV_DISABLE_OPTIMIZATION shall be specified..
-    # $buildFlag = "-s WASM=1 -s USE_PTHREADS=0 "
-    # $CV_DISABLE_OPTIMIZATION="ON"
-
-    docker run --rm --workdir /project/${target} -v "${current}:/project" "emscripten/emsdk:${emsdkVersion}" emcmake python3 ./platforms/js/build_js.py "/project/${dockerBuildDir}"
-}
-elseif ($global:IsMacOS)
-{
-    # docker run --rm --workdir /project/${target} -v "${current}:/project" "emscripten/emsdk:${emsdkVersion}" emcmake python3 ./platforms/js/build_js.py "/project/${dockerBuildDir}"
-}
-elseif ($global:IsLinux)
-{
-}
+# build
+docker run --rm --workdir /project/${target} -v "${current}:/project" "emscripten/emsdk:${emsdkVersion}" emcmake python3 ./platforms/js/build_js.py "/project/${dockerBuildDir}"
 
 # copy opencv.js
 $installDir = Join-Path $installDir bin
