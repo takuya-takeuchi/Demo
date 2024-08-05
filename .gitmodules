@@ -188,7 +188,3 @@
 	path = MachineLearning/ONNX/ONNXRuntime/Web/onnxruntime
 	url = https://github.com/microsoft/onnxruntime
 	ignore = dirty
-[submodule "ComputerVision/OpenCV/emsdk"]
-	path = ComputerVision/OpenCV/emsdk
-	url = https://github.com/emscripten-core/emsdk.git
-	ignore = dirty
