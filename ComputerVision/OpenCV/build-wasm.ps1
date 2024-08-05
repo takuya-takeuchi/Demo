@@ -80,12 +80,6 @@ $buildPythonScript = Join-Path $target platform | `
 
 git submodule update --init --recursive .
 
-if (!(Test-Path($emsdkDir)))
-{
-    Write-Host "[Error] ${emsdkDir} is missing" -ForegroundColor Red
-    exit
-}
-
 Push-Location $buildDir
 
 
