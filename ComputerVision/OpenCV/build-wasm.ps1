@@ -87,6 +87,11 @@ $dockerBuildDir = Join-Path ${buildDirName} $os | `
                   Join-Path -ChildPath $target | `
                   Join-Path -ChildPath $shared
 
+if ($global:IsWindows)
+{
+    $dockerBuildDir = $dockerBuildDir.Replace("`\", "/")
+}
+
 # build
 docker run --rm --workdir /project/${target} -v "${current}:/project" "emscripten/emsdk:${emsdkVersion}" emcmake python3 ./platforms/js/build_js.py "/project/${dockerBuildDir}"
 
