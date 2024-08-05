@@ -135,102 +135,13 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    docker run --rm --workdir /project/${target} -v "${current}:/project" "emscripten/emsdk:${emsdkVersion}" emcmake python3 ./platforms/js/build_js.py "/project/${dockerBuildDir}"
+    # docker run --rm --workdir /project/${target} -v "${current}:/project" "emscripten/emsdk:${emsdkVersion}" emcmake python3 ./platforms/js/build_js.py "/project/${dockerBuildDir}"
 }
 elseif ($global:IsLinux)
 {
 }
-
-# $env:EMMAKEN_JUST_CONFIGURE = Join-Path $current $target | `
-#                               Join-Path -ChildPath platforms | `
-#                               Join-Path -ChildPath js | `
-#                               Join-Path -ChildPath opencv_js.config.py
-# # avoid `em++: error: --preload-file and --embed-file cannot be used with NODERAWFS which disables virtual filesystem`
-# $env:EMMAKEN_JUST_CONFIGURE=""
-# cmake -D PYTHON_DEFAULT_EXECUTABLE="${pythonPath}" `
-#       -D PYTHON_EXECUTABLE="${pythonPath}" `
-#       -D ENABLE_PIC=FALSE `
-#       -D CMAKE_BUILD_TYPE=$Configuration `
-#       -D CMAKE_TOOLCHAIN_FILE="${toolchainFile}" `
-#       -D CV_DISABLE_OPTIMIZATION="${CV_DISABLE_OPTIMIZATION}" `
-#       -D CPU_BASELINE="" `
-#       -D CMAKE_INSTALL_PREFIX="${installDir}" `
-#       -D CPU_DISPATCH='' `
-#       -D CV_TRACE=OFF `
-#       -D BUILD_SHARED_LIBS=OFF `
-#       -D WITH_1394=OFF `
-#       -D WITH_ADE=OFF `
-#       -D WITH_VTK=OFF `
-#       -D WITH_EIGEN=OFF `
-#       -D WITH_FFMPEG=OFF `
-#       -D WITH_GSTREAMER=OFF `
-#       -D WITH_GTK=OFF `
-#       -D WITH_GTK_2_X=OFF `
-#       -D WITH_IPP=OFF `
-#       -D WITH_JASPER=OFF `
-#       -D WITH_JPEG=OFF `
-#       -D WITH_WEBP=OFF `
-#       -D WITH_OPENEXR=OFF `
-#       -D WITH_OPENGL=OFF `
-#       -D WITH_OPENVX=OFF `
-#       -D WITH_OPENNI=OFF `
-#       -D WITH_OPENNI2=OFF `
-#       -D WITH_PNG=OFF `
-#       -D WITH_TBB=OFF `
-#       -D WITH_TIFF=OFF `
-#       -D WITH_V4L=OFF `
-#       -D WITH_OPENCL=OFF `
-#       -D WITH_OPENCL_SVM=OFF `
-#       -D WITH_OPENCLAMDFFT=OFF `
-#       -D WITH_OPENCLAMDBLAS=OFF `
-#       -D WITH_GPHOTO2=OFF `
-#       -D WITH_LAPACK=OFF `
-#       -D WITH_ITT=OFF `
-#       -D WITH_QUIRC=ON `
-#       -D BUILD_ZLIB=ON `
-#       -D BUILD_opencv_apps=OFF `
-#       -D BUILD_opencv_calib3d=ON `
-#       -D BUILD_opencv_dnn=ON `
-#       -D BUILD_opencv_features2d=ON `
-#       -D BUILD_opencv_flann=ON `
-#       -D BUILD_opencv_gapi=OFF `
-#       -D BUILD_opencv_ml=OFF `
-#       -D BUILD_opencv_photo=ON `
-#       -D BUILD_opencv_imgcodecs=OFF `
-#       -D BUILD_opencv_shape=OFF `
-#       -D BUILD_opencv_videoio=OFF `
-#       -D BUILD_opencv_videostab=OFF `
-#       -D BUILD_opencv_highgui=OFF `
-#       -D BUILD_opencv_superres=OFF `
-#       -D BUILD_opencv_stitching=OFF `
-#       -D BUILD_opencv_java=OFF `
-#       -D BUILD_opencv_js=ON `
-#       -D BUILD_opencv_python2=OFF `
-#       -D BUILD_opencv_python3=OFF `
-#       -D BUILD_EXAMPLES=ON `
-#       -D BUILD_PACKAGE=OFF `
-#       -D BUILD_TESTS=ON `
-#       -D BUILD_PERF_TESTS=ON `
-#       -D BUILD_DOCS=OFF `
-#       -D WITH_PTHREADS_PF=OFF `
-#       -D CV_ENABLE_INTRINSICS=OFF `
-#       -D BUILD_WASM_INTRIN_TESTS=OFF `
-#       -D WITH_WEBNN=OFF `
-#       -D CMAKE_C_FLAGS="${buildFlag}" `
-#       -D CMAKE_CXX_FLAGS="${buildFlag}" `
-#       "${sourceDir}"
-# cmake --build . --config ${Configuration} --target install
-# Pop-Location
 
 # copy opencv.js
-if ($global:IsWindows)
-{
-    Copy-Item (Join-Path $buildDir bin | Join-Path -ChildPath opencv.js) (Join-Path $installDir bin | Join-Path -ChildPath opencv.js) -Force | Out-Null
-}
-elseif ($global:IsMacOS)
-{
-    Copy-Item (Join-Path $buildDir bin | Join-Path -ChildPath opencv.js) (Join-Path $installDir bin | Join-Path -ChildPath opencv.js) -Force | Out-Null
-}
-elseif ($global:IsLinux)
-{
-}
+$installDir = Join-Path $installDir bin
+New-Item -Type Directory $installDir -Force | Out-Null
+Copy-Item (Join-Path $buildDir bin | Join-Path -ChildPath "*") $installDir -Force -Recurse | Out-Null
