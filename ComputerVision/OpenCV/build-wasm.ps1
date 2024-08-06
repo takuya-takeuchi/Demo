@@ -52,8 +52,15 @@ $sharedFlag = "OFF"
 # cv.imread is not a function
 # $emsdkVersion = "2.0.10"
 
+# cv.imread is not a function
 # https://stackoverflow.com/questions/67190799/how-to-include-cv-imread-when-building-opencv-js
-$emsdkVersion = "1.39.15"
+# $emsdkVersion = "1.39.15"# OK
+$emsdkVersion = "1.39.16" # OK
+# $emsdkVersion = "1.39.17" # not work!!
+# $emsdkVersion = "1.39.18" # not work!!
+# $emsdkVersion = "1.39.19" # not work!!
+# $emsdkVersion = "1.39.20" # not work!!
+# $emsdkVersion = "1.40.1" # not work!!
 
 # build
 $sourceDir = Join-Path $current $target

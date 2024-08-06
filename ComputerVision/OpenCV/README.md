@@ -17,14 +17,20 @@
 ### Windows
 
 * Visual Studio
+* docker
+  * for building WASM
 
 ### Ubuntu
 
 * g++
+* docker
+  * for building WASM
 
 ### OSX
 
 * Xcode
+* docker
+  * for building WASM
 
 ## Dependencies
 
