@@ -1,8 +1,21 @@
 $current = $PSScriptRoot
 
-$file = "nginx-1.26.1.tar.gz"
-$url = "https://nginx.org/download/${file}"
-$sha1 = "A73998570100134004D665E81783B2A2FF808BCD"
+if ($global:IsWindows)
+{
+    $file = "nginx-1.26.1.zip"
+    $expandedDir = Join-Path $current "nginx-1.26.1"
+    $url = "https://nginx.org/download/${file}"
+    $sha1 = "AF2E1D90BCD7754ACBBDDEFB88159557C1C2BEC3"
+}
+elseif ($global:IsMacOS)
+{
+    $file = "nginx-1.26.1.tar.gz"
+    $url = "https://nginx.org/download/${file}"
+    $sha1 = "A73998570100134004D665E81783B2A2FF808BCD"
+}
+elseif ($global:IsLinux)
+{
+}
 
 $exist = Test-Path(${file})
 if ($exist)
@@ -30,6 +43,15 @@ $sourceDir = Join-Path $current nginx | `
 $installDir = Join-Path $current nginx
 if ($global:IsWindows)
 {
+    Expand-Archive -Path $file -DestinationPath $current -Force
+    
+    $exist = Test-Path(${installDir})
+    if ($exist)
+    {
+        Remove-Item ${installDir} -Force -Recurse | Out-Null
+    }
+
+    Move-Item $expandedDir $installDir -Force | Out-Null
 }
 elseif ($global:IsMacOS)
 {
