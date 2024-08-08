@@ -1,5 +1,5 @@
 <body translate="no">
-    <script src="opencv.js"></script>
+    <script src="./opencv.js"></script>
 
     <h1>OpenCV.js sample</h1>
     <div>
@@ -27,6 +27,7 @@
         }
 
         function show(inputCanvasId, outputCanvasId) {
+            const cv = Module;
             let src = cv.imread(inputCanvasId);
             let dst = new cv.Mat();
             cv.cvtColor(src, dst, cv.COLOR_RGBA2GRAY, 0);

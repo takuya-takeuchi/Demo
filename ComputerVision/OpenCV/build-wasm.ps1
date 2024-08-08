@@ -43,13 +43,15 @@ $sharedFlag = "OFF"
 # https://stackoverflow.com/questions/67190799/how-to-include-cv-imread-when-building-opencv-js
 $emSdkVersion = "1.39.15" # OK
 $emsdkVersions = @(
-    "1.39.15" # OK
-    "1.39.16" # not work!!
-    "1.39.17" # not work!!
-    "1.39.18" # not work!!
-    "1.39.19" # not work!!
-    "1.39.20" # not work!!
-    "1.40.1"  # not work!!
+    "1.39.15" # OK (cv or Module, either is fine)
+    "1.39.16" # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    "1.39.17" # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    "1.39.18" # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    "1.39.19" # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    "1.39.20" # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    "1.40.1"  # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    # "2.0.34"  # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    # "3.0.1"
 )
 
 git submodule update --init --recursive .
@@ -91,10 +93,23 @@ foreach ($emSdkVersion in $emsdkVersions)
     }
     
     # build
-    docker run --rm --workdir /project/${target} -v "${current}:/project" "emscripten/emsdk:${emSdkVersion}" emcmake python3 ./platforms/js/build_js.py "/project/${dockerBuildDir}"
-    
+    docker run --rm --workdir /project/${target} -v "${current}:/project" "emscripten/emsdk:${emSdkVersion}" emcmake python3 ./platforms/js/build_js.py --build_perf "/project/${dockerBuildDir}"
+
     # copy opencv.js
-    $installDir = Join-Path $installDir bin
-    New-Item -Type Directory $installDir -Force | Out-Null
-    Copy-Item (Join-Path $buildDir bin | Join-Path -ChildPath "*") $installDir -Force -Recurse | Out-Null
+    $dstDir = Join-Path $installDir bin
+    $srcDir = Join-Path $buildDir bin
+    New-Item -Type Directory $dstDir -Force | Out-Null
+    Copy-Item (Join-Path $srcDir "*") $dstDir -Force -Recurse | Out-Null
+
+    $dstDir = Join-Path $installDir lib
+    $srcDir = Join-Path $buildDir lib
+    New-Item -Type Directory $dstDir -Force | Out-Null
+    Copy-Item (Join-Path $srcDir "*") $dstDir -Force -Recurse | Out-Null
+
+    $dstDir = Join-Path $installDir lib | `
+              Join-Path -ChildPath 3rdparty
+    $srcDir = Join-Path $buildDir 3rdparty | `
+              Join-Path -ChildPath lib
+    New-Item -Type Directory $dstDir -Force | Out-Null
+    Copy-Item (Join-Path $srcDir "*") $dstDir -Force -Recurse | Out-Null
 }

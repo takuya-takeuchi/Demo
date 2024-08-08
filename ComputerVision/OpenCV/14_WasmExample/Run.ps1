@@ -1,5 +1,7 @@
 $current = $PSScriptRoot
 
+$emsdkVersion = "1.39.15"
+
 $rootDir = Split-Path $current -Parent
 $nginxDir = Join-Path $current nginx | `
             Join-Path -ChildPath sbin
@@ -13,6 +15,7 @@ elseif ($global:IsMacOS)
 {
     # install-wasm/osx/opencv4/static/bin/opencv.js
     $opencvJs = Join-Path $rootDir install-wasm | `
+                Join-Path -ChildPath $emsdkVersion | `
                 Join-Path -ChildPath osx | `
                 Join-Path -ChildPath opencv4 | `
                 Join-Path -ChildPath static | `
