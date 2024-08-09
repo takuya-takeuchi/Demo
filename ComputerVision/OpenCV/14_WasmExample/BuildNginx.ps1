@@ -15,6 +15,9 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
+    $file = "nginx-1.26.1.tar.gz"
+    $url = "https://nginx.org/download/${file}"
+    $sha1 = "A73998570100134004D665E81783B2A2FF808BCD"
 }
 
 $exist = Test-Path(${file})
@@ -66,4 +69,12 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
+    New-Item -Type Directory $sourceDir -Force | Out-Null
+    tar -xvzf $file -C $sourceDir --strip-components 1
+
+    Push-Location $sourceDir | Out-Null
+    ./configure --prefix=$installDir --without-http_rewrite_module --without-http_gzip_module
+    make
+    make install
+    Pop-Location
 }
