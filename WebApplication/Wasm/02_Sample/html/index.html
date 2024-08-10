@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wasm Library Test</title>
+</head>
+<body>
+    <script>
+        // Check for wasm support.
+        if (!('WebAssembly' in window)) {
+          alert('you need a browser with wasm support enabled :(');
+        }
+        
+        fetch('./Demo.wasm')
+        .then(response => response.arrayBuffer())
+        .then(bytes => WebAssembly.instantiate(bytes))
+        .then(results => {
+            const instance = results.instance;
+
+            const add = instance.exports.add;
+            const result = add(2, 3);
+            console.log(`2 + 3 = ${result}`);
+
+            // instance.exports.say_hello();
+        });
+    </script>
+</body>
+</html>
