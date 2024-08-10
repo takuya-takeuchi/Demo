@@ -41,6 +41,6 @@ Then, `nginx` listen `8080`.
 
 ## Note
 
-* 
+* When use `std::cout`, comiler throw build error message like 
 
 > wasm-ld: error: CMakeFiles/Demo.dir/library.cpp.o: relocation R_WASM_MEMORY_ADDR_SLEB cannot be used against symbol `std::__2::cout`; recompile with -fPIC
