@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wasm Library Test</title>
+</head>
+<body>
+    <script src="Demo.js"></script>
+    <script>
+        // Check for wasm support.
+        if (!('WebAssembly' in window)) {
+          alert('you need a browser with wasm support enabled :(');
+        }
+        
+        Module().then(instance => {
+            instance._showBuildInformation();
+        }).catch(error => {
+            console.error('Error loading the module:', error);
+        });
+    </script>
+</body>
+</html>

@@ -41,7 +41,6 @@ $sharedFlag = "OFF"
 
 # cv.imread is not a function
 # https://stackoverflow.com/questions/67190799/how-to-include-cv-imread-when-building-opencv-js
-$emSdkVersion = "1.39.15" # OK
 $emsdkVersions = @(
     "1.39.15" # OK (cv or Module, either is fine)
     "1.39.16" # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
