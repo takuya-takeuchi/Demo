@@ -30,12 +30,16 @@ elseif ($global:IsLinux)
 $target = "opencv4"
 $shared = "static"
 $emSdkVersion = "1.39.15"
-$emSdkVersion = "2.0.18"
-$emSdkVersion = "2.0.20"
-$emSdkVersion = "2.0.28"
+$emSdkVersion = "2.0.22"
 # Not work!!
 # https://github.com/atteneder/DracoUnity/issues/55
 # error: undefined symbol: _ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1ERKS5_ (referenced by top-level compiled C/C++ code)
+# $emSdkVersion = "2.0.23"
+# $emSdkVersion = "2.0.24"
+# $emSdkVersion = "2.0.25"
+# $emSdkVersion = "2.0.26"
+# $emSdkVersion = "2.0.27"
+# $emSdkVersion = "2.0.28"
 # $emSdkVersion = "2.0.29"
 # $emSdkVersion = "2.0.30"
 # $emSdkVersion = "2.0.31"
