@@ -38,9 +38,3 @@ $ pwsh Run.ps1
 Then, `nginx` listen `8080`.
 
 <img src="./images/edge.png" />
-
-## Note
-
-* When use `std::cout`, comiler throw build error message like 
-
-> wasm-ld: error: CMakeFiles/Demo.dir/library.cpp.o: relocation R_WASM_MEMORY_ADDR_SLEB cannot be used against symbol `std::__2::cout`; recompile with -fPIC
