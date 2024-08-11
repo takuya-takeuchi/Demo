@@ -49,7 +49,16 @@ $emsdkVersions = @(
     "1.39.19" # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
     "1.39.20" # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
     "1.40.1"  # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
-    # "2.0.34"  # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    "2.0.0"   # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    "2.0.10"  # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    "2.0.15"  # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    # "2.0.16"  # Error
+    # "2.0.17"  # Error
+    # "2.0.18"  # Error
+    # "2.0.19"  # Error
+    # "2.0.20"  # Error
+    # "2.0.21"  # Error
+    # "2.0.22"  # Error
     # "3.0.1"
 )
 
