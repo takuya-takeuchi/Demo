@@ -30,9 +30,23 @@ elseif ($global:IsLinux)
 $target = "opencv4"
 $shared = "static"
 $emSdkVersion = "1.39.15"
+$emSdkVersion = "2.0.18"
+$emSdkVersion = "2.0.20"
+$emSdkVersion = "2.0.28"
+# Not work!!
+# https://github.com/atteneder/DracoUnity/issues/55
+# error: undefined symbol: _ZNSt3__212basic_stringIcNS_11char_traitsIcEENS_9allocatorIcEEEC1ERKS5_ (referenced by top-level compiled C/C++ code)
+# $emSdkVersion = "2.0.29"
+# $emSdkVersion = "2.0.30"
+# $emSdkVersion = "2.0.31"
+# $emSdkVersion = "2.0.32"
+# $emSdkVersion = "2.0.33"
+# $emSdkVersion = "2.0.34"
+
 # Not work!!
 # wasm-ld: error: /project/install-wasm/1.39.15/win/opencv4/static/lib/libopencv_core.a(system.cpp.o): undefined symbol: std::__2::__basic_string_common<true>::__throw_length_error() const
 # $emSdkVersion = "3.1.64"
+# $emSdkVersion = "3.1.57"
 $opencvEmSdkVersion = "1.39.15"
 
 # build
