@@ -1,6 +1,7 @@
 $current = $PSScriptRoot
 
-$emsdkVersion = "1.39.15"
+# $emsdkVersion = "1.39.15"
+$emsdkVersion = "2.0.15"
 
 # get os name
 if ($global:IsWindows)
@@ -43,8 +44,18 @@ Copy-Item "${conf}" $dstConfDir -Force | Out-Null
 Copy-Item "${wasm}" $dstHtmlDir -Force | Out-Null
 Copy-Item "${srcHtmlDir}/*" $dstHtmlDir -Force -Recurse | Out-Null
 
-$nginx = Join-Path $nginxDir $nginx
 Push-Location $nginxDir | Out-Null
-& "${nginx}" -s stop
-start "${nginx}"
+if ($global:IsWindows)
+{
+    $nginx = Join-Path $nginxDir $nginx
+    & "${nginx}" -s stop
+    start "${nginx}"
+}
+else
+{
+    $nginx = Join-Path $nginxDir sbin | `
+             Join-Path -ChildPath $nginx
+    & "${nginx}" -s stop
+    & "${nginx}"
+}
 Pop-Location
