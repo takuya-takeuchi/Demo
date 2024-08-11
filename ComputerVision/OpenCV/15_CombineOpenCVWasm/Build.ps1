@@ -29,7 +29,7 @@ elseif ($global:IsLinux)
 
 $target = "opencv4"
 $shared = "static"
-$emSdkVersion = "1.39.15"
+# $emSdkVersion = "1.39.15"
 $emSdkVersion = "2.0.22"
 
 # Not work!!
@@ -54,7 +54,9 @@ $emSdkVersion = "2.0.22"
 # * wasm-ld: error: /project/install-wasm/1.39.15/win/opencv4/static/lib/libopencv_core.a(system.cpp.o): undefined symbol: std::__2::__basic_string_common<true>::__throw_length_error() const
 # $emSdkVersion = "3.1.64"
 # $emSdkVersion = "3.1.57"
-$opencvEmSdkVersion = "1.39.15"
+
+# $opencvEmSdkVersion = "1.39.15"
+$opencvEmSdkVersion = "2.0.15"
 
 # build
 $buildDirName = Join-Path "build" $os
