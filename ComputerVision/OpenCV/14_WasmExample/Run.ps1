@@ -1,6 +1,6 @@
 $current = $PSScriptRoot
 
-# $emsdkVersion = "1.39.15"
+#$emsdkVersion = "1.39.15"
 $emsdkVersion = "2.0.15"
 
 # get os name
