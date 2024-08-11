@@ -6,23 +6,19 @@
     <title>Wasm Library Test</title>
 </head>
 <body>
+    <script src="Demo.js"></script>
     <script>
         // Check for wasm support.
         if (!('WebAssembly' in window)) {
           alert('you need a browser with wasm support enabled :(');
         }
         
-        fetch('./Demo.wasm')
-        .then(response => response.arrayBuffer())
-        .then(bytes => WebAssembly.instantiate(bytes))
-        .then(results => {
-            const instance = results.instance;
-
-            const add = instance.exports.add;
-            const result = add(2, 3);
-            console.log(`2 + 3 = ${result}`);
-
-            // instance.exports.say_hello();
+        Module().then(instance => {
+            const result = instance._add(2, 3);
+            console.log('Result of add(2, 3):', result);
+            instance._say_hello();
+        }).catch(error => {
+            console.error('Error loading the module:', error);
         });
     </script>
 </body>

@@ -32,7 +32,7 @@ $wasm = Join-Path $current install | `
         Join-Path -ChildPath $emsdkVersion | `
         Join-Path -ChildPath $os | `
         Join-Path -ChildPath bin | `
-        Join-Path -ChildPath "${target}.wasm"
+        Join-Path -ChildPath "${target}.*"
 
 # copy wasm, nginx.conf and contents
 Copy-Item "${conf}" $dstConfDir -Force | Out-Null
