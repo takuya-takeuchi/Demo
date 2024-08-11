@@ -1,8 +1,8 @@
-# Sample Library by docker build
+# Combine OpenCV wasm library
 
 ## Abstracts
 
-* Build simple wasm library by docker
+* Link self build of opencv wasm library
 
 ## Requirements
 

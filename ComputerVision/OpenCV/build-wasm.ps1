@@ -41,7 +41,6 @@ $sharedFlag = "OFF"
 
 # cv.imread is not a function
 # https://stackoverflow.com/questions/67190799/how-to-include-cv-imread-when-building-opencv-js
-$emSdkVersion = "1.39.15" # OK
 $emsdkVersions = @(
     "1.39.15" # OK (cv or Module, either is fine)
     "1.39.16" # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
@@ -50,7 +49,16 @@ $emsdkVersions = @(
     "1.39.19" # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
     "1.39.20" # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
     "1.40.1"  # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
-    # "2.0.34"  # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    "2.0.0"   # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    "2.0.10"  # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    "2.0.15"  # OK (Use Module, like Module.imdread or use alias `const cv = Module;`)
+    # "2.0.16"  # Error
+    # "2.0.17"  # Error
+    # "2.0.18"  # Error
+    # "2.0.19"  # Error
+    # "2.0.20"  # Error
+    # "2.0.21"  # Error
+    # "2.0.22"  # Error
     # "3.0.1"
 )
 
@@ -66,7 +74,8 @@ foreach ($emSdkVersion in $emsdkVersions)
                 Join-Path -ChildPath $os | `
                 Join-Path -ChildPath $target | `
                 Join-Path -ChildPath $shared
-    $installDir = Join-Path $current install-wasm | `
+    $installDirName = "install-wasm"
+    $installDir = Join-Path $current ${installDirName} | `
                   Join-Path -ChildPath $emSdkVersion | `
                   Join-Path -ChildPath $os | `
                   Join-Path -ChildPath $target | `
@@ -86,30 +95,26 @@ foreach ($emSdkVersion in $emsdkVersions)
                       Join-Path -ChildPath $os | `
                       Join-Path -ChildPath $target | `
                       Join-Path -ChildPath $shared
+    $dockerInstallDir = Join-Path ${installDirName} $emSdkVersion | `
+                        Join-Path -ChildPath $os | `
+                        Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath $shared
     
     if ($global:IsWindows)
     {
         $dockerBuildDir = $dockerBuildDir.Replace("`\", "/")
+        $dockerInstallDir = $dockerInstallDir.Replace("`\", "/")
     }
     
     # build
-    docker run --rm --workdir /project/${target} -v "${current}:/project" "emscripten/emsdk:${emSdkVersion}" emcmake python3 ./platforms/js/build_js.py --build_perf "/project/${dockerBuildDir}"
+    $buildCommand = "emcmake python3 ./platforms/js/build_js.py --build_perf /project/${dockerBuildDir}"
+    $installCommand = "cd /project/${dockerBuildDir} && make -j install"
+    $copyCommand = "cp -Rf /usr/local/* /project/${dockerInstallDir}"
+    docker run --rm --workdir /project/${target} -v "${current}:/project" "emscripten/emsdk:${emSdkVersion}" sh -c "${buildCommand} && ${installCommand} && ${copyCommand}"
 
     # copy opencv.js
     $dstDir = Join-Path $installDir bin
     $srcDir = Join-Path $buildDir bin
-    New-Item -Type Directory $dstDir -Force | Out-Null
-    Copy-Item (Join-Path $srcDir "*") $dstDir -Force -Recurse | Out-Null
-
-    $dstDir = Join-Path $installDir lib
-    $srcDir = Join-Path $buildDir lib
-    New-Item -Type Directory $dstDir -Force | Out-Null
-    Copy-Item (Join-Path $srcDir "*") $dstDir -Force -Recurse | Out-Null
-
-    $dstDir = Join-Path $installDir lib | `
-              Join-Path -ChildPath 3rdparty
-    $srcDir = Join-Path $buildDir 3rdparty | `
-              Join-Path -ChildPath lib
     New-Item -Type Directory $dstDir -Force | Out-Null
     Copy-Item (Join-Path $srcDir "*") $dstDir -Force -Recurse | Out-Null
 }

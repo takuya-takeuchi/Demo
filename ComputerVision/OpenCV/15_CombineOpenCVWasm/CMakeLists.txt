@@ -9,11 +9,21 @@ set(CMAKE_C_COMPILER emcc)
 set(CMAKE_C_FLAGS "-fPIC")
 set(CMAKE_CXX_FLAGS "-fPIC")
 
+FILE(GLOB_RECURSE OpenCV_LIBRARIES $ENV{OpenCV_DIR}/*.a)
+
 add_executable(${PROJ_NAME} library.cpp)
+
+target_include_directories(${PROJ_NAME}
+                           PRIVATE
+                           $ENV{OpenCV_DIR}/include/opencv4)
+
+target_link_libraries(${PROJ_NAME}
+                      PRIVATE
+                      ${OpenCV_LIBRARIES})
 
 set_target_properties(${PROJ_NAME} PROPERTIES SUFFIX ".js")
 set_target_properties(${PROJ_NAME} PROPERTIES
-    LINK_FLAGS "-Os -s WASM=1 -s MODULARIZE=1 -s EXPORTED_FUNCTIONS='[_add, _say_hello]'"
+    LINK_FLAGS "-Os -s WASM=1 -s MODULARIZE=1 -s EXPORTED_FUNCTIONS='[_showBuildInformation]'"
 )
 
 install(FILES

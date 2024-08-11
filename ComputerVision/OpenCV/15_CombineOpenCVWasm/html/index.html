@@ -14,9 +14,7 @@
         }
         
         Module().then(instance => {
-            const result = instance._add(2, 3);
-            console.log('Result of add(2, 3):', result);
-            instance._say_hello();
+            instance._showBuildInformation();
         }).catch(error => {
             console.error('Error loading the module:', error);
         });

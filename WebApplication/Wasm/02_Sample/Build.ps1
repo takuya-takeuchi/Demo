@@ -50,6 +50,7 @@ if ($global:IsWindows)
 }
 
 $sourceDir = "/project/${currentDirName}"
-$command = "emcmake cmake -B ${buildDirName} -D CMAKE_INSTALL_PREFIX=${installDirName} -D CMAKE_BUILD_TYPE=${Configuration} ${sourceDir} && cmake --build ${buildDirName} --config $Configuration --target install"
+$buildCommand = "emcmake cmake -B ${buildDirName} -D CMAKE_INSTALL_PREFIX=${installDirName} -D CMAKE_BUILD_TYPE=${Configuration} ${sourceDir}"
+$installCommand = "cmake --build ${buildDirName} --config $Configuration --target install"
 docker run --rm --workdir "${sourceDir}" `
-           -v "${rootDir}:/project" "emscripten/emsdk:${emSdkVersion}" sh -c "${command}"
+           -v "${rootDir}:/project" "emscripten/emsdk:${emSdkVersion}" sh -c "${buildCommand} && ${installCommand}"
