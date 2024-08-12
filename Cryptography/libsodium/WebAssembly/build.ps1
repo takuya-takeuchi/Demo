@@ -54,14 +54,8 @@ foreach ($emSdkVersion in $emsdkVersions)
     }
     
     # build
-    docker build . -t dev-libsodium-emscripten:${emSdkVersion} --build-arg EMSDK_VERSION=${emSdkVersion}
+    $dockerImage = "emscripten/emsdk"
     $buildCommand = "./configure && ./dist-build/emscripten.sh --standard"
     $copyCommand = "cp -Rf ${target}-js/* /project/${dockerInstallDir}"
-    docker run --rm --workdir /project/${target} -v "${current}:/project" "dev-libsodium-emscripten:${emSdkVersion}" sh -c "${buildCommand} && ${copyCommand}"
-
-    # # copy opencv.js
-    # $dstDir = Join-Path $installDir bin
-    # $srcDir = Join-Path $buildDir bin
-    # New-Item -Type Directory $dstDir -Force | Out-Null
-    # Copy-Item (Join-Path $srcDir "*") $dstDir -Force -Recurse | Out-Null
+    docker run --rm --workdir /project/${target} -v "${current}:/project" "${dockerImage}:${emSdkVersion}" sh -c "${buildCommand} && ${copyCommand}"
 }
