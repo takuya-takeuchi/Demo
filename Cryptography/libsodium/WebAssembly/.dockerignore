@@ -1,0 +1,5 @@
+libsodium
+install
+build
+build.ps1
+.gitignore
