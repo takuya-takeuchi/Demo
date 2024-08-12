@@ -185,7 +185,7 @@
 	url = https://github.com/ros2/examples
 	ignore = dirty
 [submodule "MachineLearning/ONNX/ONNXRuntime/Web/onnxruntime"]
-	path = MachineLearning/ONNX/ONNXRuntime/Web/onnxruntime
+	path = MachineLearning/ONNX/ONNXRuntime/WebAssembly/onnxruntime
 	url = https://github.com/microsoft/onnxruntime
 	ignore = dirty
 [submodule "Cryptography/libsodium/WebAssembly/libsodium"]
