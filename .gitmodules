@@ -188,3 +188,7 @@
 	path = MachineLearning/ONNX/ONNXRuntime/Web/onnxruntime
 	url = https://github.com/microsoft/onnxruntime
 	ignore = dirty
+[submodule "Cryptography/libsodium/WebAssembly/libsodium"]
+	path = Cryptography/libsodium/WebAssembly/libsodium
+	url = https://github.com/jedisct1/libsodium
+	ignore = dirty

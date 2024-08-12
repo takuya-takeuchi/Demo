@@ -23,7 +23,9 @@ target_link_libraries(${PROJ_NAME}
 
 set_target_properties(${PROJ_NAME} PROPERTIES SUFFIX ".js")
 set_target_properties(${PROJ_NAME} PROPERTIES
-    LINK_FLAGS "-Os -s WASM=1 -s MODULARIZE=1 -s EXPORTED_FUNCTIONS='[_showBuildInformation]'"
+    # `--closure 1` means that do binary size optimization by Closure Compiler
+    # It reduce *.js size from 78k to 27k for this example
+    LINK_FLAGS "-Os --closure 1 -s WASM=1 -s MODULARIZE=1 -s EXPORTED_FUNCTIONS='[_showBuildInformation]' -s EXPORT_NAME=Demo"
 )
 
 install(FILES
