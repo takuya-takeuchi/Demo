@@ -3,20 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Wasm Library Test</title>
+    <title>libsodium.js sample</title>
 </head>
 <body>
-    <script src="Demo.js"></script>
+    <script src="libsodium.js"></script>
     <script>
         // Check for wasm support.
         if (!('WebAssembly' in window)) {
           alert('you need a browser with wasm support enabled :(');
         }
         
-        Demo().then(instance => {
-            instance._showBuildInformation();
-        }).catch(error => {
-            console.error('Error loading the module:', error);
+        Module.ready.then(function () {
+            libsodium = Module;
+            const result = libsodium._sodium_init();
+            console.log('_sodium_init returns ', result);
         });
     </script>
 </body>

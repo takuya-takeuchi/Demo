@@ -23,7 +23,7 @@ target_link_libraries(${PROJ_NAME}
 
 set_target_properties(${PROJ_NAME} PROPERTIES SUFFIX ".js")
 set_target_properties(${PROJ_NAME} PROPERTIES
-    LINK_FLAGS "-Os -s WASM=1 -s MODULARIZE=1 -s EXPORTED_FUNCTIONS='[_showBuildInformation]'"
+    LINK_FLAGS "-Os -s WASM=1 -s MODULARIZE=1 -s EXPORTED_FUNCTIONS='[_showBuildInformation]' -s EXPORT_NAME=Demo"
 )
 
 install(FILES

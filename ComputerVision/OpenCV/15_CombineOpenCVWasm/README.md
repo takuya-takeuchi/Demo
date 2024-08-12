@@ -2,7 +2,8 @@
 
 ## Abstracts
 
-* Link self build of opencv wasm library
+* Link self build of opencv wasm library into custom library
+* Use namespace `Demo` instead of `Module`
 
 ## Requirements
 

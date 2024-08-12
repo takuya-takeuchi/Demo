@@ -191,3 +191,4 @@
 [submodule "Cryptography/libsodium/WebAssembly/libsodium"]
 	path = Cryptography/libsodium/WebAssembly/libsodium
 	url = https://github.com/jedisct1/libsodium
+	ignore = dirty
