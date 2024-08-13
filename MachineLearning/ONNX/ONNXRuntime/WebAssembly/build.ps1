@@ -94,5 +94,22 @@ if ($global:IsWindows)
         Copy-Item "${buildDir}/${Configuration}/*.js" "${installDir}/bin" -Force -Recurse | Out-Null
         Copy-Item "${buildDir}/${Configuration}/*.wasm" "${installDir}/bin" -Force -Recurse | Out-Null
     }
+
+    # npm install -g typescript
+    # npm install -D typescript @types/node@18.18
+    # https://github.com/DefinitelyTyped/DefinitelyTyped/issues/66934
+    # npm install -D @types/mocha mocha
+    # npm install -D @types/mocha@10.0.2
+    # npm uninstall -D @types/jest
+    # npm install -D @types/jest
+
+    # docker run -it -v E:\Works\OpenSource\Demo\MachineLearning\ONNX\ONNXRuntime\WebAssembly:/project -w /project/onnxruntime/js/web --rm emscripten/emsdk:3.1.57 /bin/bash
+
+    # docker run -it -v E:\Works\OpenSource\Demo\MachineLearning\ONNX\ONNXRuntime\WebAssembly:/project -w /project/onnxruntime/js/web --rm node:18.18.0 /bin/bash
+    # npm install -g typescript
+    # npm install && npm install @types/jest @types/fs-extra && npm install esbuild jszip npmlog @types/minimist@1.2.2
+    # npm run pull:wasm
+    # npm run prepare 
+    # npm run build 
 }
 Pop-Location
