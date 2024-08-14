@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>onnxruntime.js sample</title>
+</head>
+<body>
+    <input type="file" id="upload" accept="image/*">
+    <canvas id="canvas" width="28" height="28"></canvas>
+
+    <script src="ort.wasm-core.js"></script>
+    <script>
+        // Check for wasm support.
+        if (!('WebAssembly' in window)) {
+          alert('you need a browser with wasm support enabled :(');
+        }
+
+        ort.env.wasm.numThreads = 1
+
+        let session;
+        var databaseName  = 'onnxruntime_example';
+        var storeName  = 'data';
+        var keyName  = 'model';
+
+        function openDatabase() {
+            return new Promise((resolve, reject) => {
+                const request  = indexedDB.open(databaseName, 1);
+                // Do not add `async` keyword into onupgradeneeded
+                // If occur asynchronize wait, transaction will close and indexedb will be inactive
+                request.onupgradeneeded = function(event) {
+                    console.log('db upgrade');
+
+                    var db = event.target.result;
+                    if (!db.objectStoreNames.contains(storeName)) {
+                        db.createObjectStore(storeName, { keyPath: 'key' } );
+                    }
+                }
+                request.onsuccess = function(event) {
+                    console.log('db open success');
+                    resolve(event.target.result);
+                };
+                request.onerror = function(event) {
+                    console.log('db open error');
+                    reject("Database error: " + event.target.errorCode);
+                };
+            });
+        }
+
+        async function saveData(db, data) {
+            const transaction = db.transaction([storeName], "readwrite");
+            const store = transaction.objectStore(storeName);
+            const request = store.add(data);
+            return new Promise((resolve, reject) => {
+                request.onsuccess = () => resolve("Data saved successfully");
+                request.onerror = () => reject("Failed to save data: " + request.error);
+            });
+        }
+
+        async function fetchOrGetFromDb(key) {
+            const db = await openDatabase();
+            const transaction = db.transaction([storeName], "readwrite");
+            const store = transaction.objectStore(storeName);
+            const request = store.get(key);
+
+            return new Promise((resolve, reject) => {
+                request.onsuccess = async () => {
+                    if (request.result) {
+                        console.log('model file is retrieved from IndexedDB');
+                        resolve(request.result);
+                    } else {
+                        try {
+                            const modelPath = 'mnist.onnx';
+                            const response = await fetch(modelPath);
+                            const arrayBuffer = await response.arrayBuffer();
+                            const uint8Array = new Uint8Array(arrayBuffer);
+                            // If the asynchronous fetch operation exceeds the lifetime of the transaction, 
+                            // the add operation cannot be performed within the transaction.
+                            // Therefore, start a new transaction and store the data.
+                            const data = {key: key, data: uint8Array}
+                            saveData(db, data)
+                            console.log('model file is retrieved from server');
+                            resolve(data);
+                        } catch (error) {
+                            reject('Fetch error: ' + error.message);
+                        }
+                    }
+                };
+                request.onerror = function() {
+                    reject("Error fetching data from DB: " + request.error);
+                };
+            });
+        }
+
+        function softmax(arr) {
+            const max = Math.max(...arr);
+            const expValues = arr.map(value => Math.exp(value - max));
+            const sumExpValues = expValues.reduce((sum, value) => sum + value, 0);
+            return expValues.map(value => value / sumExpValues);
+        }
+
+        async function run(inputData) {
+            try {
+                console.log('load model');
+
+                const tensor = new ort.Tensor('float32', inputData, [1, 1, 28, 28]);
+                const feeds = { Input3: tensor };
+
+                const results = await session.run(feeds);
+
+                const predict = softmax(results['Plus214_Output_0'].data).reduce((maxIndex, currentValue, currentIndex, array) =>
+                    currentValue > array[maxIndex] ? currentIndex : maxIndex
+                , 0);
+
+                window.alert(`predict: ${predict}`);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        document.getElementById('upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const img = new Image();
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                }
+
+                img.onload = function() {
+                    const canvas = document.getElementById('canvas');
+                    const ctx = canvas.getContext('2d');
+
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+
+                    ctx.drawImage(img, 0, 0);
+
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const pixels = imageData.data;
+
+                    // pixel data shall be RGBA
+                    const length = img.width * img.height;
+                    const inputData = new Float32Array(length);
+                    for (let i = 0; i < length; i++) {
+                        inputData[i] = pixels[i * 4] / 255.0;
+                    }
+
+                    run(inputData);
+                }
+
+                reader.readAsDataURL(file);
+            }
+        });
+
+        fetchOrGetFromDb(keyName).then(data => ort.InferenceSession.create(data['data']))
+                                 .then(inferenceSession => session = inferenceSession)
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    </script>
+</body>
+</html>
