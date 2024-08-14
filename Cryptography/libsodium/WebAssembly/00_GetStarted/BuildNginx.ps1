@@ -27,11 +27,11 @@ if ($exist)
     $exist = $sha1 -eq $hash
     if ($exist)
     {
-        Write-Host "Model file is already downloaded" -ForegroundColor Green
+        Write-Host "File is already downloaded" -ForegroundColor Green
     }
     else
     {
-        Write-Host "Model file is already downloaded but SHA1 is not matched" -ForegroundColor Yellow
+        Write-Host "File is already downloaded but SHA1 is not matched" -ForegroundColor Yellow
     }
 }
 
