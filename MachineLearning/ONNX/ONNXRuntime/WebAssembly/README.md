@@ -22,8 +22,8 @@
 
 ## How to build?
 
-For now, we tested on only Windows.
-
 ````shell
-$ pwsh build.ps1 <Release/Debug>
+$ pwsh build.ps1
 ````
+
+You will see *.js and *.wasm files in [install/win/onnxruntime/Release/dist](./install/win/onnxruntime/Release/dist)

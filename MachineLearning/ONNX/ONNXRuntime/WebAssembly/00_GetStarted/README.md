@@ -2,20 +2,19 @@
 
 ## Abstracts
 
-* Load `libsodium.js` and invoke `sodium_init`
+* Input MNIST image and predict number
 
 ## Requirements
 
 ### Common
 
 * Powershell 7 or later
-* Docker
 
 ## Dependencies
 
-* [libsodium](https://github.com/jedisct1/libsodium)
-  * 1.0.20-RELEASE
-  * ISC License
+* [ONNX Runtime](https://onnxruntime.ai/)
+  * 1.18.1
+  * MIT license
 
 ## How to build?
 
@@ -33,7 +32,7 @@ and Go to [00_GetStarted](.).
 $ pwsh BuildNginx.ps1
 ````
 
-Once time you built `libsodium` and `nginx`, you need not to do again.
+Once time you built `onnxruntime` and `nginx`, you need not to do again.
 
 ## How to test?
 
@@ -43,4 +42,4 @@ $ pwsh Run.ps1
 
 Then, `nginx` listen `8080`.
 
-<img src="./images/browser.png" />
+<img src="./images/browser.gif" />

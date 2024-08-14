@@ -6,20 +6,81 @@
     <title>onnxruntime.js sample</title>
 </head>
 <body>
-    <script src="ort-wasm-simd-threaded.js"></script>
+    <input type="file" id="upload" accept="image/*">
+    <canvas id="canvas" width="28" height="28"></canvas>
+    
+    <script src="ort.wasm-core.js"></script>
     <script>
         // Check for wasm support.
         if (!('WebAssembly' in window)) {
           alert('you need a browser with wasm support enabled :(');
         }
+
+        ort.env.wasm.numThreads = 1
+
+        function softmax(arr) {
+            const max = Math.max(...arr);
+            const expValues = arr.map(value => Math.exp(value - max));
+            const sumExpValues = expValues.reduce((sum, value) => sum + value, 0);
+            return expValues.map(value => value / sumExpValues);
+        }
+
+        async function run(inputData) {
+            try {
+                console.log('load model');
+                const modelPath = 'mnist.onnx';
+                const session = await ort.InferenceSession.create(modelPath);
+
+                const tensor = new ort.Tensor('float32', inputData, [1, 1, 28, 28]);
+                const feeds = { Input3: tensor };
+
+                const results = await session.run(feeds);
+
+                const predict = softmax(results['Plus214_Output_0'].data).reduce((maxIndex, currentValue, currentIndex, array) => 
+                    currentValue > array[maxIndex] ? currentIndex : maxIndex
+                , 0);
+
+                window.alert(`predict: ${predict}`);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        document.getElementById('upload').addEventListener('change', function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const img = new Image();
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    img.src = e.target.result;
+                }
+                
+                img.onload = function() {
+                    const canvas = document.getElementById('canvas');
+                    const ctx = canvas.getContext('2d');
         
-        onnxruntime = ortWasmThreaded;
-        _OrtCreateSession
-        // Module.ready.then(function () {
-        //     onnxruntime = Module;
-        //     // const result = libsodium._sodium_init();
-        //     // console.log('_sodium_init returns ', result);
-        // });
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+        
+                    ctx.drawImage(img, 0, 0);
+        
+                    const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+                    const pixels = imageData.data;  
+
+                    // pixel data shall be RGBA
+                    const length = img.width * img.height;
+                    const inputData = new Float32Array(length);
+                    for (let i = 0; i < length; i++) {
+                        inputData[i] = pixels[i * 4] / 255.0;
+                    }
+
+                    run(inputData); 
+                }
+        
+                reader.readAsDataURL(file);
+            }
+        });
     </script>
 </body>
 </html>

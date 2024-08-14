@@ -33,16 +33,15 @@ $conf = Join-Path $srcConfDir nginx.conf
 $binaries = Join-Path $rootDir install | `
             Join-Path -ChildPath $os | `
             Join-Path -ChildPath ${target} | `
-            Join-Path -ChildPath shared | `
             Join-Path -ChildPath Release | `
-            Join-Path -ChildPath bin | `
-            Join-Path -ChildPath "*"
+            Join-Path -ChildPath dist
 $model = Join-Path $current testdata | `
          Join-Path -ChildPath "*.onnx"
 
 # copy wasm, nginx.conf and contents
 Copy-Item "${conf}" $dstConfDir -Force | Out-Null
-Copy-Item "${binaries}" $dstHtmlDir -Force | Out-Null
+Copy-Item "${binaries}/ort.wasm-core.js" $dstHtmlDir -Force | Out-Null
+Copy-Item "${binaries}/*.wasm" $dstHtmlDir -Force -Recurse | Out-Null
 Copy-Item "${srcHtmlDir}/*" $dstHtmlDir -Force -Recurse | Out-Null
 Copy-Item "${model}" $dstHtmlDir -Force -Recurse | Out-Null
 
