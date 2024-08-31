@@ -75,3 +75,68 @@ elseif ($global:IsLinux)
 }
 cmake --build . --config ${Configuration} --target install
 Pop-Location
+
+$cudaPath = $env:CUDA_PATH
+if (!$cudaPath)
+{
+    Write-Host "Environmental Variable 'CUDA_PATH' is missing" -ForegroundColor Red
+    exit
+}
+
+$trtPath = $env:TENSORRT_PATH
+if (!$trtPath)
+{
+    Write-Host "Environmental Variable 'TENSORRT_PATH' is missing" -ForegroundColor Red
+    exit
+}
+
+$cudaBinDir = Join-Path "${cudaPath}" bin
+$tensorRTBinDir = Join-Path "${trtPath}" bin
+$tensorRTLibDir = Join-Path "${trtPath}" lib
+
+# get os name
+if ($global:IsWindows)
+{
+    $binaries = @{
+        # TensorRT 10
+        "nvinfer_10.dll"                  = "${tensorRTLibDir}";
+        "nvinfer_plugin_10.dll"           = "${tensorRTLibDir}";
+        "nvonnxparser_10.dll"             = "${tensorRTLibDir}";
+        "nvinfer_builder_resource_10.dll" = "${tensorRTLibDir}";
+        # TensorRT 8
+        "nvinfer.dll"                     = "${tensorRTLibDir}";
+        "nvinfer_plugin.dll"              = "${tensorRTLibDir}";
+        "nvonnxparser.dll"                = "${tensorRTLibDir}";
+        "nvparsers.dll"                   = "${tensorRTLibDir}";
+        "cudart64_110.dll"                = "${cudaBinDir}"
+        "cublas64_11.dll"                 = "${cudaBinDir}"
+        "cublasLt64_11.dll"               = "${cudaBinDir}"
+    }
+}
+elseif ($global:IsLinux)
+{
+}
+
+$installDir = Join-Path $installDir bin
+Push-Location $installDir
+foreach ($kvp in $binaries.GetEnumerator())
+{
+    $key = $kvp.Key
+    $value = $kvp.Value
+    $path = Join-Path ${value} $key
+
+    $exist = Test-Path("${key}")
+    if ($exist)
+    {
+        Remove-Item $key | Out-Null
+    }
+
+    $exist = Test-Path("${path}")
+    if (!$exist)
+    {
+        continue
+    }
+
+    New-Item -ItemType SymbolicLink -Path "${key}" -Value "${path}" | Out-Null
+}
+Pop-Location

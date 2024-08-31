@@ -16,7 +16,8 @@
 
 ## Dependencies
 
-N/A
+* [ResNet101-DUC-12.onnx](https://github.com/onnx/models/blob/main/validated/vision/object_detection_segmentation/duc/model/ResNet101-DUC-12.onnx)
+  * Apache-2.0 License
 
 ## How to build?
 

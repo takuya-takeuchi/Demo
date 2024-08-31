@@ -1,6 +1,8 @@
 $modelFile = "ResNet101-DUC-12.onnx"
 $outputFile = "ResNet101-DUC-12.trt"
 
+$current = $PSScriptRoot
+
 $exist = Test-Path(${modelFile})
 if (!$exist)
 {
@@ -26,21 +28,28 @@ $cudaBinDir = Join-Path "${cudaPath}" bin
 $tensorRTBinDir = Join-Path "${trtPath}" bin
 $tensorRTLibDir = Join-Path "${trtPath}" lib
 
-$binaries = @{
-    "trtexec.exe"                     = "${tensorRTBinDir}";
-    # TensorRT 10
-    "nvinfer_10.dll"                  = "${tensorRTLibDir}";
-    "nvinfer_plugin_10.dll"           = "${tensorRTLibDir}";
-    "nvonnxparser_10.dll"             = "${tensorRTLibDir}";
-    "nvinfer_builder_resource_10.dll" = "${tensorRTLibDir}";
-    # TensorRT 8
-    "nvinfer.dll"                     = "${tensorRTLibDir}";
-    "nvinfer_plugin.dll"              = "${tensorRTLibDir}";
-    "nvonnxparser.dll"                = "${tensorRTLibDir}";
-    "nvparsers.dll"                   = "${tensorRTLibDir}";
-    "cudart64_110.dll"                = "${cudaBinDir}"
-    "cublas64_11.dll"                 = "${cudaBinDir}"
-    "cublasLt64_11.dll"               = "${cudaBinDir}"
+# get os name
+if ($global:IsWindows)
+{
+    $binaries = @{
+        "trtexec.exe"                     = "${tensorRTBinDir}";
+        # TensorRT 10
+        "nvinfer_10.dll"                  = "${tensorRTLibDir}";
+        "nvinfer_plugin_10.dll"           = "${tensorRTLibDir}";
+        "nvonnxparser_10.dll"             = "${tensorRTLibDir}";
+        "nvinfer_builder_resource_10.dll" = "${tensorRTLibDir}";
+        # TensorRT 8
+        "nvinfer.dll"                     = "${tensorRTLibDir}";
+        "nvinfer_plugin.dll"              = "${tensorRTLibDir}";
+        "nvonnxparser.dll"                = "${tensorRTLibDir}";
+        "nvparsers.dll"                   = "${tensorRTLibDir}";
+        "cudart64_110.dll"                = "${cudaBinDir}"
+        "cublas64_11.dll"                 = "${cudaBinDir}"
+        "cublasLt64_11.dll"               = "${cudaBinDir}"
+    }
+}
+elseif ($global:IsLinux)
+{
 }
 
 foreach ($kvp in $binaries.GetEnumerator())
@@ -65,7 +74,7 @@ foreach ($kvp in $binaries.GetEnumerator())
 }
 
 # not use `--explicitBatch` because I need using dynamic shape
-$trtexec = Join-Path $PSScriptRoot "trtexec.exe"
+$trtexec = Join-Path $current "trtexec.exe"
 & "${trtexec}" --onnx="${modelFile}" --saveEngine="${outputFile}" 2>&1 | Tee-Object -FilePath trtexec.log | ForEach-Object { $_ }
 
 foreach ($kvp in $binaries.GetEnumerator())
