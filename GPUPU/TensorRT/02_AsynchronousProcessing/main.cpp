@@ -96,24 +96,32 @@ int32_t main(int32_t argc, const char** argv)
 
     // Allocate memory on the device for inputs and outputs
     void* buffers[2];
-    cudaMalloc(&buffers[inputIndex], inputSize * sizeof(float));
-    cudaMalloc(&buffers[outputIndex], outputSize * sizeof(float));
+    throw_on_cuda_error(cudaMalloc(&buffers[inputIndex], inputSize * sizeof(float)), __FILE__, __LINE__);
+    throw_on_cuda_error(cudaMalloc(&buffers[outputIndex], outputSize * sizeof(float)), __FILE__, __LINE__);
 
     // Create host buffers
     std::vector<float> input(inputSize, 1.0f);
     std::vector<float> output(outputSize);
 
+    cudaStream_t stream;
+    throw_on_cuda_error(cudaStreamCreate(&stream), __FILE__, __LINE__);
+
     // Copy input data to the GPU
-    cudaMemcpy(buffers[inputIndex], input.data(), inputSize * sizeof(float), cudaMemcpyHostToDevice);
+    throw_on_cuda_error(cudaMemcpyAsync(buffers[inputIndex], input.data(), inputSize * sizeof(float), cudaMemcpyHostToDevice, stream), __FILE__, __LINE__);
 
     // Perform inference
-    context->enqueueV2(buffers, 0, nullptr);
+    // context->executeV2(buffers);
+    context->enqueueV2(buffers, stream, nullptr);
 
     // Copy output data back to the host
-    cudaMemcpy(output.data(), buffers[outputIndex], outputSize * sizeof(float), cudaMemcpyDeviceToHost);
+    throw_on_cuda_error(cudaMemcpyAsync(output.data(), buffers[outputIndex], outputSize * sizeof(float), cudaMemcpyDeviceToHost, stream), __FILE__, __LINE__);
 
-    cudaFree(buffers[inputIndex]);
-    cudaFree(buffers[outputIndex]);
+    throw_on_cuda_error(cudaStreamSynchronize(stream), __FILE__, __LINE__);
+
+    throw_on_cuda_error(cudaFree(buffers[inputIndex]), __FILE__, __LINE__);
+    throw_on_cuda_error(cudaFree(buffers[outputIndex]), __FILE__, __LINE__);
+    throw_on_cuda_error(cudaStreamDestroy(stream), __FILE__, __LINE__);
+    
     context->destroy();
     engine->destroy();
     runtime->destroy();

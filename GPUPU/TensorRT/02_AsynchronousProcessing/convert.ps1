@@ -28,7 +28,6 @@ $cudaBinDir = Join-Path "${cudaPath}" bin
 $tensorRTBinDir = Join-Path "${trtPath}" bin
 $tensorRTLibDir = Join-Path "${trtPath}" lib
 
-
 # get os name
 if ($global:IsWindows)
 {

@@ -29,14 +29,6 @@ $ set TENSORRT_PATH=<path/to/tensorrt>
 $ pwsh build.ps1 <Release/Debug>
 ````
 
-#### Linux using systemd
-
-````shell
-$ set CUDA_PATH=%CUDA_PATH_V11_8%
-$ set TENSORRT_PATH=<path/to/tensorrt>
-$ pwsh build.ps1 <Release/Debug>
-````
-
 ## How to test?
 
 #### Windows 
@@ -58,5 +50,3 @@ Total per-runner host memory is 238304
 Allocated activation device memory of size 194560000
 Finish.
 ````
-
-#### Linux using systemd
