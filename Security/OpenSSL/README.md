@@ -52,3 +52,15 @@ $ set PERLPATH=D:\Works\Lib\Strawberry Perl\5.26.2.1\perl\bin
 $ set NASMPATH=D:\Works\Lib\NASM\2.13.03\x64
 $ pwsh build.ps1 <OpenSSL version> <Debug/Release>
 ````
+
+#### Linux
+
+````shell
+$ pwsh build.ps1 <OpenSSL version> <Debug/Release>
+````
+
+#### OSX
+
+````shell
+$ pwsh build.ps1 <OpenSSL version> <Debug/Release>
+````

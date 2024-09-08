@@ -150,13 +150,27 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     Push-Location $sourceDir
-    if ($Configuration -eq "Debug")
+    if ($architecture -eq "arm64")
     {
-        ./Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared -d
+        if ($Configuration -eq "Debug")
+        {
+            ./Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared -d
+        }
+        else
+        {
+            ./Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared
+        }
     }
     else
     {
-        ./Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared
+        if ($Configuration -eq "Debug")
+        {
+            ./Configure darwin64-x86_64-cc --prefix="${installDir}" no-asm no-shared -d
+        }
+        else
+        {
+            ./Configure darwin64-x86_64-cc --prefix="${installDir}" no-asm no-shared
+        }
     }
     make
     make install
@@ -164,4 +178,16 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
+    Push-Location $sourceDir
+    if ($Configuration -eq "Debug")
+    {
+        ./Configure --prefix="${installDir}" no-asm no-shared -d
+    }
+    else
+    {
+        ./Configure --prefix="${installDir}" no-asm no-shared
+    }
+    make
+    make install
+    Pop-Location
 }
