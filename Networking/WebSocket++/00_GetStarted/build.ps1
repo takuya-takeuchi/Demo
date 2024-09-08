@@ -86,6 +86,24 @@ New-Item -Type Directory $installBinaryDir -Force | Out-Null
 Push-Location $buildDir
 if ($global:IsWindows)
 {
+    $openSSLInstallDir = $env:OpenSSL_DIR
+    if (!$openSSLInstallDir)
+    {
+        Write-Host "[Error] Environmental Variable: OPENSSL_DIR is missing" -ForegroundColor Red
+        exit
+    }
+    
+    $openSSLInstallDir = Join-Path $openSSLInstallDir lib | `
+                         Join-Path -ChildPath cmake
+    if (!(Test-Path("${openSSLInstallDir}")))
+    {
+        Write-Host "[Error] '${openSSLInstallDir}' is missing" -ForegroundColor Red
+        exit
+    }
+
+    # override find_pacakge!!!
+    $env:OPENSSL_ROOT_DIR=$env:OpenSSL_DIR
+
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetInstallDir};${boostInstallDir}" `
           $sourceDir

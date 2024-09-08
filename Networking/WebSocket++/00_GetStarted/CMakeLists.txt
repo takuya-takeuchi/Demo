@@ -15,14 +15,21 @@ find_package(websocketpp REQUIRED)
 # https://www.boost.org/doc/libs/develop/doc/html/boost_asio/using.html
 # build option to use asio is `--with-system --with-thread --with-date_time --with-regex --with-serialization`
 find_package(Boost REQUIRED COMPONENTS system thread date_time regex serialization)
+find_package(OpenSSL REQUIRED)
 
 if (WEBSOCKETPP_FOUND)
-    message("WEBSOCKETPP_INCLUDE_DIR: {WEBSOCKETPP_INCLUDE_DIR}")
+    message("WEBSOCKETPP_INCLUDE_DIR: ${WEBSOCKETPP_INCLUDE_DIR}")
 endif()
 
 if (Boost_FOUND)
     message("     Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
     message("        Boost_LIBRARIES: ${Boost_LIBRARIES}")
+endif()
+
+if (OPENSSL_FOUND)
+    message("        OPENSSL_VERSION: ${OPENSSL_VERSION}")
+    message("    OPENSSL_INCLUDE_DIR: ${OPENSSL_INCLUDE_DIR}")
+    message("      OPENSSL_LIBRARIES: ${OPENSSL_LIBRARIES}")
 endif()
 
 
@@ -38,29 +45,36 @@ if (MSVC)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                ${WEBSOCKETPP_INCLUDE_DIR}
-                               ${Boost_INCLUDE_DIRS})
+                               ${Boost_INCLUDE_DIRS}
+                               ${OPENSSL_INCLUDE_DIR})
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          ${Boost_LIBRARIES})
+                          ${Boost_LIBRARIES}
+                          ${OPENSSL_LIBRARIES}
+                          crypt32)
 elseif (APPLE)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                ${WEBSOCKETPP_INCLUDE_DIR}
-                               ${Boost_INCLUDE_DIRS})
+                               ${Boost_INCLUDE_DIRS}
+                               ${OPENSSL_INCLUDE_DIR})
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          ${Boost_LIBRARIES})
+                          ${Boost_LIBRARIES}
+                          ${OPENSSL_LIBRARIES})
 else()
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                ${WEBSOCKETPP_INCLUDE_DIR}
-                               ${Boost_INCLUDE_DIRS})
+                               ${Boost_INCLUDE_DIRS}
+                               ${OPENSSL_INCLUDE_DIR})
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          ${Boost_LIBRARIES})
+                          ${Boost_LIBRARIES}
+                          ${OPENSSL_LIBRARIES})
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

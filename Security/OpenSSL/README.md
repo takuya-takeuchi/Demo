@@ -30,9 +30,9 @@
 
 ## Dependencies
 
-* [Boost](https://www.boost.org/)
-  * v1.86.0
-  * Boost License
+* [OpenSSL](https://www.openssl.org/)
+  * 3.0 or later: Apache License 2.0
+  * 1.x and earlier: OpenSSL License
 
 ## How to use?
 
