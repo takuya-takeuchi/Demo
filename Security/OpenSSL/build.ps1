@@ -59,38 +59,38 @@ if (!$exist)
     exit
 }
 
-# check build tool
-$perlDir = $env:PERLPATH
-if (!$perlDir)
-{
-    Write-Host "[Error] Environmental Variable: PERLPATH is missing" -ForegroundColor Red
-    exit
-}
-
-if (!(Test-Path("${perlDir}")))
-{
-    Write-Host "[Error] '${perlDir}' is missing" -ForegroundColor Red
-    exit
-}
-
-$nasmDir = $env:NASMPATH
-if (!$nasmDir)
-{
-    Write-Host "[Error] Environmental Variable: NASMPATH is missing" -ForegroundColor Red
-    exit
-}
-
-if (!(Test-Path("${nasmDir}")))
-{
-    Write-Host "[Error] '${nasmDir}' is missing" -ForegroundColor Red
-    exit
-}
-
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 if ($global:IsWindows)
 {
+    # check build tool
+    $perlDir = $env:PERLPATH
+    if (!$perlDir)
+    {
+        Write-Host "[Error] Environmental Variable: PERLPATH is missing" -ForegroundColor Red
+        exit
+    }
+
+    if (!(Test-Path("${perlDir}")))
+    {
+        Write-Host "[Error] '${perlDir}' is missing" -ForegroundColor Red
+        exit
+    }
+
+    $nasmDir = $env:NASMPATH
+    if (!$nasmDir)
+    {
+        Write-Host "[Error] Environmental Variable: NASMPATH is missing" -ForegroundColor Red
+        exit
+    }
+
+    if (!(Test-Path("${nasmDir}")))
+    {
+        Write-Host "[Error] '${nasmDir}' is missing" -ForegroundColor Red
+        exit
+    }
+
     # Check Visual Studio is installed or not
     $visualStudioShells = @(
         "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
@@ -134,7 +134,14 @@ if ($global:IsWindows)
     # no-shared: Disables shared objects (only a static library is created)
     # no-asm: Disables assembly language routines (and uses C routines)
     Push-Location $sourceDir
-    perl Configure VC-WIN64A --prefix="${installDir}" no-asm no-shared
+    if ($Configuration -eq "Debug")
+    {
+        perl Configure VC-WIN64A --prefix="${installDir}" no-asm no-shared -d
+    }
+    else
+    {
+        perl Configure VC-WIN64A --prefix="${installDir}" no-asm no-shared
+    }
     nmake
     nmake test
     nmake install
@@ -142,6 +149,18 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
+    Push-Location $sourceDir
+    if ($Configuration -eq "Debug")
+    {
+        ./Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared -d
+    }
+    else
+    {
+        ./Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared
+    }
+    make
+    make install
+    Pop-Location
 }
 elseif ($global:IsLinux)
 {
