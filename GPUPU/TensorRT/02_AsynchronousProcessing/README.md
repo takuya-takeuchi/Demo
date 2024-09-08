@@ -41,7 +41,7 @@ CUDA Runtime Version: 11.8
 Using cublas a tactic source
 TensorRT was linked against cuBLAS/cuBLAS LT 11.5.1 but loaded cuBLAS/cuBLAS LT 111.1.3
 Using cuDNN as a tactic source
-Deserialization required 2061235 microseconds.
+Deserialization required 2692998 microseconds.
 Using cublas a tactic source
 TensorRT was linked against cuBLAS/cuBLAS LT 11.5.1 but loaded cuBLAS/cuBLAS LT 111.1.3
 Using cuDNN as a tactic source
