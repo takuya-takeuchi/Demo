@@ -1,0 +1,51 @@
+# OpenSSL
+
+## Abstracts
+
+* Build OpenSSL
+* Sample and experimental codes
+
+## Requirements
+
+### Common
+
+* Powershell 7 or later
+* C++ Compiler
+
+### Windows
+
+* Visual Studio 2022
+* [Strawberry Perl](https://strawberryperl.com/)
+  * GNU General Public License or the Artistic License
+* [NASM](https://www.nasm.us/)
+  * BSD-2-Clause License
+
+### Ubuntu
+
+* g++
+
+### OSX
+
+* Xcode
+
+## Dependencies
+
+* [Boost](https://www.boost.org/)
+  * v1.86.0
+  * Boost License
+
+## How to use?
+
+At first, you have to download openssl source code.
+
+````shell
+$ pwsh download.ps1 <OpenSSL version>
+````
+
+Then, you can start building.
+
+````shell
+$ set PERLPATH=D:\Works\Lib\Strawberry Perl\5.26.2.1\perl\bin
+$ set NASMPATH=D:\Works\Lib\NASM\2.13.03\x64
+$ pwsh build.ps1 <OpenSSL version> <Debug/Release>
+````
