@@ -49,8 +49,8 @@ $targetInstallDir = Join-Path $rootDir install | `
                     Join-Path -ChildPath cmake
 $boostInstallDir = Join-Path $rootDir install | `
                    Join-Path -ChildPath $os | `
-                   Join-Path -ChildPath boost| `
-                   Join-Path -ChildPath $shared`
+                   Join-Path -ChildPath boost | `
+                   Join-Path -ChildPath $shared | `
                    Join-Path -ChildPath lib | `
                    Join-Path -ChildPath cmake
 
