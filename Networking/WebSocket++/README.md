@@ -34,11 +34,10 @@
   * 0.8.2
   * BSD-3-Clause License
 
-## How to use?
+## How to build?
 
 ````shell
 $ git submodule update --init --recursive .
-$ pwsh build.ps1  <Debug/Release>
+$ pwsh build-boost.ps1 <Debug/Release>
+$ pwsh build.ps1 <Debug/Release>
 ````
-
-Then you can try samples. For example [10_ResizeWithPadding](./10_ResizeWithPadding).

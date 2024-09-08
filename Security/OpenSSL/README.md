@@ -43,6 +43,9 @@ $ pwsh download.ps1 <OpenSSL version>
 ````
 
 Then, you can start building.
+It takes a long time.
+
+#### Windows
 
 ````shell
 $ set PERLPATH=D:\Works\Lib\Strawberry Perl\5.26.2.1\perl\bin
