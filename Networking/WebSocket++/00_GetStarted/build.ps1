@@ -42,17 +42,36 @@ $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
               Join-Path -ChildPath $shared
 $installBinaryDir = Join-Path $installDir bin
-$targetInstallDir = Join-Path $rootDir install | `
-                    Join-Path -ChildPath $os | `
-                    Join-Path -ChildPath $target | `
-                    Join-Path -ChildPath $shared | `
-                    Join-Path -ChildPath cmake
-$boostInstallDir = Join-Path $rootDir install | `
-                   Join-Path -ChildPath $os | `
-                   Join-Path -ChildPath boost | `
-                   Join-Path -ChildPath $shared | `
-                   Join-Path -ChildPath lib | `
-                   Join-Path -ChildPath cmake
+
+if ($global:IsWindows)
+{
+    $targetInstallDir = Join-Path $rootDir install | `
+                        Join-Path -ChildPath $os | `
+                        Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath $shared | `
+                        Join-Path -ChildPath cmake
+    $boostInstallDir = Join-Path $rootDir install | `
+                       Join-Path -ChildPath $os | `
+                       Join-Path -ChildPath boost | `
+                       Join-Path -ChildPath $shared | `
+                       Join-Path -ChildPath lib | `
+                       Join-Path -ChildPath cmake
+}
+else
+{
+    $targetInstallDir = Join-Path $rootDir install | `
+                        Join-Path -ChildPath $os | `
+                        Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath $shared | `
+                        Join-Path -ChildPath lib | `
+                        Join-Path -ChildPath cmake
+    $boostInstallDir = Join-Path $rootDir install | `
+                       Join-Path -ChildPath $os | `
+                       Join-Path -ChildPath boost | `
+                       Join-Path -ChildPath $shared | `
+                       Join-Path -ChildPath lib | `
+                       Join-Path -ChildPath cmake
+}
 
 if (!(Test-Path($targetInstallDir)))
 {
