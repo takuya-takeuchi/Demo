@@ -192,3 +192,7 @@
 	path = Cryptography/libsodium/WebAssembly/libsodium
 	url = https://github.com/jedisct1/libsodium
 	ignore = dirty
+[submodule "Networking/WebSocket++/websocketpp"]
+	path = Networking/WebSocket++/websocketpp
+	url = https://github.com/zaphoyd/websocketpp
+	ignore = dirty

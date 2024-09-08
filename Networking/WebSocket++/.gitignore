@@ -1,0 +1,6 @@
+*.zip
+*.tar.gz
+build/
+install/
+
+boost/
