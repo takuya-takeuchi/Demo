@@ -45,14 +45,14 @@ Once time you built `WebSocket++` and `Boost`, you need not to do again.
 
 ### OpenSSL
 
-For Windows, we can build it by myself.
+we can build it by myself.
 Go to [OpenSSL](../../../Security/OpenSSL).
 
-After built it, you must set `OpenSSL_DIR` environmental variable.
+After built it, you must set `OPENSSL_ROOT_DIR` environmental variable to ignore system installed `OpenSSL`.
 For example,
 
 ````shell
-$ set OpenSSL_DIR=D:\Works\OpenSource\Demo\Security\OpenSSL\install\win\openssl\3.3.2\static
+$ set OPENSSL_ROOT_DIR=D:\Works\OpenSource\Demo\Security\OpenSSL\install\win\openssl\3.3.2\static
 ````
 
 ## How to build?
@@ -75,14 +75,21 @@ Request served by 7811941c69e658
 
 #### Linux
 
-````bat
-$ ./install/osx/static/bin/Demo
-[Info] output tensor: {1, 10}
+````shell
+$ uname -v
+#46-Ubuntu SMP Tue Jul 12 10:30:17 UTC 2022
+$ ./install/linux/static/bin/Demo
+[2024-09-08 22:30:13] [application] Connecting to wss://echo.websocket.org
+[2024-09-08 22:30:13] [connect] Successful connection
+[2024-09-08 22:30:13] [connect] WebSocket Connection [2a09:8280:1::37:b5c3]:443 v-2 "WebSocket++/0.8.2" / 101
+Request served by 1781505b56ee58
 ````
 
 #### OSX
 
 ````shell
+$  uname -v
+Darwin Kernel Version 23.2.0: Wed Nov 15 21:59:33 PST 2023; root:xnu-10002.61.3~2/RELEASE_ARM64_T8112
 $ ./install/osx/static/bin/Demo
 [2024-09-08 21:52:08] [application] Connecting to wss://echo.websocket.org
 [2024-09-08 21:52:09] [connect] Successful connection
