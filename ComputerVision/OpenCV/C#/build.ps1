@@ -28,6 +28,7 @@ elseif ($global:IsLinux)
 }
 
 $target = "opencv4"
+$version = "4.9.0"
 $shared = "static"
 $sharedFlag = "OFF"
 $tagPostfix = "with-gstreamer"
@@ -104,6 +105,14 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
-    docker build --force-rm -f docker/ubuntu20-dotnet6-opencv/Dockerfile -t "ubuntu20-dotnet6-opencv-${tagPostfix}"
+    $path = Join-Path $current docker | `
+            Join-Path -ChildPath ubuntu20-dotnet6-opencv
+    docker build -t ubuntu20-dotnet6-opencv-${tagPostfix} ${path} --build-arg OPENCV_VERSION="${version}"
+    docker run -d --name ubuntu20-dotnet6-opencv-${tagPostfix}-tmp -t ubuntu20-dotnet6-opencv-${tagPostfix}
+    docker cp ubuntu20-dotnet6-opencv-${tagPostfix}-tmp:/usr/lib/libOpenCvSharpExtern.so ${installDir}
+    docker stop ubuntu20-dotnet6-opencv-${tagPostfix}-tmp
+    docker rm ubuntu20-dotnet6-opencv-${tagPostfix}-tmp
+
+    # dotnet build -c Release
 }
 Pop-Location
