@@ -34,6 +34,7 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
       x264 \
       libtesseract-dev \
       libgdiplus \
+      gstreamer1.0-rtsp \
       gstreamer1.0-tools \
       gstreamer1.0-libav \
       gstreamer1.0-plugins-base \

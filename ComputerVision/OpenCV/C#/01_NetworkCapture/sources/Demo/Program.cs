@@ -30,9 +30,10 @@ namespace Demo
             }
 
             var url = args[0];
-            Logger.Info($"[Info] Url: {url}");
+            Logger.Info($"Url: {url}");
 
             using var videoCapture = new VideoCapture();
+            // var isOpened = videoCapture.Open(url, VideoCaptureAPIs.FFMPEG);
             var isOpened = videoCapture.Open(url, VideoCaptureAPIs.GSTREAMER);
             if (!isOpened)
             {
@@ -48,6 +49,8 @@ namespace Demo
                     Logger.Error($"Failed to read frame");
                     break;
                 }
+
+                Logger.Info($"Available frame: {frame.Cols}x{frame.Rows}");
             }
 
             Logger.Info($"Finish");
