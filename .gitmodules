@@ -196,6 +196,3 @@
 	path = Networking/WebSocket++/websocketpp
 	url = https://github.com/zaphoyd/websocketpp
 	ignore = dirty
-[submodule "ComputerVision/OpenCV/C#/opencvsharp"]
-	path = "ComputerVision/OpenCV/C#/opencvsharp"
-	url = https://github.com/shimat/opencvsharp
