@@ -23,18 +23,25 @@ namespace Demo
 
         private static void Main(string[] args)
         {
-            if (args.Length != 1)
+            if (args.Length != 2)
             {
-                Logger.Error($"{nameof(Demo)} <url>");
+                Logger.Error($"{nameof(Demo)} <url> <backend: GSTREAMER, FFMPEG...>");
                 return;
             }
 
             var url = args[0];
-            Logger.Info($"Url: {url}");
+            var backend = args[1];
+            Logger.Info($"    Url: {url}");
+            Logger.Info($"Backend: {backend}");
+
+            if (!Enum.TryParse<VideoCaptureAPIs>(backend, out var api))
+            {
+                Logger.Error($"'{backend}' is invalid value");
+                return;
+            }
 
             using var videoCapture = new VideoCapture();
-            // var isOpened = videoCapture.Open(url, VideoCaptureAPIs.FFMPEG);
-            var isOpened = videoCapture.Open(url, VideoCaptureAPIs.GSTREAMER);
+            var isOpened = videoCapture.Open(url, api);
             if (!isOpened)
             {
                 Logger.Error($"Failed to open {url}");
