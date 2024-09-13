@@ -18,9 +18,8 @@
 
 ### Ubuntu
 
-* g++
-* docker
-  * for building WASM
+* Ubunbut 20.04
+  * tesseract-ocr libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev libopenexr-dev
 
 ### OSX
 
@@ -30,9 +29,15 @@
 
 ## Dependencies
 
-* [opencv](https://github.com/opencv/opencv)
-  * 4.7.0
+* [OpenCvSharp4](https://github.com/shimat/opencvsharp)
+  * 4.9.0.20240103
   * Apache-2.0 License
+* [OpenCvSharp4.runtime.win](https://github.com/shimat/opencvsharp)
+  * 4.9.0.20240103
+  * Apache-2.0 License
+* [OpenCvSharp4_.runtime.ubuntu.20.04-x64](https://github.com/shimat/opencvsharp)
+  * 4.9.0.20240103
+  * Apache-2.0 License  
 
 ## How to use?
 
