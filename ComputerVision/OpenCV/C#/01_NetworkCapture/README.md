@@ -4,7 +4,9 @@
 
 * Use OpenCvSharp to capture network camera.
 * Check issue [VideoCapture(rtsp) work incorrectly in linux #1053](https://github.com/shimat/opencvsharp/issues/1053) is wrong.
-  * Default OpenCVSharp can connect to network camera by using FFMPEG backend.
+  * Default OpenCVSharp can connect to network camera by using FFMPEG backend for linux.
+    * You must install some package
+    * You need not to rebuild OpenCvSharp and install gstreamer!!
 
 ## Requirements
 
@@ -21,12 +23,6 @@
 * Ubunbut 20.04
   * tesseract-ocr libdc1394-22-dev libavcodec-dev libavformat-dev libswscale-dev libopenexr-dev
 
-### OSX
-
-* Xcode
-* docker
-  * for building WASM
-
 ## Dependencies
 
 * [OpenCvSharp4](https://github.com/shimat/opencvsharp)
@@ -41,15 +37,8 @@
 
 ## How to use?
 
-````shell
-$ git submodule update --init --recursive .
-$ pwsh build.ps1  <Debug/Release>
-````
-
-Then you can try samples. For example [10_ResizeWithPadding](./10_ResizeWithPadding).
-
-
 ````bash
+$ cd sources/Demo
 $ dotnet run -c Release -- http://root:password@192.168.11.40/axis-cgi/mjpg/video.cgi FFMPEG
 2024-09-13 23:37:05.1107 [INFO ]     Url: http://root:password@192.168.11.40/axis-cgi/mjpg/video.cgi 
 2024-09-13 23:37:05.1527 [INFO ] Backend: FFMPEG 
@@ -59,7 +48,8 @@ $ dotnet run -c Release -- http://root:password@192.168.11.40/axis-cgi/mjpg/vide
 ````
 
 ````bash
-dotnet Demo.dll rtsp://root:password@192.168.11.40/axis-media/media.amp?videocodec=h264 FFMPEG
+$ cd sources/Demo
+$ dotnet run -c Release -- rtsp://root:password@192.168.11.40/axis-media/media.amp?videocodec=h264 FFMPEG
 2024-09-13 23:29:39.5578 [INFO ]     Url: rtsp://root:password@192.168.11.40/axis-media/media.amp?videocodec=h264 
 2024-09-13 23:29:39.6110 [INFO ] Backend: FFMPEG 
 2024-09-13 23:29:40.8943 [INFO ] Available frame: 1920x1080 
