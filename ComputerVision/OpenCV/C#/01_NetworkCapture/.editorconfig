@@ -1,0 +1,269 @@
+# https://learn.microsoft.com/ja-jp/dotnet/fundamentals/code-analysis/style-rules/
+
+[*]
+insert_final_newline = false
+trim_trailing_whitespace = true
+
+[*.cs]
+charset = utf-8
+indent_style = space
+tab_width = 4
+indent_size = 4
+
+[*.cs]
+
+# Language keywords instead of framework type names for type references
+## Use language keywords instead of framework type names for type references (IDE0049)
+dotnet_style_predefined_type_for_locals_parameters_members = true:error
+dotnet_style_predefined_type_for_member_access = true:error
+dotnet_diagnostic.IDE0049.severity = error
+
+# this.' and 'Me.' qualifiers
+## enforce this (Me for VisualBasic) qualifiers are present (IDE0009)
+dotnet_style_qualification_for_field = true:error
+dotnet_style_qualification_for_property = true:error
+dotnet_style_qualification_for_method = true:error
+dotnet_style_qualification_for_event = true:error
+dotnet_diagnostic.IDE0009.severity = error
+
+# Modifier preferences
+## Order modifiers (IDE0036)
+csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async:error
+dotnet_diagnostic.IDE0036.severity = error
+## Add accessibility modifiers (IDE0040)
+dotnet_style_require_accessibility_modifiers = always:error
+dotnet_diagnostic.IDE0040.severity = error
+## Add readonly modifier (IDE0044)
+dotnet_style_readonly_field = true:error
+dotnet_diagnostic.IDE0044.severity = error
+
+# Parentheses preferences
+## Add parentheses for clarity (IDE0048)
+dotnet_style_parentheses_in_arithmetic_binary_operators = always_for_clarity:error
+dotnet_style_parentheses_in_relational_binary_operators = always_for_clarity:error
+dotnet_style_parentheses_in_other_binary_operators = always_for_clarity:error
+dotnet_style_parentheses_in_other_operators = always_for_clarity:error
+dotnet_diagnostic.IDE0048.severity = error
+
+# Expression-level preferences
+## Add missing cases to switch statement (IDE0010)
+dotnet_diagnostic.IDE0010.severity = error
+## Convert typeof to nameof (IDE0082)
+dotnet_diagnostic.IDE0082.severity = error
+## Use conditional delegate call (IDE1005)
+csharp_style_conditional_delegate_call = false:error
+dotnet_diagnostic.IDE1005.severity = error
+
+# C# style rules
+## 'var' preferences (IDE0007)
+csharp_style_var_elsewhere = true:error
+csharp_style_var_for_built_in_types = true:error
+csharp_style_var_when_type_is_apparent = true:error
+dotnet_diagnostic.IDE0007.severity = error
+
+# Expression-bodied members
+## Use expression body for constructors (IDE0021)
+csharp_style_expression_bodied_constructors = false:error
+dotnet_diagnostic.IDE0021.severity = error
+## Use expression body for methods (IDE0022)
+csharp_style_expression_bodied_methods = false:error
+dotnet_diagnostic.IDE0022.severity = error
+## Use expression body for operators (IDE0023 and IDE0024)
+csharp_style_expression_bodied_operators = false:error
+dotnet_diagnostic.IDE0023.severity = error
+dotnet_diagnostic.IDE0024.severity = error
+## Use expression body for properties (IDE0025)
+csharp_style_expression_bodied_properties = false:error
+dotnet_diagnostic.IDE0025.severity = error
+## Use expression body for indexers (IDE0026)
+csharp_style_expression_bodied_indexers = false:error
+dotnet_diagnostic.IDE0026.severity = error
+## Use expression body for accessors (IDE0027)
+csharp_style_expression_bodied_accessors = false:error
+dotnet_diagnostic.IDE0027.severity = error
+## Use expression body for lambdas (IDE0053)
+csharp_style_expression_bodied_lambdas = false:error
+dotnet_diagnostic.IDE0053.severity = error
+## Use expression body for local functions (IDE0061)
+csharp_style_expression_bodied_local_functions = false:error
+dotnet_diagnostic.IDE0061.severity = error
+
+# Code block preferences
+## Add braces (IDE0011)
+csharp_prefer_braces = when_multiline:error
+dotnet_diagnostic.IDE0011.severity = error
+## Use simple 'using' statement (IDE0063)
+csharp_prefer_simple_using_statement = true:error
+dotnet_diagnostic.IDE0063.severity = error
+
+## using' directive preferences (IDE0065)
+csharp_using_directive_placement = outside_namespace:error
+dotnet_diagnostic.IDE0065.severity = error
+
+# Unnecessary code rules
+## Remove unnecessary cast (IDE0004)
+dotnet_diagnostic.IDE0004.severity = error
+## Remove unnecessary using directives (IDE0005)
+dotnet_diagnostic.IDE0005.severity = error
+## Remove unread private member (IDE0052)
+dotnet_diagnostic.IDE0052.severity = error
+## Remove unnecessary expression value (IDE0058)
+dotnet_diagnostic.IDE0058.severity = error
+## Remove unnecessary value assignment (IDE0059)
+dotnet_diagnostic.IDE0059.severity = error
+## Remove unused parameter (IDE0060)
+dotnet_code_quality_unused_parameters = all:error
+dotnet_diagnostic.IDE0060.severity = error
+## Remove unnecessary suppression (IDE0079)
+dotnet_diagnostic.IDE0079.severity = error
+## Remove unnecessary equality operator (IDE0100)
+dotnet_diagnostic.IDE0100.severity = error
+## Remove unnecessary discard (IDE0110)
+dotnet_diagnostic.IDE0110.severity = error
+
+## .NET formatting options
+dotnet_sort_system_directives_first = true
+dotnet_separate_import_directive_groups = true
+## C# formatting options
+### New-line options
+csharp_new_line_before_open_brace = accessors, anonymous_methods, anonymous_types, control_blocks, events, indexers, lambdas, local_functions, methods, object_collection_array_initializers, properties, types
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+csharp_new_line_between_query_expression_clauses = true
+### Indentation options
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+csharp_indent_labels = flush_left
+csharp_indent_block_contents = true
+csharp_indent_braces = false
+csharp_indent_case_contents_when_block = false
+### Spacing options
+csharp_space_after_cast = false
+csharp_space_after_keywords_in_control_flow_statements = true
+#csharp_space_between_parentheses = control_flow_statements, expressions, type_casts
+csharp_space_before_colon_in_inheritance_clause = true
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_around_binary_operators = before_and_after
+csharp_space_between_method_declaration_parameter_list_parentheses = false
+csharp_space_between_method_declaration_empty_parameter_list_parentheses = false
+csharp_space_between_method_declaration_name_and_open_parenthesis = false
+csharp_space_between_method_call_parameter_list_parentheses = false
+csharp_space_between_method_call_empty_parameter_list_parentheses = false
+csharp_space_between_method_call_name_and_opening_parenthesis = false
+csharp_space_after_comma = true
+csharp_space_before_comma = false
+csharp_space_after_dot = false
+csharp_space_before_dot = false
+csharp_space_after_semicolon_in_for_statement = true
+csharp_space_before_semicolon_in_for_statement = false
+csharp_space_around_declaration_statements = false
+csharp_space_before_open_square_brackets = false
+csharp_space_between_empty_square_brackets = false
+csharp_space_between_square_brackets = false
+### Wrap options
+csharp_preserve_single_line_statements = false
+csharp_preserve_single_line_blocks = false
+dotnet_diagnostic.IDE0055.severity = error
+
+# Code-style naming rules
+## Syntax
+### Symbol group properties
+#* applicable_kinds: namespace, class, struct, interface, enum, property, method, field, event, delegate, parameter, type_parameter, local, local_function
+#* applicable_accessibilities: public, internal or friend, private, protected, protected_internal or protected_friend, private_protected, local (for symbols defined within a method)
+#* required_modifiers: abstract or must_inherit, async, const, readonly, static or shared
+### Naming style properties
+#* capitalization: pascal_case, camel_case, first_word_upper, all_upper, all_lower
+#* required_prefix
+#* required_suffix
+#* word_separator
+
+### Defining the 'camel_case_style' naming style
+dotnet_naming_style.camel_case_style.capitalization = camel_case
+### Defining the 'first_word_upper_case_style' naming style
+dotnet_naming_style.first_word_upper_case_style.capitalization = first_word_upper
+### Defining the 'underscored' naming style
+dotnet_naming_style.underscored.capitalization = pascal_case
+dotnet_naming_style.underscored.required_prefix = _
+
+## Default member capitalization
+### Defining the 'member_symbols' symbol group
+dotnet_naming_symbols.member_symbols.applicable_kinds = property,method,field,event,delegate,local_function
+dotnet_naming_symbols.member_symbols.applicable_accessibilities = *
+### Defining the 'members_must_be_capitalized' naming rule, by setting the
+#### symbol group to the 'public symbols' symbol group,
+dotnet_naming_rule.members_must_be_capitalized.symbols = member_symbols
+#### setting the naming style to the 'first_word_upper_case_style' naming style,
+dotnet_naming_rule.members_must_be_capitalized.style = first_word_upper_case_style
+#### and setting the severity.
+dotnet_naming_rule.members_must_be_capitalized.severity = error
+
+##  Private instance fields with underscore
+### Define the 'private_fields' symbol group:
+dotnet_naming_symbols.private_fields.applicable_kinds = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private
+### Define the 'private_fields_underscored' naming rule
+dotnet_naming_rule.private_fields_underscored.symbols = private_fields
+dotnet_naming_rule.private_fields_underscored.style = underscored
+dotnet_naming_rule.private_fields_underscored.severity = error
+##  Private static fields
+### Define the 'private_static_fields' symbol group
+dotnet_naming_symbols.private_static_fields.applicable_kinds = field
+dotnet_naming_symbols.private_static_fields.applicable_accessibilities = private
+dotnet_naming_symbols.private_static_fields.required_modifiers = static
+### Define the 'private_static_fields_none' naming rule
+dotnet_naming_rule.private_static_fields_none.symbols = private_static_fields
+dotnet_naming_rule.private_static_fields_none.style = first_word_upper_case_style
+dotnet_naming_rule.private_static_fields_none.severity = error
+
+## Parameter camel style
+### Defining the 'parameter' symbol group
+dotnet_naming_symbols.parameter.applicable_kinds = parameter
+dotnet_naming_symbols.parameter.applicable_accessibilities = *
+### Defining the 'parameter_must_be_camel_case' naming rule, by setting the
+#### symbol group to the 'public symbols' symbol group,
+dotnet_naming_rule.parameter_must_be_camel_case.symbols = parameter
+#### setting the naming style to the 'first_word_upper_case_style' naming style,
+dotnet_naming_rule.parameter_must_be_camel_case.style = camel_case_style
+#### and setting the severity.
+dotnet_naming_rule.parameter_must_be_camel_case.severity = error
+
+## Local variables camel style
+### Defining the 'local_variables' symbol group
+dotnet_naming_symbols.local_variables.applicable_kinds = local
+dotnet_naming_symbols.local_variables.applicable_accessibilities = *
+### Defining the 'local_variables_must_be_camel_case' naming rule, by setting the
+#### symbol group to the 'public symbols' symbol group,
+dotnet_naming_rule.local_variables_must_be_camel_case.symbols = local_variables
+#### setting the naming style to the 'first_word_upper_case_style' naming style,
+dotnet_naming_rule.local_variables_must_be_camel_case.style = camel_case_style
+#### and setting the severity.
+dotnet_naming_rule.local_variables_must_be_camel_case.severity = error
+
+## Local const variables camel style
+### Defining the 'local_const_variables' symbol group
+dotnet_naming_symbols.local_const_variables.applicable_kinds = local
+dotnet_naming_symbols.local_const_variables.required_modifiers = const
+### Defining the 'local_const_variables_must_be_camel_case' naming rule, by setting the
+#### symbol group to the 'public symbols' symbol group,
+dotnet_naming_rule.local_const_variables_must_be_camel_case.symbols = local_const_variables
+#### setting the naming style to the 'first_word_upper_case_style' naming style,
+dotnet_naming_rule.local_const_variables_must_be_camel_case.style = first_word_upper_case_style
+#### and setting the severity.
+dotnet_naming_rule.local_const_variables_must_be_camel_case.severity = error
+
+## Namespace, Class, Struct, Interface, Enum capitalization
+### Defining the 'namespace_and_types_symbols' symbol group
+dotnet_naming_symbols.namespace_and_types_symbols.applicable_kinds = namespace,class,struct,interface,enum
+dotnet_naming_symbols.namespace_and_types_symbols.applicable_accessibilities = *
+### Defining the 'namespace_and_types_symbols_must_be_capitalized' naming rule, by setting the
+#### symbol group to the 'public namespace_and_types_symbols' symbol group,
+dotnet_naming_rule.namespace_and_types_symbols_must_be_capitalized.symbols  = namespace_and_types_symbols
+#### setting the naming style to the 'first_word_upper_case_style' naming style,
+dotnet_naming_rule.namespace_and_types_symbols_must_be_capitalized.style = first_word_upper_case_style
+#### and setting the severity.
+dotnet_naming_rule.namespace_and_types_symbols_must_be_capitalized.severity = error
+
+dotnet_diagnostic.IDE1006.severity = error
