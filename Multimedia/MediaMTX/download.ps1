@@ -7,7 +7,7 @@ $tag = "v1.9.0"
 $urls = @{
     "mediamtx_${tag}_windows_amd64.zip"="1F1AFDD922294E119B489D4AE7B5AE2483C055A4";
     "mediamtx_${tag}_linux_amd64.tar.gz"="5B60F775D1B440ACC6A003EDCB63D5816160917C";
-    "mediamtx_${tag}_linux_arm64v8.tar.gz"="EE2B258B46F4106D175BC86A84DD0C46756C8DAA";
+    "mediamtx_${tag}_darwin_arm64.tar.gz"="A1A8F82613770004695AD858246E8083867D8E25";
 }
 
 # get os name
@@ -20,7 +20,7 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     $os = "osx"
-    $baseName = "mediamtx_${tag}_linux_arm64v8"
+    $baseName = "mediamtx_${tag}_darwin_arm64"
     $key = "${baseName}.tar.gz"
 }
 elseif ($global:IsLinux)
