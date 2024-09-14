@@ -23,8 +23,8 @@ $urls = @{
     "ffmpeg-n${version}-${commitHash}-win64-lgpl-${majorVersion}.zip"="95BCDD2306544C44ECF4ADD30C3E50ACDEAF88A2";
     "ffmpeg-n${version}-${commitHash}-linux64-gpl-${majorVersion}.tar.xz"="B4E3742F1308A21F0CE85A6379996F380763096F";
     "ffmpeg-n${version}-${commitHash}-linux64-lgpl-${majorVersion}.tar.xz"="24943A28C86FF649AFE7567EDF384F725FDF1185";
-    "ffmpeg-n${version}-${commitHash}-linuxarm64-gpl-${majorVersion}.tar.xz"="4324BA30D695272A4B2996E74016B5089028DC2A";
-    "ffmpeg-n${version}-${commitHash}-linuxarm64-lgpl-${majorVersion}.tar.xz"="C751DD2AF63279209F1672CEB8CDFA09798C92E7";
+    # "ffmpeg-n${version}-${commitHash}-linuxarm64-gpl-${majorVersion}.tar.xz"="4324BA30D695272A4B2996E74016B5089028DC2A";
+    # "ffmpeg-n${version}-${commitHash}-linuxarm64-lgpl-${majorVersion}.tar.xz"="C751DD2AF63279209F1672CEB8CDFA09798C92E7";
 }
 
 $gplType = $Gpl ? "gpl" : "lgpl"
@@ -39,9 +39,11 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    $os = "osx"
-    $baseName = "ffmpeg-n${version}-${commitHash}-linuxarm64-${gplType}-${majorVersion}"
-    $key = "${baseName}.tar.xz"
+    # $os = "osx"
+    # $baseName = "ffmpeg-n${version}-${commitHash}-linuxarm64-${gplType}-${majorVersion}"
+    # $key = "${baseName}.tar.xz"
+    Write-Host "This platform is not supported" -ForegroundColor Red
+    exit
 }
 elseif ($global:IsLinux)
 {
