@@ -96,7 +96,7 @@ if ($path -eq "")
     exit
 }
 
-tar -xzvf "${path}"
+tar -xvf "${path}"
 $outputDir = Join-Path $current "${baseName}"
 
 if (Test-Path(${installDir}))
