@@ -1,0 +1,15 @@
+logLevel: info
+rtspAddress: :12345
+paths:
+  mystream:
+    runOnInit: >
+      "${FFMPEG}"
+      -loglevel quiet
+      -nostats
+      -re
+      -stream_loop -1
+      -i sample-30s.mp4
+      -c copy
+      -f rtsp
+      rtsp://localhost:12345/mystream
+    runOnInitRestart: yes
