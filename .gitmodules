@@ -196,3 +196,6 @@
 	path = Networking/WebSocket++/websocketpp
 	url = https://github.com/zaphoyd/websocketpp
 	ignore = dirty
+[submodule "Cryptography/sphincsplus"]
+	path = Cryptography/PostQuantumCryptography/SPHINCS+/sphincsplus
+	url = https://github.com/sphincs/sphincsplus
