@@ -58,9 +58,17 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
+    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_BUILD_TYPE=$Configuration `
+          -D BUILD_SHARED_LIBS=${sharedFlag} `
+          $sourceDir
 }
 elseif ($global:IsLinux)
 {
+    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_BUILD_TYPE=$Configuration `
+          -D BUILD_SHARED_LIBS=${sharedFlag} `
+          $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
 Pop-Location
