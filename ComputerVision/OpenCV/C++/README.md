@@ -1,4 +1,4 @@
-# OpenCV
+# OpenCV (C++)
 
 ## Abstracts
 
