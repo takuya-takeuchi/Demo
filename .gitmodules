@@ -94,7 +94,7 @@
 	url = https://github.com/morganstanley/modern-cpp-kafka
 	ignore = dirty
 [submodule "ComputerVision/OpenCV/opencv4"]
-	path = ComputerVision/OpenCV/opencv4
+	path = ComputerVision/OpenCV/C++/opencv4
 	url = https://github.com/opencv/opencv
 	ignore = dirty
 [submodule "WebApplication/Wasm/emsdk"]
@@ -125,7 +125,7 @@
 	url = https://github.com/opencv/opencv
 	ignore = dirty
 [submodule "ComputerVision/OpenCV/opencv_contrib"]
-	path = ComputerVision/OpenCV/opencv_contrib
+	path = ComputerVision/OpenCV/C++/opencv_contrib
 	url = https://github.com/opencv/opencv_contrib.git
 	ignore = dirty
 [submodule "MachineLearning/ONNX/ONNXRuntime/C/onnxruntime"]
@@ -153,11 +153,11 @@
 	url = https://github.com/glfw/glfw
 	ignore = dirty
 [submodule "ComputerVision/OpenCV/freetype"]
-	path = ComputerVision/OpenCV/freetype
+	path = ComputerVision/OpenCV/C++/freetype
 	url = https://github.com/freetype/freetype
 	ignore = dirty
 [submodule "ComputerVision/OpenCV/harfbuzz"]
-	path = ComputerVision/OpenCV/harfbuzz
+	path = ComputerVision/OpenCV/C++/harfbuzz
 	url = https://github.com/harfbuzz/harfbuzz
 	ignore = dirty
 [submodule "Serialization/json/rapidjson/rapidjson"]
