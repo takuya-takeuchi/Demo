@@ -199,3 +199,4 @@
 [submodule "Cryptography/sphincsplus"]
 	path = Cryptography/PostQuantumCryptography/SPHINCS+/sphincsplus
 	url = https://github.com/sphincs/sphincsplus
+	ignore = dirty
