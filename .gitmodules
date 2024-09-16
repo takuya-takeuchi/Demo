@@ -200,3 +200,11 @@
 	path = Cryptography/PostQuantumCryptography/SPHINCS+/sphincsplus
 	url = https://github.com/sphincs/sphincsplus
 	ignore = dirty
+[submodule "Cryptography/PostQuantumCryptography/FALCON/falcon"]
+	path = Cryptography/PostQuantumCryptography/FALCON/falcon
+	url = https://github.com/miketout/falcon
+	ignore = dirty
+[submodule "Cryptography/PostQuantumCryptography/CRYSTALS-Dilithium/dilithium"]
+	path = Cryptography/PostQuantumCryptography/CRYSTALS-Dilithium/dilithium
+	url = https://github.com/pq-crystals/dilithium
+	ignore = dirty

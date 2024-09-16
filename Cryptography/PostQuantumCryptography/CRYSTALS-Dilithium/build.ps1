@@ -27,7 +27,7 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "sphincsplus"
+$target = "dilithium"
 $shared = "static"
 $sharedFlag = "OFF"
 
@@ -52,17 +52,14 @@ $cmakeFiles = Join-Path $current cmake | `
               Join-Path -ChildPath "*" 
 Copy-Item  $cmakeFiles $sourceDir -Force -Recurse | Out-Null
 
-$sourceDir = Join-Path $current $target | Join-Path -ChildPath sha2-avx2
+$sourceDir = Join-Path $current $target | Join-Path -ChildPath avx2
 
 Push-Location $buildDir
 if ($global:IsWindows)
 {
-    $toolchain = Join-Path $sourceDir toolchains | `
-                 Join-Path -ChildPath windows-x86_64.cmake
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
-          -D CMAKE_TOOLCHAIN_FILE=${toolchain} `
           $sourceDir
 }
 elseif ($global:IsMacOS)
