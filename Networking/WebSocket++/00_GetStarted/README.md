@@ -66,7 +66,7 @@ $ pwsh build.ps1 <Debug/Release>
 #### Windows
 
 ````bat
-$ .\install\win\static\bin\Demo.ex
+$ .\install\win\static\bin\Demo.exe
 [2024-09-08 21:54:35] [application] Connecting to wss://echo.websocket.org
 [2024-09-08 21:54:35] [connect] Successful connection
 [2024-09-08 21:54:36] [connect] WebSocket Connection 66.241.124.119:443 v-2 "WebSocket++/0.8.2" / 101
