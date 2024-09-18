@@ -2,7 +2,7 @@
 
 ## Abstracts
 
-* Run clinet and server apps
+* Run clinet and server apps (show message when connecting/connected)
 
 ## Requirements
 
