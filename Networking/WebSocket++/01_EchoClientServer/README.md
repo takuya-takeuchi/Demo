@@ -1,4 +1,4 @@
-# Get started
+# Simple client and server
 
 ## Abstracts
 
