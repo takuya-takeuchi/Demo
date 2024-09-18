@@ -1,8 +1,10 @@
-# Echo client and server
+# Simple client and server
 
 ## Abstracts
 
-* Run clinet and server apps (show message when connecting/connected)
+* Run clinet and server apps
+  * Client run loop thread and send message
+  * Server receive message from client
 
 ## Requirements
 
