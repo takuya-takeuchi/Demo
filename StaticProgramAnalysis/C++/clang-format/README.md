@@ -12,20 +12,22 @@
 
 ## How to install?
 
-### Windows
-
 ````bash
 $ winget install llvm --version 18.1.8
 ````
 
 After this, add `C:\Program Files\LLVM\bin` to environmental variable `Path`.
 
-### Others
+### Ubuntu
 
 ````sh
-$ python -m venv .venv
-$ source .venv/bin/activate
-$ python -m pip install cpplint
+$ sudo apt install clang-format
+````
+
+### OSX
+
+````sh
+$ brew install clang-format
 ````
 
 ## How to use?
