@@ -1,0 +1,13 @@
+dartdoc:
+  categories:
+    "Basement":
+      markdown: doc/Basement.md
+      name: Basement
+    "UI":
+      name: UI
+      markdown: doc/UI.md
+  categoryOrder: ["Basement", "UI"]
+  # https://pub.dev/packages/dartdoc#advanced-features
+  useCategories: True
+  excludeFooterVersion: False
+  showUndocumentedCategories: True
