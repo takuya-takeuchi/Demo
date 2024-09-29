@@ -26,9 +26,9 @@ endif(MSVC)
 add_executable(${PROJ_NAME} main.cpp)
 
 target_include_directories(${PROJ_NAME} PRIVATE
-                           "${GLFW_SOURCE_DIR}/src"
-                           "${GLFW_BINARY_DIR}/src")
+                           "${WINDOWSKIT_INCLUDE_DIR}\\shared")
 target_link_libraries(${PROJECT_NAME} PRIVATE
-                      "C:/Program Files (x86)/Microsoft DirectX SDK/Lib/x86/d3dx11.lib")
+                      "${WINDOWSKIT_LIBRARY_DIR}\\dxgi.lib"
+                      "${WINDOWSKIT_LIBRARY_DIR}\\D3D12.lib")
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

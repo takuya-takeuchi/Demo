@@ -34,22 +34,43 @@ New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 # find Windows SDK
-$programFiles = ${env:ProgramFiles(x86)}
-Get-ChildItem Env:
-Write-Host "programFiles: ${programFiles}" -ForegroundColor Green
-$windowsKitRoot = Join-Path "${programFiles}" "Windows Kits" | `
+$windowsKitRoot = Join-Path "${env:ProgramFiles(x86)}" "Windows Kits" | `
                   Join-Path -ChildPath "10"
 $windowsKitIncludeRoot = Join-Path $windowsKitRoot Include
-$directories = Get-ChildItem -Directory $windowsKitIncludeRoot
-foreach ($directory in $directories)
+if (!(Test-Path("${windowsKitIncludeRoot}")))
 {
-    Write-Host "${directory}" -ForegroundColor Green
+    Write-Host "Error: '${windowsKitIncludeRoot}' is missing" -ForegroundColor Red
+    exit -1
 }
-# "C:\Program Files (x86)\Windows Kits\10\Include\10.0.22621.0\shared\dxgi.h"
+
+$directories = Get-ChildItem -Directory $windowsKitIncludeRoot| Sort-Object Name -Descending
+if ($directories.Count -eq 0)
+{
+    Write-Host "Error: '${windowsKitIncludeRoot}' has no sub directories" -ForegroundColor Red
+    exit -1
+}
+
+$windowsKitIncludeRoot = $directories | Select-Object -First 1
+Write-Host "${windowsKitIncludeRoot}" -ForegroundColor Green
+
+$version = Split-Path -Leaf ${windowsKitIncludeRoot}
+$windowsKitLibRoot = Split-Path -Parent ${windowsKitIncludeRoot}
+$windowsKitLibRoot = Split-Path -Parent ${windowsKitLibRoot}
+$windowsKitLibRoot = Join-Path $windowsKitLibRoot Lib | `
+                     Join-Path -ChildPath $version | `
+                     Join-Path -ChildPath um | `
+                     Join-Path -ChildPath x64
+if (!(Test-Path("${windowsKitLibRoot}")))
+{
+    Write-Host "Error: '${windowsKitLibRoot}' is missing" -ForegroundColor Red
+    exit -1
+}
 
 Push-Location $buildDir
 cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
       -D CMAKE_PREFIX_PATH="${targetDir}" `
+      -D WINDOWSKIT_INCLUDE_DIR="${windowsKitIncludeRoot}" `
+      -D WINDOWSKIT_LIBRARY_DIR="${windowsKitLibRoot}" `
       $sourceDir
 cmake --build . --config ${Configuration} --target install
 Pop-Location
