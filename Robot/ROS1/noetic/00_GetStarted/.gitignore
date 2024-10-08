@@ -77,3 +77,4 @@ CATKIN_IGNORE
 
 # custom
 catkin_ws/.catkin_tools/
+catkin_ws/src/hello
