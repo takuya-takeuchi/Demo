@@ -74,3 +74,6 @@ CATKIN_IGNORE
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/ros,visualstudiocode
+
+# custom
+catkin_ws/.catkin_tools/
