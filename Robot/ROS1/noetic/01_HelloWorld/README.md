@@ -20,6 +20,50 @@
 
 ````bash
 $ ./build.sh
+~/Work/Demo/Robot/ROS1/noetic/01_HelloWorld/catkin_ws ~/Work/Demo/Robot/ROS1/noetic/01_HelloWorld
+Initialized new catkin workspace in `/home/xxxxxxxxxx/Work/Demo/Robot/ROS1/noetic/01_HelloWorld/catkin_ws`
+---------------------------------------------------------------------------------------------------------
+Profile:                     default
+Extending:             [env] /opt/ros/noetic
+Workspace:                   /home/xxxxxxxxxx/Work/Demo/Robot/ROS1/noetic/01_HelloWorld/catkin_ws
+---------------------------------------------------------------------------------------------------------
+Build Space:        [exists] /home/xxxxxxxxxx/Work/Demo/Robot/ROS1/noetic/01_HelloWorld/catkin_ws/build
+Devel Space:        [exists] /home/xxxxxxxxxx/Work/Demo/Robot/ROS1/noetic/01_HelloWorld/catkin_ws/devel
+Install Space:      [unused] /home/xxxxxxxxxx/Work/Demo/Robot/ROS1/noetic/01_HelloWorld/catkin_ws/install
+Log Space:         [missing] /home/xxxxxxxxxx/Work/Demo/Robot/ROS1/noetic/01_HelloWorld/catkin_ws/logs
+Source Space:       [exists] /home/xxxxxxxxxx/Work/Demo/Robot/ROS1/noetic/01_HelloWorld/catkin_ws/src
+DESTDIR:            [unused] None
+---------------------------------------------------------------------------------------------------------
+Devel Space Layout:          linked
+Install Space Layout:        None
+---------------------------------------------------------------------------------------------------------
+Additional CMake Args:       None
+Additional Make Args:        None
+Additional catkin Make Args: None
+Internal Make Job Server:    True
+Cache Job Environments:      False
+---------------------------------------------------------------------------------------------------------
+Buildlisted Packages:        None
+Skiplisted Packages:         None
+---------------------------------------------------------------------------------------------------------
+Workspace configuration appears valid.
+
+NOTE: Forcing CMake to run for each package.
+---------------------------------------------------------------------------------------------------------
+[build] Found 1 packages in 0.0 seconds.                                                                                                                               
+[build] Updating package table.                                                                                                                                        
+Starting  >>> catkin_tools_prebuild                                                                                                                                    
+Finished  <<< catkin_tools_prebuild                [ 2.2 seconds ]                                                                                                     
+Starting  >>> hello                                                                                                                                                    
+Finished  <<< hello                                [ 5.6 seconds ]                                                                                                     
+[build] Summary: All 2 packages succeeded!                                                                                                                             
+[build]   Ignored:   None.                                                                                                                                             
+[build]   Warnings:  None.                                                                                                                                             
+[build]   Abandoned: None.                                                                                                                                             
+[build]   Failed:    None.                                                                                                                                             
+[build] Runtime: 7.9 seconds total.                                                                                                                                    
+[build] Note: Workspace packages have changed, please re-source setup files to use them.
+~/Work/Demo/Robot/ROS1/noetic/01_HelloWorld
 ````
 
 ## How to setup?
@@ -27,7 +71,7 @@ $ ./build.sh
 ````bash
 $ ./build.sh
 $ ./run.sh 
-... logging to /home/t-takeuchi/.ros/log/74194ecc-8595-11ef-9cfd-c753b2340ae8/roslaunch-esxi-vm03-1492734.log
+... logging to /home/xxxxxxxxxx/.ros/log/74194ecc-8595-11ef-9cfd-c753b2340ae8/roslaunch-esxi-vm03-1492734.log
 Checking log directory for disk usage. This may take a while.
 Press Ctrl-C to interrupt
 Done checking log file disk usage. Usage is <1GB.
