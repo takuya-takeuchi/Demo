@@ -1,4 +1,5 @@
-#include <stdio.h>
+#include <iostream>
+#include <iomanip>
 
 #include <Python.h>
 
@@ -11,7 +12,8 @@ int main()
     struct PointD p;
     p.x = 3.5;
     p.y = 7.0;
-    printf("p.x=%f, p.y=%f", p.x, p.y);
-    
+    std::cout << std::fixed;
+    std::cout << std::setprecision(2) << "p.x=" << p.x << ", p.y=" << p.y << std::endl;
+
     Py_Finalize();
 }

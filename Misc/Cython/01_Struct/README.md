@@ -11,6 +11,7 @@
 * Powershell
 * CMake 3.12.0 or later
 * C++ Compiler supports C++17
+* Python 3
 
 ### Windows
 
@@ -36,7 +37,18 @@
 ````bat
 $ python -m venv .venv
 $ .venv\Scripts\activate
-$ python -m pip install cython
+$ python -m pip install cython setuptools
+$ python setup.py build_ext --inplace
+````
+
+#### Linux
+
+### OSX
+
+````shell
+$ python -m venv .venv
+$ source .venv/bin/activate
+$ python -m pip install cython setuptools
 $ python setup.py build_ext --inplace
 ````
 
@@ -51,22 +63,23 @@ $ .venv\Scripts\activate
 $ set PYTHONHOME=C:\Python\3.11\x64
 $ set PYTHONPATH=C:\Python\3.11\x64\python.exe
 $ set PATH=%PATH%;%PYTHONHOME% 
+$ pwsh build.ps1 <Debug/Release>
 $ .\install\win\bin\Demo.exe
-p.x=3.500000, p.y=7.000000
-````
-
-#### OSX
-
-````bat
-$ ./install/osx/bin/Test "http://localhost:9000"
-[Info] message: Hello!!
-[Info]    date: 2024-04-13T13:02:18.355794Z
+p.x=3.50, p.y=7.00
 ````
 
 #### Linux
 
-````bat
-$ ./install/linux/bin/Test "http://localhost:9000"
-[Info] message: Hello!!
-[Info]    date: 2024-04-13T13:52:37.9457844Z
+#### OSX
+
+Set `PYTHONHOME` and `PYTHONPATH` before run program.
+
+````shell
+$ source .venv/bin/activate
+$ set PYTHONHOME=C:\Python\3.11\x64
+$ set PYTHONPATH=C:\Python\3.11\x64\python.exe
+$ set PATH=%PATH%;%PYTHONHOME% 
+$ pwsh build.ps1 <Debug/Release>
+$ ./install/osx/bin/Demo
+p.x=3.50, p.y=7.00
 ````
