@@ -20,6 +20,10 @@
 ### Ubuntu
 
 * g++
+* python dev
+  * `sudo apt install python3.xx-dev`
+* python venv
+  * `sudo apt install python3.xx-venv`
 
 ### OSX
 
@@ -43,6 +47,13 @@ $ python setup.py build_ext --inplace
 
 #### Linux
 
+````shell
+$ python3 -m venv .venv
+a$ source .venv/bin/activate
+$ python -m pip install cython setuptools
+$ python setup.py build_ext --inplace
+````
+
 ### OSX
 
 ````shell
@@ -62,7 +73,7 @@ Set `PYTHONHOME` and `PYTHONPATH` before run program.
 $ .venv\Scripts\activate
 $ set PYTHONHOME=C:\Python\3.11\x64
 $ set PYTHONPATH=C:\Python\3.11\x64\python.exe
-$ set PATH=%PATH%;%PYTHONHOME% 
+$ set PATH=%PATH%;%PYTHONHOME%
 $ pwsh build.ps1 <Debug/Release>
 $ .\install\win\bin\Demo.exe
 p.x=3.50, p.y=7.00
@@ -70,15 +81,17 @@ p.x=3.50, p.y=7.00
 
 #### Linux
 
-#### OSX
+````shell
+$ source .venv/bin/activate
+$ pwsh build.ps1 <Debug/Release>
+$ ./install/linux/bin/Demo
+p.x=3.50, p.y=7.00
+````
 
-Set `PYTHONHOME` and `PYTHONPATH` before run program.
+#### OSX
 
 ````shell
 $ source .venv/bin/activate
-$ set PYTHONHOME=C:\Python\3.11\x64
-$ set PYTHONPATH=C:\Python\3.11\x64\python.exe
-$ set PATH=%PATH%;%PYTHONHOME% 
 $ pwsh build.ps1 <Debug/Release>
 $ ./install/osx/bin/Demo
 p.x=3.50, p.y=7.00
