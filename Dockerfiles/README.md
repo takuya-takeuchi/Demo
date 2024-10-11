@@ -30,11 +30,12 @@
 |Target OS|Version|Location|Build command example|Run command example|
 |---|---|---|---|---|
 |alpine|3.18|[./netron/alpine/3.18/Dockerfile](./netron/alpine/3.18/Dockerfile)|`docker build -t alpine-3.18-netron netron/alpine/3.18 --build-arg COMPONENT_VERSION=7.9.5`|-|
+|alpine|3.20.3|[./netron/alpine/3.20.3/Dockerfile](./netron/alpine/3.20.3/Dockerfile)|`docker build -t alpine-3.20.3-netron netron/alpine/3.20.3 --build-arg COMPONENT_VERSION=7.9.5`|-|
 
 #### Run container
 
 ````shell
-$ docker run -it -d --rm --name alpine-3.18-netron -p 8080:8080 -t alpine-3.18-netron
+$ docker run -it -d --rm --name alpine-3.20.3-netron -p 8080:8080 -t alpine-3.20.3-netron
 ````
 
 ### protobuf
