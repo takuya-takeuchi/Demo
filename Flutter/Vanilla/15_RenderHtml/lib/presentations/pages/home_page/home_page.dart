@@ -42,6 +42,16 @@ class _HomePageState extends State<HomePage> {
                 A paragraph with <strong>strong</strong>, <em>emphasized</em>
                 and <span style="color: red">colored</span> text.
               </p>
+              <table border="1" >
+                <tr>
+                  <td>data1</td>
+                  <td>data2</td>
+                </tr>
+                <tr>
+                  <td>data3</td>
+                  <td>data4</td>
+                </tr>
+              </table>
               <ul type="disc">
                 <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
                 <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
@@ -71,8 +81,16 @@ class _HomePageState extends State<HomePage> {
               </ol>
               ''',
                 customStylesBuilder: (element) {
-                  if (element.classes.contains('foo')) {
-                    return {'color': 'red'};
+                  switch (element.localName) {
+                    case 'table':
+                      return {
+                        'border': '1px solid',
+                      };
+                    case 'td':
+                      return {'border': '1px solid'};
+                    case 'p':
+                      // Does TextStyle.fontSize equal to font-size?
+                      return {'font-size': '12px'};
                   }
                   return null;
                 },
@@ -90,6 +108,28 @@ class _HomePageState extends State<HomePage> {
                       return Text(element.innerHtml, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16));
                     case 'h3':
                       return Text(element.innerHtml, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12));
+                    // case 'p':
+                    //   return Text(element.innerHtml, style: TextStyle(fontSize: 12));
+                    case 'em':
+                      return InlineCustomWidget(child: Text(element.innerHtml, style: TextStyle(fontStyle: FontStyle.italic, fontSize: 12)));
+                    case 'strong':
+                      return InlineCustomWidget(child: Text(element.innerHtml, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12)));
+                    // case 'td':
+                    //   // https://github.com/daohoangson/flutter_widget_from_html/issues/1345
+                    //   return InlineCustomWidget(
+                    //     child: Expanded(
+                    //       child: Container(
+                    //         margin: EdgeInsets.only(right: 5),
+                    //         decoration: BoxDecoration(
+                    //           border: Border.all(color: Colors.red, width: 1),
+                    //         ),
+                    //         child: Text(
+                    //           element.innerHtml,
+                    //           style: TextStyle(fontSize: 10),
+                    //         ),
+                    //       ),
+                    //     ),
+                    //   );
                     case 'li':
                       if (element.parent!.id.isEmpty) {
                         // // Generate a v1 (time-based) id

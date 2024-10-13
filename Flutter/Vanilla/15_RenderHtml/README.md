@@ -1,33 +1,27 @@
-# Dart Documentation
+# Render HTML as widget
 
 ## Abstracts
 
-* Generate dart documentation
-  * Exlucde `index.dart` by `@nodoc` annotation.
-  * Use `@category` annotation to group classes.
+* Reder html content into widget
+  * Use `flutter_widget_from_html` package
+    * Hook `h1`, `h2`, `h3`, `li`, `ul` and `ol` tags. Especially, customize color of symbol of list.
 
-## Note
+## Dependencies
 
-`private` classes and functions are not generated.
-This is design of `dart doc`.
-See [Tracking issue for private documentation (#2154)](https://github.com/dart-lang/dartdoc/issues/3096).
+* [flutter_widget_from_html](https://github.com/daohoangson/flutter_widget_from_html)
+  * 0.15.2
+  * MIT License
+* [uuid](hhttps://github.com/Daegalus/dart-uuid)
+  * 4.5.1
+  * MIT License
+
+#### Assets
+
+* [Noto Sans Japanese](https://fonts.google.com/noto/specimen/Noto+Sans+JP?query=noto+san)
+  * SIL Open Font License 1.1
 
 ## How to use?
 
-````bat
-$ dart doc .
-Documenting demo...
-Discovering libraries...
-Linking elements...
-Precaching local docs for 614427 elements...
-  warning: deprecated dartdoc usage: The '--nodoc' option is deprecated, and will soon be removed.
-    from package-demo: file:///D:/Works/OpenSource/Demo3/Flutter/Vanilla/14_DartDocmentation
-Initialized dartdoc with 752 libraries
-Generating docs for library app.dart from package:demo/app.dart...
-Generating docs for library main.dart from package:demo/main.dart...
-Generating docs for library presentations\pages\about_page\about_page.dart from package:demo/presentations/pages/about_page/about_page.dart...
-Generating docs for library presentations\pages\home_page\home_page.dart from package:demo/presentations/pages/home_page/home_page.dart...
-Found 1 warning and 0 errors.
-Documented 4 public libraries in 43.3 seconds
-Success! Docs generated into d:\works\opensource\demo3\flutter\vanilla\14_dartdocmentation\doc\api
-````
+|iOS|Android|
+|---|---|
+|<img src="./images/ios.png" width="320" />|<img src="./images/android.png" width="320" />|
