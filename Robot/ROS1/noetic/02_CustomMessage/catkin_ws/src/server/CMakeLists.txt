@@ -12,9 +12,9 @@ find_package(catkin REQUIRED COMPONENTS
     sample_msgs
 )
 
-# catkin_package(
-#     CATKIN_DEPENDS roscpp std_msgs sample_msgs
-# )
+catkin_package(
+    CATKIN_DEPENDS roscpp std_msgs sample_msgs
+)
 
 add_executable(${PROJ_NAME} src/main.cpp)
 
@@ -27,5 +27,3 @@ target_link_libraries(${PROJ_NAME}
                       PRIVATE
                       ${catkin_LIBRARIES}
 )
-
-add_dependencies(${PROJ_NAME} ${${PROJECT_NAME}_EXPORTED_TARGETS} ${catkin_EXPORTED_TARGETS})
