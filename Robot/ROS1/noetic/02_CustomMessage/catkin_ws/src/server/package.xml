@@ -3,6 +3,7 @@
   <name>server</name>
   <version>1.0.0</version>
   <description>The server package</description>
+  <author email="takuya.takeuchi.dev@gmail.com">Takuya Takeuchi</maintainer>
   <maintainer email="takuya.takeuchi.dev@gmail.com">Takuya Takeuchi</maintainer>
   <license>MIT</license>
 
