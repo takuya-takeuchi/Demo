@@ -27,10 +27,11 @@ class _HomePageState extends State<HomePage> {
       ),
       body: Column(
         children: [
-          SingleChildScrollView(
-            child: HtmlWidget(
-              // Do not use 'id' attribute in this html contents!!!
-              '''
+          Flexible(
+            child: SingleChildScrollView(
+              child: HtmlWidget(
+                // Do not use 'id' attribute in this html contents!!!
+                '''
               <h1>h1 Heading</h1>
               <a href="https://www.google.com/" target="_blank">Visit www.google.com!</a>
               <h2>h2 Heading</h2>
@@ -42,20 +43,20 @@ class _HomePageState extends State<HomePage> {
                 and <span style="color: red">colored</span> text.
               </p>
               <ul type="disc">
-                <li>Milk</li>
-                <li>Cheese</li>
-              </ul>
-              <ul type="circle">
                 <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
                 <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
               </ul>
-              <ul type="square">
+              <ul type="circle">
                 <li>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</li>
                 <li>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
               </ul>
+              <ul type="square">
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+                <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+              </ul>
               <ol>
-                <li>Milk</li>
-                <li>Cheese</li>
+                <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</li>
+                <li>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
                 <li>Items</li>
                 <ol>
                   <li>SubItem1</li>
@@ -69,112 +70,133 @@ class _HomePageState extends State<HomePage> {
                 </ol>
               </ol>
               ''',
-              customStylesBuilder: (element) {
-                if (element.classes.contains('foo')) {
-                  return {'color': 'red'};
-                }
-                return null;
-              },
+                customStylesBuilder: (element) {
+                  if (element.classes.contains('foo')) {
+                    return {'color': 'red'};
+                  }
+                  return null;
+                },
 
-              customWidgetBuilder: (element) {
-                if (element.id.isEmpty) {
-                  // // Generate a v1 (time-based) id
-                  element.id = _uuid.v1();
-                }
+                customWidgetBuilder: (element) {
+                  if (element.id.isEmpty) {
+                    // // Generate a v1 (time-based) id
+                    element.id = _uuid.v1();
+                  }
 
-                switch (element.localName) {
-                  case 'h1':
-                    return Text(element.innerHtml, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24));
-                  case 'h2':
-                    return Text(element.innerHtml, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16));
-                  case 'h3':
-                    return Text(element.innerHtml, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12));
-                  case 'li':
-                    if (element.parent!.id.isEmpty) {
-                      // // Generate a v1 (time-based) id
-                      element.parent!.id = _uuid.v1();
-                    }
+                  switch (element.localName) {
+                    case 'h1':
+                      return Text(element.innerHtml, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24));
+                    case 'h2':
+                      return Text(element.innerHtml, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16));
+                    case 'h3':
+                      return Text(element.innerHtml, style: TextStyle(fontWeight: FontWeight.bold, fontSize: 12));
+                    case 'li':
+                      if (element.parent!.id.isEmpty) {
+                        // // Generate a v1 (time-based) id
+                        element.parent!.id = _uuid.v1();
+                      }
 
-                    var parent = _findElement(_lists, element.parent!.id);
-                    if (parent == null) {
-                      parent = _OrderList(element.parent!);
-                      _lists.add(parent);
-                    }
+                      var parent = _findElement(_lists, element.parent!.id);
+                      if (parent == null) {
+                        parent = _OrderList(element.parent!);
+                        _lists.add(parent);
+                      }
 
-                    parent.children.add(_OrderList(element));
+                      parent.children.add(_OrderList(element));
 
-                    const textStyle = TextStyle(fontSize: 12, color: Colors.black);
-                    final text = Text(element.innerHtml, style: textStyle);
+                      const textStyle = TextStyle(fontSize: 12, color: Colors.black);
+                      final text = Text(element.innerHtml, style: textStyle);
 
-                    Container? container;
-                    switch (parent.element.localName) {
-                      case 'ol':
-                        container = Container(
-                          margin: EdgeInsets.only(right: 5),
-                          child: Text(parent.children.length.toString() + ".", style: textStyle),
-                        );
-                      case 'ul':
-                        switch (parent.element.attributes['type']) {
-                          case 'circle':
-                            container = Container(
-                              height: 10,
-                              width: 10,
-                              margin: EdgeInsets.only(right: 5),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
-                                border: Border.all(color: Colors.black, width: 1),
-                              ),
-                            );
-                          case 'disc':
-                            container = Container(
-                              height: 10,
-                              width: 10,
-                              margin: EdgeInsets.only(right: 5),
-                              decoration: const BoxDecoration(
-                                color: Colors.black,
-                                shape: BoxShape.circle,
-                              ),
-                            );
-                          case 'square':
-                            container = Container(
-                              height: 10,
-                              width: 10,
-                              margin: EdgeInsets.only(right: 5),
-                              decoration: BoxDecoration(
-                                color: Colors.black,
-                                shape: BoxShape.rectangle,
-                              ),
-                            );
-                        }
-                      default:
-                        return null;
-                    }
+                      switch (parent.element.localName) {
+                        case 'ol':
+                          final container = Container(
+                            margin: EdgeInsets.only(right: 5),
+                            child: Text(parent.children.length.toString() + ".", style: textStyle),
+                          );
 
-                    if (container == null) {
+                          return Transform.translate(
+                            offset: Offset(-15, 0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.zero,
+                                  child: container,
+                                ),
+                                Flexible(child: text)
+                              ],
+                            ),
+                          );
+                        case 'ul':
+                          Container? container;
+                          switch (parent.element.attributes['type']) {
+                            case 'circle':
+                              container = Container(
+                                height: 10,
+                                width: 10,
+                                margin: EdgeInsets.only(right: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  shape: BoxShape.circle,
+                                  border: Border.all(color: Colors.red, width: 1),
+                                ),
+                              );
+                            case 'disc':
+                              container = Container(
+                                height: 10,
+                                width: 10,
+                                margin: EdgeInsets.only(right: 5),
+                                decoration: const BoxDecoration(
+                                  color: Colors.green,
+                                  shape: BoxShape.circle,
+                                ),
+                              );
+                            case 'square':
+                              container = Container(
+                                height: 10,
+                                width: 10,
+                                margin: EdgeInsets.only(right: 5),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue,
+                                  shape: BoxShape.rectangle,
+                                ),
+                              );
+                          }
+
+                          if (container == null) {
+                            return null;
+                          }
+
+                          return Transform.translate(
+                            offset: Offset(-15, 0),
+                            child: Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(top: 3),
+                                  child: container,
+                                ),
+                                Flexible(child: text)
+                              ],
+                            ),
+                          );
+                        default:
+                          return null;
+                      }
+                    default:
                       return null;
-                    }
-
-                    return Transform.translate(
-                      offset: Offset(-15, 0),
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [container, Flexible(child: text)],
-                      ),
-                    );
-                  default:
-                    return null;
-                }
-              },
-              onTapUrl: (url) {
-                print('tapped $url');
-                // if return false, open browser. Otherwise, nothing happens.
-                return false;
-              },
-              renderMode: RenderMode.column,
-              textStyle: TextStyle(fontSize: 14),
+                  }
+                },
+                onTapUrl: (url) {
+                  print('tapped $url');
+                  // if return false, open browser. Otherwise, nothing happens.
+                  return false;
+                },
+                renderMode: RenderMode.column,
+                textStyle: TextStyle(fontSize: 14),
+              ),
             ),
-          )
+          ),
         ],
       ),
     );
