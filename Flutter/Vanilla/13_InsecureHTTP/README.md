@@ -27,8 +27,6 @@
 
 ## Screenshots
 
-#### iOS
-
 |iOS|Android|
 |---|---|
 |<img src="./images/ios.gif" width="320" />|<img src="./images/android.gif" width="320" />|
