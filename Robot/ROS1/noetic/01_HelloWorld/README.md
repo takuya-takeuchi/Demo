@@ -66,10 +66,9 @@ Finished  <<< hello                                [ 5.6 seconds ]
 ~/Work/Demo/Robot/ROS1/noetic/01_HelloWorld
 ````
 
-## How to setup?
+## How to run?
 
 ````bash
-$ ./build.sh
 $ ./run.sh 
 ... logging to /home/xxxxxxxxxx/.ros/log/74194ecc-8595-11ef-9cfd-c753b2340ae8/roslaunch-esxi-vm03-1492734.log
 Checking log directory for disk usage. This may take a while.
