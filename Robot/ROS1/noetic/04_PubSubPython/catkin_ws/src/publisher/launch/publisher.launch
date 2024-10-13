@@ -1,0 +1,6 @@
+<launch>
+    <node name="publisher1" pkg="publisher" type="publisher.py" output="screen">
+        <param name="name" value="test" />
+        <param name="id" value="12345" />
+    </node>
+</launch>

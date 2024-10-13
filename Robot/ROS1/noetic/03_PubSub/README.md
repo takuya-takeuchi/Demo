@@ -67,7 +67,7 @@ Finished  <<< subscriber                 [ 0.3 seconds ]
 ## How to run?
 
 ````bash
-$ ./run_subscriber.sh 
+$ ./run_subscriber.sh
 ... logging to /home/xxxxxxxxx/.ros/log/1388c704-8982-11ef-9cfd-c753b2340ae8/roslaunch-esxi-vm03-1962780.log
 Checking log directory for disk usage. This may take a while.
 Press Ctrl-C to interrupt

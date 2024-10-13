@@ -6,6 +6,6 @@ pushd ${SCRIPT_DIR}/catkin_ws
 source devel/setup.bash
 
 PACAKGE=publisher
-NODE=publisher
-rosrun ${PACAKGE} ${NODE} test 1234
+LAUNCH_FILE=publisher.launch
+roslaunch ${PACAKGE} ${LAUNCH_FILE}
 popd
