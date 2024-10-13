@@ -11,7 +11,7 @@ sleep 5
 pushd ${SCRIPT_DIR}/catkin_ws
 source devel/setup.bash
 
-PACAKGE=hello
-NODE=hello
+PACAKGE=subscriber
+NODE=subscriber
 rosrun ${PACAKGE} ${NODE}
 popd

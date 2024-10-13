@@ -1,8 +1,8 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>client</name>
+  <name>subscriber</name>
   <version>1.0.0</version>
-  <description>The client package</description>
+  <description>The subscriber package</description>
   <maintainer email="takuya.takeuchi.dev@gmail.com">Takuya Takeuchi</maintainer>
   <license>MIT</license>
 
@@ -12,9 +12,10 @@
   <build_depend>std_msgs</build_depend>
   <build_depend>sample_msgs</build_depend>
   <build_depend>message_generation</build_depend>
-<!-- 
+  
   <build_export_depend>roscpp</build_export_depend>
-  <build_export_depend>std_msgs</build_export_depend> -->
+  <build_export_depend>std_msgs</build_export_depend>
+  <build_export_depend>sample_msgs</build_export_depend>
   
   <exec_depend>roscpp</exec_depend>
   <exec_depend>std_msgs</exec_depend>

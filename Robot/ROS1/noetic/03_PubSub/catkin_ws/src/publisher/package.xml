@@ -1,20 +1,28 @@
 <?xml version="1.0"?>
 <package format="2">
-  <name>server</name>
+  <name>publisher</name>
   <version>1.0.0</version>
-  <description>The server package</description>
+  <description>The publisher package</description>
   <maintainer email="takuya.takeuchi.dev@gmail.com">Takuya Takeuchi</maintainer>
   <license>MIT</license>
 
   <buildtool_depend>catkin</buildtool_depend>
+
   <build_depend>roscpp</build_depend>
   <build_depend>std_msgs</build_depend>
-  <build_depend>common_msgs</build_depend>
+  <build_depend>sample_msgs</build_depend>
+  <build_depend>message_generation</build_depend>
+  
   <build_export_depend>roscpp</build_export_depend>
   <build_export_depend>std_msgs</build_export_depend>
+  <build_export_depend>sample_msgs</build_export_depend>
+  
   <exec_depend>roscpp</exec_depend>
   <exec_depend>std_msgs</exec_depend>
+  <exec_depend>sample_msgs</exec_depend>
+  <exec_depend>message_runtime</exec_depend>
 
   <export>
+    <build_type>catkin</build_type>
   </export>
 </package>

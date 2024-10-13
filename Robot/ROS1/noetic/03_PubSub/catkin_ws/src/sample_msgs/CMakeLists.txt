@@ -13,7 +13,7 @@ find_package(catkin REQUIRED COMPONENTS
 
 add_message_files(
   FILES
-  greeting.msg
+  MyMessage.msg
 )
 
 generate_messages(
