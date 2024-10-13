@@ -3,6 +3,7 @@
   <name>publisher</name>
   <version>1.0.0</version>
   <description>The publisher package</description>
+  <author email="takuya.takeuchi.dev@gmail.com">Takuya Takeuchi</author>
   <maintainer email="takuya.takeuchi.dev@gmail.com">Takuya Takeuchi</maintainer>
   <license>MIT</license>
 
