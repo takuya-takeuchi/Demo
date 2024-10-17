@@ -1,0 +1,11 @@
+{
+    "python.autoComplete.extraPaths": [
+        "${workspaceFolder}/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ],
+    "python.analysis.extraPaths": [
+        "${workspaceFolder}/catkin_ws/devel/lib/python3/dist-packages",
+        "/opt/ros/noetic/lib/python3/dist-packages"
+    ],
+    "cmake.sourceDirectory": "${workspaceFolder}/build/catkin_tools_prebuild"
+}
