@@ -7,5 +7,5 @@
         "${workspaceFolder}/catkin_ws/devel/lib/python3/dist-packages",
         "/opt/ros/noetic/lib/python3/dist-packages"
     ],
-    "cmake.sourceDirectory": "/home/t-takeuchi/Work/Demo/Robot/ROS1/noetic/05_VSCodeDebug/catkin_ws/build/catkin_tools_prebuild"
+    "cmake.sourceDirectory": "${workspaceFolder}/build/catkin_tools_prebuild"
 }
