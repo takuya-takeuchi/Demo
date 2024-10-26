@@ -13,4 +13,10 @@ endif()
 
 add_executable(${PROJ_NAME} main.cpp)
 
+if (MSVC)    
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          iphlpapi.lib)
+endif()
+
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

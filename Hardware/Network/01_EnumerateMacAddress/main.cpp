@@ -2,11 +2,16 @@
 #include <iostream>
 #include <iomanip>
 
+#ifdef _WINDOWS
+#include <windows.h>
+#include <iphlpapi.h>
+#elif __APPLE__
 #include <ifaddrs.h>
 #include <net/if.h>
-#ifdef __APPLE__
 #include <net/if_dl.h>
 #elif __linux__
+#include <ifaddrs.h>
+#include <net/if.h>
 #include <netpacket/packet.h>
 #include <sys/types.h>
 #endif
@@ -25,6 +30,31 @@ void PrintMacAddress(const uint8_t* addr, int len)
 
 void EnumerateMacAddresses()
 {
+#ifdef _WINDOWS
+    ULONG bufferSize = 0;
+    GetAdaptersAddresses(AF_UNSPEC, 0, nullptr, nullptr, &bufferSize);
+
+    std::unique_ptr<BYTE[]> buffer(new BYTE[bufferSize]);
+    IP_ADAPTER_ADDRESSES* adapterAddresses = reinterpret_cast<IP_ADAPTER_ADDRESSES*>(buffer.get());
+
+    if (GetAdaptersInfo(adapterInfo, &bufferSize) == NO_ERROR)
+    {
+        PIP_ADAPTER_INFO adapter = adapterInfo;
+        while (adapter)
+        {
+            std::cout << "Interface: " << adapter->Description << " - MAC Address: ";
+            printMacAddress(adapter->Address, adapter->AddressLength);
+
+            adapter = adapter->Next;
+        }
+    }
+    else
+    {
+        std::cerr << "Error retrieving adapter information." << std::endl;
+    }
+
+    delete[] reinterpret_cast<BYTE*>(adapterInfo);
+#else
     struct ifaddrs* ifap;
     if (getifaddrs(&ifap) == -1)
     {
@@ -36,7 +66,6 @@ void EnumerateMacAddresses()
     {
         if (ifa->ifa_addr == nullptr)
             continue;
-
 #ifdef __APPLE__
         if (ifa->ifa_addr->sa_family != AF_LINK)
             continue;
@@ -64,6 +93,7 @@ void EnumerateMacAddresses()
         PrintMacAddress(addr, len);
     }
     freeifaddrs(ifap);
+#endif
 }
 
 int32_t main(int32_t argc, const char** argv)

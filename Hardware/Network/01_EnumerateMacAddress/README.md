@@ -12,6 +12,10 @@
 * CMake 3.0.0 or later
 * C++ Compiler supports C++17
 
+### Windows
+
+* Visual Studio
+
 ### Linux
 
 * g++
