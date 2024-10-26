@@ -189,7 +189,7 @@
 	url = https://github.com/microsoft/onnxruntime
 	ignore = dirty
 [submodule "Cryptography/libsodium/WebAssembly/libsodium"]
-	path = Cryptography/libsodium/WebAssembly/libsodium
+	path = Security/Cryptography/libsodium/WebAssembly/libsodium
 	url = https://github.com/jedisct1/libsodium
 	ignore = dirty
 [submodule "Networking/WebSocket++/websocketpp"]
