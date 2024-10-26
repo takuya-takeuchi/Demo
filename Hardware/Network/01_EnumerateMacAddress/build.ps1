@@ -14,7 +14,15 @@ Param
 $current = $PSScriptRoot
 
 # get os name
-if ($global:IsLinux)
+if ($global:IsWindows)
+{
+    $os = "win"
+}
+elseif ($global:IsMacOS)
+{
+    $os = "osx"
+}
+elseif ($global:IsLinux)
 {
     $os = "linux"
 }

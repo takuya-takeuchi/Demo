@@ -1,9 +1,10 @@
 ﻿#include <cstring>
 #include <iostream>
 #include <iomanip>
+#include <memory>
 
 #ifdef _WINDOWS
-#include <windows.h>
+#include <winsock2.h>
 #include <iphlpapi.h>
 #elif __APPLE__
 #include <ifaddrs.h>
@@ -35,7 +36,7 @@ void EnumerateMacAddresses()
     GetAdaptersAddresses(AF_UNSPEC, 0, nullptr, nullptr, &bufferSize);
 
     std::unique_ptr<BYTE[]> buffer(new BYTE[bufferSize]);
-    IP_ADAPTER_ADDRESSES* adapterAddresses = reinterpret_cast<IP_ADAPTER_ADDRESSES*>(buffer.get());
+    IP_ADAPTER_INFO* adapterInfo = reinterpret_cast<IP_ADAPTER_INFO*>(buffer.get());
 
     if (GetAdaptersInfo(adapterInfo, &bufferSize) == NO_ERROR)
     {
@@ -43,7 +44,7 @@ void EnumerateMacAddresses()
         while (adapter)
         {
             std::cout << "Interface: " << adapter->Description << " - MAC Address: ";
-            printMacAddress(adapter->Address, adapter->AddressLength);
+            PrintMacAddress(adapter->Address, adapter->AddressLength);
 
             adapter = adapter->Next;
         }
