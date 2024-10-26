@@ -4,20 +4,22 @@
 #include <sstream>
 #include <vector>
 
+#include <libudev.h>
+
 void EnumerateStorageDevices()
 {
     std::unique_ptr<udev, decltype(&udev_unref)> udev(udev_new(), udev_unref);
     if (!udev)
     {
         std::cerr << "Can't create udev" << std::endl;
-        return 1;
+        return;
     }
 
     std::unique_ptr<udev_enumerate, decltype(&udev_enumerate_unref)> enumerate(udev_enumerate_new(udev.get()), udev_enumerate_unref);
     if (!enumerate)
     {
         std::cerr << "Can't create udev enumerate" << std::endl;
-        return 1;
+        return;
     }
 
     udev_enumerate_add_match_subsystem(enumerate.get(), "block");
@@ -34,10 +36,9 @@ void EnumerateStorageDevices()
         if (!dev)
             continue;
 
-        // デバイス情報の表示
-        std::cout << "Device Node Path: " << udev_device_get_devnode(dev.get()) << std::endl;
-        std::cout << "Device Subsystem: " << udev_device_get_subsystem(dev.get()) << std::endl;
-        std::cout << "Device Type: " << udev_device_get_devtype(dev.get()) << std::endl;
+        std::cout << "Device Node Path: " << udev_device_get_devnode(dev.get());
+        std::cout << ", Device Subsystem: " << udev_device_get_subsystem(dev.get());
+        std::cout << ", Device Type: " << udev_device_get_devtype(dev.get()) << std::endl;
     }
 }
 
