@@ -68,23 +68,22 @@ if ($global:IsWindows)
 {
     $env:OPENSSL_ROOT_DIR = "${openSSLInstallDir}"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${targetInstallDir};${boostInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${openSSLInstallDir}" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
-    $env:OPENSSL_ROOT_DIR = "${openSSLInstallDir}"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${targetInstallDir};${boostInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${openSSLInstallDir}" `
+          -D CMAKE_OSX_ARCHITECTURES="arm64" `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
-    $env:OPENSSL_ROOT_DIR = "${openSSLInstallDir}"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${targetInstallDir};${boostInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${openSSLInstallDir}" `
           -D OPENSSL_CRYPTO_LIBRARY="${openSSLInstallDir}/lib64/libcrypto.a" `
-          -D OPENSSL_SSL_LIBRARY="${openSSLInstallDir}/lib64/libssl.a" `
+          -D OPENSSL_SSL_LIBRARY="${openSSLInstallDir}/lib64/libcrypto.a" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
