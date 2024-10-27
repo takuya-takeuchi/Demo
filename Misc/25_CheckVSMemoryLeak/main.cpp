@@ -23,7 +23,7 @@ int main()
     _CrtSetReportFile(_CRT_ASSERT, _CRTDBG_FILE_STDOUT);
 #endif
 
-	int* a = (int*)malloc(sizeof(int) * 40000);
+    int* a = (int*)malloc(sizeof(int) * 40000);
     int* leakedMemory = new int[100];
 
     // free(a);
