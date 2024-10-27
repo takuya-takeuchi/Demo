@@ -14,10 +14,19 @@ Param
 $version = $Version
 
 $basename = "openssl-${version}"
+$basename2 = "openssl-${version}"
+
+# if version 1.x
+# https://github.com/openssl/openssl/releases/download/openssl_1_1_1w/openssl-1.1.1w.tar.gz.sha1
+if (${version}.StartsWith("1."))
+{
+    $basename2 = "OpenSSL_" + ${version}.Replace(".", "_")
+}
+
 $sourceFile = "${basename}.tar.gz"
 $hashFile = "${sourceFile}.sha1"
-$sourceUrl = "https://github.com/openssl/openssl/releases/download/${basename}/${sourceFile}"
-$hashUrl = "https://github.com/openssl/openssl/releases/download/${basename}/${hashFile}"
+$sourceUrl = "https://github.com/openssl/openssl/releases/download/${basename2}/${sourceFile}"
+$hashUrl = "https://github.com/openssl/openssl/releases/download/${basename2}/${hashFile}"
 
 $current = $PSScriptRoot
 $sourceFile = Join-Path $current $sourceFile
@@ -69,6 +78,11 @@ if (Test-Path($sourceDir))
     Remove-Item $sourceDir -Force -Recurse | Out-Null
 }
 
+New-Item -Type Directory $sourceDir -Force | Out-Null
+
 tar -xzvf "${sourceFile}"
 $outputDir = Join-Path $current "${basename}"
-Move-Item "${outputDir}" "${sourceDir}" -Force
+Move-Item "${outputDir}/*" "${sourceDir}" -Force
+
+Start-Sleep -Seconds 5
+Remove-Item $outputDir -Force -Recurse | Out-Null

@@ -150,26 +150,27 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     Push-Location $sourceDir
+    $architecture = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture
     if ($architecture -eq "arm64")
     {
         if ($Configuration -eq "Debug")
         {
-            ./Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared -d
+            perl Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared -d
         }
         else
         {
-            ./Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared
+            perl Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared
         }
     }
     else
     {
         if ($Configuration -eq "Debug")
         {
-            ./Configure darwin64-x86_64-cc --prefix="${installDir}" no-asm no-shared -d
+            perl Configure darwin64-x86_64-cc --prefix="${installDir}" no-asm no-shared -d
         }
         else
         {
-            ./Configure darwin64-x86_64-cc --prefix="${installDir}" no-asm no-shared
+            perl Configure darwin64-x86_64-cc --prefix="${installDir}" no-asm no-shared
         }
     }
     make
