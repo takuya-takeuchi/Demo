@@ -73,12 +73,14 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
+    $env:OPENSSL_ROOT_DIR = "${openSSLInstallDir}"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetInstallDir};${boostInstallDir}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
+    $env:OPENSSL_ROOT_DIR = "${openSSLInstallDir}"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetInstallDir};${boostInstallDir}" `
           $sourceDir
