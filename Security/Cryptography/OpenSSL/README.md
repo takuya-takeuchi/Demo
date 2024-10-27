@@ -45,6 +45,11 @@ $ pwsh download.ps1 <OpenSSL version>
 Then, you can start building.
 It takes a long time.
 
+We tested the following versions
+
+* 1.1.1w
+* 3.4.0
+
 #### Windows
 
 ````shell

@@ -35,7 +35,6 @@ std::string OutputBinaryAsHex(const std::vector<BYTE>& data)
     return oss.str();
 }
 
-
 bool ComputeHash(const std::vector<BYTE>& data, std::vector<BYTE>& hash)
 {
     std::unique_ptr<BCRYPT_ALG_HANDLE, BCryptCloseAlgorithmProviderDeleter> hAlg(new BCRYPT_ALG_HANDLE(nullptr));
