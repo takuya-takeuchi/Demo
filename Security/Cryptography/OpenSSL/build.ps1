@@ -150,6 +150,7 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     Push-Location $sourceDir
+    $architecture = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture
     if ($architecture -eq "arm64")
     {
         if ($Configuration -eq "Debug")
