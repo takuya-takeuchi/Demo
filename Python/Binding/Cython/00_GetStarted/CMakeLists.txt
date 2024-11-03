@@ -37,7 +37,11 @@ target_link_libraries(${PROJ_NAME}
                       ${Python_LIBRARIES})
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
-file(GLOB_RECURSE PYD_FILES ${CMAKE_SOURCE_DIR}/*.pyd)
+if (MSVC)
+    file(GLOB_RECURSE PYD_FILES ${CMAKE_SOURCE_DIR}/*.pyd)
+else()
+    file(GLOB_RECURSE PYD_FILES ${CMAKE_SOURCE_DIR}/*.so)
+endif()
 foreach(pydFile ${PYD_FILES})
     get_filename_component(file_name ${pydFile} NAME)
     install(FILES ${pydFile} DESTINATION bin RENAME ${file_name})

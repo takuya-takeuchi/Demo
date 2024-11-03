@@ -69,7 +69,8 @@ $ ./install/linux/bin/Demo
 
 ````bat
 $ ./install/osx/bin/Demo 
-[Info] import: PythonMod
+[Info] execution directory: "/Users/xxxxxxx/Work/OpenSource/Demo2/Python/Binding/Cython/00_GetStarted/./install/osx/bin"
+[Info] python script: PythonMod
 [Info] invoke: add funtion
 [Info] 2 + 5 = 7
 ````
