@@ -11,6 +11,7 @@
 * Powershell 7 or later
 * CMake
   * 3.0 or higher
+* Python 3
 
 ### Windows
 

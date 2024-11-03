@@ -11,6 +11,7 @@
 * Powershell
 * CMake 3.0.0 or later
 * C++ Compiler supports C++17
+* Python 3
 
 ### Windows
 
