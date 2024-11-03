@@ -37,7 +37,8 @@ target_include_directories(${PROJ_NAME}
 
 target_link_libraries(${PROJ_NAME}
                       PRIVATE
-                      ${Python_LIBRARIES})
+                      ${Python_LIBRARIES}
+                      pybind11::embed)
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
 install(FILES ${PROJECT_SOURCE_DIR}/PythonMod.py DESTINATION bin)

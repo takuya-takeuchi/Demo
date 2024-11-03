@@ -3,24 +3,25 @@
 #include <pybind11/pybind11.h>
 #include <pybind11/embed.h>
 
-const char* scriptFileName = "PythonMod.py";
+// Do not add extension (*.py) into tail fo scriptFileName
+const char* scriptFileName = "PythonMod";
 const char* scriptAddFunc = "add";
 
 int main()
 {
-    pybind11::scoped_interpreter guard{};
-
     try
 	{
-		std::cout << "[Info] import: " << scriptFileName << std::endl;
+        pybind11::scoped_interpreter guard{};
+        
+        std::cout << "[Info] import: " << scriptFileName << std::endl;
         pybind11::module_ pyModule = pybind11::module_::import(scriptFileName);
 
-		std::cout << "[Info] invoke: " << scriptAddFunc << " funtion" << std::endl;
+        std::cout << "[Info] invoke: " << scriptAddFunc << " funtion" << std::endl;
         pybind11::function add = pyModule.attr(scriptAddFunc);
         int result = add(3, 4).cast<int>();
 
-		std::cout << "[Info] 2 + 5 = ";
-		std::cout << result << std::endl;
+        std::cout << "[Info] 2 + 5 = ";
+        std::cout << result << std::endl;
     }
 	catch (const std::exception &e)
 	{
