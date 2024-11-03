@@ -53,3 +53,12 @@ $ .\install\win\bin\Demo.exe
 [Info] invoke: add funtion
 [Info] 2 + 5 = 7
 ````
+
+#### Linux
+
+````bat
+$ ./install/linux/bin/Demo 
+[Info] exec_file: PythonMod.py
+[Info] invoke: add funtion
+[Info] 2 + 5 = 7
+````
