@@ -16,13 +16,26 @@ find_package(cpuinfo REQUIRED)
 add_executable(${PROJ_NAME} main.cpp)
 
 if (MSVC)
-    target_include_directories(${PROJ_NAME}
-                               PRIVATE
-                               cpuinfo::cpuinfo)
+    if(CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
+        target_compile_options(${PROJ_NAME} PRIVATE /ZW)
 
-    target_link_libraries(${PROJ_NAME}
-                          PRIVATE
-                          cpuinfo::cpuinfo)
+        target_include_directories(${PROJ_NAME}
+                                   PRIVATE
+                                   cpuinfo::cpuinfo)
+
+        target_link_libraries(${PROJ_NAME}
+                              PRIVATE
+                              windowsapp
+                              cpuinfo::cpuinfo)
+    else()
+        target_include_directories(${PROJ_NAME}
+                                   PRIVATE
+                                   cpuinfo::cpuinfo)
+
+        target_link_libraries(${PROJ_NAME}
+                              PRIVATE
+                              cpuinfo::cpuinfo)
+    endif()
 elseif (ANDROID)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
