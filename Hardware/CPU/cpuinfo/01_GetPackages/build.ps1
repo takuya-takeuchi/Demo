@@ -42,7 +42,8 @@ $TargetArray =
    "osx",
    "iphoneos",
    "iphonesimulator",
-   "android"
+   "android",
+   "uwp"
 )
 
 $ConfigurationArray =
@@ -143,7 +144,7 @@ switch ($os)
               $sourceDir
         cmake --build . --config ${configuration} --target install
     }
-    {"iphoneos", "iphonesimulator" -contains $_}
+    { "iphoneos", "iphonesimulator" -contains $_ }
     {
         $targetName = "hardware-cpu-cpuinfo-01"
         $project = Join-Path $current "xcode" | `
@@ -181,6 +182,21 @@ switch ($os)
     "android"
     {
     }
+    "uwp"
+    {
+        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+              -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+              -D CMAKE_BUILD_TYPE=${configuration} `
+              -D TARGET_ARCHITECTURES="${architecture}" `
+              -D CMAKE_SYSTEM_NAME=WindowsStore `
+              -D CMAKE_SYSTEM_VERSION="10.0.18362" `
+              =D CMAKE_VS_GLOBALS="WindowsTargetPlatformVersion=10.0.18362;WindowsTargetPlatformMinVersion=10.0.18362" `
+              -D WINAPI_FAMILY=WINAPI_FAMILY_APP `
+              -D _WINDLL=OFF `
+              -D _WIN32_UNIVERSAL_APP=ON `
+              $sourceDir
+        cmake --build . --config ${configuration} --target install
+    }
 }
 Pop-Location
 
@@ -190,19 +206,19 @@ switch ($os)
     "win"
     {
         $programDir = Join-Path $installDir bin
-        $program = Join-Path $programDir cpu-info.exe
+        $program = Join-Path $programDir Demo.exe
         & ${program}
     }
     "linux"
     {
         $programDir = Join-Path $installDir bin
-        $program = Join-Path $programDir cpu-info
+        $program = Join-Path $programDir Demo
         & ${program}
     }
     "osx"
     {
         $programDir = Join-Path $installDir bin
-        $program = Join-Path $programDir cpu-info
+        $program = Join-Path $programDir Demo
         & ${program}
     }
 }
