@@ -130,6 +130,7 @@ elseif ($global:IsLinux)
           -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
           -D Python_FIND_VERSION="${pythonVersion}" `
           -D Python_EXECUTABLE="${PythonPath}" `
+          -D PYTHON_EXECUTABLE="${PythonPath}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

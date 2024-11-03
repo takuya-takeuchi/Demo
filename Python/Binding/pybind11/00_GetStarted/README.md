@@ -60,7 +60,7 @@ $ .\install\win\bin\Demo.exe
 
 ````bat
 $ ./install/linux/bin/Demo 
-[Info] exec_file: PythonMod.py
+[Info] import: PythonMod
 [Info] invoke: add funtion
 [Info] 2 + 5 = 7
 ````
@@ -69,7 +69,7 @@ $ ./install/linux/bin/Demo
 
 ````bat
 $ ./install/osx/bin/Demo 
-[Info] exec_file: PythonMod.py
+[Info] import: PythonMod
 [Info] invoke: add funtion
 [Info] 2 + 5 = 7
 ````
