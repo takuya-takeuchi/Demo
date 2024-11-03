@@ -21,6 +21,7 @@
 ### Ubuntu
 
 * g++
+* `apt install python3-venv`
 
 ### OSX
 

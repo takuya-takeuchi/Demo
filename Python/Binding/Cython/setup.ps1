@@ -28,8 +28,21 @@ if (Test-Path($virtualEnvDir))
 
 & "${PythonPath}" -m venv .venv
 
-$activateScript = Join-Path $virtualEnvDir Scripts | `
-                  Join-Path -ChildPath Activate.ps1
-& "${activateScript}"
+if ($global:IsWindows)
+{
+    $activateScript = Join-Path $virtualEnvDir Scripts | `
+                      Join-Path -ChildPath Activate.ps1
+    & "${activateScript}"
+}
+else
+{
+    $activateScript = Join-Path $virtualEnvDir bin | `
+                      Join-Path -ChildPath activate
+
+    $env:VIRTUAL_ENV="${virtualEnvDir}"
+    $env:PATH="${virtualEnvDir}/bin:$env:PATH"
+
+    & "${activateScript}"
+}
 python -m pip install --upgrade pip
 python -m pip install cython setuptools
