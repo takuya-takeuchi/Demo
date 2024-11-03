@@ -100,12 +100,16 @@ elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+          -D Python_FIND_VERSION="${pythonVersion}" `
+          -D Python_EXECUTABLE="${PythonPath}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+          -D Python_FIND_VERSION="${pythonVersion}" `
+          -D Python_EXECUTABLE="${PythonPath}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

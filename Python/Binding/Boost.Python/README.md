@@ -9,7 +9,7 @@
 ### Common
 
 * Powershell
-* CMake 3.12.0 or later
+* CMake 3.0.0 or later
 * C++ Compiler supports C++17
 
 ### Windows

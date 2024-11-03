@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12.0)
+cmake_minimum_required(VERSION 3.0.0)
 
 set(PROJ_NAME Demo)
 set(CMAKE_CXX_STANDARD 17)
@@ -24,6 +24,7 @@ else()
     find_package(Python ${Python_FIND_VERSION} REQUIRED COMPONENTS Interpreter Development)
 endif()
 
+message("  Python_EXECUTABLE: ${Python_EXECUTABLE}")
 message(" Boost_INCLUDE_DIRS: ${Boost_INCLUDE_DIRS}")
 message("Python_INCLUDE_DIRS: ${Python_INCLUDE_DIRS}")
 message("    Boost_LIBRARIES: ${Boost_LIBRARIES}")

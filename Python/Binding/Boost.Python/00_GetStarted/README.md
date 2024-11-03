@@ -10,7 +10,7 @@
 
 * Powershell 7 or later
 * CMake
-  * 3.12 or higher
+  * 3.0 or higher
 
 ### Windows
 

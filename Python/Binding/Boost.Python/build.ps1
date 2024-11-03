@@ -53,8 +53,18 @@ else
     exit
 }
 
+if ($versionOutput -match "\d+\.\d+")
+{
+    $pythonVersion2 = $matches[0]
+}
+else
+{
+    Write-Host "[Error] `${PythonPath} --version` output unexpected value: ${versionOutput}" -ForegroundColor Red
+    exit
+}
+
 $pythonRoot = Split-Path $PythonPath -Parent
-$pythonOptions = " python=${PythonPath} python-version=${pythonVersion} python-root=${pythonRoot}"
+$pythonOptions = " --python=${PythonPath} --python-version=${pythonVersion}"
 $buildOptions = " --with-system --with-filesystem --with-python"
 
 # build
@@ -90,15 +100,23 @@ else
     $bootstrap = Join-Path $sourceDir bootstrap.sh
     $b2 = Join-Path $sourceDir b2
     & bash "${bootstrap}"
+
+    # override project-config.jam
+    # b2 and bootstrap can not override python configuration by CLI
+    $filePath = Join-Path $sourceDir "project-config.jam"
+    $content = Get-Content -Path $filePath -Raw
+    $newContent = $content -replace "(using python).*", "using python : ${pythonVersion2} : ${PythonPath} : /usr/include/python${pythonVersion2} : /usr/lib/python${pythonVersion2} ;"
+    Set-Content -Path $filePath -Value $newContent -Encoding UTF8
 }
 
-$argument =  "link=static "
+$argument += "${pythonOptions}"
+$argument =  " link=static "
 $argument += "address-model=64 "
 $argument += "install "
 $argument += "-j2 "
 $argument += "--prefix=${installDir} "
-$argument += "${pythonOptions}"
 $argument += "${buildOptions}"
 
+Write-Host "${b2} ${argument}" -ForegroundColor Green
 Invoke-Expression -Command "${b2} ${argument}"
 Pop-Location
