@@ -62,3 +62,12 @@ $ ./install/linux/bin/Demo
 [Info] invoke: add funtion
 [Info] 2 + 5 = 7
 ````
+
+#### OSX
+
+````bat
+$ ./install/osx/bin/Demo 
+[Info] exec_file: PythonMod.py
+[Info] invoke: add funtion
+[Info] 2 + 5 = 7
+````
