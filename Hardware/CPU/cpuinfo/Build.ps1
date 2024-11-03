@@ -36,7 +36,8 @@ $TargetArray =
    "osx",
    "iphoneos",
    "iphonesimulator",
-   "android"
+   "android",
+   "uwp"
 )
 
 $ConfigurationArray =
@@ -104,7 +105,7 @@ switch ($os)
     {
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_BUILD_TYPE=${configuration} `
-              -D TARGET_ARCHITECTURES="${architecture}"  `
+              -D TARGET_ARCHITECTURES="${architecture}" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
     }
@@ -112,7 +113,7 @@ switch ($os)
     {
         cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_BUILD_TYPE=${configuration} `
-              -D TARGET_ARCHITECTURES="${architecture}"  `
+              -D TARGET_ARCHITECTURES="${architecture}" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
     }
@@ -122,7 +123,7 @@ switch ($os)
               -D CMAKE_BUILD_TYPE=${configuration} `
               -D MACOSX_DEPLOYMENT_TARGET="${macosDeplolymentTarget}" `
               -D CMAKE_OSX_ARCHITECTURES="$architecture" `
-              -D TARGET_ARCHITECTURES="${architecture}"  `
+              -D TARGET_ARCHITECTURES="${architecture}" `
               -D BUILD_SHARED_LIBS="ON" `
               -D CPUINFO_BUILD_TOOLS="OFF" `
               -D CPUINFO_BUILD_UNIT_TESTS="OFF" `
@@ -211,7 +212,6 @@ switch ($os)
             exit
         }
 
-        
         if (!(Test-Path($androidNdkHome)))
         {
             Write-Host "ANDROID_NDK_HOME: ${androidNdkHome} does not exist" -ForegroundColor Red
@@ -242,15 +242,71 @@ switch ($os)
                      -D ANDROID_CPP_FEATURES="exceptions" `
                      -D ANDROID_ALLOW_UNDEFINED_SYMBOLS="TRUE" `
                      -D ANDROID_STL="c++_static" `
-                     -D ANDROID_NDK="${androidNdkHome}"  `
+                     -D ANDROID_NDK="${androidNdkHome}" `
                      -D ANDROID_NATIVE_API_LEVEL=$androidNativeApiLevel `
-                     -D ANDROID_ABI="${ANDROID_ABI}"  `
+                     -D ANDROID_ABI="${ANDROID_ABI}" `
                      -D CPUINFO_BUILD_TOOLS="OFF" `
                      -D CPUINFO_BUILD_UNIT_TESTS="OFF" `
                      -D CPUINFO_BUILD_MOCK_TESTS="OFF" `
                      -D CPUINFO_BUILD_BENCHMARKS="OFF" `
                      $sourceDir
         & "${cmake}" --build . --config ${configuration} --target install
+    }
+    "uwp"
+    {
+        # CMAKE_GENERATOR_PLATFORM
+        # Value     Description	                                Common Generators
+        #-----------------------------------------------------------------------------
+        # x86	    32-bit x86 architecture	                    Visual Studio, Xcode
+        # x64	    64-bit x86_64 architecture	                Visual Studio, Xcode
+        # Win32	    32-bit Windows (legacy for x86)	            Visual Studio
+        # ARM	    32-bit ARM architecture	                    Visual Studio
+        # ARM64	    64-bit ARM architecture	                    Visual Studio
+        # ia64	    Intel Itanium (legacy 64-bit architecture)	Visual Studio
+        # Universal	UWP (Universal Windows Platform)	        Visual Studio
+        # x86_64	64-bit x86 architecture for other platforms	Ninja, Unix Makefiles
+        # AArch64	64-bit ARM architecture	                    Ninja, Unix Makefiles, Xcode
+        # armv7	    ARMv7 32-bit architecture	                Ninja, Unix Makefiles
+        # ppc64	    64-bit PowerPC	                            Ninja, Unix Makefiles
+        # ppc64le	64-bit PowerPC little-endian	            Ninja, Unix Makefiles
+        # mips	    32-bit MIPS architecture	                Ninja, Unix Makefiles
+        # mips64	64-bit MIPS architecture	                Ninja, Unix Makefiles
+        # s390x	    64-bit IBM Z architecture	                Ninja, Unix Makefiles
+        # arm64e	Enhanced 64-bit ARM (Apple Silicon)	        Xcode
+
+        # CMAKE_SYSTEM_PROCESSOR
+        # Value             Description	
+        #-----------------------------------------------------------------------------
+        # x86	            32-bit x86 architecture
+        # i386, i686	    32-bit x86 compatible architecture (older CPU designation)
+        # x86_64	        64-bit x86_64 architecture
+        # AMD64	        64-bit x86_64 (often used on Windows systems)
+        # arm	            32-bit ARM architecture
+        # armv7, armv7l	ARMv7 processor (32-bit ARM, e.g., Raspberry Pi)
+        # aarch64, arm64	64-bit ARM architecture
+        # ppc, ppc64	    PowerPC architecture (32-bit and 64-bit)
+        # ppc64le	PowerPC 64-bit little-endian
+        # sparc, sparcv9	SPARC architecture (32-bit and 64-bit)
+        # mips, mips64	    MIPS architecture (32-bit and 64-bit)
+        # riscv32, iscv64	RISC-V architecture (32-bit and 64-bit)
+        # s390, s390x	    IBM mainframe z architecture (such as 64-bit)
+        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+              -D CMAKE_BUILD_TYPE=${configuration} `
+              -D TARGET_ARCHITECTURES="${architecture}" `
+              -D CMAKE_GENERATOR_PLATFORM="x64" `
+              -D CMAKE_SYSTEM_PROCESSOR="x86_64" `
+              -D CMAKE_SYSTEM_NAME=WindowsStore `
+              -D CMAKE_SYSTEM_VERSION="10.0.19045" `
+              -D WINAPI_FAMILY=WINAPI_FAMILY_APP `
+              -D _WINDLL=ON `
+              -D _WIN32_UNIVERSAL_APP=ON `
+              -D CPUINFO_BUILD_TOOLS=OFF `
+              -D CPUINFO_BUILD_UNIT_TESTS=OFF `
+              -D CPUINFO_BUILD_MOCK_TESTS=OFF `
+              -D CPUINFO_BUILD_BENCHMARKS=OFF `
+              -D CPUINFO_BUILD_PKG_CONFIG=OFF `
+              $sourceDir
+        cmake --build . --config ${configuration} --target install
     }
 }
 Pop-Location
