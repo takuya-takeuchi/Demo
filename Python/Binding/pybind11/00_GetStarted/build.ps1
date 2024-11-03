@@ -89,10 +89,31 @@ New-Item -Type Directory $installBinaryDir -Force | Out-Null
 Push-Location $buildDir
 if ($global:IsWindows)
 {
+    # check pythonxxx.dll 
+    if ($versionOutput -match "\d+\.\d+")
+    {
+        $pythonVersion2 = $matches[0].Replace(".", "")
+    }
+    else
+    {
+        Write-Host "[Error] `${PythonPath} --version` output unexpected value: ${versionOutput}" -ForegroundColor Red
+        exit
+    }
+
+    $pythonRootDir = Split-Path ${PythonPath} -Parent
+    $pythonLibrary = Join-Path $pythonRootDir "python${pythonVersion2}.dll"
+    if (!(Test-Path($pythonLibrary)))
+    {
+        Write-Host "[Error] '${pythonLibrary}' is missing" -ForegroundColor Red
+        exit
+    }
+    $pythonLibrary = $pythonLibrary.Replace("`\", "/")
+
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
           -D Python_FIND_VERSION="${pythonVersion}" `
           -D Python_EXECUTABLE="${PythonPath}" `
+          -D Python_RUNTIME_LIBRARY="${pythonLibrary}" `
           $sourceDir
 }
 elseif ($global:IsMacOS)

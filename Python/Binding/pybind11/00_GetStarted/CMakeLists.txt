@@ -42,3 +42,7 @@ target_link_libraries(${PROJ_NAME}
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
 install(FILES ${PROJECT_SOURCE_DIR}/PythonMod.py DESTINATION bin)
+
+if (MSVC)
+    install(FILES ${Python_RUNTIME_LIBRARY} DESTINATION bin)
+endif()

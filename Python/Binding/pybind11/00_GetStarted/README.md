@@ -2,7 +2,7 @@
 
 ## Abstracts
 
-* Binding C++/Python by Boost.Python
+* Binding C++/Python by pybind11
 
 ## Requirements
 
@@ -26,21 +26,21 @@
 
 ## Dependencies
 
-* [Boost](https://www.boost.org/)
-  * v1.86.0
-  * Boost License
+* [pybind11](https://github.com/pybind/pybind11)
+  * Version 2.13.6
+  * BSD-3-Clause License
 
 ## How to build?
 
 ### Boost
 
-Go to [Boost.Python](..).
-Once time you built `Boost`, you need not to do again.
+Go to [pybind11](..).
+Once time you built `pybind11`, you need not to do again.
 
 ## How to build?
 
 ````shell
-$ pwsh build.ps1 <Debug/Release> <BoostVersion, like 1.86.0> <PythonPath, like C:\Python\3.10\x64\python.exe>
+$ pwsh build.ps1 <Debug/Release> <version of pybind11, like 2.13.6> <PythonPath, like C:\Python\3.11\x64\python.exe>
 ````
 
 ## How to test?
@@ -48,8 +48,10 @@ $ pwsh build.ps1 <Debug/Release> <BoostVersion, like 1.86.0> <PythonPath, like C
 #### Windows
 
 ````bat
+$ set PYTHONHOME=C:\Python\3.11\x64
+$ set PYTHONPATH=C:\Python\3.11\x64\python.exe
 $ .\install\win\bin\Demo.exe
-[Info] exec_file: PythonMod.py
+[Info] import: PythonMod
 [Info] invoke: add funtion
 [Info] 2 + 5 = 7
 ````
