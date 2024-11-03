@@ -34,5 +34,5 @@
 
 ````shell
 $ pwsh download.ps1 <BoostVersion, like 1.86.0>
-$ pwsh build.ps1 <BoostVersion, like 1.86.0>
+$ pwsh build.ps1 <BoostVersion, like 1.86.0> <PythonPath, like C:\Python\3.10\x64\python.exe>
 ````

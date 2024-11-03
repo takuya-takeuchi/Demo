@@ -40,7 +40,16 @@ Once time you built `Boost`, you need not to do again.
 ## How to build?
 
 ````shell
-$ pwsh build.ps1 <Debug/Release>
+$ pwsh build.ps1 <Debug/Release> <BoostVersion, like 1.86.0> <PythonPath, like C:\Python\3.10\x64\python.exe>
 ````
 
 ## How to test?
+
+#### Windows
+
+````bat
+$ .\install\win\bin\Demo.exe
+[Info] exec_file: PythonMod.py
+[Info] invoke: add funtion
+[Info] 2 + 5 = 7
+````

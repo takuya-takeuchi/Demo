@@ -1,7 +1,8 @@
 #***************************************
 #Arguments
 #%1: Build Configuration (Release/Debug)
-#%12: Version (e.g. 1.84.0)
+#%2: Version (e.g. 1.84.0)
+#%3: PythonPath (e.g. C:\Python\3.11\x64\python.exe)
 #***************************************
 Param
 (
@@ -15,7 +16,13 @@ Param
    Mandatory=$True,
    Position = 2
    )][string]
-   $Version
+   $Version,
+   
+   [Parameter(
+   Mandatory=$True,
+   Position = 3
+   )][string]
+   $PythonPath
 )
 
 $current = $PSScriptRoot
@@ -37,6 +44,23 @@ elseif ($global:IsLinux)
 
 $target = "boost"
 $sharedFlag = "OFF"
+
+if (!(Test-Path($PythonPath)))
+{
+    Write-Host "[Error] ${PythonPath} is missing" -ForegroundColor Red
+    exit
+}
+
+$versionOutput = & "${PythonPath}" --version 2>&1
+if ($versionOutput -match "\d+\.\d+\.\d+")
+{
+    $pythonVersion = $matches[0]
+}
+else
+{
+    Write-Host "[Error] `${PythonPath} --version` output unexpected value: ${versionOutput}" -ForegroundColor Red
+    exit
+}
 
 # build
 $sourceDir = $current
@@ -66,9 +90,10 @@ New-Item -Type Directory $installBinaryDir -Force | Out-Null
 Push-Location $buildDir
 if ($global:IsWindows)
 {
-    # If you want to use self build openssl, you must override $env:OPENSSL_ROOT_DIR
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+          -D Python_FIND_VERSION="${pythonVersion}" `
+          -D Python_EXECUTABLE="${PythonPath}" `
           $sourceDir
 }
 elseif ($global:IsMacOS)

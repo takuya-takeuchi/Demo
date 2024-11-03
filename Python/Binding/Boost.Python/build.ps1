@@ -1,6 +1,7 @@
 #***************************************
 #Arguments
 #%1: Version (e.g. 1.84.0)
+#%2: PythonPath (e.g. C:\Python\3.11\x64\python.exe)
 #***************************************
 Param
 (
@@ -8,7 +9,13 @@ Param
    Mandatory=$True,
    Position = 1
    )][string]
-   $Version
+   $Version,
+   
+   [Parameter(
+   Mandatory=$True,
+   Position = 2
+   )][string]
+   $PythonPath
 )
 
 $current = $PSScriptRoot
@@ -29,6 +36,25 @@ elseif ($global:IsLinux)
 
 $target = "boost"
 
+if (!(Test-Path($PythonPath)))
+{
+    Write-Host "[Error] ${PythonPath} is missing" -ForegroundColor Red
+    exit
+}
+
+$versionOutput = & "${PythonPath}" --version 2>&1
+if ($versionOutput -match "\d+\.\d+\.\d+")
+{
+    $pythonVersion = $matches[0]
+}
+else
+{
+    Write-Host "[Error] `${PythonPath} --version` output unexpected value: ${versionOutput}" -ForegroundColor Red
+    exit
+}
+
+$pythonRoot = Split-Path $PythonPath -Parent
+$pythonOptions = " python=${PythonPath} python-version=${pythonVersion} python-root=${pythonRoot}"
 $buildOptions = " --with-system --with-filesystem --with-python"
 
 # build
@@ -71,6 +97,7 @@ $argument += "address-model=64 "
 $argument += "install "
 $argument += "-j2 "
 $argument += "--prefix=${installDir} "
+$argument += "${pythonOptions}"
 $argument += "${buildOptions}"
 
 Invoke-Expression -Command "${b2} ${argument}"
