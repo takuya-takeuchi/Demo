@@ -103,9 +103,28 @@ else
 
     # override project-config.jam
     # b2 and bootstrap can not override python configuration by CLI
+    $includePath = & "${PythonPath}" -c "from sysconfig import get_paths; print(get_paths()['include'])"
+    $libPath = & "${PythonPath}" -c "from sysconfig import get_paths; print(get_paths()['stdlib'])"
     $filePath = Join-Path $sourceDir "project-config.jam"
     $content = Get-Content -Path $filePath -Raw
-    $newContent = $content -replace "(using python).*", "using python : ${pythonVersion2} : ${PythonPath} : /usr/include/python${pythonVersion2} : /usr/lib/python${pythonVersion2} ;"
+
+    $pattern = "using python\s*:.*"
+    if ($content -match $pattern)
+    {
+        $newContent = $content -replace $pattern, "using python : ${pythonVersion2} : ${PythonPath} : ${includePath} : ${libPath} ;"
+    }
+    else
+    {
+        # add python config
+        $newContent = $content + "`n"
+        $newContent = $newContent + "# Python configuration" + "`n"
+        $newContent = $newContent + "import python ;" + "`n"
+        $newContent = $newContent + "if ! [ python.configured ]" + "`n"
+        $newContent = $newContent + "{" + "`n"
+        $newContent = $newContent + "    using python : ${pythonVersion2} : ${PythonPath} : ${includePath} : ${libPath} ;" + "`n"
+        $newContent = $newContent + "}"
+    }
+
     Set-Content -Path $filePath -Value $newContent -Encoding UTF8
 }
 
