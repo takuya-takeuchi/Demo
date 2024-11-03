@@ -21,7 +21,7 @@
 ### Ubuntu
 
 * g++
-* `apt install python3-venv`
+* `apt install python3-dev python3-venv`
 
 ### OSX
 
@@ -52,5 +52,11 @@ $ .\venv\Scripts\activate
 #### Linux
 
 ````shell
-$ source
+$ source .venv/bin/activate
+````
+
+#### OSX
+
+````shell
+$ source .venv/bin/activate
 ````

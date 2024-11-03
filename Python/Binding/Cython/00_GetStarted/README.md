@@ -60,7 +60,8 @@ $ set PYTHONPATH=C:\Python\3.11\x64\python.exe
 
 ````bat
 $ ./install/linux/bin/Demo 
-[Info] import: PythonMod
+[Info] execution directory: "/data/work/oss/Demo/Python/Binding/Cython/00_GetStarted/./install/linux/bin"
+[Info] python script: PythonMod
 [Info] invoke: add funtion
 [Info] 2 + 5 = 7
 ````
