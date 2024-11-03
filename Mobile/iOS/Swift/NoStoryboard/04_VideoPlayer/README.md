@@ -29,8 +29,8 @@
 
 |Asset|Url|License|
 |---|---|---|
-|[close_FILL0_wght300_GRAD0_opsz20.svg](./Demo/Assets/close_FILL0_wght300_GRAD0_opsz20.svg)|[Google Fonts](https://fonts.google.com/icons)|Apache license 2.0|
-|[production_id_4040354_(1080p).mp4](./Demo/Assets/production_id_4040354_(1080p).mp4)|[Pexels](https://www.pexels.com/video/cherry-flowers-blooming-during-spring-season-4040354/)|[Free to use](https://www.pexels.com/license/)|
+|[close_FILL0_wght300_GRAD0_opsz20.svg](./Demo/Resources/close_FILL0_wght300_GRAD0_opsz20.svg)|[Google Fonts](https://fonts.google.com/icons)|Apache license 2.0|
+|[production_id_4040354_(1080p).mp4](./Demo/Resources/production_id_4040354_(1080p).mp4)|[Pexels](https://www.pexels.com/video/cherry-flowers-blooming-during-spring-season-4040354/)|[Free to use](https://www.pexels.com/license/)|
 
 ## How to build
 
