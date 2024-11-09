@@ -15,6 +15,7 @@
 ### Windows
 
 * Visual Studio 2022
+* For UWP, requires Windows SDK 10.0.17134.0 or later
 
 ### Linux
 

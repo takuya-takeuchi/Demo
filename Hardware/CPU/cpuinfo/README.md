@@ -8,6 +8,7 @@
 
 * Powershell 7 or later
 * CMake 3.5.0 or later
+* C++ Compiler supports C++17
 
 ## Windows
 

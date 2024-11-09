@@ -1,6 +1,6 @@
 #***************************************
 #Arguments
-#%1: Build Target (win/linux/osx/iphoneos/iphonesimulator/android)
+#%1: Build Target (win/linux/osx/iphoneos/iphonesimulator/android/uwp)
 #%2: Architecture (x86_64/armv7/arm64)
 #%3: Build Configuration (Release/Debug/RelWithDebInfo/MinSizeRel)
 #***************************************
@@ -57,21 +57,21 @@ $ArchitectureArray =
 
 if ($TargetArray.Contains($os) -eq $False)
 {
-   $candidate = $TargetArray.Keys -join "/"
+   $candidate = $TargetArray -join "/"
    Write-Host "Error: Specify Target [${candidate}]" -ForegroundColor Red
    exit -1
 }
 
 if ($ConfigurationArray.Contains($configuration) -eq $False)
 {
-   $candidate = $ConfigurationArray.Keys -join "/"
+   $candidate = $ConfigurationArray -join "/"
    Write-Host "Error: Specify Configuration [${candidate}]" -ForegroundColor Red
    exit -1
 }
 
 if ($ArchitectureArray.Contains($architecture) -eq $False)
 {
-   $candidate = $ArchitectureArray.Keys -join "/"
+   $candidate = $ArchitectureArray -join "/"
    Write-Host "Error: Specify Architecture [${candidate}]" -ForegroundColor Red
    exit -1
 }
@@ -296,10 +296,8 @@ switch ($os)
               -D CMAKE_GENERATOR_PLATFORM="x64" `
               -D CMAKE_SYSTEM_PROCESSOR="x86_64" `
               -D CMAKE_SYSTEM_NAME=WindowsStore `
-              -D CMAKE_SYSTEM_VERSION="10.0.19045" `
+              -D CMAKE_SYSTEM_VERSION="10.0.10240.0" `
               -D WINAPI_FAMILY=WINAPI_FAMILY_APP `
-              -D _WINDLL=ON `
-              -D _WIN32_UNIVERSAL_APP=ON `
               -D CPUINFO_BUILD_TOOLS=OFF `
               -D CPUINFO_BUILD_UNIT_TESTS=OFF `
               -D CPUINFO_BUILD_MOCK_TESTS=OFF `
