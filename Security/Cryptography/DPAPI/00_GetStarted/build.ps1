@@ -36,7 +36,8 @@ New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
-cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+cmake -G "Visual Studio 17 2022" -A x64 -T host=x64 `
+      -D CMAKE_INSTALL_PREFIX=${installDir} `
       -D CMAKE_PREFIX_PATH="${targetDir}" `
       $sourceDir
 cmake --build . --config ${Configuration} --target install

@@ -37,14 +37,14 @@ $ArchitectureArray =
 
 if ($ConfigurationArray.Contains($configuration) -eq $False)
 {
-   $candidate = $ConfigurationArray.Keys -join "/"
+   $candidate = $ConfigurationArray -join "/"
    Write-Host "Error: Specify Configuration [${candidate}]" -ForegroundColor Red
    exit -1
 }
 
 if ($ArchitectureArray.Contains($architecture) -eq $False)
 {
-   $candidate = $ArchitectureArray.Keys -join "/"
+   $candidate = $ArchitectureArray -join "/"
    Write-Host "Error: Specify Architecture [${candidate}]" -ForegroundColor Red
    exit -1
 }

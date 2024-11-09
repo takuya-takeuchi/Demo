@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0.0)
 
 set(PROJ_NAME Demo)
-set(CMAKE_CXX_STANDARD 14)
+set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project(${PROJ_NAME} VERSION 1.0.0)
@@ -17,6 +17,11 @@ add_executable(${PROJ_NAME} main.cpp)
 
 if (MSVC)
     if(CMAKE_SYSTEM_NAME STREQUAL "WindowsStore")
+        project(${PROJ_NAME} LANGUAGES CXX)
+
+        add_definitions(-DWINAPI_FAMILY=WINAPI_FAMILY_APP)
+        add_definitions(-D_UNICODE)
+
         target_compile_options(${PROJ_NAME} PRIVATE /ZW)
 
         target_include_directories(${PROJ_NAME}

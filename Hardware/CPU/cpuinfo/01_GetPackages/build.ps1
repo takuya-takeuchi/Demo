@@ -1,6 +1,6 @@
 #***************************************
 #Arguments
-#%1: Build Target (win/linux/osx/iphoneos/iphonesimulator/android)
+#%1: Build Target (win/linux/osx/iphoneos/iphonesimulator/android/uwp)
 #%2: Architecture (x86_64/arm64)
 #%3: Build Configuration (Release/Debug/RelWithDebInfo/MinSizeRel)
 #***************************************
@@ -62,21 +62,21 @@ $ArchitectureArray =
 
 if ($TargetArray.Contains($os) -eq $False)
 {
-   $candidate = $TargetArray.Keys -join "/"
+   $candidate = $TargetArray -join "/"
    Write-Host "Error: Specify Target [${candidate}]" -ForegroundColor Red
    exit -1
 }
 
 if ($ConfigurationArray.Contains($configuration) -eq $False)
 {
-   $candidate = $ConfigurationArray.Keys -join "/"
+   $candidate = $ConfigurationArray -join "/"
    Write-Host "Error: Specify Configuration [${candidate}]" -ForegroundColor Red
    exit -1
 }
 
 if ($ArchitectureArray.Contains($architecture) -eq $False)
 {
-   $candidate = $ArchitectureArray.Keys -join "/"
+   $candidate = $ArchitectureArray -join "/"
    Write-Host "Error: Specify Architecture [${candidate}]" -ForegroundColor Red
    exit -1
 }
@@ -184,16 +184,12 @@ switch ($os)
     }
     "uwp"
     {
-        cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+        cmake -G "Visual Studio 17 2022" -A x64 -T host=x64 `
+              -D CMAKE_INSTALL_PREFIX=${installDir} `
               -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
               -D CMAKE_BUILD_TYPE=${configuration} `
-              -D TARGET_ARCHITECTURES="${architecture}" `
               -D CMAKE_SYSTEM_NAME=WindowsStore `
-              -D CMAKE_SYSTEM_VERSION="10.0.18362" `
-              =D CMAKE_VS_GLOBALS="WindowsTargetPlatformVersion=10.0.18362;WindowsTargetPlatformMinVersion=10.0.18362" `
-              -D WINAPI_FAMILY=WINAPI_FAMILY_APP `
-              -D _WINDLL=OFF `
-              -D _WIN32_UNIVERSAL_APP=ON `
+              -D CMAKE_SYSTEM_VERSION="10.0.17134.0" `
               $sourceDir
         cmake --build . --config ${configuration} --target install
     }
