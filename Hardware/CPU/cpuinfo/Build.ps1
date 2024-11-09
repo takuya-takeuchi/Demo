@@ -296,7 +296,7 @@ switch ($os)
               -D CMAKE_GENERATOR_PLATFORM="x64" `
               -D CMAKE_SYSTEM_PROCESSOR="x86_64" `
               -D CMAKE_SYSTEM_NAME=WindowsStore `
-              -D CMAKE_SYSTEM_VERSION="10.0.17134.0" `
+              -D CMAKE_SYSTEM_VERSION="10.0.10240.0" `
               -D WINAPI_FAMILY=WINAPI_FAMILY_APP `
               -D CPUINFO_BUILD_TOOLS=OFF `
               -D CPUINFO_BUILD_UNIT_TESTS=OFF `
