@@ -3,6 +3,8 @@
 ## Abstracts
 
 * Clustering sample point cloud data by multiprocessing
+  * On POSIX, folk context is default but `folk` occurs deadlock with some function of Open3D. To resolve this issue, change context to `spawn` or `folkserver`.
+    * See [Deadlock with multiprocessing (using fork) and OpenMP #1552](https://github.com/isl-org/Open3D/issues/1552).
 
 ## Requirements
 

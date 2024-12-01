@@ -1,7 +1,7 @@
 import argparse
+import multiprocessing
 from multiprocessing import Process
 import os
-import time
 
 import matplotlib.pyplot as plt
 import numpy as np
@@ -43,6 +43,11 @@ if __name__ == '__main__':
     print("Arguments")
     print("               eps: {}".format(eps))
     print("        min_points: {}".format(min_points))
+
+    # https://github.com/isl-org/Open3D/issues/1552
+    # set 'forkserver' or 'spawn'
+    if os.name == 'posix':
+        multiprocessing.set_start_method('spawn')
 
     processes = []
     for i in range(5):
