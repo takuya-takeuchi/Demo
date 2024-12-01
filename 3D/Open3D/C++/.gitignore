@@ -1,0 +1,4 @@
+build
+install
+*.tar.xz
+*.zip
