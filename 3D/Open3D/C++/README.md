@@ -14,9 +14,10 @@
 
 ### Linux
 
-* gcc
+* Ubuntu 20.04 or later
+* glibc 2.31 or later
 * OpenGL
-  * `sudo apt-get install -y libglu1-mesa-dev freeglut3-dev mesa-common-dev`
+  * `sudo apt-get install -y libglu1-mesa-dev freeglut3-dev mesa-common-dev libc++-dev`
 
 ## How to build?
 
