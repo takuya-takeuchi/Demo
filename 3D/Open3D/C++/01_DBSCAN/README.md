@@ -49,4 +49,13 @@ Precompute neighbors.[========================================] 100%
 [Info] Number of clusters detected: 10============>] 97%
 ````
 
+#### Linux
+
+````bat
+$ export LD_LIBRARY_PATH=${LD_LIBRARY_PATH}:install/linux/bin
+$ ./install/linux/bin/Demo
+Precompute neighbors.[========================================] 100%
+[Info] Number of clusters detected: 10============>] 97%
+````
+
 <img src="./images/image.png" />

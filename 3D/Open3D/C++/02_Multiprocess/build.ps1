@@ -22,17 +22,18 @@ $current = $PSScriptRoot
 $rootDir = Split-Path $current -Parent
 
 # get os name
-if ($global:IsWindows)
-{
-    $os = "win"
-}
-elseif ($global:IsMacOS)
+if ($global:IsMacOS)
 {
     $os = "osx"
 }
 elseif ($global:IsLinux)
 {
     $os = "linux"
+}
+else
+{
+    Write-Host "Error: This plaform is not support" -ForegroundColor Red
+    exit -1
 }
 
 $target = "Open3D"
