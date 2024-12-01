@@ -38,12 +38,6 @@ else()
     target_link_libraries(${PROJ_NAME} PRIVATE OpenGL::GL Open3D::Open3D)
 endif()
 
-get_cmake_property(_variableNames CACHE_VARIABLES)
-list (SORT _variableNames)
-foreach (_variableName ${_variableNames})
-    message(STATUS "${_variableName}=${${_variableName}}")
-endforeach()
-
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
 
 if (MSVC)
