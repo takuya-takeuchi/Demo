@@ -1,7 +1,7 @@
 #***************************************
 #Arguments
 #%1: Build Configuration (Release/Debug)
-#%2: OpenSSL version (e.g. 1.1.1w, 3.4.0)
+#%2: OpenSSL version (e.g. 0.18.0)
 #***************************************
 Param
 (
@@ -15,18 +15,14 @@ Param
    Mandatory=$True,
    Position = 2
    )][string]
-   $OpenSSLVersion
+   $Open3DVersion
 )
 
 $current = $PSScriptRoot
 $rootDir = Split-Path $current -Parent
 
 # get os name
-if ($global:IsWindows)
-{
-    $os = "win"
-}
-elseif ($global:IsMacOS)
+if ($global:IsMacOS)
 {
     $os = "osx"
 }
@@ -34,28 +30,29 @@ elseif ($global:IsLinux)
 {
     $os = "linux"
 }
+else
+{
+    Write-Host "Error: This plaform is not support" -ForegroundColor Red
+    exit -1
+}
 
-$shared = "static"
-$sharedFlag = "OFF"
+$target = "Open3D"
 
 # build
 $sourceDir = $current
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath program | `
-            Join-Path -ChildPath $shared
+            Join-Path -ChildPath program
 $installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $shared
-$openSSLInstallDir = Join-Path $rootDir install | `
-                     Join-Path -ChildPath $os | `
-                     Join-Path -ChildPath openssl | `
-                     Join-Path -ChildPath ${OpenSSLVersion} | `
-                     Join-Path -ChildPath $shared
+              Join-Path -ChildPath $os
+$open3DInstallDir = Join-Path $rootDir install | `
+                    Join-Path -ChildPath $target | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath ${Open3DVersion}
 
-if (!(Test-Path($openSSLInstallDir)))
+if (!(Test-Path($open3DInstallDir)))
 {
-    Write-Host "'${openSSLInstallDir}' is missing" -ForegroundColor Red
+    Write-Host "'${open3DInstallDir}' is missing" -ForegroundColor Red
     exit
 }
 
@@ -65,24 +62,22 @@ New-Item -Type Directory $installDir -Force | Out-Null
 Push-Location $buildDir
 if ($global:IsWindows)
 {
-    $env:OPENSSL_ROOT_DIR = "${openSSLInstallDir}"
+    # $env:OPEN3D_ROOT_DIR = "${open3DInstallDir}"
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openSSLInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${open3DInstallDir}" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openSSLInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${open3DInstallDir}" `
           -D CMAKE_OSX_ARCHITECTURES="arm64" `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openSSLInstallDir}" `
-          -D OPENSSL_CRYPTO_LIBRARY="${openSSLInstallDir}/lib64/libcrypto.a" `
-          -D OPENSSL_SSL_LIBRARY="${openSSLInstallDir}/lib64/libcrypto.a" `
+          -D CMAKE_PREFIX_PATH="${open3DInstallDir}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
