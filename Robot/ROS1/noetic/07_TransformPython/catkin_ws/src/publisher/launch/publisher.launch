@@ -1,0 +1,15 @@
+<launch>
+    <!-- arg1 -  x: transform x-axis coordinates -->
+    <!-- arg2 -  y: transform y-axis coordinates -->
+    <!-- arg3 -  z: transform z-axis coordinates -->
+    <!-- arg4 - qx: sin(radian(θ/2)) if rotation on x-asix otherwise 0 -->
+    <!-- arg5 - qy: sin(radian(θ/2)) if rotation on y-asix otherwise 0 -->
+    <!-- arg6 - qz: sin(radian(θ/2)) if rotation on z-asix otherwise 0 -->
+    <!-- arg7 - qw: cos(radian(θ/2))  -->
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_base_to_sensor"
+          args="0.0 0.0 1.0 0 0 -0.70710678118655 0.70710678118655 base_link sensor" />
+    <node pkg="tf2_ros" type="static_transform_publisher" name="static_tf_map_to_base"
+          args="3.0 3.0 0.0 0 0 0 1 map base_link" />
+    
+    <node name="publisher1" pkg="publisher" type="publisher.py" output="screen" />
+</launch>

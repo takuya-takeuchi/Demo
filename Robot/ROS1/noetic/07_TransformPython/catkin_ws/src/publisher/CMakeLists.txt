@@ -10,9 +10,9 @@ find_package(catkin REQUIRED COMPONENTS
     rospy
     tf2_ros
     std_msgs
-    sample_msgs
+    tf2_sensor_msgs
 )
 
 catkin_package(
-    CATKIN_DEPENDS rospy tf2_ros std_msgs sample_msgs
+    CATKIN_DEPENDS rospy tf2_ros tf2_sensor_msgs std_msgs
 )
