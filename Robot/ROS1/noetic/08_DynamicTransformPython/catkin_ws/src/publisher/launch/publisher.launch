@@ -1,0 +1,3 @@
+<launch>    
+    <node name="publisher1" pkg="publisher" type="publisher.py" output="screen" />
+</launch>

@@ -31,10 +31,10 @@ def run(node_name:str, topic_name:str):
         [1.0, 1.0, -1.0],  # (x, y, z)
     ]
 
-    while not rospy.is_shutdown():    
+    while not rospy.is_shutdown():
         header = std_msgs.msg.Header()
         header.stamp = rospy.Time.now()
-        header.frame_id = "sensor" 
+        header.frame_id = "sensor"
         cloud = pc2.create_cloud_xyz32(header, points)
 
         pub.publish(cloud)
@@ -44,7 +44,7 @@ def run(node_name:str, topic_name:str):
         point_list = list(pc2.read_points(transformed_cloud, skip_nans=True, field_names=("x", "y", "z")))
         for point in point_list:
             rospy.loginfo(f"x: {point[0]:.3f}, y: {point[1]:.3f}, z: {point[2]:.3f}")
-            
+
         rate.sleep()
 
 if __name__ == "__main__":
