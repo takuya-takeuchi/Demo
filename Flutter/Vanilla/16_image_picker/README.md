@@ -7,7 +7,7 @@
 ## Requirements
 
 * Android
-  * API Level 33 or later
+  * minSdkVersion is 21
 * iOS
   * 12.0 or later
 
