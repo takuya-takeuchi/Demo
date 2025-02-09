@@ -1,0 +1,22 @@
+PODS:
+  - Flutter (1.0.0)
+  - http_proxy (0.0.1):
+    - Flutter
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - http_proxy (from `.symlinks/plugins/http_proxy/ios`)
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  http_proxy:
+    :path: ".symlinks/plugins/http_proxy/ios"
+
+SPEC CHECKSUMS:
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  http_proxy: 6e9876b8b0d8bd9378a526bf49c51d8df64e891e
+
+PODFILE CHECKSUM: 83f6a08c58d4b249cda5d50acce1e33fac59623c
+
+COCOAPODS: 1.16.2
