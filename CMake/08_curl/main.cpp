@@ -1,13 +1,13 @@
 ﻿#include <iostream>
 #include <curl/curl.h>
 
-int main(int32_t argv, const char** argc)
+int main(int32_t argc, const char** argv)
 {
-    std::cout << argc[1] << std::endl;
+    std::cout << argv[1] << std::endl;
 
     CURLcode ret;
     CURL* hnd = curl_easy_init();
-    curl_easy_setopt(hnd, CURLOPT_URL, argc[1]);
+    curl_easy_setopt(hnd, CURLOPT_URL, argv[1]);
     curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
     curl_easy_setopt(hnd, CURLOPT_USERAGENT, "curl/7.87.0");
     curl_easy_setopt(hnd, CURLOPT_MAXREDIRS, 50L);
