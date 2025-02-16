@@ -40,7 +40,7 @@ $ pwsh build.ps1  <Debug/Release>
 Start program to wait data.
 
 ````shell
-$ ./build/osx/program/Demo 127.0.0.1 3000
+$ ./install/osx/bin/Demo 127.0.0.1 3000
 ````
 
 Send UDP data.

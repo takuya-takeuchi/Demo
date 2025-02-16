@@ -49,22 +49,44 @@ int32_t main(int32_t argc, const char** argv)
         return -1;
     }
 
+#ifdef _WINDOWS
+    // init Winsock
+    WSADATA wsaData;
+    result = WSAStartup(MAKEWORD(2, 2), &wsaData);
+    if (result != 0)
+    {
+        std::cerr << "WSAStartup failed: " << result << std::endl;
+        return -1;
+    }
+#endif
+
     // open socket
     SOCKET sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd < 0)
     {
         std::cerr << "Error opening socket" << std::endl;
-        return 1;
+
+#ifdef _WINDOWS
+        WSACleanup();
+#endif
+
+        return -1;
     }
 
     servaddr.sin_family = AF_INET;
     servaddr.sin_port = htons((uint16_t)port);
 
     // bind socket
-    if (bind(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0)
+    result = bind(sockfd, (struct sockaddr*) &servaddr, sizeof(servaddr));
+    if (result < 0)
     {
-        std::cerr << "Error on binding" << std::endl;
-        return 1;
+        std::cerr << "Error on binding: " << result << std::endl;
+
+#ifdef _WINDOWS
+        WSACleanup();
+#endif
+
+        return -1;
     }
 
     // receive data
@@ -85,6 +107,7 @@ int32_t main(int32_t argc, const char** argv)
     // close socket
 #ifdef _WINDOWS
     closesocket(sockfd);
+    WSACleanup();
 #else
     close(sockfd);
 #endif
