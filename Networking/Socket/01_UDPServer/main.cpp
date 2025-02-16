@@ -1,10 +1,17 @@
-﻿#include <iostream>
-#include <cstring>
+﻿#include <cstring>
+#include <iostream>
 
+#ifdef _WINDOWS
+// #include <winsock.h>
+#include <ws2tcpip.h>
+#else
 #include <arpa/inet.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <unistd.h>
+
+#define SOCKET int
+#endif
 
 #define BUFFER_SIZE 1024
 
@@ -43,7 +50,7 @@ int32_t main(int32_t argc, const char** argv)
     }
 
     // open socket
-    int sockfd = socket(AF_INET, SOCK_DGRAM, 0);
+    SOCKET sockfd = socket(AF_INET, SOCK_DGRAM, 0);
     if (sockfd < 0)
     {
         std::cerr << "Error opening socket" << std::endl;
@@ -51,7 +58,7 @@ int32_t main(int32_t argc, const char** argv)
     }
 
     servaddr.sin_family = AF_INET;
-    servaddr.sin_port = htons(port);
+    servaddr.sin_port = htons((uint16_t)port);
 
     // bind socket
     if (bind(sockfd, (struct sockaddr *) &servaddr, sizeof(servaddr)) < 0)
@@ -71,12 +78,16 @@ int32_t main(int32_t argc, const char** argv)
             break;
         }
 
-        buffer[n] = '\0'; // 終端文字を追加
+        buffer[n] = '\0';
         std::cout << "Received: " << buffer << std::endl;
     }
 
     // close socket
+#ifdef _WINDOWS
+    closesocket(sockfd);
+#else
     close(sockfd);
+#endif
 
     return 0;
 }
