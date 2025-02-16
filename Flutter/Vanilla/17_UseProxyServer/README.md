@@ -1,8 +1,10 @@
-# http
+# HTTP Proxy
 
 ## Abstracts
 
-* Select image file from OS image select dialog
+* Flutter ignore system proxy so use `http_proxy` packages.
+  * [App ignores proxy settings #26359](https://github.com/flutter/flutter/issues/26359)
+    * But most of packages like `http_proxy` does not support PAC (Proxy Auto-Configuration).
 
 ## Requirements
 
@@ -13,12 +15,13 @@
 
 ## Dependencies
 
-* [image_picker](https://github.com/flutter/packages/tree/main/packages/image_picker/image_picker)
-  * 1.1.2
-  * Apache-2.0 or BSD-3-Clause License
+* [http_proxy](https://github.com/wslaimin/http_proxy)
+  * 1.2.2
+  * MIT License
 
 ## Screenshots
 
-|iOS|Android|
+|OS|Screenshot|
 |---|---|
-|<img src="./images/ios.gif" width="320" />|<img src="./images/android.gif" width="320" />|
+|iOS|<img src="./images/ios.gif" width="640" />|
+|Android|<img src="./images/android.gif" width="640" />|
