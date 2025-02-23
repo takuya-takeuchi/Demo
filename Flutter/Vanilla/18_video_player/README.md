@@ -22,14 +22,8 @@
 
 You must run [assets/convert.sh](./assets/convert.sh) before build project.
 
-#### iOS
+#### Screenshot
 
-<img src="./images/ios.gif" width="640" />
-
-This movie is from [2020's Tokyo Yushun (a.k.a Japanese Derby) (G1) | Contrail | JRA Official](https://www.youtube.com/watch?v=IhEX_AByG3A) as RTSP streaming
-
-#### Android
-
-<img src="./images/android.gif" width="640" />
-
-This image is from [https://media.w3.org/2010/05/sintel/trailer.mp4](https://media.w3.org/2010/05/sintel/trailer.mp4)
+|iOS|Android|
+|---|---|
+|<img src="./images/ios.gif" width="320" />|<img src="./images/android.gif" width="320" />|
