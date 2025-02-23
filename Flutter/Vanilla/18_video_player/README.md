@@ -3,6 +3,7 @@
 ## Abstracts
 
 * How to play asset video data
+  * Video data is converted from WebM format
 
 ## Dependencies
 
@@ -12,9 +13,14 @@
 
 #### Data
 
-* [assets/852352-hd_1920_1080_30fps.mp4](assets/852352-hd_1920_1080_30fps.mp4)
+* [assets/file_example_WEBM_1920_3_7MB.mp4](assets/file_example_WEBM_1920_3_7MB.mp4)
   * No license
-  * [https://www.pexels.com/ja-jp/video/852352/](https://www.pexels.com/ja-jp/video/852352/)
+  * [https://file-examples.com/wp-content/storage/2020/03/file_example_WEBM_1920_3_7MB.webm](https://file-examples.com/wp-content/storage/2020/03/file_example_WEBM_1920_3_7MB.webm)
+    * The origin of this video is https://pixabay.com/videos/world-earth-nasa-planet-globe-2/
+
+## How to use?
+
+You must run [assets/convert.sh](./assets/convert.sh) before build project.
 
 #### iOS
 

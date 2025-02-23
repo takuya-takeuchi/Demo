@@ -62,6 +62,8 @@ flutter:
 
   assets:
     - assets/852352-hd_1920_1080_30fps.mp4
+    - assets/file_example_WEBM_1920_3_7MB.mp4
+    - assets/file_example_WEBM_1920_3_7MB_3.mp4
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

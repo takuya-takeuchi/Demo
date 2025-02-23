@@ -33,7 +33,7 @@ class _MainPageState extends State<MainPage> {
     // https://github.com/flutter/flutter/issues/41156
     // https://github.com/flutter/flutter/issues/72878
     // Use listner to loop vidoe instead of setLooping
-    _controller = VideoPlayerController.asset("assets/852352-hd_1920_1080_30fps.mp4")
+    _controller = VideoPlayerController.asset("assets/file_example_WEBM_1920_3_7MB.mp4")
       ..initialize().then((_) {
         setState(() {});
       })
