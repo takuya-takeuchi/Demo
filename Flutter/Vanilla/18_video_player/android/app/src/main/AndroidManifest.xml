@@ -1,12 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
-    <!-- Vlc Player for playing external source -->
-    <uses-permission android:name="android.permission.INTERNET" />
-    <!-- Vlc Player for playing external storage device data -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!-- usesCleartextTraffic allow user to communicate with http protocol, not secure -->
     <application
-        android:usesCleartextTraffic="true"
         android:label="demo"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
