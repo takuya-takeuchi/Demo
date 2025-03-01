@@ -52,15 +52,27 @@ int32_t main(int32_t argc, const char** argv)
 
     // create thread and set thread affinity
     std::vector<std::thread> threads;
-    threads.resize(id_size);
-    for (size_t i = 0; i < id_size; i++)
+    if (id_size == 0)
     {
-        const auto id = ids[i];
-        const auto number = i + 1;
-        std::cout << "Thread '" << number << "' is assigned to cpu '" << id << "'" << std::endl;
+        unsigned int n = std::thread::hardware_concurrency();
+        std::cout << "Create " << n << " threads" << std::endl;
 
-        threads[i] = std::thread(consumeCPU);
-        setThreadAffinity(threads[i], id); 
+        threads.resize(n);
+        for (size_t i = 0; i < n; i++)
+            threads[i] = std::thread(consumeCPU);
+    }
+    else
+    {
+        threads.resize(id_size);
+        for (size_t i = 0; i < id_size; i++)
+        {
+            const auto id = ids[i];
+            const auto number = i + 1;
+            std::cout << "Thread '" << number << "' is assigned to cpu '" << id << "'" << std::endl;
+
+            threads[i] = std::thread(consumeCPU);
+            setThreadAffinity(threads[i], id); 
+        }
     }
 
     // wait
