@@ -17,7 +17,6 @@ if (MSVC)
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           Ws2_32)
-endif(
+endif()
 
-)
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
