@@ -4,14 +4,23 @@
 #include <thread>
 #include <vector>
 
+#ifdef _WINDOWS
+#include <Windows.h>
+#endif
+
 void setThreadAffinity(std::thread& th, int cpu_id)
 {
+    auto handle = th.native_handle();
+    
+#ifdef _WINDOWS
+    DWORD_PTR affinity_mask = 1 << cpu_id;
+    if (SetThreadAffinityMask(handle, affinity_mask) == 0)
+#else
     cpu_set_t cpuset;
     CPU_ZERO(&cpuset);
     CPU_SET(cpu_id, &cpuset);
-
-    auto handle = th.native_handle();
     if (pthread_setaffinity_np(handle, sizeof(cpu_set_t), &cpuset) != 0)
+#endif
         std::cerr << "Error: Unable to set thread affinity: " << strerror(errno) << '\n';
 }
 
