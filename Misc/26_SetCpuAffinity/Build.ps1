@@ -18,13 +18,14 @@ if ($global:IsWindows)
 {
     $os = "win"
 }
-elseif ($global:IsMacOS)
-{
-    $os = "osx"
-}
 elseif ($global:IsLinux)
 {
     $os = "linux"
+}
+else
+{
+    Write-Host "Error: This plaform is not support" -ForegroundColor Red
+    exit -1
 }
 
 # build
