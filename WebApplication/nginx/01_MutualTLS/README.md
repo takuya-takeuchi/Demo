@@ -116,3 +116,10 @@ $ curl https://192.168.11.21 --cacert ca.crt
 </body>
 </html>
 ````
+
+And if you use built-in `curl` on windows, you may see the following error in spite of using same command.
+
+````cmd
+$ curl https://192.168.11.21 --cacert ca.crt --key client.decrypted.key --cert client.crt
+curl: (58) schannel: Failed to import cert file client.crt, last error is 0x80092002
+````
