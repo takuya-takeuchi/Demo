@@ -74,6 +74,13 @@ $ cd nginx
 $ start nginx.exe
 ````
 
+##### Linux and MacOS
+
+````bash
+$ cd nginx
+$ start nginx.exe
+````
+
 #### 04. Try mTLS by curl
 
 ````bash

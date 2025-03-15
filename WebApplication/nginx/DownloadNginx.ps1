@@ -63,7 +63,7 @@ elseif ($global:IsMacOS)
     tar -xvzf $file -C $sourceDir --strip-components 1
 
     Push-Location $sourceDir | Out-Null
-    ./configure --prefix=$installDir
+    ./configure --prefix=$installDir --with-http_ssl_module
     make
     make install
     Pop-Location
@@ -74,7 +74,7 @@ elseif ($global:IsLinux)
     tar -xvzf $file -C $sourceDir --strip-components 1
 
     Push-Location $sourceDir | Out-Null
-    ./configure --prefix=$installDir --without-http_rewrite_module --without-http_gzip_module
+    ./configure --prefix=$installDir --without-http_rewrite_module --without-http_gzip_module --with-http_ssl_module
     make
     make install
     Pop-Location
