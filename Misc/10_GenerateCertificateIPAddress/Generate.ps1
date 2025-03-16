@@ -79,7 +79,7 @@ Copy-Item "${opensslConfig}" "{sanFile}"
 echo "[SAN]" >> "{sanFile}"
 echo "subjectAltName=@san_names" >> "{sanFile}"
 echo "basicConstraints=CA:FALSE" >> "{sanFile}"
-echo "keyUsage = nonRepudiation, digitalSignature, keyEncipherment" >> "{sanFile}"
+echo "keyUsage = keyCertSign, cRLSign, keyCertSign" >> "{sanFile}"
 echo "[san_names]" >> "{sanFile}"
 echo "DNS.1=localhost" >> "{sanFile}"
 echo "IP.1=${IpAddress}" >> "{sanFile}"
@@ -94,7 +94,26 @@ Write-Host "Create a CSR:" -ForegroundColor Green
                    -config "${opensslConfig}" `
                    -subj "/C=${C}/ST=${ST}/L=${L}/O=${O}/OU=${OU}/CN=${IpAddress}"
 
+if (Test-Path("{sanFile}"))
+{
+   Remove-Item "{sanFile}"
+}
+
 Write-Host "Sign the CSR, resulting in CRT and add the v3 SAN extension:" -ForegroundColor Green
+Write-Host "After September 1, 2020 00:00 GMT/UTC must not have a validity period greater than 398 days" -ForegroundColor Yellow
+Write-Host "Please see https://support.apple.com/en-us/102028" -ForegroundColor Yellow
+
+Copy-Item "${opensslConfig}" "{sanFile}"
+echo "[SAN]" >> "{sanFile}"
+echo "subjectAltName=@san_names" >> "{sanFile}"
+echo "basicConstraints=CA:FALSE" >> "{sanFile}"
+echo "keyUsage = critical, digitalSignature, keyEncipherment" >> "{sanFile}"
+echo "extendedKeyUsage = serverAuth" >> "{sanFile}"
+echo "[san_names]" >> "{sanFile}"
+echo "DNS.1=localhost" >> "{sanFile}"
+echo "IP.1=${IpAddress}" >> "{sanFile}"
+echo "IP.2=127.0.0.1`")" >> "{sanFile}"
+
 & "${openssl}" x509 -req `
                     -in server.csr `
                     -out server.crt `
@@ -102,7 +121,7 @@ Write-Host "Sign the CSR, resulting in CRT and add the v3 SAN extension:" -Foreg
                     -CAkey ca.key `
                     -CAcreateserial `
                     -sha256 `
-                    -days 3650 `
+                    -days 365 `
                     -extensions SAN `
                     -extfile "{sanFile}"
 

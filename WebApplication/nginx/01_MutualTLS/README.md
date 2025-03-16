@@ -81,8 +81,7 @@ $ start nginx.exe
 ##### Linux and MacOS
 
 ````bash
-$ cd nginx
-$ start nginx.exe
+$ ./nginx/sbin/nginx -g "daemon off;"
 ````
 
 #### 04. Try mTLS by curl
