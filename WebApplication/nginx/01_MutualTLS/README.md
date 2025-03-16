@@ -53,6 +53,10 @@ unable to write 'random state'
 Decrypt client key:
 Enter pass phrase for client.key:
 writing RSA key
+Create pfx:
+Enter Export Password:
+Verifying - Enter Export Password:
+unable to write 'random state'
 ````
 
 You will see client client.crt, client.csr, client.decrypted.key and client.key.

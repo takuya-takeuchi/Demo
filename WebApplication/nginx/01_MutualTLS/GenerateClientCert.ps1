@@ -51,3 +51,6 @@ Write-Host "Sign the CSR:" -ForegroundColor Green
 
 Write-Host "Decrypt client key:" -ForegroundColor Green
 & "${openssl}" rsa -in client.key -out client.decrypted.key
+
+Write-Host "Create pfx:" -ForegroundColor Green
+& "${openssl}" pkcs12 -export -out client.pfx -inkey client.decrypted.key -in client.crt
