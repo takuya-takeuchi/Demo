@@ -1,0 +1,10 @@
+<launch>
+  <machine name="ESXI-VM15" address="192.168.11.115" user="user" env-loader="/home/user/work/setup.bash" default="false" />
+  <machine name="ESXI-VM16" address="192.168.11.116" user="user" env-loader="/home/user/work/setup.bash" default="false" />
+
+  <node name="hello1" pkg="hello" type="hello" output="screen" machine="ESXI-VM15">
+  </node>
+
+  <node name="hello2" pkg="hello" type="hello" output="screen" machine="ESXI-VM16">
+  </node>
+</launch>
