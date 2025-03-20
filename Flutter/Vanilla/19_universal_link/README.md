@@ -24,6 +24,14 @@
 If use flutter 3.27 or later, please check [callee/ios/Runner/Info.plist](callee/ios/Runner/Info.plist) whether `FlutterDeepLinkingEnabled` is `false`.
 Refer [Adjust iOS build settings](https://docs.flutter.dev/cookbook/navigation/set-up-universal-links#adjust-ios-build-settings) about it.
 
+##### Check cache status of apple-app-site-association
+
+Check whether `apple-app-site-association` is cached by Apple CDN.
+
+````bash
+$ curl -v https://app-site-association.cdn-apple.com/a/v1/taktak.jp
+````
+
 #### Android
 
 ##### Find SHA256
