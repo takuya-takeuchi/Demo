@@ -86,7 +86,22 @@
         "concepts": "cpp",
         "numeric": "cpp",
         "random": "cpp",
-        "algorithm": "cpp"
+        "algorithm": "cpp",
+        "pointers": "cpp",
+        "*.inc": "cpp",
+        "csetjmp": "cpp",
+        "any": "cpp",
+        "hash_map": "cpp",
+        "hash_set": "cpp",
+        "strstream": "cpp",
+        "*.tcc": "cpp",
+        "charconv": "cpp",
+        "functional": "cpp",
+        "iterator": "cpp",
+        "memory_resource": "cpp",
+        "utility": "cpp",
+        "scoped_allocator": "cpp",
+        "stdio.h": "c"
     },
     "[dart]": {
         "editor.formatOnSave": true,
@@ -103,4 +118,5 @@
         "editor.formatOnPaste": true
     },
     "dart.lineLength": 160,
+    "cmake.sourceDirectory": "/home/t-takeuchi/Work/Demo/AudioSignalProcessing/01_ASIOSample",
 }
