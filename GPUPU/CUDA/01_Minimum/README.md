@@ -44,4 +44,5 @@ Hello from CUDA kernel!
 Hello from CUDA kernel!
 Hello from CUDA kernel!
 Hello from CUDA kernel!
+End!
 ````
