@@ -57,6 +57,7 @@
 		0734958E2DA1E54F00FA3F84 /* DemoAppClip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoAppClip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		073495A42DA1E55000FA3F84 /* DemoAppClipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoAppClipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		073495AE2DA1E55000FA3F84 /* DemoAppClipUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoAppClipUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		073495C42DA1ED4000FA3F84 /* Demo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Demo.entitlements; sourceTree = "<group>"; };
 		07C347732B884C2400D30BF7 /* Demo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Demo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07C347762B884C2400D30BF7 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		07C3477A2B884C2400D30BF7 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -139,6 +140,7 @@
 		07C347752B884C2400D30BF7 /* Demo */ = {
 			isa = PBXGroup;
 			children = (
+				073495C42DA1ED4000FA3F84 /* Demo.entitlements */,
 				07C347762B884C2400D30BF7 /* AppDelegate.swift */,
 				07C3477A2B884C2400D30BF7 /* ViewController.swift */,
 				07C3477C2B884C2400D30BF7 /* Main.storyboard */,
@@ -659,6 +661,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Demo/Demo.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
@@ -692,6 +695,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Demo/Demo.entitlements;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution";
 				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
