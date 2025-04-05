@@ -1,8 +1,8 @@
-# Minimum
+# cudaDeviceProp
 
 ## Abstracts
 
-* Miminum cuda program
+* Check nvidia gpu device capabilities
 
 ## Requirements
 
@@ -38,14 +38,12 @@ If you want to specify CUDA, update `CUDA_PATH`.
 
 ````cmd
 $ .\install\win\bin\Demo.exe
-Start!
-Hello from CUDA kernel!
-Hello from CUDA kernel!
-Hello from CUDA kernel!
-Hello from CUDA kernel!
-Hello from CUDA kernel!
-Hello from CUDA kernel!
-Hello from CUDA kernel!
-Hello from CUDA kernel!
-End!
+Device 0: NVIDIA GeForce GTX 1080
+  Compute capability: 6.1
+  Total global memory: 8191 MB
+  Multiprocessors: 20
+  Clock rate: 1733 MHz
+  Max threads per block: 1024
+  Max threads dim: [1024, 1024, 64]
+  Max grid size: [2147483647, 65535, 65535]
 ````
