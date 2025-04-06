@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0734962A2DA2005B00FA3F84 /* DemoAppClip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = 073496002DA2005A00FA3F84 /* DemoAppClip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		073496C32DA20C7500FA3F84 /* DemoAppClip.app in Embed App Clips */ = {isa = PBXBuildFile; fileRef = 073496AF2DA20C7400FA3F84 /* DemoAppClip.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
@@ -18,25 +18,11 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		073496172DA2005B00FA3F84 /* PBXContainerItemProxy */ = {
+		073496C12DA20C7500FA3F84 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 073495FF2DA2005A00FA3F84;
-			remoteInfo = DemoAppClip;
-		};
-		073496212DA2005B00FA3F84 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 073495FF2DA2005A00FA3F84;
-			remoteInfo = DemoAppClip;
-		};
-		073496282DA2005B00FA3F84 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 97C146E61CF9000F007C117D /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 073495FF2DA2005A00FA3F84;
+			remoteGlobalIDString = 073496AE2DA20C7400FA3F84;
 			remoteInfo = DemoAppClip;
 		};
 		331C8085294A63A400263BE5 /* PBXContainerItemProxy */ = {
@@ -55,7 +41,7 @@
 			dstPath = "$(CONTENTS_FOLDER_PATH)/AppClips";
 			dstSubfolderSpec = 16;
 			files = (
-				0734962A2DA2005B00FA3F84 /* DemoAppClip.app in Embed App Clips */,
+				073496C32DA20C7500FA3F84 /* DemoAppClip.app in Embed App Clips */,
 			);
 			name = "Embed App Clips";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -63,9 +49,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		073496002DA2005A00FA3F84 /* DemoAppClip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoAppClip.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		073496162DA2005B00FA3F84 /* DemoAppClipTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoAppClipTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		073496202DA2005B00FA3F84 /* DemoAppClipUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = DemoAppClipUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		073496AF2DA20C7400FA3F84 /* DemoAppClip.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DemoAppClip.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		07B823632D9EBE2700493822 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
 		1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneratedPluginRegistrant.m; sourceTree = "<group>"; };
@@ -85,37 +69,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		0734962B2DA2005B00FA3F84 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
+		073496C42DA20C7500FA3F84 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
 				Info.plist,
 			);
-			target = 073495FF2DA2005A00FA3F84 /* DemoAppClip */;
+			target = 073496AE2DA20C7400FA3F84 /* DemoAppClip */;
 		};
 /* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		073496012DA2005A00FA3F84 /* DemoAppClip */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (0734962B2DA2005B00FA3F84 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = DemoAppClip; sourceTree = "<group>"; };
-		073496192DA2005B00FA3F84 /* DemoAppClipTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = DemoAppClipTests; sourceTree = "<group>"; };
-		073496232DA2005B00FA3F84 /* DemoAppClipUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = DemoAppClipUITests; sourceTree = "<group>"; };
+		073496B02DA20C7400FA3F84 /* DemoAppClip */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (073496C42DA20C7500FA3F84 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = DemoAppClip; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		073495FD2DA2005A00FA3F84 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		073496132DA2005B00FA3F84 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0734961D2DA2005B00FA3F84 /* Frameworks */ = {
+		073496AC2DA20C7400FA3F84 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -156,9 +124,7 @@
 			children = (
 				9740EEB11CF90186004384FC /* Flutter */,
 				97C146F01CF9000F007C117D /* Runner */,
-				073496012DA2005A00FA3F84 /* DemoAppClip */,
-				073496192DA2005B00FA3F84 /* DemoAppClipTests */,
-				073496232DA2005B00FA3F84 /* DemoAppClipUITests */,
+				073496B02DA20C7400FA3F84 /* DemoAppClip */,
 				97C146EF1CF9000F007C117D /* Products */,
 				331C8082294A63A400263BE5 /* RunnerTests */,
 			);
@@ -169,9 +135,7 @@
 			children = (
 				97C146EE1CF9000F007C117D /* Runner.app */,
 				331C8081294A63A400263BE5 /* RunnerTests.xctest */,
-				073496002DA2005A00FA3F84 /* DemoAppClip.app */,
-				073496162DA2005B00FA3F84 /* DemoAppClipTests.xctest */,
-				073496202DA2005B00FA3F84 /* DemoAppClipUITests.xctest */,
+				073496AF2DA20C7400FA3F84 /* DemoAppClip.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,73 +159,27 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		073495FF2DA2005A00FA3F84 /* DemoAppClip */ = {
+		073496AE2DA20C7400FA3F84 /* DemoAppClip */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 0734962C2DA2005B00FA3F84 /* Build configuration list for PBXNativeTarget "DemoAppClip" */;
+			buildConfigurationList = 073496C52DA20C7500FA3F84 /* Build configuration list for PBXNativeTarget "DemoAppClip" */;
 			buildPhases = (
-				073495FC2DA2005A00FA3F84 /* Sources */,
-				073495FD2DA2005A00FA3F84 /* Frameworks */,
-				073495FE2DA2005A00FA3F84 /* Resources */,
+				073496AB2DA20C7400FA3F84 /* Sources */,
+				073496AC2DA20C7400FA3F84 /* Frameworks */,
+				073496AD2DA20C7400FA3F84 /* Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			fileSystemSynchronizedGroups = (
-				073496012DA2005A00FA3F84 /* DemoAppClip */,
+				073496B02DA20C7400FA3F84 /* DemoAppClip */,
 			);
 			name = DemoAppClip;
 			packageProductDependencies = (
 			);
 			productName = DemoAppClip;
-			productReference = 073496002DA2005A00FA3F84 /* DemoAppClip.app */;
+			productReference = 073496AF2DA20C7400FA3F84 /* DemoAppClip.app */;
 			productType = "com.apple.product-type.application.on-demand-install-capable";
-		};
-		073496152DA2005B00FA3F84 /* DemoAppClipTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 073496302DA2005B00FA3F84 /* Build configuration list for PBXNativeTarget "DemoAppClipTests" */;
-			buildPhases = (
-				073496122DA2005B00FA3F84 /* Sources */,
-				073496132DA2005B00FA3F84 /* Frameworks */,
-				073496142DA2005B00FA3F84 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				073496182DA2005B00FA3F84 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				073496192DA2005B00FA3F84 /* DemoAppClipTests */,
-			);
-			name = DemoAppClipTests;
-			packageProductDependencies = (
-			);
-			productName = DemoAppClipTests;
-			productReference = 073496162DA2005B00FA3F84 /* DemoAppClipTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		0734961F2DA2005B00FA3F84 /* DemoAppClipUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 073496342DA2005B00FA3F84 /* Build configuration list for PBXNativeTarget "DemoAppClipUITests" */;
-			buildPhases = (
-				0734961C2DA2005B00FA3F84 /* Sources */,
-				0734961D2DA2005B00FA3F84 /* Frameworks */,
-				0734961E2DA2005B00FA3F84 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				073496222DA2005B00FA3F84 /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				073496232DA2005B00FA3F84 /* DemoAppClipUITests */,
-			);
-			name = DemoAppClipUITests;
-			packageProductDependencies = (
-			);
-			productName = DemoAppClipUITests;
-			productReference = 073496202DA2005B00FA3F84 /* DemoAppClipUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 		331C8080294A63A400263BE5 /* RunnerTests */ = {
 			isa = PBXNativeTarget;
@@ -294,7 +212,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				073496292DA2005B00FA3F84 /* PBXTargetDependency */,
+				073496C22DA20C7500FA3F84 /* PBXTargetDependency */,
 			);
 			name = Runner;
 			productName = Runner;
@@ -312,16 +230,8 @@
 				LastUpgradeCheck = 1510;
 				ORGANIZATIONNAME = "";
 				TargetAttributes = {
-					073495FF2DA2005A00FA3F84 = {
+					073496AE2DA20C7400FA3F84 = {
 						CreatedOnToolsVersion = 16.2;
-					};
-					073496152DA2005B00FA3F84 = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 073495FF2DA2005A00FA3F84;
-					};
-					0734961F2DA2005B00FA3F84 = {
-						CreatedOnToolsVersion = 16.2;
-						TestTargetID = 073495FF2DA2005A00FA3F84;
 					};
 					331C8080294A63A400263BE5 = {
 						CreatedOnToolsVersion = 14.0;
@@ -348,29 +258,13 @@
 			targets = (
 				97C146ED1CF9000F007C117D /* Runner */,
 				331C8080294A63A400263BE5 /* RunnerTests */,
-				073495FF2DA2005A00FA3F84 /* DemoAppClip */,
-				073496152DA2005B00FA3F84 /* DemoAppClipTests */,
-				0734961F2DA2005B00FA3F84 /* DemoAppClipUITests */,
+				073496AE2DA20C7400FA3F84 /* DemoAppClip */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		073495FE2DA2005A00FA3F84 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		073496142DA2005B00FA3F84 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0734961E2DA2005B00FA3F84 /* Resources */ = {
+		073496AD2DA20C7400FA3F84 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -432,21 +326,7 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		073495FC2DA2005A00FA3F84 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		073496122DA2005B00FA3F84 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0734961C2DA2005B00FA3F84 /* Sources */ = {
+		073496AB2DA20C7400FA3F84 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -473,20 +353,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		073496182DA2005B00FA3F84 /* PBXTargetDependency */ = {
+		073496C22DA20C7500FA3F84 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 073495FF2DA2005A00FA3F84 /* DemoAppClip */;
-			targetProxy = 073496172DA2005B00FA3F84 /* PBXContainerItemProxy */;
-		};
-		073496222DA2005B00FA3F84 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 073495FF2DA2005A00FA3F84 /* DemoAppClip */;
-			targetProxy = 073496212DA2005B00FA3F84 /* PBXContainerItemProxy */;
-		};
-		073496292DA2005B00FA3F84 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 073495FF2DA2005A00FA3F84 /* DemoAppClip */;
-			targetProxy = 073496282DA2005B00FA3F84 /* PBXContainerItemProxy */;
+			target = 073496AE2DA20C7400FA3F84 /* DemoAppClip */;
+			targetProxy = 073496C12DA20C7500FA3F84 /* PBXContainerItemProxy */;
 		};
 		331C8086294A63A400263BE5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -515,7 +385,7 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		0734962D2DA2005B00FA3F84 /* Debug */ = {
+		073496C62DA20C7500FA3F84 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9740EEB21CF90195004384FC /* Debug.xcconfig */;
 			buildSettings = {
@@ -548,6 +418,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.clip;
@@ -562,7 +433,7 @@
 			};
 			name = Debug;
 		};
-		0734962E2DA2005B00FA3F84 /* Release */ = {
+		073496C72DA20C7500FA3F84 /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
@@ -595,6 +466,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -606,7 +478,7 @@
 			};
 			name = Release;
 		};
-		0734962F2DA2005B00FA3F84 /* Profile */ = {
+		073496C82DA20C7500FA3F84 /* Profile */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 7AFA3C8E1D35360C0083082E /* Release.xcconfig */;
 			buildSettings = {
@@ -639,6 +511,7 @@
 					"@executable_path/Frameworks",
 				);
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MARKETING_VERSION = 1.0.0;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -647,183 +520,6 @@
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Profile;
-		};
-		073496312DA2005B00FA3F84 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U27JXXX492;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.DemoAppClipTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DemoAppClip.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DemoAppClip";
-			};
-			name = Debug;
-		};
-		073496322DA2005B00FA3F84 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U27JXXX492;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.DemoAppClipTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DemoAppClip.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DemoAppClip";
-			};
-			name = Release;
-		};
-		073496332DA2005B00FA3F84 /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U27JXXX492;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.DemoAppClipTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/DemoAppClip.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/DemoAppClip";
-			};
-			name = Profile;
-		};
-		073496352DA2005B00FA3F84 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U27JXXX492;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.DemoAppClipUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = DemoAppClip;
-			};
-			name = Debug;
-		};
-		073496362DA2005B00FA3F84 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U27JXXX492;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.DemoAppClipUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = DemoAppClip;
-			};
-			name = Release;
-		};
-		073496372DA2005B00FA3F84 /* Profile */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = U27JXXX492;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.2;
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.DemoAppClipUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_TARGET_NAME = DemoAppClip;
 			};
 			name = Profile;
 		};
@@ -1131,32 +827,12 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		0734962C2DA2005B00FA3F84 /* Build configuration list for PBXNativeTarget "DemoAppClip" */ = {
+		073496C52DA20C7500FA3F84 /* Build configuration list for PBXNativeTarget "DemoAppClip" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				0734962D2DA2005B00FA3F84 /* Debug */,
-				0734962E2DA2005B00FA3F84 /* Release */,
-				0734962F2DA2005B00FA3F84 /* Profile */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		073496302DA2005B00FA3F84 /* Build configuration list for PBXNativeTarget "DemoAppClipTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				073496312DA2005B00FA3F84 /* Debug */,
-				073496322DA2005B00FA3F84 /* Release */,
-				073496332DA2005B00FA3F84 /* Profile */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		073496342DA2005B00FA3F84 /* Build configuration list for PBXNativeTarget "DemoAppClipUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				073496352DA2005B00FA3F84 /* Debug */,
-				073496362DA2005B00FA3F84 /* Release */,
-				073496372DA2005B00FA3F84 /* Profile */,
+				073496C62DA20C7500FA3F84 /* Debug */,
+				073496C72DA20C7500FA3F84 /* Release */,
+				073496C82DA20C7500FA3F84 /* Profile */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
