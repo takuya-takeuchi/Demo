@@ -421,10 +421,10 @@
 				MARKETING_VERSION = "$(FLUTTER_BUILD_NAME)";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.clip;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "AppStore for jp.taktak.demo.flutter.ios.clip";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "AppStore for jp.taktak.demo.flutter.ios.Clip";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -468,10 +468,10 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = "$(FLUTTER_BUILD_NAME)";
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.clip;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "AppStore for jp.taktak.demo.flutter.ios.clip";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "AppStore for jp.taktak.demo.flutter.ios.Clip";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -513,10 +513,10 @@
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MARKETING_VERSION = "$(FLUTTER_BUILD_NAME)";
 				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.clip;
+				PRODUCT_BUNDLE_IDENTIFIER = jp.taktak.demo.flutter.ios.Clip;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "AppStore for jp.taktak.demo.flutter.ios.clip";
+				"PROVISIONING_PROFILE_SPECIFIER[sdk=iphoneos*]" = "AppStore for jp.taktak.demo.flutter.ios.Clip";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
