@@ -1,13 +1,12 @@
-# UIButton and show UIAlertController
+# App Clip
 
 ## Abstracts
 
-* Ignore Storyboard and construct UI components from code
-* Add `UIButton` and binding function into `touchUpInside` event
+* Minimum App Clip
 
 ## Requirements
 
-* Xcode 14.0 or later
+* Xcode 16.0 or later
 * Apple Developer Account with Apple Develop Program
 
 ## Project Style
@@ -22,6 +21,16 @@
 
 N/A
 
+## How to use?
+
+At first, you must create distribute certificate and provisioning profiles.
+
+Open [ios/Runner.xcworkspace](./ios/Runner.xcworkspace) by Xcode.
+Then **Product -> Archive**, and **Distribute App**.
+Both main and App Clip apps will be published to App Store Connect.
+
+All that is left is distributing app by TestFlight.
+
 ## Screenshots
 
-<img src="./images/app.gif" width="384" />
+<img src="./images/testflight.png" width="384" />

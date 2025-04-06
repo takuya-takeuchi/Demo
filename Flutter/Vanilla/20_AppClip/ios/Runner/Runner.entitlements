@@ -4,7 +4,7 @@
 <dict>
 	<key>com.apple.developer.associated-appclip-app-identifiers</key>
 	<array>
-		<string>$(AppIdentifierPrefix)jp.taktak.demo.flutter.ios.clip</string>
+		<string>$(AppIdentifierPrefix)jp.taktak.demo.flutter.ios.Clip</string>
 	</array>
 	<key>com.apple.developer.associated-domains</key>
 	<array>
