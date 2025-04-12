@@ -45,6 +45,11 @@ $targetDir = Join-Path $installDir $target | `
              Join-Path -ChildPath lib | `
              Join-Path -ChildPath cmake
 
+$installLibJXLDir = Join-Path $current install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath libjxl | `
+                    Join-Path -ChildPath $shared
+
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
@@ -53,6 +58,7 @@ if ($global:IsWindows)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
+          -D CMAKE_PREFIX_PATH=${installLibJXLDir} `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
           -D BUILD_opencv_world=OFF `
           -D BUILD_opencv_java=OFF `
@@ -70,6 +76,7 @@ if ($global:IsWindows)
           -D BUILD_TIFF=ON `
           -D BUILD_ZLIB=ON `
           -D WITH_JPEG=ON `
+          -D WITH_JPEGXL=ON `
           -D WITH_PNG=ON `
           -D WITH_TIFF=ON `
           $sourceDir
@@ -77,6 +84,7 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_PREFIX_PATH="${sourceLibJXLDir}" `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
           -D BUILD_opencv_world=OFF `
@@ -95,6 +103,7 @@ elseif ($global:IsMacOS)
           -D BUILD_TIFF=ON `
           -D BUILD_ZLIB=ON `
           -D WITH_JPEG=ON `
+          -D WITH_JPEGXL=ON `
           -D WITH_PNG=ON `
           -D WITH_TIFF=ON `
           $sourceDir
@@ -102,6 +111,7 @@ elseif ($global:IsMacOS)
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_PREFIX_PATH="${sourceLibJXLDir}" `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
           -D BUILD_opencv_world=OFF `
@@ -120,6 +130,7 @@ elseif ($global:IsLinux)
           -D BUILD_TIFF=ON `
           -D BUILD_ZLIB=ON `
           -D WITH_JPEG=ON `
+          -D WITH_JPEGXL=ON `
           -D WITH_PNG=ON `
           -D WITH_TIFF=ON `
           $sourceDir
