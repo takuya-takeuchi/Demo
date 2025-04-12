@@ -47,6 +47,7 @@ $openBenchmarkDir = Join-Path $rootDir install | `
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
+New-Item -Type Directory (Join-Path $installDir bin) -Force | Out-Null
 
 Push-Location $buildDir
 if ($global:IsWindows)
