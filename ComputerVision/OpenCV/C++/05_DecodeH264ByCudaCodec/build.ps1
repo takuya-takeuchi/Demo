@@ -60,9 +60,9 @@ Push-Location $buildDir
 if ($global:IsWindows)
 {
     $rootDir = Split-Path $current -Parent
-    $openCVInstallDir = Join-Path $rootDir install-with-cudacodec | `
+    $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
-                        Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath "${target}-with-cudacodec"| `
                         Join-Path -ChildPath $shared
     $cmakeModuleFile = Get-ChildItem $openCVInstallDir -Recurse -include OpenCVModules.cmake | Select-Object -First 1
     if (!($cmakeModuleFile))
@@ -80,9 +80,9 @@ if ($global:IsWindows)
 elseif ($global:IsLinux)
 {
     $rootDir = Split-Path $current -Parent
-    $openCVInstallDir = Join-Path $rootDir install-with-cudacodec | `
+    $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
-                        Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath "${target}-with-cudacodec" | `
                         Join-Path -ChildPath $shared | `
                         Join-Path -ChildPath lib | `
                         Join-Path -ChildPath cmake | `

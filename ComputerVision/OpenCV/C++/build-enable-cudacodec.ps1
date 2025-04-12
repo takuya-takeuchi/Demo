@@ -46,13 +46,13 @@ $sharedFlag = "OFF"
 
 # build
 $sourceDir = Join-Path $current $target
-$buildDir = Join-Path $current build-with-cudacodec | `
+$buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target | `
+            Join-Path -ChildPath "${target}-with-cudacodec" | `
             Join-Path -ChildPath $shared
-$installDir = Join-Path $current install-with-cudacodec | `
+$installDir = Join-Path $current install| `
               Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target | `
+              Join-Path -ChildPath "${target}-with-cudacodec" | `
               Join-Path -ChildPath $shared
 $targetDir = Join-Path $installDir $target | `
              Join-Path -ChildPath lib | `
