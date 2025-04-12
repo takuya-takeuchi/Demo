@@ -35,7 +35,7 @@
 ## Dependencies
 
 * [opencv](https://github.com/opencv/opencv)
-  * 4.7.0
+  * 4.11.0
   * Apache-2.0 License
 
 ## How to use?

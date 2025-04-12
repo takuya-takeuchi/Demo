@@ -196,3 +196,6 @@
 	path = Networking/WebSocket++/websocketpp
 	url = https://github.com/zaphoyd/websocketpp
 	ignore = dirty
+[submodule "ComputerVision/OpenCV/C++/libjxl"]
+	path = ComputerVision/OpenCV/C++/libjxl
+	url = https://github.com/libjxl/libjxl
