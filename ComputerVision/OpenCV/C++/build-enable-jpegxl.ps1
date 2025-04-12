@@ -77,6 +77,7 @@ if ($global:IsWindows)
           -D BUILD_ZLIB=ON `
           -D WITH_JPEG=ON `
           -D WITH_JPEGXL=ON `
+          -D WITH_OPENEXR=OFF `
           -D WITH_PNG=ON `
           -D WITH_TIFF=ON `
           $sourceDir
@@ -104,6 +105,7 @@ elseif ($global:IsMacOS)
           -D BUILD_ZLIB=ON `
           -D WITH_JPEG=ON `
           -D WITH_JPEGXL=ON `
+          -D WITH_OPENEXR=OFF `
           -D WITH_PNG=ON `
           -D WITH_TIFF=ON `
           $sourceDir
@@ -131,6 +133,7 @@ elseif ($global:IsLinux)
           -D BUILD_ZLIB=ON `
           -D WITH_JPEG=ON `
           -D WITH_JPEGXL=ON `
+          -D WITH_OPENEXR=OFF `
           -D WITH_PNG=ON `
           -D WITH_TIFF=ON `
           $sourceDir
