@@ -60,6 +60,7 @@ if ($global:IsWindows)
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D CMAKE_PREFIX_PATH=${installLibJXLDir} `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
+          -D BUILD_WITH_STATIC_CRT=OFF `
           -D BUILD_opencv_apps=OFF `
           -D BUILD_opencv_gapi=OFF `
           -D BUILD_opencv_world=OFF `
