@@ -35,14 +35,14 @@ void EncodeToJpeg(const cv::Mat& mat)
     cv::imencode(".jpg", mat, buf);
 }
 
-void DecodeJxl(const std::vector<uint8_t>& buf)
+void DecodeJxl(const cv::Mat& mat)
 {
-    const auto ret = cv::imdecode(cv::Mat(buf), cv::IMREAD_COLOR);
+    const auto ret = cv::imdecode(mat, cv::IMREAD_COLOR);
 }
 
-void DecodeJpeg(const std::vector<uint8_t>& buf)
+void DecodeJpeg(const cv::Mat& mat)
 {
-    const auto ret = cv::imdecode(cv::Mat(buf), cv::IMREAD_COLOR);
+    const auto ret = cv::imdecode(mat, cv::IMREAD_COLOR);
 }
 
 static void BM_EncodeToJxl(benchmark::State &state) {
@@ -60,15 +60,17 @@ static void BM_EncodeToJpeg(benchmark::State &state) {
 static void BM_DecodeJxl(benchmark::State &state) {
     std::vector<uint8_t> buf;
     readFile("lenna.jxl", buf);
+    const cv::Mat mat(buf);
     for (auto _ : state)
-        DecodeJxl(buf);
+        DecodeJxl(mat);
 }
 
 static void BM_DecodeJpeg(benchmark::State &state) {
     std::vector<uint8_t> buf;
     readFile("lenna.jpg", buf);
+    const cv::Mat mat(buf);
     for (auto _ : state)
-        DecodeJpeg(buf);
+        DecodeJpeg(mat);
 }
 
 BENCHMARK(BM_EncodeToJxl)->Unit(benchmark::kMillisecond);
