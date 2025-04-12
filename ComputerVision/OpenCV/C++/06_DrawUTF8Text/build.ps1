@@ -43,9 +43,9 @@ New-Item -Type Directory $installDir -Force | Out-Null
 New-Item -Type Directory $installDir/bin/fonts -Force | Out-Null
 
 $rootDir = Split-Path $current -Parent
-$openCVInstallDir = Join-Path $rootDir install-enable-freetype | `
+$openCVInstallDir = Join-Path $rootDir install | `
                     Join-Path -ChildPath $os | `
-                    Join-Path -ChildPath $target | `
+                    Join-Path -ChildPath "${target}-enable-freetype" | `
                     Join-Path -ChildPath $shared
 $freetype_installDir = Join-Path $rootDir install | `
                        Join-Path -ChildPath $os | `

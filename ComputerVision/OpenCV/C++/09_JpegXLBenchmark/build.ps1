@@ -18,26 +18,13 @@ if ($global:IsWindows)
 {
     $os = "win"
 }
+elseif ($global:IsMacOS)
+{
+    $os = "osx"
+}
 elseif ($global:IsLinux)
 {
     $os = "linux"
-}
-else
-{
-    Write-Host "[Error] This platform does not support CUDA" -ForegroundColor Red
-    exit
-}
-
-# check CUDA
-if (!($env:CUDA_PATH))
-{
-    Write-Host "CUDA_PATH environmental variable is missing" -ForegroundColor Red
-    return
-}
-if (!(Test-Path($env:CUDA_PATH)))
-{
-    Write-Host "${env:CUDA_PATH} is missing" -ForegroundColor Red
-    return
 }
 
 $target = "opencv4"
@@ -50,19 +37,24 @@ $buildDir = Join-Path $current build | `
             Join-Path -ChildPath program
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
-$installBinaryDir = Join-Path $installDir bin
+
+$rootDir = Split-Path $current -Parent
+
+$openBenchmarkDir = Join-Path $rootDir install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath benchmark | `
+                    Join-Path -ChildPath $shared
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
-New-Item -Type Directory $installBinaryDir -Force | Out-Null
+New-Item -Type Directory (Join-Path $installDir bin) -Force | Out-Null
 
 Push-Location $buildDir
 if ($global:IsWindows)
 {
-    $rootDir = Split-Path $current -Parent
     $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
-                        Join-Path -ChildPath "${target}-with-cudacodec"| `
+                        Join-Path -ChildPath "${target}-enable-jpegxl" | `
                         Join-Path -ChildPath $shared
     $cmakeModuleFile = Get-ChildItem $openCVInstallDir -Recurse -include OpenCVModules.cmake | Select-Object -First 1
     if (!($cmakeModuleFile))
@@ -74,7 +66,22 @@ if ($global:IsWindows)
     $openCVInstallDir = Split-Path $cmakeModuleFile -Parent
 
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openCVInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${openCVInstallDir};${openBenchmarkDir}" `
+          $sourceDir
+}
+elseif ($global:IsMacOS)
+{
+    $rootDir = Split-Path $current -Parent
+    $openCVInstallDir = Join-Path $rootDir install | `
+                        Join-Path -ChildPath $os | `
+                        Join-Path -ChildPath "${target}-enable-jpegxl" | `
+                        Join-Path -ChildPath $shared | `
+                        Join-Path -ChildPath lib | `
+                        Join-Path -ChildPath cmake | `
+                        Join-Path -ChildPath $target
+
+    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_PREFIX_PATH="${openCVInstallDir};${openBenchmarkDir}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
@@ -82,14 +89,14 @@ elseif ($global:IsLinux)
     $rootDir = Split-Path $current -Parent
     $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
-                        Join-Path -ChildPath "${target}-with-cudacodec" | `
+                        Join-Path -ChildPath "${target}-enable-jpegxl" | `
                         Join-Path -ChildPath $shared | `
                         Join-Path -ChildPath lib | `
                         Join-Path -ChildPath cmake | `
                         Join-Path -ChildPath $target
 
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openCVInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${openCVInstallDir};${openBenchmarkDir}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
