@@ -39,6 +39,7 @@ endif()
 add_executable(${PROJ_NAME} main.cpp)
 
 if (MSVC)
+    target_compile_definitions(${PROJ_NAME} PRIVATE _SILENCE_CXX17_CODECVT_HEADER_DEPRECATION_WARNING)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                ${OpenCV_INCLUDE_DIRS})
