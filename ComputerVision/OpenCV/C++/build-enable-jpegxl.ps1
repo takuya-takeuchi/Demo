@@ -60,6 +60,8 @@ if ($global:IsWindows)
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D CMAKE_PREFIX_PATH=${installLibJXLDir} `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
+          -D BUILD_opencv_apps=OFF `
+          -D BUILD_opencv_gapi=OFF `
           -D BUILD_opencv_world=OFF `
           -D BUILD_opencv_java=OFF `
           -D BUILD_opencv_python=OFF `
@@ -88,6 +90,8 @@ elseif ($global:IsMacOS)
           -D CMAKE_PREFIX_PATH="${installLibJXLDir}" `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
+          -D BUILD_opencv_apps=OFF `
+          -D BUILD_opencv_gapi=OFF `
           -D BUILD_opencv_world=OFF `
           -D BUILD_opencv_java=OFF `
           -D BUILD_opencv_python=OFF `
@@ -116,6 +120,8 @@ elseif ($global:IsLinux)
           -D CMAKE_PREFIX_PATH="${installLibJXLDir}" `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
+          -D BUILD_opencv_apps=OFF `
+          -D BUILD_opencv_gapi=OFF `
           -D BUILD_opencv_world=OFF `
           -D BUILD_opencv_java=OFF `
           -D BUILD_opencv_python=OFF `
