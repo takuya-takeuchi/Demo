@@ -35,11 +35,11 @@ $sharedFlag = "OFF"
 $sourceDir = Join-Path $current $target
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target | `
+            Join-Path -ChildPath "${target}-enable-jpegxl" | `
             Join-Path -ChildPath $shared
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target | `
+              Join-Path -ChildPath "${target}-enable-jpegxl" | `
               Join-Path -ChildPath $shared
 $targetDir = Join-Path $installDir $target | `
              Join-Path -ChildPath lib | `

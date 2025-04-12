@@ -47,7 +47,7 @@ if ($global:IsWindows)
     $rootDir = Split-Path $current -Parent
     $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
-                        Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath "${target}-enable-jpegxl" | `
                         Join-Path -ChildPath $shared
     $cmakeModuleFile = Get-ChildItem $openCVInstallDir -Recurse -include OpenCVModules.cmake | Select-Object -First 1
     if (!($cmakeModuleFile))
