@@ -38,13 +38,19 @@ $buildDir = Join-Path $current build | `
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
 
+$rootDir = Split-Path $current -Parent
+
+$openBenchmarkDir = Join-Path $rootDir install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath benchmark | `
+                    Join-Path -ChildPath $shared
+
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
 if ($global:IsWindows)
 {
-    $rootDir = Split-Path $current -Parent
     $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath "${target}-enable-jpegxl" | `
@@ -59,7 +65,7 @@ if ($global:IsWindows)
     $openCVInstallDir = Split-Path $cmakeModuleFile -Parent
 
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openCVInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${openCVInstallDir};${openBenchmarkDir}" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
@@ -74,7 +80,7 @@ elseif ($global:IsMacOS)
                         Join-Path -ChildPath $target
 
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openCVInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${openCVInstallDir};${openBenchmarkDir}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
@@ -89,7 +95,7 @@ elseif ($global:IsLinux)
                         Join-Path -ChildPath $target
 
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openCVInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${openCVInstallDir};${openBenchmarkDir}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
