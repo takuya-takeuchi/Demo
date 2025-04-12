@@ -1,5 +1,7 @@
 ﻿#include <cstdint>
 #include <fstream>
+#include <istream>
+#include <iterator>
 #include <vector>
 
 #include <benchmark/benchmark.h>
