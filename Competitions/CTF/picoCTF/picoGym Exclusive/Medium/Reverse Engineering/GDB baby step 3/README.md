@@ -4,9 +4,6 @@
 
 Debug [debugger0_c](debugger0_c) by `gdb`.
 
-This problem says `Can you figure out what is in the eax register at the end of the main function?`.
-We have to know value in `eax` register.
-
 `gdb` may be litte difficult.
 This program need you using the following commands.
 
