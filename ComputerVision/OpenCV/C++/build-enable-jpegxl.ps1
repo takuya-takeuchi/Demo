@@ -77,6 +77,7 @@ if ($global:IsWindows)
           -D BUILD_PNG=ON `
           -D BUILD_TIFF=ON `
           -D BUILD_ZLIB=ON `
+          -D WITH_EIGEN=OFF `
           -D WITH_JPEG=ON `
           -D WITH_JPEGXL=ON `
           -D WITH_OPENEXR=OFF `
@@ -107,6 +108,7 @@ elseif ($global:IsMacOS)
           -D BUILD_PNG=ON `
           -D BUILD_TIFF=ON `
           -D BUILD_ZLIB=ON `
+          -D WITH_EIGEN=OFF `
           -D WITH_JPEG=ON `
           -D WITH_JPEGXL=ON `
           -D WITH_OPENEXR=OFF `
@@ -137,6 +139,7 @@ elseif ($global:IsLinux)
           -D BUILD_PNG=ON `
           -D BUILD_TIFF=ON `
           -D BUILD_ZLIB=ON `
+          -D WITH_EIGEN=OFF `
           -D WITH_JPEG=ON `
           -D WITH_JPEGXL=ON `
           -D WITH_OPENEXR=OFF `
