@@ -85,7 +85,7 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${sourceLibJXLDir}" `
+          -D CMAKE_PREFIX_PATH="${installLibJXLDir}" `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
           -D BUILD_opencv_world=OFF `
@@ -113,7 +113,7 @@ elseif ($global:IsMacOS)
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${sourceLibJXLDir}" `
+          -D CMAKE_PREFIX_PATH="${installLibJXLDir}" `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
           -D BUILD_opencv_world=OFF `
