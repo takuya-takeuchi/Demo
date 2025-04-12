@@ -71,9 +71,9 @@ static void BM_DecodeJpeg(benchmark::State &state) {
         DecodeJpeg(buf);
 }
 
-BENCHMARK(BM_EncodeToJxl);
-BENCHMARK(BM_EncodeToJpeg);
-BENCHMARK(BM_DecodeJxl);
-BENCHMARK(BM_DecodeJpeg);
+BENCHMARK(BM_EncodeToJxl)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_EncodeToJpeg)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_DecodeJxl)->Unit(benchmark::kMillisecond);
+BENCHMARK(BM_DecodeJpeg)->Unit(benchmark::kMillisecond);
 
 BENCHMARK_MAIN();
