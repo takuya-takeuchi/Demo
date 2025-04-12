@@ -73,7 +73,7 @@ elseif ($global:IsMacOS)
     $rootDir = Split-Path $current -Parent
     $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
-                        Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath "${target}-enable-jpegxl" | `
                         Join-Path -ChildPath $shared | `
                         Join-Path -ChildPath lib | `
                         Join-Path -ChildPath cmake | `
@@ -88,7 +88,7 @@ elseif ($global:IsLinux)
     $rootDir = Split-Path $current -Parent
     $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
-                        Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath "${target}-enable-jpegxl" | `
                         Join-Path -ChildPath $shared | `
                         Join-Path -ChildPath lib | `
                         Join-Path -ChildPath cmake | `
