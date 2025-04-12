@@ -64,6 +64,8 @@ endif()
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
 
 set(BINARY_DATA
+    ${CMAKE_CURRENT_SOURCE_DIR}/lenna.jpg
+    ${CMAKE_CURRENT_SOURCE_DIR}/lenna.jxl
     ${CMAKE_CURRENT_SOURCE_DIR}/lenna.png
 )
 
