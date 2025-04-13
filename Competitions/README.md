@@ -1,6 +1,18 @@
 # Useful tools
 
-## strings
+## Network
+
+#### aircrack-ng
+
+Aircrack-ng is a complete suite of tools to assess WiFi network security.
+
+````bash
+$ aircrack-ng wpa-ing_out.pcap -w rockyou.txt
+````
+
+## Binary
+
+#### strings
 
 Command to display the readable portion of a binary or data file.
 
@@ -21,7 +33,7 @@ u+UH
 ...
 ````
 
-## objdump
+#### objdump
 
 Command to display content of binary object.
 
@@ -37,7 +49,7 @@ $ objdump -d asciiftw
     ..
 ````
 
-## nm
+#### nm
 
 Command to display symbols information of binary object.
 
@@ -59,3 +71,11 @@ $ nm asciiftw
 0000000000001160 t frame_dummy
     ..
 ````
+
+## Password list
+
+* [rockyou.txt](https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt)
+
+## Hash cracking
+
+* [MD5Hashing.net](https://md5hashing.net/hash)
