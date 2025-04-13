@@ -1,6 +1,18 @@
 # Useful tools
 
-## strings
+## Network
+
+#### aircrack-ng
+
+Aircrack-ng is a complete suite of tools to assess WiFi network security.
+
+````bash
+$ aircrack-ng wpa-ing_out.pcap -w rockyou.txt
+````
+
+## Binary
+
+#### strings
 
 Command to display the readable portion of a binary or data file.
 
@@ -21,7 +33,7 @@ u+UH
 ...
 ````
 
-## objdump
+#### objdump
 
 Command to display content of binary object.
 
@@ -37,7 +49,7 @@ $ objdump -d asciiftw
     ..
 ````
 
-## nm
+#### nm
 
 Command to display symbols information of binary object.
 
@@ -59,3 +71,21 @@ $ nm asciiftw
 0000000000001160 t frame_dummy
     ..
 ````
+
+#### checksec
+
+Checksec checks the properties of executables (like PIE, RELRO, Canaries, ASLR, Fortify Source).
+
+````bash
+$ checksec --file=vuln
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      Symbols         FORTIFY Fortified       Fortifiable  FILE
+Full RELRO      Canary found      NX enabled    PIE enabled     No RPATH   No RUNPATH   78 Symbols     Yes      0               1       vuln
+````
+
+## Password list
+
+* [rockyou.txt](https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt)
+
+## Hash cracking
+
+* [MD5Hashing.net](https://md5hashing.net/hash)
