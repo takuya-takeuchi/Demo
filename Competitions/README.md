@@ -72,6 +72,16 @@ $ nm asciiftw
     ..
 ````
 
+#### checksec
+
+Checksec checks the properties of executables (like PIE, RELRO, Canaries, ASLR, Fortify Source).
+
+````bash
+$ checksec --file=vuln
+RELRO           STACK CANARY      NX            PIE             RPATH      RUNPATH      Symbols         FORTIFY Fortified       Fortifiable  FILE
+Full RELRO      Canary found      NX enabled    PIE enabled     No RPATH   No RUNPATH   78 Symbols     Yes      0               1       vuln
+````
+
 ## Password list
 
 * [rockyou.txt](https://github.com/brannondorsey/naive-hashcat/releases/download/data/rockyou.txt)
