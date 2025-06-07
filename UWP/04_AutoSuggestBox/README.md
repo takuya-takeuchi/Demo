@@ -1,7 +1,9 @@
 # AutoSuggestBox
 
 * Sample usage of [Windows.UI.Xaml.Controls.AutoSuggestBox](https://learn.microsoft.com/en-us/uwp/api/windows.ui.xaml.controls.autosuggestbox)
-  * This control has a strong habit
+  * This control has a strong habit. For examples
+    * 1. The AutoSuggestBox suggestion list (pop-up) may appear at the top of the screen when the control is located near the bottom of the screen. In this case, the order of the list (items from top to bottom) may be reversed.
+    * 2. To change the width of the AutoSuggestBox suggestion list, you must modify the ControlTemplate.
 
 ## Requirements
 
