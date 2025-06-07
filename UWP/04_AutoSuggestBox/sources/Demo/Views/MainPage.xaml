@@ -1,0 +1,45 @@
+﻿<Page x:Class="Demo.Views.MainPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:behaviors="using:Demo.Behaviors"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:mvvm="using:Prism.Windows.Mvvm"
+      mvvm:ViewModelLocator.AutoWireViewModel="True"
+      Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+      mc:Ignorable="d">
+
+    <StackPanel>
+        <TextBlock Text="string list" />
+        <AutoSuggestBox ItemsSource="{Binding Sources, Mode=OneWay}">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:StringCollectionAutoSuggestBoxBehavior ItemsSource="{Binding Sources, Mode=OneWay}" />
+            </interactivity:Interaction.Behaviors>
+        </AutoSuggestBox>
+        <TextBlock Margin="0,10,0,0"
+                   Text="KeyValuePair&lt;string, string&gt; list" />
+        <AutoSuggestBox ItemsSource="{Binding Sources2, Mode=OneWay}">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:KeyValuePairCollectionAutoSuggestBoxBehavior ItemsSource="{Binding Sources2, Mode=OneWay}" />
+            </interactivity:Interaction.Behaviors>
+            <AutoSuggestBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Value, Mode=OneTime}" />
+                </DataTemplate>
+            </AutoSuggestBox.ItemTemplate>
+        </AutoSuggestBox>
+        <TextBlock Margin="0,10,0,0"
+                   Text="ItemModel list" />
+        <AutoSuggestBox ItemsSource="{Binding Sources3, Mode=OneWay}">
+            <interactivity:Interaction.Behaviors>
+                <behaviors:ItemModelCollectionAutoSuggestBoxBehavior ItemsSource="{Binding Sources3, Mode=OneWay}" />
+            </interactivity:Interaction.Behaviors>
+            <AutoSuggestBox.ItemTemplate>
+                <DataTemplate>
+                    <TextBlock Text="{Binding Value, Mode=OneTime}" />
+                </DataTemplate>
+            </AutoSuggestBox.ItemTemplate>
+        </AutoSuggestBox>
+    </StackPanel>
+</Page>
