@@ -27,7 +27,7 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "websocketpp"
+$target = "PcapPlusPlus"
 $shared = "static"
 $sharedFlag = "OFF"
 
@@ -45,12 +45,20 @@ $installDir = Join-Path $current install | `
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
+$pcapSdkPath = Join-Path $current "npcap-sdk"
+if (!(Test-Path("${pcapSdkPath}")))
+{
+    Write-Host "PCAP_SDK_PATH: ${pcapSdkPath} is missing" -ForegroundColor Red
+    exit
+}
+
 Push-Location $buildDir
 if ($global:IsWindows)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
+          -D PCAP_ROOT="${pcapSdkPath}" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
@@ -58,6 +66,7 @@ elseif ($global:IsMacOS)
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
+          -D PCAP_ROOT="${pcapSdkPath}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
@@ -65,6 +74,7 @@ elseif ($global:IsLinux)
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
+          -D PCAP_ROOT="${pcapSdkPath}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
