@@ -203,3 +203,8 @@
 [submodule "ComputerVision/OpenCV/C++/benchmark"]
 	path = ComputerVision/OpenCV/C++/benchmark
 	url = https://github.com/google/benchmark
+	ignore = dirty
+[submodule "Networking/PcapPlusPlus/PcapPlusPlus"]
+	path = Networking/PcapPlusPlus/PcapPlusPlus
+	url = https://github.com/seladb/PcapPlusPlus
+	ignore = dirty
