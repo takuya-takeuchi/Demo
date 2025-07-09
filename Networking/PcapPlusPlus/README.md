@@ -44,6 +44,14 @@ $ pwsh download-npcap.ps1
 $ pwsh build.ps1 <Debug/Release>
 ````
 
+### Linux
+
+````shell
+$ git submodule update --init --recursive .
+$ apt install libpcap-dev
+$ pwsh build.ps1 <Debug/Release>
+````
+
 ### OSX
 
 ````shell

@@ -65,7 +65,7 @@ You must get the following informations.
 * Source Port Number (newSrcPort)
 * Target Port Number (newDstPort)
 
-#### Windows
+### Windows
 
 Pass arguments you got on the previous section.
 
@@ -84,7 +84,23 @@ Sent 1 UDP packets.
 
 <img src="./images/windows.gif" />
 
-#### OSX
+### Linux
+
+````bash
+$ sudo -E ./install/linux/static/bin/Demo protobuf_udp_addressbook.pcapng ens160 192.168.11.102 192.168.11.21 00:0c:29:4b:11
+:ac D8:9E:F3:8A:17:5A 456 123
+pcapFile: protobuf_udp_addressbook.pcapng
+ devName: ens160
+  srcMac: 192.168.11.102
+  dstMac: 192.168.11.21
+  srcMac: 00:0c:29:4b:11:ac
+  dstMac: d8:9e:f3:8a:17:5a
+ srcPort: 456
+ dstPort: 123
+Sent 1 UDP packets.
+````
+
+### OSX
 
 Pass arguments you got on the previous section.
 

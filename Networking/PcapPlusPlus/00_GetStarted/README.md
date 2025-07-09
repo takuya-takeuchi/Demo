@@ -82,6 +82,21 @@ $ install\win\static\bin\Demo.exe
 \Device\NPF_Loopback : Adapter for loopback traffic capture
 ````
 
+### Linux
+
+````bash
+$ $ ./install/linux/static/bin/Demo 
+ens160 : 
+any : Pseudo-device that captures on all interfaces
+lo : 
+docker0 : 
+bluetooth-monitor : Bluetooth Linux Monitor
+nflog : Linux netfilter log (NFLOG) interface
+nfqueue : Linux netfilter queue (NFQUEUE) interface
+dbus-system : D-Bus system bus
+dbus-session : D-Bus session bus
+````
+
 ### OSX
 
 ````bash
