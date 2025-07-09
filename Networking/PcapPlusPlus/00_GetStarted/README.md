@@ -81,3 +81,35 @@ $ install\win\static\bin\Demo.exe
 \Device\NPF_{4175C5AB-487A-47A8-A273-38768D8656CE} : Hyper-V Virtual Ethernet Adapter #3
 \Device\NPF_Loopback : Adapter for loopback traffic capture
 ````
+
+### OSX
+
+````bash
+$  ./install/osx/static/bin/Demo
+en0 : 
+ap1 : 
+en1 : 
+llw0 : 
+bridge100 : 
+utun0 : 
+utun1 : 
+utun2 : 
+utun3 : 
+utun4 : 
+utun5 : 
+utun6 : 
+utun7 : 
+utun8 : 
+utun9 : 
+lo0 : 
+anpi0 : 
+anpi1 : 
+en4 : 
+en5 : 
+en2 : 
+en3 : 
+bridge0 : 
+gif0 : 
+stf0 : 
+awdl0 : 
+````

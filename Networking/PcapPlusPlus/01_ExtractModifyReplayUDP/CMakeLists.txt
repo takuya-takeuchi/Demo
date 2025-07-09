@@ -32,21 +32,29 @@ if (MSVC)
                           Iphlpapi.lib
                           Ws2_32.lib)
 elseif (APPLE)
+    find_package(PcapPlusPlus REQUIRED)
+    message("    PcapPlusPlus_VERSION: ${PcapPlusPlus_VERSION}")
+    message("PcapPlusPlus_INCLUDE_DIR: ${PcapPlusPlus_INCLUDE_DIR}")
+
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                ${PcapPlusPlus_INCLUDE_DIR})
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          ${PCAP_LIBRARIES})
+                          PcapPlusPlus::Pcap++)
 else()
+    find_package(PcapPlusPlus REQUIRED)
+    message("    PcapPlusPlus_VERSION: ${PcapPlusPlus_VERSION}")
+    message("PcapPlusPlus_INCLUDE_DIR: ${PcapPlusPlus_INCLUDE_DIR}")
+    
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                ${PcapPlusPlus_INCLUDE_DIR})
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          ${PCAP_LIBRARIES})
+                          PcapPlusPlus::Pcap++)
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

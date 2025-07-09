@@ -36,8 +36,18 @@
 
 ## How to build?
 
+### Windows
+
 ````shell
 $ git submodule update --init --recursive .
 $ pwsh download-npcap.ps1
+$ pwsh build.ps1 <Debug/Release>
+````
+
+### OSX
+
+````shell
+$ git submodule update --init --recursive .
+$ brew install libpcap
 $ pwsh build.ps1 <Debug/Release>
 ````

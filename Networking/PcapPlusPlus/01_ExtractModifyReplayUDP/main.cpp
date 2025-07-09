@@ -37,7 +37,7 @@ int main(int argc, char* argv[])
     std::cout << " srcPort: " << srcPort << std::endl;
     std::cout << " dstPort: " << dstPort << std::endl;
 
-    pcpp::PcapLiveDevice* dev = pcpp::PcapLiveDeviceList::getInstance().getPcapLiveDeviceByName(devName);
+    pcpp::PcapLiveDevice* dev = pcpp::PcapLiveDeviceList::getInstance().getDeviceByName(devName);
     if (!dev || !dev->open())
     {
         std::cerr << "Failed to open device: " << devName << std::endl;
