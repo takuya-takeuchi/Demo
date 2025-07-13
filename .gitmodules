@@ -208,3 +208,7 @@
 	path = Networking/PcapPlusPlus/PcapPlusPlus
 	url = https://github.com/seladb/PcapPlusPlus
 	ignore = dirty
+[submodule "MachineLearning/ONNX/ONNXRuntimeGenAI/C/onnxruntime-genai"]
+	path = MachineLearning/ONNX/ONNXRuntimeGenAI/C/onnxruntime-genai
+	url = https://github.com/microsoft/onnxruntime-genai
+	ignore = dirty
