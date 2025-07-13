@@ -16,11 +16,11 @@ if (MSVC)
 elseif (APPLE)
   set(LIBJPEG_TURBO_INCLUDE_DIR ${CMAKE_BINARY_DIR}/external/libjpeg-turbo/include)
   set(LIBJPEG_TURBO_LIB_DIR ${CMAKE_BINARY_DIR}/external/libjpeg-turbo/lib)
-  set(LIBJPEG_TURBO_LIBRARIES ${LIBJPEG_TURBO_LIB_DIR}/libjpeg-static.a
-                              ${LIBJPEG_TURBO_LIB_DIR}/libturbojpeg-static.a)
+  set(LIBJPEG_TURBO_LIBRARIES ${LIBJPEG_TURBO_LIB_DIR}/libjpeg.a
+                              ${LIBJPEG_TURBO_LIB_DIR}/libturbojpeg.a)
 else()
   set(LIBJPEG_TURBO_INCLUDE_DIR ${CMAKE_BINARY_DIR}/external/libjpeg-turbo/include)
   set(LIBJPEG_TURBO_LIB_DIR ${CMAKE_BINARY_DIR}/external/libjpeg-turbo/lib)
-  set(LIBJPEG_TURBO_LIBRARIES ${LIBJPEG_TURBO_LIB_DIR}/libjpeg-static.a
-                              ${LIBJPEG_TURBO_LIB_DIR}/libturbojpeg-static.a)
+  set(LIBJPEG_TURBO_LIBRARIES ${LIBJPEG_TURBO_LIB_DIR}/libjpeg.a
+                              ${LIBJPEG_TURBO_LIB_DIR}/libturbojpeg.a)
 endif()
