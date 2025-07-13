@@ -40,17 +40,20 @@ New-Item -Type Directory $installDir -Force | Out-Null
 Push-Location $buildDir
 if ($global:IsWindows)
 {
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+    cmake -D CMAKE_BUILD_TYPE=${Configuration} `
+          -D CMAKE_INSTALL_PREFIX=${installDir} `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+    cmake -D CMAKE_BUILD_TYPE=${Configuration} `
+          -D CMAKE_INSTALL_PREFIX=${installDir} `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+    cmake -D CMAKE_BUILD_TYPE=${Configuration} `
+          -D CMAKE_INSTALL_PREFIX=${installDir} `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
