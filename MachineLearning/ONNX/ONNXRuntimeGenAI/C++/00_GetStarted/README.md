@@ -22,10 +22,6 @@
 
 * g++
 
-### OSX
-
-* Xcode
-
 ## Dependencies
 
 * [ONNX Runtime GenAI](https://github.com/microsoft/onnxruntime-genai)
@@ -91,12 +87,4 @@ How many cars?
 Processing images and prompt...
 Generating response...
  There is one car visible in the image.
-````
-
-#### OSX
-
-````bash
-$ git submodule update --init --recursive .
-$ git -C Phi-3.5-vision-instruct-onnx lfs pull
-$ DYLD_LIBRARY_PATH=install/osx/bin ./install/osx/bin/Demo ./Phi-3.5-vision-instruct-onnx/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4 cpu
 ````

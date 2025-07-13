@@ -21,6 +21,8 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     $os = "osx"
+    Write-Host "This platform is not supported" -ForegroundColor Red
+    exit
 }
 elseif ($global:IsLinux)
 {
