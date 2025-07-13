@@ -28,9 +28,9 @@ if (MSVC)
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          ${ONNXRUNTIME_GENAI_ROOT}/lib/libonnxruntime_providers_shared.so
-                          ${ONNXRUNTIME_GENAI_ROOT}/lib/libonnxruntime-genai.so
-                          ${ONNXRUNTIME_GENAI_ROOT}/lib/libonnxruntime.so
+                          ${ONNXRUNTIME_GENAI_ROOT}/lib/onnxruntime_providers_shared.lib
+                          ${ONNXRUNTIME_GENAI_ROOT}/lib/onnxruntime-genai.lib
+                          ${ONNXRUNTIME_GENAI_ROOT}/lib/onnxruntime.lib
     )
 elseif (APPLE)
     target_include_directories(${PROJ_NAME}
