@@ -47,7 +47,7 @@ $venvDir = Join-Path $current ".venv"
 if (!(Test-Path("${venvDir}")))
 {
     Write-Host "[Info] Create python venv"
-    python -m venv "${venvDir}"
+    python3 -m venv "${venvDir}"
 }
 
 Write-Host "[Info] Activate python venv"
@@ -58,20 +58,20 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    . "${venvDir}\Scripts\activate.ps1"
+    . "${venvDir}/bin/Activate.ps1"
     Write-Host "[Info] Activated"
 }
 elseif ($global:IsLinux)
 {
-    . "${venvDir}\Scripts\activate.ps1"
+    . "${venvDir}/bin/Activate.ps1"
     Write-Host "[Info] Activated"
 }
 
 Write-Host "[Info] Check python executable location"
-python -c "import sys; print(f'Python executable: {sys.executable}')"
+python3 -c "import sys; print(f'Python executable: {sys.executable}')"
 
-python -m pip install pip --upgrade
-python -m pip install requests
+python3 -m pip install pip --upgrade
+python3 -m pip install requests
 
 Push-Location $target
 
@@ -79,13 +79,13 @@ git submodule update --init --recursive .
 
 if ($global:IsWindows)
 {
-    python build.py --config ${Configuration} `
-                    --cmake_generator "Visual Studio 17 2022" `
-                    --parallel `
-                    --build_dir ${buildDir} `
-                    --skip_tests `
-                    --skip_wheel `
-                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
+    python3 build.py --config ${Configuration} `
+                     --cmake_generator "Visual Studio 17 2022" `
+                     --parallel `
+                     --build_dir ${buildDir} `
+                     --skip_tests `
+                     --skip_wheel `
+                     --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
 
     cmake --install "${buildDir}\${Configuration}"
     Copy-Item "${buildDir}\${Configuration}\*.dll" "${installDir}\lib" -Force
@@ -93,22 +93,28 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    python build.py --config ${Configuration} `
-                    --cmake_generator "Visual Studio 17 2022" `
-                    --parallel `
-                    --build_dir ${buildDir} `
-                    --skip_tests `
-                    --skip_wheel `
-                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
+    python3 build.py --config ${Configuration} `
+                     --parallel `
+                     --build_dir ${buildDir} `
+                     --skip_tests `
+                     --skip_wheel `
+                     --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
+
+    cmake --install "${buildDir}\${Configuration}"
+    Copy-Item "${buildDir}\${Configuration}\*.dll" "${installDir}\lib" -Force
+    Copy-Item "${buildDir}\${Configuration}\*.lib" "${installDir}\lib" -Force
 }
 elseif ($global:IsLinux)
 {
-    python build.py --config ${Configuration} `
-                    --cmake_generator "Visual Studio 17 2022" `
-                    --parallel `
-                    --build_dir ${buildDir} `
-                    --skip_tests `
-                    --skip_wheel `
-                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
+    python3 build.py --config ${Configuration} `
+                     --parallel `
+                     --build_dir ${buildDir} `
+                     --skip_tests `
+                     --skip_wheel `
+                     --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
+
+    cmake --install "${buildDir}\${Configuration}"
+    Copy-Item "${buildDir}\${Configuration}\*.dll" "${installDir}\lib" -Force
+    Copy-Item "${buildDir}\${Configuration}\*.lib" "${installDir}\lib" -Force
 }
 Pop-Location
