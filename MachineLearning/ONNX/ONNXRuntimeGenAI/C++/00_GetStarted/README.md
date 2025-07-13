@@ -58,8 +58,9 @@ $ .\install\win\bin\Demo.exe .\Phi-3.5-vision-instruct-onnx\cpu_and_mobile\cpu-i
 #### Linux
 
 ````bash
-$ ./install/linux/bin/Demo testdata/mnist.onnx Input3 1 28 28 Plus214_Output_0
-[Info] output tensor: {1, 10}
+$ git submodule update --init --recursive .
+$ git -C Phi-3.5-vision-instruct-onnx lfs pull
+$ LD_LIBRARY_PATH=install/linux/bin ./install/linux/bin/Demo ./Phi-3.5-vision-instruct-onnx/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4 cpu
 ````
 
 #### OSX
@@ -67,5 +68,5 @@ $ ./install/linux/bin/Demo testdata/mnist.onnx Input3 1 28 28 Plus214_Output_0
 ````bash
 $ git submodule update --init --recursive .
 $ git -C Phi-3.5-vision-instruct-onnx lfs pull
-$ ./install/macos/bin/Demo ./Phi-3.5-vision-instruct-onnx/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4 cpu
+$ DYLD_LIBRARY_PATH=install/osx/bin ./install/osx/bin/Demo ./Phi-3.5-vision-instruct-onnx/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4 cpu
 ````
