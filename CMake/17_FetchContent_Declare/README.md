@@ -50,8 +50,8 @@ happy: true
 
 ````bash
 $ ./install/linux/bin/Demo
-Compressed size: 55 bytes
-Uncompressed: Hello, zlib world! This is a test of compression.
+   pi: 3.141
+happy: true
 ````
 
 ### OSX
