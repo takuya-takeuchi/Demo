@@ -10,17 +10,14 @@ include(FetchContent)
 # External dependencies
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-# download and configure zlib
-include(zlib)
+# download and configure json
+include(json)
 
 add_executable(${PROJ_NAME} main.cpp)
 
 target_include_directories(${PROJ_NAME}
                            PRIVATE
-                           ZLIB::ZLIB)
-
-target_link_libraries(${PROJ_NAME}
-                      PRIVATE
-                      ZLIB::ZLIB)
+                           ${JSON_INCLUDE_DIR})
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
+install(FILES example.json DESTINATION bin)

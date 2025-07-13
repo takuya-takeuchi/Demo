@@ -26,9 +26,9 @@
 
 ## Dependencies
 
-* [zlib](https://github.com/madler/zlib)
-  * v1.3.1
-  * zlib License
+* [zlib](https://github.com/nlohmann/json)
+  * v3.12.0
+  * MIT License
 
 ## How to build?
 
@@ -42,8 +42,8 @@ $ pwsh build.ps1 <Debug/Release>
 
 ````bat
 $ .\install\win\bin\Demo.exe
-Compressed size: 55 bytes
-Uncompressed: Hello, zlib world! This is a test of compression.
+   pi: 3.141
+happy: true
 ````
 
 ### Linux
