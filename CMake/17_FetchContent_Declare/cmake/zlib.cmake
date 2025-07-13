@@ -4,7 +4,6 @@ FetchContent_Declare(
   zlib
   GIT_REPOSITORY https://github.com/madler/zlib
   GIT_TAG v1.3.1
-  FIND_PACKAGE_ARGS NAMES ZLIB
 )
 FetchContent_MakeAvailable(zlib)
 
