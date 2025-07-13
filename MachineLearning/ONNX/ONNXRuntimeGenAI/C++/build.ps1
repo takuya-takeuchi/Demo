@@ -101,8 +101,7 @@ elseif ($global:IsMacOS)
                      --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
 
     cmake --install "${buildDir}\${Configuration}"
-    Copy-Item "${buildDir}\${Configuration}\*.dll" "${installDir}\lib" -Force
-    Copy-Item "${buildDir}\${Configuration}\*.lib" "${installDir}\lib" -Force
+    Copy-Item "${buildDir}\${Configuration}\*.dylib" "${installDir}\lib" -Force
 }
 elseif ($global:IsLinux)
 {
@@ -114,7 +113,7 @@ elseif ($global:IsLinux)
                      --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
 
     cmake --install "${buildDir}\${Configuration}"
-    Copy-Item "${buildDir}\${Configuration}\*.dll" "${installDir}\lib" -Force
     Copy-Item "${buildDir}\${Configuration}\*.lib" "${installDir}\lib" -Force
+    Copy-Item "${buildDir}\${Configuration}\*.a" "${installDir}\lib" -Force
 }
 Pop-Location
