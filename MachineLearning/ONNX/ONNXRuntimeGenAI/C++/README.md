@@ -23,7 +23,6 @@
 ### OSX
 
 * Xcode
-* libiconv
 
 ## Dependencies
 
