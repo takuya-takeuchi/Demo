@@ -80,3 +80,4 @@ endif()
 
 add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${BINARY_DATA} ${CMAKE_INSTALL_PREFIX}/bin)
+install(FILES australia.jpg DESTINATION bin)

@@ -30,6 +30,10 @@
   * v0.8.2
   * MIT license
 
+## Test Data
+
+* [australia.jpg](https://github.com/microsoft/onnxruntime-genai/blob/main/test/test_models/images/australia.jpg)
+
 ## How to build?
 
 First, go to [ONNXRuntimeGenAI/C](..).
