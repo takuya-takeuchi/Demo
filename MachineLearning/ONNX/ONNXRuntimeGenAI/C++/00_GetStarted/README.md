@@ -44,8 +44,9 @@ $ pwsh build.ps1 <Debug/Release>
 #### Windows
 
 ````bat
-$ .\install\win\bin\Demo.exe testdata\mnist.onnx Input3 1 28 28 Plus214_Output_0
-[Info] output tensor: {1, 10}
+$ git submodule update --init --recursive .
+$ git -C Phi-3.5-vision-instruct-onnx lfs pull
+$ .\install\win\bin\Demo.exe .\Phi-3.5-vision-instruct-onnx\cpu_and_mobile\cpu-int4-rtn-block-32-acc-level-4 cpu
 ````
 
 #### Linux
