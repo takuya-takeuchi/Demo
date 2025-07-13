@@ -40,12 +40,8 @@
 
 ## How to build?
 
-### PcapPlusPlus
-
-Go to [PcapPlusPlus++](..).
+First, go to [PcapPlusPlus++](..).
 Once time you built `PcapPlusPlus`, you need not to do again.
-
-## How to build?
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>
