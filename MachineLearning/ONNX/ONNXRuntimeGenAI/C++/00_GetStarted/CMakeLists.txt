@@ -40,7 +40,6 @@ elseif (APPLE)
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
-                          ${ONNXRUNTIME_GENAI_ROOT}/lib/libonnxruntime_providers_shared.dylib
                           ${ONNXRUNTIME_GENAI_ROOT}/lib/libonnxruntime-genai.dylib
                           ${ONNXRUNTIME_GENAI_ROOT}/lib/libonnxruntime.dylib
     )
@@ -68,7 +67,6 @@ if (MSVC)
     )
 elseif (APPLE)
     set(BINARY_DATA
-        ${ONNXRUNTIME_GENAI_ROOT}/lib/libonnxruntime_providers_shared.dylib
         ${ONNXRUNTIME_GENAI_ROOT}/lib/libonnxruntime-genai.dylib
         ${ONNXRUNTIME_GENAI_ROOT}/lib/libonnxruntime.dylib
     )
