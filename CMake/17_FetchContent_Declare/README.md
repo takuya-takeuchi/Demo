@@ -49,7 +49,7 @@ Uncompressed: Hello, zlib world! This is a test of compression.
 ### Linux
 
 ````bash
-$ ./install/linux/static/bin/Demo
+$ ./install/linux/bin/Demo
 Compressed size: 55 bytes
 Uncompressed: Hello, zlib world! This is a test of compression.
 ````
@@ -57,7 +57,7 @@ Uncompressed: Hello, zlib world! This is a test of compression.
 ### OSX
 
 ````bash
-$ ./install/osx/static/bin/Demo
+$ ./install/osx/bin/Demo
 Compressed size: 55 bytes
 Uncompressed: Hello, zlib world! This is a test of compression.
 ````
