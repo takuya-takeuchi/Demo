@@ -26,7 +26,7 @@
 
 ## Dependencies
 
-* [zlib](https://github.com/nlohmann/json)
+* [json](https://github.com/nlohmann/json)
   * v3.12.0
   * MIT License
 
@@ -58,6 +58,6 @@ Uncompressed: Hello, zlib world! This is a test of compression.
 
 ````bash
 $ ./install/osx/bin/Demo
-Compressed size: 55 bytes
-Uncompressed: Hello, zlib world! This is a test of compression.
+   pi: 3.141
+happy: true
 ````
