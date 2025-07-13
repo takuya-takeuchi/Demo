@@ -12,6 +12,7 @@
 * CMake
   * 3.26 or higher
 * git-lfs
+  * Refer [git-lfs](https://github.com/git-lfs/git-lfs?tab=readme-ov-file#getting-started) to install
 
 ### Windows
 
