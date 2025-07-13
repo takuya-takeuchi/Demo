@@ -17,10 +17,10 @@ add_executable(${PROJ_NAME} main.cpp)
 
 target_include_directories(${PROJ_NAME}
                            PRIVATE
-                           ${ZLIB_INCLUDE_DIR})
+                           ZLIB::ZLIB)
 
 target_link_libraries(${PROJ_NAME}
                       PRIVATE
-                      ${ZLIB_LIBRARIES})
+                      ZLIB::ZLIB)
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

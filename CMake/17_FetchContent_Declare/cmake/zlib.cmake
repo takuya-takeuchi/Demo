@@ -4,22 +4,28 @@ FetchContent_Declare(
   zlib
   GIT_REPOSITORY https://github.com/madler/zlib
   GIT_TAG v1.3.1
+  FIND_PACKAGE_ARGS NAMES ZLIB
 )
-set(ZLIB_INSTALL       OFF)
-set(SKIP_INSTALL_ALL   OFF)
-set(ZLIB_BUILD_STATIC  ON)
-set(ZLIB_BUILD_SHARED  OFF)
-set(BUILD_TESTING      OFF)
-set(ZLIB_BUILD_MINIZIP OFF)
 FetchContent_MakeAvailable(zlib)
 
-if (MSVC)
-  set(ZLIB_INCLUDE_DIR ${zlib_SOURCE_DIR})
-  set(ZLIB_LIBRARIES ${zlib_BINARY_DIR}/z.lib)
-elseif (APPLE)
-  set(ZLIB_INCLUDE_DIR ${zlib_SOURCE_DIR})
-  set(ZLIB_LIBRARIES ${zlib_BINARY_DIR}/libz.a)
-else()
-  set(ZLIB_INCLUDE_DIR ${zlib_SOURCE_DIR})
-  set(ZLIB_LIBRARIES ${zlib_BINARY_DIR}/libz.a)
+# zlib has some problem about FetchContent_Declare
+# https://github.com/madler/zlib/issues/759
+if(NOT TARGET ZLIB::ZLIB)
+    add_library(ZLIB::ZLIB STATIC IMPORTED GLOBAL)
+    if (MSVC)
+        set_property(TARGET ZLIB::ZLIB PROPERTY IMPORTED_LOCATION ${zlib_BINARY_DIR}/z.lib)
+    elseif (APPLE)
+        set_property(TARGET ZLIB::ZLIB PROPERTY IMPORTED_LOCATION ${zlib_BINARY_DIR}/libz.a)
+    else()
+        set_property(TARGET ZLIB::ZLIB PROPERTY IMPORTED_LOCATION ${zlib_BINARY_DIR}/libz.a)
+    endif()
+    set_property(TARGET ZLIB::ZLIB PROPERTY INTERFACE_INCLUDE_DIRECTORIES ${zlib_SOURCE_DIR} ${zlib_BINARY_DIR})
+    add_dependencies(ZLIB::ZLIB zlibstatic)
+    if (MSVC)
+        set(ZLIB_LIBRARY ${zlib_BINARY_DIR}/z.lib CACHE INTERNAL "")
+    elseif (APPLE)
+        set(ZLIB_LIBRARY ${zlib_BINARY_DIR}/libz.a CACHE INTERNAL "")
+    else()
+        set(ZLIB_LIBRARY ${zlib_BINARY_DIR}/libz.a CACHE INTERNAL "")
+    endif()
 endif()
