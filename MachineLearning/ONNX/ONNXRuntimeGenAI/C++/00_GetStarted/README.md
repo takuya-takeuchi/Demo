@@ -11,6 +11,7 @@
 * Powershell 7 or later
 * CMake
   * 3.26 or higher
+* git-lfs
 
 ### Windows
 
@@ -63,6 +64,7 @@ $ ./install/linux/bin/Demo testdata/mnist.onnx Input3 1 28 28 Plus214_Output_0
 #### OSX
 
 ````bash
-$ ./install/osx/bin/Demo testdata/mnist.onnx Input3 1 28 28 Plus214_Output_0 
-[Info] output tensor: {1, 10}
+$ git submodule update --init --recursive .
+$ git -C Phi-3.5-vision-instruct-onnx lfs pull
+$ ./install/macos/bin/Demo ./Phi-3.5-vision-instruct-onnx/cpu_and_mobile/cpu-int4-rtn-block-32-acc-level-4 cpu
 ````
