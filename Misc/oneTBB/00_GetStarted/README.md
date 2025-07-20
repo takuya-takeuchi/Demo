@@ -65,7 +65,7 @@ Throughput: 5.35634 items/sec
 ### Linux
 
 ````bash
-$ LD_LIBRARY_PATH=./install/linux/dynamic/bin  ./install/linux/dynamic/bin/Demo
+$ LD_LIBRARY_PATH=./install/linux/dynamic/bin ./install/linux/dynamic/bin/Demo
 [Parallel] token_num = 1
 Processed 100 items in 15.0517 seconds.
 Throughput: 6.64379 items/sec
@@ -86,31 +86,20 @@ Throughput: 6.64539 items/sec
 ### OSX
 
 ````bash
-$  ./install/osx/static/bin/Demo
-en0 :
-ap1 :
-en1 :
-llw0 :
-bridge100 :
-utun0 :
-utun1 :
-utun2 :
-utun3 :
-utun4 :
-utun5 :
-utun6 :
-utun7 :
-utun8 :
-utun9 :
-lo0 :
-anpi0 :
-anpi1 :
-en4 :
-en5 :
-en2 :
-en3 :
-bridge0 :
-gif0 :
-stf0 :
-awdl0 :
+$ DYLD_LIBRARY_PATH=./install/osx/dynamic/bin ./install/osx/dynamic/bin/Demo
+[Parallel] token_num = 1
+Processed 100 items in 17.2518 seconds.
+Throughput: 5.79651 items/sec
+[Parallel] token_num = 2
+Processed 100 items in 8.74663 seconds.
+Throughput: 11.433 items/sec
+[Parallel] token_num = 4
+Processed 100 items in 5.76446 seconds.
+Throughput: 17.3477 items/sec
+[Parallel] token_num = 8
+Processed 100 items in 5.87974 seconds.
+Throughput: 17.0076 items/sec
+[Sequential] (for loop)
+Processed 100 items in 17.1735 seconds.
+Throughput: 5.82294 items/sec
 ````
