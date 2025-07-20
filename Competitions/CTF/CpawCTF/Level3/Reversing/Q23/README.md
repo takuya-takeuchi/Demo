@@ -3,7 +3,7 @@
 ## How to resolve?
 
 ````bash
-$ $ file rev200 
+$ file rev200 
 rev200: ELF 32-bit LSB executable, Intel 80386, version 1 (SYSV), dynamically linked, interpreter /lib/ld-linux.so.2, for GNU/Linux 2.6.24, BuildID[sha1]=e87140105d6b5c8ea9b0193380ab3b79bfdcd85b, not stripped
 ````
 

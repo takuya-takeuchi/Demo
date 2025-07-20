@@ -17,7 +17,7 @@ $ aircrack-ng wpa-ing_out.pcap -w rockyou.txt
 Command to display the readable portion of a binary or data file.
 
 ````bash
-$ $ strings asciiftw 
+$ strings asciiftw 
 /lib64/ld-linux-x86-64.so.2
 libc.so.6
 __stack_chk_fail

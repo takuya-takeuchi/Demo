@@ -65,46 +65,52 @@ Throughput: 5.35634 items/sec
 ### Linux
 
 ````bash
-$ $ ./install/linux/static/bin/Demo 
-ens160 : 
-any : Pseudo-device that captures on all interfaces
-lo : 
-docker0 : 
-bluetooth-monitor : Bluetooth Linux Monitor
-nflog : Linux netfilter log (NFLOG) interface
-nfqueue : Linux netfilter queue (NFQUEUE) interface
-dbus-system : D-Bus system bus
-dbus-session : D-Bus session bus
+$ LD_LIBRARY_PATH=./install/linux/dynamic/bin  ./install/linux/dynamic/bin/Demo
+[Parallel] token_num = 1
+Processed 100 items in 15.0517 seconds.
+Throughput: 6.64379 items/sec
+[Parallel] token_num = 2
+Processed 100 items in 7.57552 seconds.
+Throughput: 13.2004 items/sec
+[Parallel] token_num = 4
+Processed 100 items in 5.28019 seconds.
+Throughput: 18.9387 items/sec
+[Parallel] token_num = 8
+Processed 100 items in 5.29055 seconds.
+Throughput: 18.9016 items/sec
+[Sequential] (for loop)
+Processed 100 items in 15.048 seconds.
+Throughput: 6.64539 items/sec
 ````
 
 ### OSX
 
 ````bash
 $  ./install/osx/static/bin/Demo
-en0 : 
-ap1 : 
-en1 : 
-llw0 : 
-bridge100 : 
-utun0 : 
-utun1 : 
-utun2 : 
-utun3 : 
-utun4 : 
-utun5 : 
-utun6 : 
-utun7 : 
-utun8 : 
-utun9 : 
-lo0 : 
-anpi0 : 
-anpi1 : 
-en4 : 
-en5 : 
-en2 : 
-en3 : 
-bridge0 : 
-gif0 : 
-stf0 : 
-awdl0 : 
+en0 :
+ap1 :
+en1 :
+llw0 :
+bridge100 :
+utun0 :
+utun1 :
+utun2 :
+utun3 :
+utun4 :
+utun5 :
+utun6 :
+utun7 :
+utun8 :
+utun9 :
+lo0 :
+anpi0 :
+anpi1 :
+en4 :
+en5 :
+en2 :
+en3 :
+bridge0 :
+gif0 :
+stf0 :
+awdl0 :
 ````

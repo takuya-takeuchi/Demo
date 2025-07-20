@@ -52,7 +52,7 @@ You will see this jpeg image file.
 ### Linux
 
 ````bash
-$ $ ./install/linux/static/bin/Demo 
+$ ./install/linux/static/bin/Demo 
 test.jpg has been output
 ````
 
