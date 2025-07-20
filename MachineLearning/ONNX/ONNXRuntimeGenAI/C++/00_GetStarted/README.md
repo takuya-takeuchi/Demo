@@ -2,7 +2,8 @@
 
 ## Abstracts
 
-* Input simple onnx file and inference sample tensor
+* Input image and prompt to reason answer
+  * Example code is from https://github.com/microsoft/onnxruntime-genai/blob/v0.8.2/examples/c/src/phi3v.cpp
 
 ## Requirements
 

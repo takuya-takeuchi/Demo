@@ -52,10 +52,14 @@ git submodule update --init --recursive .
 Push-Location $buildDir
 if ($global:IsWindows)
 {
+    # On not English locale system, C4819 warning will be treated as C2220 error.
+    # Passs /wd4819 to avoid this behavior.
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
           -D TBB_VERIFY_DEPENDENCY_SIGNATURE=${tbbVerifyDependencySignature} `
+          -D CMAKE_CXX_FLAGS="/wd4819" `
+          -D CMAKE_C_FLAGS="/wd4819" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
