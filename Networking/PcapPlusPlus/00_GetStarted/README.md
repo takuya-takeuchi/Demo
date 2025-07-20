@@ -81,7 +81,7 @@ $ install\win\static\bin\Demo.exe
 ### Linux
 
 ````bash
-$ $ ./install/linux/static/bin/Demo 
+$ ./install/linux/static/bin/Demo 
 ens160 : 
 any : Pseudo-device that captures on all interfaces
 lo : 

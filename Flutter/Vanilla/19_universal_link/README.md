@@ -72,7 +72,7 @@ Check SHA256 fingerprint of apk file
 
 ````bash
 $ cd callee
-$ ${ANDROID_HOME}/build-tools/35.0.1/apksigner verify --print-certs -v build/app/outputs/apk/release/app-release.apk | grep "Signer #1 certificate SHA-256 digest:"
+$ {ANDROID_HOME}/build-tools/35.0.1/apksigner verify --print-certs -v build/app/outputs/apk/release/app-release.apk | grep "Signer #1 certificate SHA-256 digest:"
 Signer #1 certificate SHA-256 digest: d8025166b95571bbad29e7a9772ec7792f66a3f8d7245eeacd0c6e76ad2330a6
 ````
 

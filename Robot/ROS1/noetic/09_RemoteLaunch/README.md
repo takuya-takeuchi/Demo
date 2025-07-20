@@ -126,7 +126,7 @@ started core service [/rosout]
 You can see that remote nodes are running by using `rosnode`.
 
 ````bash
-$ $rosnode list
+$ rosnode list
 /hello1
 /hello2
 /rosout
