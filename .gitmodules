@@ -220,3 +220,7 @@
 	path = Misc/oneTBB/oneTBB
 	url = https://github.com/uxlfoundation/oneTBB
 	ignore = dirty
+[submodule "PointCloud/CloudCompare/CloudCompare"]
+	path = PointCloud/CloudCompare/CloudCompare
+	url = https://github.com/CloudCompare/CloudCompare
+	ignore = dirty
