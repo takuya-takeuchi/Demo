@@ -224,3 +224,7 @@
 	path = PointCloud/CloudCompare/CloudCompare
 	url = https://github.com/CloudCompare/CloudCompare
 	ignore = dirty
+[submodule "PointCloud/CloudCompare/qt5"]
+	path = PointCloud/CloudCompare/qt5
+	url = https://code.qt.io/qt/qt5.git
+	ignore = dirty

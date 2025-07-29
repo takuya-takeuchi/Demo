@@ -31,7 +31,7 @@
   * v2.13.2
   * GNU General Public License (GPL) version 2.0
 * [Qt]
-  * 5.15.16
+  * 5.15.2
   * Multiple licenses
     * GNU Free Documentation License (GFDL) version 1.3
     * GNU General Public License (GPL) version 2.0
@@ -52,6 +52,9 @@ $ pwsh build.ps1 <Debug/Release>
 
 ````shell
 $ git submodule update --init --recursive .
+$ sudo apt-get -y install qtbase5-dev
+$ sudo apt-get -y install build-essential perl python3 git
+$ sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
 $ pwsh build.ps1 <Debug/Release>
 ````
 
