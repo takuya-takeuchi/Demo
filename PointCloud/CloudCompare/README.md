@@ -60,5 +60,8 @@ $ pwsh build.ps1 <Debug/Release>
 ````shell
 $ git submodule update --init --recursive .
 $ brew install qt@5
-$ pwsh build.ps1 <Debug/Release>
+$ pwsh build.ps1 <Debug/Release>  
+$ sudo codesign --force --deep --sign - ./install/osx/CloudCompare/ccViewer/ccViewer.app    
 ````
+
+<img src="./images/osx.png" />
