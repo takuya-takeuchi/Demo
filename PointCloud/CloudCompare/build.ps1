@@ -53,8 +53,14 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
+    
+    $latestDir = Get-ChildItem "/opt/homebrew/Cellar/qt@5" -Directory |
+                 Sort-Object { [version]($_.Name -replace '_', '.') } -Descending |
+                 Select-Object -First 1
+    $qtInstalledDir = $latestDir.FullName
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
+          -D CMAKE_PREFIX_PATH="${qtInstalledDir}" `
           $sourceDir
 }
 elseif ($global:IsLinux)

@@ -30,6 +30,14 @@
 * [CloudCompare](https://github.com/CloudCompare/CloudCompare)
   * v2.13.2
   * GNU General Public License (GPL) version 2.0
+* [Qt]
+  * 5.15.16
+  * Multiple licenses
+    * GNU Free Documentation License (GFDL) version 1.3
+    * GNU General Public License (GPL) version 2.0
+    * GNU General Public License (GPL) version 3.0
+    * GNU Lesser General Public License (LGPL) version 2.1
+    * GNU Lesser General Public License (LGPL) version 3.0
 
 ## How to build?
 
@@ -51,5 +59,6 @@ $ pwsh build.ps1 <Debug/Release>
 
 ````shell
 $ git submodule update --init --recursive .
+$ brew install qt@5
 $ pwsh build.ps1 <Debug/Release>
 ````
