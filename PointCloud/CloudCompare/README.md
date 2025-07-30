@@ -64,8 +64,10 @@ $ sudo apt -y install clang libclang-dev
 $ export LLVM_INSTALL_DIR=/usr/llvm
 $ mkdir -p build/linux/qt5
 $ git -C qt5 submodule update --init --recursive
+$ cp patch/linux/qt5/qtbase/src/corelib/global/qglobal.h qt5/qtbase/src/corelib/global/qglobal.h
 $ cd build/linux/qt5
-$ ../../../qt5/configure -developer-build -opensource -nomake examples -nomake tests
+## build ad lgpl (-confirm-license flags)
+$ ../../../qt5/configure -developer-build -opensource -nomake examples -nomake tests -confirm-license
 
 $ pwsh build.ps1 <Debug/Release>
 ````
