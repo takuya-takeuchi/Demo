@@ -100,25 +100,42 @@ if ($global:IsWindows)
     # cp patch/linux/qt5/qtbase/src/corelib/global/qglobal.h qt5/qtbase/src/corelib/global/qglobal.h
     
     Push-Location $buildDir
-    ## build ad lgpl (-confirm-license flags)
     $configure = Join-Path $sourceDir configure
+
+    ## build ad lgpl (-confirm-license flags)
     if ($Configuration -eq "Release")
     {
-        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license -release
+        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license -prefix="${installDir}" -release
     }
     else
     {
-        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license
+        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license -prefix="${installDir}" 
     }
+
     nmake
     Pop-Location
 }
 elseif ($global:IsMacOS)
 {
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_BUILD_TYPE=$Configuration `
-          -D CMAKE_PREFIX_PATH="${qtInstalledDir}" `
-          $sourceDir
+    git -C "${sourceDir}" submodule update --init --recursive
+    # cp patch/linux/qt5/qtbase/src/corelib/global/qglobal.h qt5/qtbase/src/corelib/global/qglobal.h
+    
+    Push-Location $buildDir
+    $configure = Join-Path $sourceDir configure
+
+    ## build ad lgpl (-confirm-license flags)
+    if ($Configuration -eq "Release")
+    {
+        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license -prefix="${installDir}" -release
+    }
+    else
+    {
+        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license -prefix="${installDir}" 
+    }
+
+    make -j$(nproc)
+    make install
+    Pop-Location
 }
 elseif ($global:IsLinux)
 {
