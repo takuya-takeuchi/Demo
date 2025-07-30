@@ -52,9 +52,21 @@ $ pwsh build.ps1 <Debug/Release>
 
 ````shell
 $ git submodule update --init --recursive .
-$ sudo apt-get -y install qtbase5-dev
-$ sudo apt-get -y install build-essential perl python3 git
-$ sudo apt-get install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
+
+# build Qt5
+$ sudo apt -y install qtbase5-dev
+$ sudo apt -y install build-essential perl python3 git
+$ sudo apt -y install '^libxcb.*-dev' libx11-xcb-dev libglu1-mesa-dev libxrender-dev libxi-dev libxkbcommon-dev libxkbcommon-x11-dev
+$ sudo apt -y install flex bison gperf libicu-dev libxslt-dev ruby
+$ sudo apt -y install libxcursor-dev libxcomposite-dev libxdamage-dev libxrandr-dev libxtst-dev libxss-dev libdbus-1-dev libevent-dev libfontconfig1-dev libcap-dev libpulse-dev libudev-dev libpci-dev libnss3-dev libasound2-dev libegl1-mesa-dev gperf bison nodejs
+$ sudo apt -y install libunwind-dev libasound2-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev libgstreamer-plugins-good1.0-dev libgstreamer-plugins-bad1.0-dev
+$ sudo apt -y install clang libclang-dev
+$ export LLVM_INSTALL_DIR=/usr/llvm
+$ mkdir -p build/linux/qt5
+$ git -C qt5 submodule update --init --recursive
+$ cd build/linux/qt5
+$ ../../../qt5/configure -developer-build -opensource -nomake examples -nomake tests
+
 $ pwsh build.ps1 <Debug/Release>
 ````
 
