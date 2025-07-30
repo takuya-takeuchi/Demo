@@ -16,6 +16,8 @@
 ### Windows
 
 * Visual Studio
+* Windows 10 SDK
+  * Build for Qt5
 
 ### Ubuntu
 
@@ -45,6 +47,8 @@
 
 ````shell
 $ git submodule update --init --recursive .
+
+
 $ pwsh build.ps1 <Debug/Release>
 ````
 
