@@ -68,6 +68,7 @@ $ cp patch/linux/qt5/qtbase/src/corelib/global/qglobal.h qt5/qtbase/src/corelib/
 $ cd build/linux/qt5
 ## build ad lgpl (-confirm-license flags)
 $ ../../../qt5/configure -developer-build -opensource -nomake examples -nomake tests -confirm-license
+$ make -j$(nproc)
 
 $ pwsh build.ps1 <Debug/Release>
 ````
