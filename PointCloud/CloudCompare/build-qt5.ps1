@@ -105,11 +105,11 @@ if ($global:IsWindows)
     ## build ad lgpl (-confirm-license flags)
     if ($Configuration -eq "Release")
     {
-        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license -prefix="${installDir}" -release
+        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license --prefix="${installDir}" -release
     }
     else
     {
-        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license -prefix="${installDir}" 
+        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license --prefix="${installDir}" 
     }
 
     nmake
@@ -126,14 +126,14 @@ elseif ($global:IsMacOS)
     ## build ad lgpl (-confirm-license flags)
     if ($Configuration -eq "Release")
     {
-        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license -prefix="${installDir}" -release
+        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license --prefix="${installDir}" -release
     }
     else
     {
-        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license -prefix="${installDir}" 
+        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license --prefix="${installDir}" 
     }
 
-    make -j$(nproc)
+    make
     make install
     Pop-Location
 }
