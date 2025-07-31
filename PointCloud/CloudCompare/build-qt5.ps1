@@ -71,15 +71,17 @@ if ($global:IsWindows)
     
     Write-Host "[Info] Visual Studio x64 Native Tools Command Prompt: ${visualStudioShell}" -ForegroundColor Green
 
-    function Call($batfile)
+    function Call($batfile, $arch)
     {
-        cmd.exe /c "call `"${batfile}`" && set > %temp%\vars.txt"
+        cmd.exe /c "call `"${batfile}`" ${arch} && set > %temp%\vcvars.txt"
         Get-Content "${env:temp}\vars.txt" | Foreach-Object {
             if ($_ -match "^(.*?)=(.*)$") {
                 Set-Content "env:\$($matches[1])" $matches[2]
             }
         }
     }
+
+    Call "${visualStudioShell}" "x86_amd64"
     
     $env:_ROOT="${sourceDir}"
     $env:PATH="$env:_ROOT\qtbase\bin;$env:_ROOT\gnuwin32\bin;$env:PATH"

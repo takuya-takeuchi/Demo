@@ -15,7 +15,7 @@
 
 ### Windows
 
-* Visual Studio
+* Visual Studio 2022
 * Windows 10 SDK
   * Build for Qt5
 
