@@ -136,7 +136,7 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     git -C "${sourceDir}" submodule update --init --recursive
-    # cp patch/linux/qt5/qtbase/src/corelib/global/qglobal.h qt5/qtbase/src/corelib/global/qglobal.h
+    Copy-item -Path "${current}/patch/osx/qt5/qtbase/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.h" "${current}/qt5/qtbase/src/plugins/platforms/cocoa/qiosurfacegraphicsbuffer.h"
     
     Push-Location $buildDir
     $configure = Join-Path $sourceDir configure
