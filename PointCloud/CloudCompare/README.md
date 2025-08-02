@@ -18,6 +18,8 @@
 * Visual Studio 2022
 * Windows 10 SDK
   * Build for Qt5
+* [Strawberry Perl](https://strawberryperl.com/)
+  * You shall set `perl` into PATH env.
 
 ### Ubuntu
 

@@ -46,6 +46,19 @@ git submodule update --init --recursive .
 
 if ($global:IsWindows)
 {
+    # Check perl is installed or not
+    try
+    {
+        $commandInfo = Get-Command perl -ErrorAction Stop
+        $choco = $commandInfo.Source
+        Write-Host "[Info] perl: ${perl}" -ForegroundColor Green
+    }
+    catch
+    {
+        Write-Host "[Error] perl is not installed" -ForegroundColor Red
+        exit
+    }
+
     # Check Visual Studio is installed or not
     $visualStudioShells = @(
         "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvarsall.bat"
@@ -96,7 +109,10 @@ if ($global:IsWindows)
     # $env:LIB="/path/to/icu/lib;$env:LIB"
     # $env:PATH="/path/to/icu/lib;$env:PATH"
 
-    $env:_ROOT=""
+    Remove-Item Env:_ROOT
+    
+    # Keeps the command line open when this script is run.
+    # cmd /k
 
     git -C "${sourceDir}" submodule update --init --recursive
     # cp patch/linux/qt5/qtbase/src/corelib/global/qglobal.h qt5/qtbase/src/corelib/global/qglobal.h
