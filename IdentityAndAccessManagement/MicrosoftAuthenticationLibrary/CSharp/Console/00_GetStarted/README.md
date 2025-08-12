@@ -48,6 +48,21 @@ And redirect uri SHALL be `http://localhost`.
 
 ## How to run?
 
+First, modify [appsettings.json](./sources/Demo/appsettings.json).
+Replace `ClientId` and `TenantId` with registered applicaiton's information.
+
+````diff
+ {
+   "Auth": {
+-    "ClientId": "11111111-2222-3333-4444-555555555555",
++    "ClientId": "7b700b41-0f9d-40ae-8998-d59637f4d388",
+-    "TenantId": "aaaaaaaa-bbbb-cccc-dddd-eeeeeeeeeeee",
++    "TenantId": "8774dd41-5822-4728-ae2b-a4c5146e720a",
+     "AuthorityInstance": "https://login.microsoftonline.com/",
+````
+
+Next, you can build and run demo app.
+
 ````bat
 $ cd sources\Demo
 $ dotnet run -c Release
