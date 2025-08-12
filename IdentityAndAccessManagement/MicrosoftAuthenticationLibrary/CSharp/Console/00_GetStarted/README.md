@@ -80,4 +80,18 @@ $ dotnet run -c Release
 2025-08-12 09:32:48.4010 [INFO ] Token valid for 59.52663904166667 more minutes.
 ````
 
+#### Clear store cache
+
 If you want to clear token cache, remove `msal.cache` in build directory.
+
+And
+
+##### OSX
+
+Clear keychain.
+
+````bash
+$ security delete-generic-password -s "jp.taktak.msal" -a "MSAL Token Cache"
+````
+
+Clear cookie and histroy of Safari.
