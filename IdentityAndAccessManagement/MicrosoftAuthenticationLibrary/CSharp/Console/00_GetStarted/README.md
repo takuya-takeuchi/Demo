@@ -86,6 +86,17 @@ If you want to clear token cache, remove `msal.cache` in build directory.
 
 And
 
+##### Linux
+
+Clear keychain.
+
+````bash
+$ sudo apt install libsecret-tools
+$ secret-tool clear service "jp.taktak.msal" account "MSAL Token Cache"
+````
+
+Clear cookie and histroy of Firefox.
+
 ##### OSX
 
 Clear keychain.
