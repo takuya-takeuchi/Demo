@@ -53,6 +53,8 @@ $ cd sources\Demo
 $ dotnet run -c Release
 ````
 
+<img src="./images/image.gif" />
+
 If valid authentication token is remaining, you can skip authentication process.
 
 ````bat
