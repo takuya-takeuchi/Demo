@@ -1,4 +1,4 @@
-# Creadit Card Number AutoFill does not work!!
+# Credit Card Number AutoFill does not work!!
 
 ## Abstracts
 
