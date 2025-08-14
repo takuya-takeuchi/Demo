@@ -1,0 +1,5 @@
+services:
+  autofill-demo:
+    build: .
+    ports:
+      - "8080:80"

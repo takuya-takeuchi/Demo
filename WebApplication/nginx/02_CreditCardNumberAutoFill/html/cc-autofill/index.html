@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Credit Card Autofill Test</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      margin: 2rem;
+      line-height: 1.7;
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+    }
+
+    .row {
+      display: flex;
+      gap: 8px;
+    }
+
+    /* Make MM and YY each take half-width of the row */
+    .row > input {
+      flex: 1 1 0;
+      min-width: 0; /* avoid overflow on small screens */
+      box-sizing: border-box;
+    }
+
+    input,
+    button {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .box {
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 12px;
+    }
+
+    .result {
+      margin-top: 16px;
+      padding: 12px;
+      background: #f6f6f6;
+      border-radius: 8px;
+    }
+  </style>
+
+  <h1>Credit Card Autofill Test</h1>
+  <p>Use a card saved in your browser to verify that autofill works.</p>
+
+  <form id="form" class="box" autocomplete="on">
+    <!-- Cardholder name -->
+    <label for="cc-name">Cardholder name (Latin letters)</label>
+    <input
+      id="cc-name"
+      name="cc-name"
+      type="text"
+      autocomplete="cc-name"
+      required
+    />
+
+    <!-- Card number -->
+    <label for="cc-number">Card number</label>
+    <input
+      id="cc-number"
+      name="cc-number"
+      type="text"
+      autocomplete="cc-number"
+      inputmode="numeric"
+      pattern="[0-9 ]*"
+      required
+    />
+
+    <!-- Expiration date (split fields) -->
+    <label>Expiration date</label>
+    <div class="row">
+      <input
+        id="cc-exp-month"
+        name="cc-exp-month"
+        placeholder="MM"
+        type="text"
+        autocomplete="cc-exp-month"
+        inputmode="numeric"
+        maxlength="2"
+        pattern="(0[1-9]|1[0-2])"
+        required
+      />
+      <input
+        id="cc-exp-year"
+        name="cc-exp-year"
+        placeholder="YY"
+        type="text"
+        autocomplete="cc-exp-year"
+        inputmode="numeric"
+        maxlength="2"
+        pattern="[0-9]{2}"
+        required
+      />
+    </div>
+
+    <!-- Security code -->
+    <label for="cc-csc">Security code</label>
+    <input
+      id="cc-csc"
+      name="cc-csc"
+      type="text"
+      autocomplete="cc-csc"
+      inputmode="numeric"
+      maxlength="4"
+      pattern="[0-9]{3,4}"
+      required
+    />
+
+    <button type="submit" style="margin-top: 16px">Review input</button>
+  </form>
+
+  <div id="out" class="result" hidden></div>
+
+  <script>
+    document.getElementById("form").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const v = (id) => document.getElementById(id).value.trim();
+      const last4 = v("cc-number").replace(/\s+/g, "").slice(-4);
+      const out = document.getElementById("out");
+      out.hidden = false;
+      out.innerText =
+        `Name: ${v("cc-name")}\n` +
+        `Number: **** **** **** ${last4 || "(empty)"}\n` +
+        `Expiry: ${v("cc-exp-month") || "MM"}/${v("cc-exp-year") || "YY"}\n` +
+        `CVC length: ${v("cc-csc").length}`;
+    });
+  </script>
+</html>
