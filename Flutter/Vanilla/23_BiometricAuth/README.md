@@ -22,9 +22,17 @@
 
 ## Screenshots
 
+##### Enrolled fingerprints
+
 |iOS|Android|
 |---|---|
 |<img src="./images/ios.gif" />|<img src="./images/android.gif" />|
+
+##### Enrolled no fingerprints
+
+|iOS|Android|
+|---|---|
+|<img src="./images/ios2.gif" />|<img src="./images/android2.gif" />|
 
 ##### Note
 
