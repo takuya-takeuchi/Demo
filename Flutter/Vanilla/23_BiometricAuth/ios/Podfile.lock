@@ -1,0 +1,29 @@
+PODS:
+  - app_settings (5.1.1):
+    - Flutter
+  - Flutter (1.0.0)
+  - local_auth_darwin (0.0.1):
+    - Flutter
+    - FlutterMacOS
+
+DEPENDENCIES:
+  - app_settings (from `.symlinks/plugins/app_settings/ios`)
+  - Flutter (from `Flutter`)
+  - local_auth_darwin (from `.symlinks/plugins/local_auth_darwin/darwin`)
+
+EXTERNAL SOURCES:
+  app_settings:
+    :path: ".symlinks/plugins/app_settings/ios"
+  Flutter:
+    :path: Flutter
+  local_auth_darwin:
+    :path: ".symlinks/plugins/local_auth_darwin/darwin"
+
+SPEC CHECKSUMS:
+  app_settings: 5127ae0678de1dcc19f2293271c51d37c89428b2
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  local_auth_darwin: d2e8c53ef0c4f43c646462e3415432c4dab3ae19
+
+PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
+
+COCOAPODS: 1.16.2
