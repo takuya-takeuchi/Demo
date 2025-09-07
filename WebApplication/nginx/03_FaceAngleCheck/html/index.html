@@ -1,0 +1,348 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>FaceLandmarker: BBox + Landmarks + Pitch/Yaw/Roll</title>
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+  <div id="root">
+    <div class="w-full min-h-screen bg-slate-50 text-slate-900">
+      <div class="max-w-6xl mx-auto p-6">
+        <header class="mb-4">
+          <h1 class="text-3xl font-bold tracking-tight">MediaPipe FaceLandmarker Demo</h1>
+          <p class="text-sm text-slate-600">Click Start to open the camera and show face bounding box, landmarks, and Pitch/Yaw/Roll (approximate).</p>
+        </header>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <section class="bg-white rounded-2xl shadow p-4">
+            <div id="wrap" class="relative inline-block">
+              <div class="absolute inset-0 -scale-x-100 pointer-events-none" id="mirrorProxy" hidden></div>
+              <video id="video" autoplay playsinline muted class="rounded-xl bg-black block"></video>
+              <canvas id="overlay" class="absolute inset-0 z-10 pointer-events-none block"></canvas>
+            </div>
+            <div class="mt-3 flex flex-wrap items-center gap-2">
+              <button class="px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 shadow" id="startBtn">Start</button>
+              <div id="info">-</div>
+            </div>
+          </section>
+          <section class="bg-white rounded-2xl shadow p-4">            
+            <h3 class="text-sm font-semibold mb-1">Pose</h3>
+            <div class="grid grid-cols-3 gap-3">
+              <div class="p-3 rounded-xl border border-slate-200">
+                <div class="text-xs text-slate-500">Roll</div>
+                <div class="text-2xl font-semibold" id="roll">—</div>
+              </div>
+              <div class="p-3 rounded-xl border border-slate-200">
+                <div class="text-xs text-slate-500">Pitch</div>
+                <div class="text-2xl font-semibold" id="pitch">—</div>
+              </div>
+              <div class="p-3 rounded-xl border border-slate-200">
+                <div class="text-xs text-slate-500">Yaw</div>
+                <div class="text-2xl font-semibold" id="yaw">—</div>
+              </div>
+            </div>
+            <div class="mt-4">
+              <h3 class="text-sm font-semibold mb-1">Bounding Box</h3>
+              <div class="grid grid-cols-2 gap-3">
+                <div class="p-3 rounded-xl border border-slate-200">
+                  <div class="text-xs text-slate-500">X</div>
+                  <div class="text-2xl font-semibold" id="x">—</div>
+                </div>
+                <div class="p-3 rounded-xl border border-slate-200">
+                  <div class="text-xs text-slate-500">Y</div>
+                  <div class="text-2xl font-semibold" id="y">—</div>
+                </div>
+                <div class="p-3 rounded-xl border border-slate-200">
+                  <div class="text-xs text-slate-500">W</div>
+                  <div class="text-2xl font-semibold" id="w">—</div>
+                </div>
+                <div class="p-3 rounded-xl border border-slate-200">
+                  <div class="text-xs text-slate-500">H</div>
+                  <div class="text-2xl font-semibold" id="h">—</div>
+                </div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <script type="module">
+          import {
+            FaceLandmarker,
+            FilesetResolver,
+            DrawingUtils
+          } from "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21";
+
+          const video = document.getElementById("video");
+          const canvas = document.getElementById("overlay");
+          const ctx = canvas.getContext("2d");
+          const info = document.getElementById("info");
+          const startBtn = document.getElementById("startBtn");
+          const rollElement = document.getElementById("roll");
+          const pitchElement = document.getElementById("pitch");
+          const yawElement = document.getElementById("yaw");
+          const xElement = document.getElementById("x");
+          const yElement = document.getElementById("y");
+          const wElement = document.getElementById("w");
+          const hElement = document.getElementById("h");
+          let vw = 0, vh = 0;
+
+          let landmarker = null;
+          let running = false;
+
+          // Angle estimation (simple approximation)
+          const rad2deg = r => r * 180 / Math.PI;
+
+          // Extract 3x3 rotation matrix (row-major) from 4x4 matrix
+          function mat3FromMat4RowMajor(m16) {
+            // m16 = [m00,m01,m02,m03, m10,m11,m12,m13, m20,m21,m22,m23, m30,m31,m32,m33] row-major
+            return [
+              [m16[0], m16[1], m16[2]],
+              [m16[4], m16[5], m16[6]],
+              [m16[8], m16[9], m16[10]],
+            ];
+          }
+
+          // Transpose helper in case MediaPipe provides column-major
+          function transpose3(a){
+            return [
+              [a[0][0], a[1][0], a[2][0]],
+              [a[0][1], a[1][1], a[2][1]],
+              [a[0][2], a[1][2], a[2][2]],
+            ];
+          }
+
+          // Convert 3x3 rotation matrix to quaternion
+          function quatFromR(R){
+            const m00=R[0][0], m01=R[0][1], m02=R[0][2];
+            const m10=R[1][0], m11=R[1][1], m12=R[1][2];
+            const m20=R[2][0], m21=R[2][1], m22=R[2][2];
+
+            const tr = m00 + m11 + m22;
+            let qw, qx, qy, qz;
+            if (tr > 0) {
+              const S = Math.sqrt(tr + 1.0) * 2; // S=4*qw
+              qw = 0.25 * S;
+              qx = (m21 - m12) / S;
+              qy = (m02 - m20) / S;
+              qz = (m10 - m01) / S;
+            } else if (m00 > m11 && m00 > m22) {
+              const S = Math.sqrt(1.0 + m00 - m11 - m22) * 2; // S=4*qx
+              qw = (m21 - m12) / S;
+              qx = 0.25 * S;
+              qy = (m01 + m10) / S;
+              qz = (m02 + m20) / S;
+            } else if (m11 > m22) {
+              const S = Math.sqrt(1.0 + m11 - m00 - m22) * 2; // S=4*qy
+              qw = (m02 - m20) / S;
+              qx = (m01 + m10) / S;
+              qy = 0.25 * S;
+              qz = (m12 + m21) / S;
+            } else {
+              const S = Math.sqrt(1.0 + m22 - m00 - m11) * 2; // S=4*qz
+              qw = (m10 - m01) / S;
+              qx = (m02 + m20) / S;
+              qy = (m12 + m21) / S;
+              qz = 0.25 * S;
+            }
+            return {qw,qx,qy,qz};
+          }
+
+          // Convert quaternion to Euler angles (ZYX order: yaw→pitch→roll)
+          function eulerZYXFromQuat({qw,qx,qy,qz}){
+            // Rotation order: Z (yaw), Y (pitch), X (roll)
+            const siny_cosp = 2*(qw*qz + qx*qy);
+            const cosy_cosp = 1 - 2*(qz*qz + qy*qy);
+            const z = Math.atan2(siny_cosp, cosy_cosp); // yaw around Z
+
+            const sinp = 2*(qw*qy - qz*qx);
+            const y = Math.abs(sinp) >= 1 ? Math.sign(sinp)*Math.PI/2 : Math.asin(sinp); // pitch around Y
+
+            const sinx_cosp = 2*(qw*qx + qy*qz);
+            const cosx_cosp = 1 - 2*(qx*qx + qy*qy);
+            const x = Math.atan2(sinx_cosp, cosx_cosp); // roll around X
+
+            return {x,y,z};
+          }
+
+          function eulerFromLandmarks(lm, vw, vh) {
+            // Representative landmark indices (MediaPipe FaceMesh convention, adjust if needed)
+            const IDX = {
+              L_EYE_OUT: 33,
+              R_EYE_OUT: 263,
+              NOSE_TIP: 1,
+              MOUTH: 13,
+              CHIN: 152,
+              TOP: 10
+            };
+            const p = i => ({ x: lm[i].x * vw, y: lm[i].y * vh });
+
+            const le = p(IDX.L_EYE_OUT);
+            const re = p(IDX.R_EYE_OUT);
+            const nose = p(IDX.NOSE_TIP);
+            const mouth = p(IDX.MOUTH);
+
+            const eye_dx = re.x - le.x;
+            const eye_dy = re.y - le.y;
+            const eye_dist = Math.hypot(eye_dx, eye_dy) + 1e-6;
+
+            // Roll: angle of line connecting outer eye corners
+            const roll = -rad2deg(Math.atan2(eye_dy, eye_dx));
+
+            // Yaw: horizontal offset of nose tip from eye midpoint, normalized by eye distance
+            const eye_mid_x = (le.x + re.x) / 2;
+            const yaw_norm = (nose.x - eye_mid_x) / eye_dist;
+            const yaw = yaw_norm * 40; // empirical scaling
+
+            // Pitch: vertical offset of mouth from eye midpoint, normalized
+            const eye_mid_y = (le.y + re.y) / 2;
+            const pitch_norm = (mouth.y - eye_mid_y) / eye_dist;
+            const pitch = (0.5 - pitch_norm) * 50; // empirical scaling
+
+            // Tight bounding box for the face
+            let minx = 1e9, miny = 1e9, maxx = -1e9, maxy = -1e9;
+            for (const l of lm) {
+              const x = l.x * vw, y = l.y * vh;
+              if (x < minx) minx = x;
+              if (x > maxx) maxx = x;
+              if (y < miny) miny = y;
+              if (y > maxy) maxy = y;
+            }
+            const bbox = { x: Math.round(minx), y: Math.round(miny), w: Math.round(maxx - minx), h: Math.round(maxy - miny) };
+
+            return { roll, yaw, pitch, bbox };
+          }
+
+          // Simple exponential moving average to smooth noisy angles
+          function makeEMA(alpha = 0.5) {
+            let st = null;
+            return (v) => {
+              if (!st) st = { ...v };
+              else {
+                st.roll  = alpha * v.roll  + (1 - alpha) * st.roll;
+                st.yaw   = alpha * v.yaw   + (1 - alpha) * st.yaw;
+                st.pitch = alpha * v.pitch + (1 - alpha) * st.pitch;
+                st.bbox  = v.bbox; // bbox is updated directly
+              }
+              return st;
+            };
+          }
+          const smoothEuler = makeEMA(0.4);
+
+          // Initialization and main loop
+          startBtn.onclick = async () => {
+            startBtn.disabled = true;
+
+            // Start camera
+            const stream = await navigator.mediaDevices.getUserMedia({
+              video: { width: { ideal: 640 }, height: { ideal: 480 }, frameRate: { ideal: 30 } },
+              audio: false
+            });
+            video.srcObject = stream;
+            await video.play();
+
+            // Match canvas size to video
+            canvas.width = video.videoWidth || 640;
+            canvas.height = video.videoHeight || 480;
+
+            // Load FaceLandmarker
+            const fileset = await FilesetResolver.forVisionTasks(
+              "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.21/wasm"
+            );
+            landmarker = await FaceLandmarker.createFromOptions(fileset, {
+              baseOptions: {
+                modelAssetPath: "models/face_landmarker.task",
+                delegate: "GPU",
+              },
+              runningMode: "VIDEO",
+              numFaces: 1,
+              outputFaceBlendshapes: false,
+              outputFacialTransformationMatrixes: true
+            });
+
+            running = true;
+            loop();
+          };
+
+          const drawer = new DrawingUtils(ctx);
+          let lastTs = 0;
+
+          function loop() {
+            if (!running) return;
+            const ts = performance.now();
+
+            // Skip frames to reduce load (~15fps)
+            if (ts - lastTs < 66) {
+              requestAnimationFrame(loop);
+              return;
+            }
+            lastTs = ts;
+
+            const vw = video.videoWidth, vh = video.videoHeight;
+            const result = landmarker.detectForVideo(video, ts);
+
+            // Clear overlay canvas
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            if (result && result.faceLandmarks && result.faceLandmarks.length > 0) {
+              const lm = result.faceLandmarks[0];
+
+              // Draw landmark points
+              drawer.drawLandmarks(lm, { radius: 1.2 });
+
+              // Estimate angles and bounding box
+              const est = smoothEuler(eulerFromLandmarks(lm, vw, vh));              
+
+              // if outputFacialTransformationMatrixes is true, use matrix and override face pose
+              if (result?.facialTransformationMatrixes?.length) {
+                const M = result.facialTransformationMatrixes[0].data;
+
+                // Extract rotation part
+                let R = mat3FromMat4RowMajor(M);
+                // If angles look wrong, try transposing: R = transpose3(R);
+
+                // Quaternion and Euler angles
+                const q = quatFromR(R);
+                const e = eulerZYXFromQuat(q);
+
+                // Convert to degrees
+                let pitch = rad2deg(e.x); // rotation around X
+                let yaw   = rad2deg(e.y); // rotation around Y
+                let roll  = rad2deg(e.z); // rotation around Z
+
+                // Adjust signs if needed (depends on camera coordinate system or mirrored preview)
+                // yaw = -yaw; roll = -roll;
+
+                est.roll = roll;
+                est.yaw = yaw;
+                est.pitch = pitch;
+                // rollEl.textContent  = `${roll.toFixed(1)}°`;
+                // pitchEl.textContent = `${pitch.toFixed(1)}°`;
+                // yawEl.textContent   = `${yaw.toFixed(1)}°`;
+              }
+
+              // Draw bounding box
+              ctx.strokeStyle = "rgba(0, 200, 255, 0.9)";
+              ctx.lineWidth = 2;
+              ctx.strokeRect(est.bbox.x, est.bbox.y, est.bbox.w, est.bbox.h);
+
+              // Update text
+              info.textContent = "-";
+              rollElement.textContent = `${est.roll.toFixed(1)}°`
+              pitchElement.textContent = `${est.pitch.toFixed(1)}°`
+              yawElement.textContent = `${est.yaw.toFixed(1)}°`
+              xElement.textContent = `${est.bbox.x}`
+              yElement.textContent = `${est.bbox.y}`
+              wElement.textContent = `${est.bbox.w}`
+              hElement.textContent = `${est.bbox.h}`
+            } else {
+              info.textContent = "No face detected";
+            }
+
+            requestAnimationFrame(loop);
+          }
+        </script>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
