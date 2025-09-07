@@ -13,6 +13,9 @@
 * [nginx](https://github.com/nginx/nginx)
   * 1.26.1
   * BSD 2-Clause License
+* [@mediapipe/tasks-vision](https://www.npmjs.com/package/@mediapipe/tasks-vision)
+  * 0.10.21
+  * Apache 2.0 License
 
 ## Data
 
@@ -25,14 +28,4 @@
 $ sudo docker compose up --build -d
 ````
 
-#### HTTPS
-
-|iOS (Safari)|Android (Chrome)|
-|---|---|
-|<img src="./images/ios-https.gif" />|<img src="./images/android-https.gif" />|
-
-#### HTTP
-
-|iOS (Safari)|Android (Chrome)|
-|---|---|
-|<img src="./images/ios-http.gif" />|<img src="./images/android-http.gif" />|
+|<img src="./images/image.png" />

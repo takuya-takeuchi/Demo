@@ -92,6 +92,78 @@
           // Angle estimation (simple approximation)
           const rad2deg = r => r * 180 / Math.PI;
 
+          // Extract 3x3 rotation matrix (row-major) from 4x4 matrix
+          function mat3FromMat4RowMajor(m16) {
+            // m16 = [m00,m01,m02,m03, m10,m11,m12,m13, m20,m21,m22,m23, m30,m31,m32,m33] row-major
+            return [
+              [m16[0], m16[1], m16[2]],
+              [m16[4], m16[5], m16[6]],
+              [m16[8], m16[9], m16[10]],
+            ];
+          }
+
+          // Transpose helper in case MediaPipe provides column-major
+          function transpose3(a){
+            return [
+              [a[0][0], a[1][0], a[2][0]],
+              [a[0][1], a[1][1], a[2][1]],
+              [a[0][2], a[1][2], a[2][2]],
+            ];
+          }
+
+          // Convert 3x3 rotation matrix to quaternion
+          function quatFromR(R){
+            const m00=R[0][0], m01=R[0][1], m02=R[0][2];
+            const m10=R[1][0], m11=R[1][1], m12=R[1][2];
+            const m20=R[2][0], m21=R[2][1], m22=R[2][2];
+
+            const tr = m00 + m11 + m22;
+            let qw, qx, qy, qz;
+            if (tr > 0) {
+              const S = Math.sqrt(tr + 1.0) * 2; // S=4*qw
+              qw = 0.25 * S;
+              qx = (m21 - m12) / S;
+              qy = (m02 - m20) / S;
+              qz = (m10 - m01) / S;
+            } else if (m00 > m11 && m00 > m22) {
+              const S = Math.sqrt(1.0 + m00 - m11 - m22) * 2; // S=4*qx
+              qw = (m21 - m12) / S;
+              qx = 0.25 * S;
+              qy = (m01 + m10) / S;
+              qz = (m02 + m20) / S;
+            } else if (m11 > m22) {
+              const S = Math.sqrt(1.0 + m11 - m00 - m22) * 2; // S=4*qy
+              qw = (m02 - m20) / S;
+              qx = (m01 + m10) / S;
+              qy = 0.25 * S;
+              qz = (m12 + m21) / S;
+            } else {
+              const S = Math.sqrt(1.0 + m22 - m00 - m11) * 2; // S=4*qz
+              qw = (m10 - m01) / S;
+              qx = (m02 + m20) / S;
+              qy = (m12 + m21) / S;
+              qz = 0.25 * S;
+            }
+            return {qw,qx,qy,qz};
+          }
+
+          // Convert quaternion to Euler angles (ZYX order: yaw→pitch→roll)
+          function eulerZYXFromQuat({qw,qx,qy,qz}){
+            // Rotation order: Z (yaw), Y (pitch), X (roll)
+            const siny_cosp = 2*(qw*qz + qx*qy);
+            const cosy_cosp = 1 - 2*(qz*qz + qy*qy);
+            const z = Math.atan2(siny_cosp, cosy_cosp); // yaw around Z
+
+            const sinp = 2*(qw*qy - qz*qx);
+            const y = Math.abs(sinp) >= 1 ? Math.sign(sinp)*Math.PI/2 : Math.asin(sinp); // pitch around Y
+
+            const sinx_cosp = 2*(qw*qx + qy*qz);
+            const cosx_cosp = 1 - 2*(qx*qx + qy*qy);
+            const x = Math.atan2(sinx_cosp, cosx_cosp); // roll around X
+
+            return {x,y,z};
+          }
+
           function eulerFromLandmarks(lm, vw, vh) {
             // Representative landmark indices (MediaPipe FaceMesh convention, adjust if needed)
             const IDX = {
@@ -184,7 +256,7 @@
               runningMode: "VIDEO",
               numFaces: 1,
               outputFaceBlendshapes: false,
-              outputFacialTransformationMatrixes: false
+              outputFacialTransformationMatrixes: true
             });
 
             running = true;
@@ -218,7 +290,35 @@
               drawer.drawLandmarks(lm, { radius: 1.2 });
 
               // Estimate angles and bounding box
-              const est = smoothEuler(eulerFromLandmarks(lm, vw, vh));
+              const est = smoothEuler(eulerFromLandmarks(lm, vw, vh));              
+
+              // if outputFacialTransformationMatrixes is true, use matrix and override face pose
+              if (result?.facialTransformationMatrixes?.length) {
+                const M = result.facialTransformationMatrixes[0].data;
+
+                // Extract rotation part
+                let R = mat3FromMat4RowMajor(M);
+                // If angles look wrong, try transposing: R = transpose3(R);
+
+                // Quaternion and Euler angles
+                const q = quatFromR(R);
+                const e = eulerZYXFromQuat(q);
+
+                // Convert to degrees
+                let pitch = rad2deg(e.x); // rotation around X
+                let yaw   = rad2deg(e.y); // rotation around Y
+                let roll  = rad2deg(e.z); // rotation around Z
+
+                // Adjust signs if needed (depends on camera coordinate system or mirrored preview)
+                // yaw = -yaw; roll = -roll;
+
+                est.roll = roll;
+                est.yaw = yaw;
+                est.pitch = pitch;
+                // rollEl.textContent  = `${roll.toFixed(1)}°`;
+                // pitchEl.textContent = `${pitch.toFixed(1)}°`;
+                // yawEl.textContent   = `${yaw.toFixed(1)}°`;
+              }
 
               // Draw bounding box
               ctx.strokeStyle = "rgba(0, 200, 255, 0.9)";
