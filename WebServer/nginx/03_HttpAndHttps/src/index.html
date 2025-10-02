@@ -16,8 +16,17 @@
         <div class="container">
 		<ul class="list-group">
         		<li class="list-group-item"><a href="ca.crt">1. Install self-signed certificate</a></li>
-        		<li class="list-group-item"><a href="server.cer">2. Install iOS app via OTA</a></li>
+      			<li class="list-group-item"><a id="installLink">2. Install iOS app via OTA</a></li>
 		</ul>
 	</div>
+
+	<script>
+		const host = window.location.hostname;
+		const protocol = window.location.protocol;
+		const manifestUrl = `${protocol}//${host}/manifest.plist`;
+
+		const installUrl = `itms-services://?action=download-manifest&url=${manifestUrl}`;
+		document.getElementById("installLink").href = installUrl;
+	</script>
 </body>
 </html>
