@@ -1,7 +1,5 @@
 $current = $PSScriptRoot
 
-$emsdkVersion = "3.1.57"
-
 # get os name
 if ($global:IsWindows)
 {

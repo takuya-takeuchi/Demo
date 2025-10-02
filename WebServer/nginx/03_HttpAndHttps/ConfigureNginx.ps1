@@ -85,8 +85,6 @@ $files = @(
    "ca.key"
    "server.crt"
    "server.key"
-   "client.crt"
-   "client.decrypted.key"
 )
 
 foreach ($file in $files)
@@ -100,3 +98,7 @@ foreach ($file in $files)
 
 # copy nginx.conf
 Copy-Item ("${current}/conf/nginx.conf") ("nginx/conf") -Force
+
+# copy contents
+Copy-Item ("${current}/src/*") ("nginx/html") -Force -Recurse
+Copy-Item ("${current}/ca.crt") ("nginx/html") -Force -Recurse
