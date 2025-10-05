@@ -62,6 +62,8 @@ foreach ($file in $files)
    }
 }
 
+$env:OPENSSL_CONF = $opensslConfig
+
 Write-Host "Create your CA crt and key:" -ForegroundColor Green
 & "${openssl}" req -new `
                    -newkey rsa:4096 `
