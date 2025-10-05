@@ -1,13 +1,8 @@
-# Mutual TLS
+# IPA Over The Air
 
 ## Abstracts
 
-* How to use Mutual TLS (mTLS) for nginx
-
-## Requirements
-
-* curl
-  * If you run on windows for test, I does not recommend using built-in curl. You shoule download from [curl for Windows](https://curl.se/windows/).
+* How to setup OTA (Over Tha Air) for IPA file
 
 ## Dependencies
 
@@ -30,105 +25,76 @@ You can use these scripts
 
 Then, copy all generated files (ca.crt, ca.key, server.crt, server.csr and server.key) into here.
 
-#### 02. Create client certificates
-
-````bash
-$ pwsh GenerateClientCert.ps1
-Create client key:
-Generating RSA private key, 4096 bit long modulus
-...................................................................................................................................................................................................++++
-........................................................................................................................................................................................................................................................................++++
-unable to write 'random state'
-e is 65537 (0x10001)
-Enter pass phrase for client.key:
-Verifying - Enter pass phrase for client.key:
-Create a CSR:
-Enter pass phrase for client.key:
-Sign the CSR:
-Signature ok
-subject=/C=JP/ST=Osaka/L=Osaka-shi/O=Contoso Asia/OU=Docs,Contoso Asia
-Getting CA Private Key
-unable to write 'random state'
-Decrypt client key:
-Enter pass phrase for client.key:
-writing RSA key
-Create pfx:
-Enter Export Password:
-Verifying - Enter Export Password:
-unable to write 'random state'
-````
-
-You will see client client.crt, client.csr, client.decrypted.key and client.key.
-
-#### 03. Deploy nginx
+#### 02. Deploy nginx
 
 Download and deploy nginx.
 
 ````json
-$ pwsh ../DownloadNginx.ps1
+$ pwsh ../ConfigureNginx.ps1
 ````
 
-And start nginx.
+#### 03. Deploy IPA file
 
-##### Windows
+Copy ***.ipa** file and **manifest.plist** into [WebServer/nginx/03_IPAOverTheAir/nginx/html](WebServer/nginx/03_IPAOverTheAir/nginx/html).
+
+#### 04. Start nginx
 
 ````bash
-$ cd nginx
-$ start nginx.exe
+$ pwsh Run.ps1
 ````
 
-##### Linux and MacOS
+#### 05. Install Root CA file
 
-````bash
-$ ./nginx/sbin/nginx -g "daemon off;"
-````
+1. Clie **1. Install self-signed certificate**
 
-#### 04. Try mTLS by curl
+<img src="./images/IMG_0237.png" height="400" />
 
-````bash
-$ curl https://192.168.11.21 --cacert ca.crt --key client.decrypted.key --cert client.crt
-<!DOCTYPE html>
-<html>
-<head>
-<title>Welcome to nginx!</title>
-<style>
-html { color-scheme: light dark; }
-body { width: 35em; margin: 0 auto;
-font-family: Tahoma, Verdana, Arial, sans-serif; }
-</style>
-</head>
-<body>
-<h1>Welcome to nginx!</h1>
-<p>If you see this page, the nginx web server is successfully installed and
-working. Further configuration is required.</p>
+2. Select device (Thid dialog may be not present)
 
-<p>For online documentation and support please refer to
-<a href="http://nginx.org/">nginx.org</a>.<br/>
-Commercial support is available at
-<a href="http://nginx.com/">nginx.com</a>.</p>
+<img src="./images/IMG_0238.png" height="400" />
+<br>
+<img src="./images/IMG_0239.png" height="400" />
 
-<p><em>Thank you for using nginx.</em></p>
-</body>
-</html>
-````
+3. Open **Setting -> General -> VPN & Device Management** and select downloaded profile
 
-If you didn't specify client key and certificate, you will see
+<img src="./images/IMG_0240.png" height="400" />
 
-````bash
-$ curl https://192.168.11.21 --cacert ca.crt             
-<html>                          
-<head><title>400 No required SSL certificate was sent</title></head>
-<body>
-<center><h1>400 Bad Request</h1></center>
-<center>No required SSL certificate was sent</center>
-<hr><center>nginx/1.26.1</center>
-</body>
-</html>
-````
+4. Tap **Install**
 
-And if you use built-in `curl` on windows, you may see the following error in spite of using same command.
+<img src="./images/IMG_0241.png" height="400" />
 
-````cmd
-$ curl https://192.168.11.21 --cacert ca.crt --key client.decrypted.key --cert client.crt
-curl: (58) schannel: Failed to import cert file client.crt, last error is 0x80092002
-````
+5. Tap **Install**
+
+<img src="./images/IMG_0242.png" height="400" />
+
+6. Input passcode
+
+<img src="./images/IMG_0243.png" height="400" />
+
+7. Tap **Install**
+
+<img src="./images/IMG_0244.png" height="400" />
+
+8. Tap check button
+
+<img src="./images/IMG_0245.png" height="400" />
+
+9. Open **Setting -> General -> About -> Certificate Trust Settings** and select installed profile
+
+<img src="./images/IMG_0246.png" height="400" />
+
+10. Tap **Continue**
+
+<img src="./images/IMG_0247.png" height="400" />
+
+11. Installed profile is enabled
+
+<img src="./images/IMG_0248.png" height="400" />
+
+12. Tap **2. Install iOS app via OTA** and select **Install**
+
+<img src="./images/IMG_0250.png" height="400" />
+
+If tap **2. Install iOS app via OTA** in http page, you will see
+
+<img src="./images/IMG_0249.png" height="400" />

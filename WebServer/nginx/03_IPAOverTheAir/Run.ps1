@@ -22,11 +22,6 @@ $nginxDir = Join-Path $current nginx
 Push-Location $nginxDir | Out-Null
 if ($global:IsWindows)
 {
-    if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole("Administrators"))
-    {
-        Start-Process powershell.exe "-File `"$PSCommandPath`"" -Verb RunAs; exit
-    }
-
     $nginx = Join-Path $nginxDir $nginx
     & "${nginx}" -s stop
     start "${nginx}"
