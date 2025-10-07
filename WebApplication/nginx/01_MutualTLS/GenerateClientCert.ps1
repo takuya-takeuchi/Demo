@@ -31,6 +31,8 @@ elseif ($global:IsLinux)
                     Join-Path -ChildPath openssl.cnf
 }
 
+$env:OPENSSL_CONF = $opensslConfig
+
 Write-Host "Create client key:" -ForegroundColor Green
 & "${openssl}" genrsa -des3 -out client.key 4096
 
