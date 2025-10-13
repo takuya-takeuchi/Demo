@@ -14,13 +14,12 @@ let logger = SwiftyBeaver.self
 
 class ViewController: UIViewController {
 
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
+    // required init?(coder: NSCoder) {
+    // }
 
-    init() {
-        super.init(nibName: nil, bundle: nil)
-        
+    convenience init() {
+        self.init(nibName:nil, bundle:nil)
+
         // 1. Get the URL for the Application Support directory.
         let fileManager = FileManager.default
         guard let appSupportDirectory = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
