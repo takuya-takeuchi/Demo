@@ -14,9 +14,13 @@ let logger = SwiftyBeaver.self
 
 class ViewController: UIViewController {
 
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     init() {
         super.init(nibName: nil, bundle: nil)
-
+        
         // 1. Get the URL for the Application Support directory.
         let fileManager = FileManager.default
         guard let appSupportDirectory = fileManager.urls(for: .applicationSupportDirectory, in: .userDomainMask).first else {
@@ -37,7 +41,7 @@ class ViewController: UIViewController {
         let file = FileDestination()
         file.format = "[$Dyyyy-MM-dd HH:mm:ss.SSS$d] [$L] [$T] $M"
         file.colored = false
-        file.minLevel = Level.Verbose
+        file.minLevel = .verbose
         file.logFileURL = URL(string: "file://" + "\(logDirectory.path)/swiftybeaver.log")!
         file.logFileAmount = 7
 
@@ -63,18 +67,18 @@ class ViewController: UIViewController {
             button.heightAnchor.constraint(equalToConstant: 50),
         ])
 
-        log.verbose("viewDidLoad")
-        log.debug("viewDidLoad")
-        log.info("viewDidLoad")
-        log.warning("viewDidLoad")
-        log.error("viewDidLoad")
+        logger.verbose("viewDidLoad")
+        logger.debug("viewDidLoad")
+        logger.info("viewDidLoad")
+        logger.warning("viewDidLoad")
+        logger.error("viewDidLoad")
     }
 
     @objc func buttonTapped() {
         let alertController = UIAlertController(title: "title", message: "message", preferredStyle: .alert)
         let okAction = UIAlertAction(title: "OK", style: .default) { (action) in
             print("OK button is tapped")
-            log.info("OK button is tapped")
+            logger.info("OK button is tapped")
         }
         alertController.addAction(okAction)
         present(alertController, animated: true, completion: nil)        
