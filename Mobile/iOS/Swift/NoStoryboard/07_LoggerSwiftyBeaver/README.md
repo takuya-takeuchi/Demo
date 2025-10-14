@@ -5,6 +5,7 @@
 * Ignore Storyboard and construct UI components from code
 * Add `UIButton` and binding function into `touchUpInside` event
 * Write log into file
+  * SwiftyBeaver does not support daily rotation
 
 ## Requirements
 
@@ -25,7 +26,3 @@
 * [SwiftyBeaver](https://github.com/SwiftyBeaver/SwiftyBeaver)
   * 2.1.1
   * MIT License
-
-## Screenshots
-
-<img src="./images/app.gif" width="384" />

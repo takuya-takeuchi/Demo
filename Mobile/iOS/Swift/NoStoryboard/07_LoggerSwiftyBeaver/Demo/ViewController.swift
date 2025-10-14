@@ -14,11 +14,8 @@ let logger = SwiftyBeaver.self
 
 class ViewController: UIViewController {
 
-    // required init?(coder: NSCoder) {
-    // }
-
-    convenience init() {
-        self.init(nibName:nil, bundle:nil)
+    required init?(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
 
         // 1. Get the URL for the Application Support directory.
         let fileManager = FileManager.default
@@ -43,9 +40,10 @@ class ViewController: UIViewController {
         file.minLevel = .verbose
         file.logFileURL = URL(string: "file://" + "\(logDirectory.path)/swiftybeaver.log")!
         file.logFileAmount = 7
+        file.logFileMaxSize = 1000
 
         logger.addDestination(file)
-        logger.info("SwiftyBeaver is configured")
+        logger.info("SwiftyBeaver is configured")        
     }
 
     override func viewDidLoad() {
