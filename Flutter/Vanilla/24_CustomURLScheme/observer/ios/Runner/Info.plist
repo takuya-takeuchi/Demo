@@ -47,8 +47,6 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<key>FlutterDeepLinkingEnabled</key>
-   	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>yourcustomscheme</string>
