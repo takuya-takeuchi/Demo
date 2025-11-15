@@ -37,15 +37,15 @@ class MainPageState extends State<MainPage> {
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: [ElevatedButton(onPressed: () => _openApp(), child: const Text('Change OS setting'))],
+          children: [ElevatedButton(onPressed: () => _openApp(), child: const Text('Lancun actor app'))],
         ),
       ),
     );
   }
 
   void _openApp() async {
-    const androidUrl = 'test://'; // YouTubeなら'youtube://'
-    const iosUrl = 'test://'; //  YouTubeなら'vnd.youtube://'
+    const androidUrl = 'yourcustomscheme://test'; // YouTubeなら'youtube://'
+    const iosUrl = 'yourcustomscheme://test'; //  YouTubeなら'vnd.youtube://'
 
     final targetUrlStr = Platform.isAndroid ? androidUrl : iosUrl;
     final targetUrl = Uri.parse(targetUrlStr);

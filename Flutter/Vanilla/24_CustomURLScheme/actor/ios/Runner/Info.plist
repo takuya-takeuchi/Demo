@@ -5,7 +5,7 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Demo</string>
+	<string>Actor</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
@@ -47,9 +47,18 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-    <key>CFBundleURLSchemes</key>
-    <array>
-      <string>yourcustomscheme</string>
-    </array>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLName</key>
+			<string>jp.taktak.demo.flutter.ios.actor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>yourcustomscheme</string>
+			</array>
+		</dict>
+	</array>
 </dict>
 </plist>
