@@ -43,3 +43,9 @@ $ docker run -it -d --rm --name alpine-3.20.3-netron -p 8080:8080 -t alpine-3.20
 |Target OS|Version|Location|Build command example|Run command example|
 |---|---|---|---|---|
 |ubuntu|18.04|[./protobuf/ubuntu/18.04/Dockerfile](./protobuf/ubuntu/18.04/Dockerfile)|`docker build -t ubuntu-18.04-protobuf protobuf/ubuntu/18.04 --build-arg COMPONENT_VERSION=v3.20.3`|-|
+
+### sysroot for Visual Studio Code Server 
+
+|Target CPU Arch|Location|Build command example|
+|---|---|---|
+|amd64|[./vscode-server-sysroot/amd64/Dockerfile](./vscode-server-sysroot/amd64/Dockerfile)|`docker build -t vscode-sysroot --target sysroot vscode-server-sysroot/amd64`|
