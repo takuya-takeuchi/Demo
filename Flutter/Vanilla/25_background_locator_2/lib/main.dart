@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:isolate';
 import 'dart:ui';
 
@@ -44,11 +43,59 @@ class _HomePageState extends State<HomePage> {
   String _status = 'stopped';
   LocationDto? _lastLocation;
   ReceivePort? _port;
+  bool _isRunning = false;
 
   @override
   void initState() {
     super.initState();
     _setupIsolate();
+  }
+
+  @override
+  void dispose() {
+    if (_port != null) {
+      IsolateNameServer.removePortNameMapping(LocationServiceRepository.isolateName);
+      _port!.close();
+    }
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final locText = _lastLocation == null
+        ? 'no data'
+        : '${_lastLocation!.latitude}, ${_lastLocation!.longitude}\n'
+            'acc: ${_lastLocation!.accuracy}, t: ${DateTime.fromMillisecondsSinceEpoch(_lastLocation!.time.toInt())}';
+
+    return Scaffold(
+      appBar: AppBar(title: const Text('Background Location Demo')),
+      body: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text('Status: $_status'),
+            const SizedBox(height: 12),
+            const Text('Last location:'),
+            Text(locText),
+            const SizedBox(height: 24),
+            Row(
+              children: [
+                ElevatedButton(
+                  onPressed: _start,
+                  child: const Text('Start'),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton(
+                  onPressed: _stop,
+                  child: const Text('Stop'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _setupIsolate() {
@@ -92,8 +139,7 @@ class _HomePageState extends State<HomePage> {
   Future<void> _start() async {
     await _requestPermission();
 
-    final isRunning = await BackgroundLocator.isServiceRunning();
-    if (isRunning) return;
+    if (_isRunning) return;
 
     // you can pass map data to LocationServiceRepository.init via LocationCallbackHandler.initCallback
     Map<String, dynamic> data = {'countInit': 1};
@@ -121,6 +167,8 @@ class _HomePageState extends State<HomePage> {
       ),
     );
 
+    _isRunning = true;
+
     setState(() {
       _status = 'running';
     });
@@ -131,56 +179,12 @@ class _HomePageState extends State<HomePage> {
     if (isRunning) {
       await BackgroundLocator.unRegisterLocationUpdate();
     }
+
+    _isRunning = false;
+
     setState(() {
       _status = 'stopped';
       _lastLocation = null;
     });
-  }
-
-  @override
-  void dispose() {
-    if (_port != null) {
-      IsolateNameServer.removePortNameMapping(LocationServiceRepository.isolateName);
-      _port!.close();
-    }
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final locText = _lastLocation == null
-        ? 'no data'
-        : '${_lastLocation!.latitude}, ${_lastLocation!.longitude}\n'
-            'acc: ${_lastLocation!.accuracy}, t: ${DateTime.fromMillisecondsSinceEpoch(_lastLocation!.time.toInt())}';
-
-    return Scaffold(
-      appBar: AppBar(title: const Text('BG Location Demo')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Status: $_status'),
-            const SizedBox(height: 12),
-            const Text('Last location:'),
-            Text(locText),
-            const SizedBox(height: 24),
-            Row(
-              children: [
-                ElevatedButton(
-                  onPressed: _start,
-                  child: const Text('Start'),
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton(
-                  onPressed: _stop,
-                  child: const Text('Stop'),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
   }
 }

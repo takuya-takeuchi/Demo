@@ -3,7 +3,6 @@
 ## Abstracts
 
 * Use `background_locator_2` package to receive location info in background
-  * This demo uses `yourcustomscheme://`
 
 ## Requirements
 
@@ -20,9 +19,6 @@
 * [permission_handler](https://pub.dev/packages/url_launcher)
   * MIT License
   * 12.0.1
-* [url_launcher](https://pub.dev/packages/url_launcher)
-  * BSD-3-Clause License
-  * 6.3.2
 
 # Architecture
 
