@@ -23,7 +23,8 @@
 
 ### Ubuntu
 
-* g++
+* gcc 12
+  * 11 can't build Qt5
 
 ### OSX
 

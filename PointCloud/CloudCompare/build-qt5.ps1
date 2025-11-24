@@ -157,7 +157,25 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
-    cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_BUILD_TYPE=$Configuration `
-          $sourceDir
+    git -C "${sourceDir}" submodule update --init --recursive
+    Copy-item -Path "${current}/patch/linux/qt5/qtbase/src/corelib/global/qglobal.h" "${current}/qt5/qtbase/src/corelib/global/qglobal.h"
+    
+    Push-Location $buildDir
+    $configure = Join-Path $sourceDir configure
+
+    $env:CC="/usr/bin/gcc-12"
+    $env:CXX="/usr/bin/gcc-12"
+
+    if ($Configuration -eq "Release")
+    {
+        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license --prefix="${installDir}" -release
+    }
+    else
+    {
+        & "${configure}" -developer-build -opensource -nomake examples -nomake tests -confirm-license --prefix="${installDir}" 
+    }
+
+    make CC=gcc-12 CXX=g++-12
+    make install
+    Pop-Location
 }
