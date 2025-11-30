@@ -7,7 +7,7 @@
 
 ## Requirements
 
-* Xcode 14.0 or later
+* Xcode 15.0 or later
 * Apple Developer Account with Apple Develop Program
 
 ## Project Style
