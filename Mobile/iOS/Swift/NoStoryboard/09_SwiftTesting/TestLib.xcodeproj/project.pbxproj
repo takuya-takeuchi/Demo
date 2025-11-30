@@ -13,14 +13,14 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		07DF21582EDC2D30008723D1 /* PBXContainerItemProxy */ = {
+		070E655E2ED4233300C8B328 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 070E65492ED4233300C8B328 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 070E65512ED4233300C8B328;
 			remoteInfo = TestLib;
 		};
-		07DF215D2EDC2D96008723D1 /* PBXContainerItemProxy */ = {
+		070E657F2ED4294B00C8B328 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 070E65492ED4233300C8B328 /* Project object */;
 			proxyType = 1;
@@ -322,12 +322,12 @@
 			isa = PBXTargetDependency;
 			platformFilter = ios;
 			target = 070E65512ED4233300C8B328 /* TestLib */;
-			targetProxy = 07DF21582EDC2D30008723D1 /* PBXContainerItemProxy */;
+			targetProxy = 070E655E2ED4233300C8B328 /* PBXContainerItemProxy */;
 		};
 		07DF215E2EDC2D96008723D1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 070E65702ED428F100C8B328 /* TestLibHost */;
-			targetProxy = 07DF215D2EDC2D96008723D1 /* PBXContainerItemProxy */;
+			targetProxy = 070E657F2ED4294B00C8B328 /* PBXContainerItemProxy */;
 		};
 		070E65852ED4296D00C8B328 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
