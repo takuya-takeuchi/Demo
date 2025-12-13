@@ -7,11 +7,11 @@
 	url = https://github.com/getsentry/self-hosted
 	ignore = dirty
 [submodule "ComputerVision/05_Tesseract/tessdata_fast"]
-	path = "ComputerVision/Tesseract/C#/00_GetStarted/tessdata_fast"
+	path = "ComputerVision/Tesseract/C#/tessdata_fast"
 	url = https://github.com/tesseract-ocr/tessdata_fast
 	ignore = dirty
 [submodule "ComputerVision/05_Tesseract/tessdata"]
-	path = "ComputerVision/Tesseract/C#/00_GetStarted/tessdata"
+	path = "ComputerVision/Tesseract/C#/tessdata"
 	url = https://github.com/tesseract-ocr/tessdata
 	ignore = dirty
 [submodule "ComputerVision/08_Windows10_/sources/zxing-cpp"]

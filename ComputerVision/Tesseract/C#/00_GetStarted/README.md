@@ -25,19 +25,19 @@ At first, you run the following command to init submodule.
 It will take time because [tessdata](https://github.com/tesseract-ocr/tessdata) is huge repository.
 
 ````cmd
-$ git submodule update --init --recursive .
+$ git submodule update --init --recursive ..
 ````
 
 After this, you can get Tesseract model files
 
-* tessdata
-* tessdata_fast
+* [tessdata](../tessdata/)
+* [tessdata_fast](../tessdata_fast/)
 
 Next, you can try OCR by the following command.
 
 ````cmd
 $ cd sources\Demo
-$ dotnet run -c Release -- ..\..\tessdata Japanese TesseractAndLstm ..\..\testdata\ja.png
+$ dotnet run -c Release -- ..\..\..\tessdata Japanese TesseractAndLstm ..\..\..\testdata\ja.png
 2022-06-05 02:56:33.6743 [INFO ] GetImageBinary: 0 ms
 2022-06-05 02:56:34.4534 [INFO ] CreateEngine: 708 ms
 2022-06-05 02:56:34.4625 [INFO ] LoadTesseractImage: 5 ms
@@ -70,7 +70,7 @@ In this case, you can specify only **LstmOnly** for 3rd argument.
 
 ````cmd
 $ cd sources\Demo
-$ dotnet run -c Release -- ..\..\tessdata_fast Japanese LstmOnly ..\..\testdata\ja.png
+$ dotnet run -c Release -- ..\..\..\tessdata_fast Japanese LstmOnly ..\..\..\testdata\ja.png
 2022-06-05 03:01:08.0326 [INFO ] GetImageBinary: 0 ms
 2022-06-05 03:01:08.2293 [INFO ] CreateEngine: 161 ms
 2022-06-05 03:01:08.2293 [INFO ] LoadTesseractImage: 4 ms
