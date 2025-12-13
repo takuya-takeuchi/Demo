@@ -152,7 +152,8 @@ namespace Demo
                     }
                 }
 
-                using var fileStream = new FileStream("result.png", FileMode.Create, FileAccess.Write, FileShare.Write);
+                var fileName = Path.GetFileNameWithoutExtension(path);
+                using var fileStream = new FileStream($"{fileName}.png", FileMode.Create, FileAccess.Write, FileShare.Write);
                 skBitmap.Encode(fileStream, SKEncodedImageFormat.Png, 100);
             }
             catch (Exception e)
