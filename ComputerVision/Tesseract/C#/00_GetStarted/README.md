@@ -11,13 +11,23 @@
 ## Dependencies
 
 * [NLog](https://github.com/NLog/NLog)
+  * 6.0.7
   * BSD-3-Clause license
+* [SkiaSharp](https://github.com/mono/SkiaSharp)
+  * 3.119.1
+  * MIT license
 * [TesseractOCR](https://github.com/Sicos1977/TesseractOCR)
+  * 5.5.0
   * Apache-2.0 license
 * [tessdata](https://github.com/tesseract-ocr/tessdata)
   * Apache-2.0 license
 * [tessdata_fast – Fast integer versions of trained models](https://github.com/tesseract-ocr/tessdata_fast)
   * Apache-2.0 license
+
+## Data
+
+* [Noto Font Japanese](https://fonts.google.com/noto/specimen/Noto+Sans+JP)
+  * SIL Open Font License, Version 1.1
 
 ## How to usage?
 
@@ -37,7 +47,7 @@ Next, you can try OCR by the following command.
 
 ````cmd
 $ cd sources\Demo
-$ dotnet run -c Release -- ..\..\..\tessdata Japanese TesseractAndLstm ..\..\..\testdata\ja.png
+$ dotnet run -c Release -- ..\..\..\tessdata Japanese TesseractAndLstm ..\..\testdata\ja.png
 2022-06-05 02:56:33.6743 [INFO ] GetImageBinary: 0 ms
 2022-06-05 02:56:34.4534 [INFO ] CreateEngine: 708 ms
 2022-06-05 02:56:34.4625 [INFO ] LoadTesseractImage: 5 ms
@@ -65,12 +75,14 @@ $ dotnet run -c Release -- ..\..\..\tessdata Japanese TesseractAndLstm ..\..\..\
 2022-06-05 02:56:35.1724 [INFO ] RunOcr: 708 ms
 ````
 
+<img src="images/result.png" />
+
 Or you can specify [tessdata_fast – Fast integer versions of trained models](https://github.com/tesseract-ocr/tessdata_fast). 
 In this case, you can specify only **LstmOnly** for 3rd argument.
 
 ````cmd
 $ cd sources\Demo
-$ dotnet run -c Release -- ..\..\..\tessdata_fast Japanese LstmOnly ..\..\..\testdata\ja.png
+$ dotnet run -c Release -- ..\..\..\tessdata_fast Japanese LstmOnly ..\..\testdata\ja.png
 2022-06-05 03:01:08.0326 [INFO ] GetImageBinary: 0 ms
 2022-06-05 03:01:08.2293 [INFO ] CreateEngine: 161 ms
 2022-06-05 03:01:08.2293 [INFO ] LoadTesseractImage: 4 ms
@@ -100,3 +112,5 @@ $ dotnet run -c Release -- ..\..\..\tessdata_fast Japanese LstmOnly ..\..\..\tes
 
 2022-06-05 03:01:09.0094 [INFO ] RunOcr: 772 ms
 ````
+
+<img src="images/result_fast.png" />

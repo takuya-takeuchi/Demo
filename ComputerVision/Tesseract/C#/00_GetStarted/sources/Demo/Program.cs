@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 
 using NLog;
+using SkiaSharp;
 using TesseractOCR;
 using TesseractOCR.Enums;
 
@@ -58,7 +59,7 @@ namespace Demo
 
             using var engine = CreateEngine(tessDataDir, language, engineMode);
             using var image = LoadTesseractImage(binary);
-            RunOcr(engine, image);
+            RunOcr(engine, image, path);
         }
 
         #region Helpers
@@ -103,7 +104,7 @@ namespace Demo
             }
         }
 
-        private static void RunOcr(Engine? engine, TesseractOCR.Pix.Image image)
+        private static void RunOcr(Engine? engine, TesseractOCR.Pix.Image image, string path)
         {
             Stopwatch.Restart();
 
@@ -112,6 +113,47 @@ namespace Demo
                 using var page = engine.Process(image);
                 Logger.Info("Mean confidence: {0}", page.MeanConfidence);
                 Logger.Info("Text: \r\n{0}", page.Text);
+
+                using var paintRect = new SKPaint();
+                paintRect.Color = new SKColor(255, 0, 0);
+                paintRect.Style = SKPaintStyle.Stroke;
+
+                using var paintText = new SKPaint();
+                using var typeface = SKTypeface.FromFile( @"NotoSansJP-Light.ttf" );
+                paintText.Color = new SKColor(255, 0, 0);
+                paintText.Typeface = typeface;
+
+                var binary = File.ReadAllBytes(path);
+                using var skSourceImage = SKBitmap.Decode(binary);
+                int w = skSourceImage.Width;
+                int h = skSourceImage.Height;
+                using var skBitmap = new SKBitmap(w, h * 2, skSourceImage.ColorType, skSourceImage.AlphaType);
+                using var skCanvas = new SKCanvas(skBitmap);
+
+                skCanvas.Clear(SKColors.White);
+                skCanvas.DrawBitmap(skSourceImage, 0, 0);
+                            
+                foreach (var layout in page.Layout)
+                {
+                    foreach (var paragraph in layout.Paragraphs)
+                    {
+                        foreach (var textLine in paragraph.TextLines)
+                        {
+                            var text = textLine.Text.Trim();
+                            if (string.IsNullOrWhiteSpace(text))
+                                continue;
+                            if (!textLine.BoundingBox.HasValue)
+                                continue;
+
+                            var r = textLine.BoundingBox.Value;
+                            skCanvas.DrawRect(new SKRect((float)r.X1, (float)r.Y1, (float)r.X2, (float)r.Y2), paintRect);
+                            skCanvas.DrawText(text, new SKPoint((float)r.X1, (float)(r.Y1 + h)), paintText);
+                        }
+                    }
+                }
+
+                using var fileStream = new FileStream("result.png", FileMode.Create, FileAccess.Write, FileShare.Write);
+                skBitmap.Encode(fileStream, SKEncodedImageFormat.Png, 100);
             }
             catch (Exception e)
             {

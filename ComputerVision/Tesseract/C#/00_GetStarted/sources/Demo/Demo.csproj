@@ -8,8 +8,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="NLog" Version="5.0.0" />
-    <PackageReference Include="TesseractOCR" Version="5.1.9" />
+    <PackageReference Include="NLog" Version="6.0.7" />
+    <PackageReference Include="SkiaSharp" Version="3.119.1" />
+    <PackageReference Include="TesseractOCR" Version="5.5.0" />
   </ItemGroup>
 
   <ItemGroup>
