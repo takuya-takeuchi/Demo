@@ -7,11 +7,11 @@
 	url = https://github.com/getsentry/self-hosted
 	ignore = dirty
 [submodule "ComputerVision/05_Tesseract/tessdata_fast"]
-	path = ComputerVision/05_Tesseract/tessdata_fast
+	path = "ComputerVision/Tesseract/C#/tessdata_fast"
 	url = https://github.com/tesseract-ocr/tessdata_fast
 	ignore = dirty
 [submodule "ComputerVision/05_Tesseract/tessdata"]
-	path = ComputerVision/05_Tesseract/tessdata
+	path = "ComputerVision/Tesseract/C#/tessdata"
 	url = https://github.com/tesseract-ocr/tessdata
 	ignore = dirty
 [submodule "ComputerVision/08_Windows10_/sources/zxing-cpp"]
@@ -165,15 +165,15 @@
 	url = https://github.com/Tencent/rapidjson
 	ignore = dirty
 [submodule "ComputerVision/Tesseract/tesseract"]
-	path = ComputerVision/Tesseract/tesseract
+	path = ComputerVision/Tesseract/C++/tesseract
 	url = https://github.com/tesseract-ocr/tesseract/
 	ignore = dirty
 [submodule "ComputerVision/Tesseract/tessdata"]
-	path = ComputerVision/Tesseract/tessdata
+	path = ComputerVision/Tesseract/C++/tessdata
 	url = https://github.com/tesseract-ocr/tessdata
 	ignore = dirty
-[submodule "ComputerVision/Tesseract/leptonica"]
-	path = ComputerVision/Tesseract/leptonica
+[submodule "ComputerVision/Tesseract/C++/leptonica"]
+	path = ComputerVision/Tesseract/C++/leptonica
 	url = https://github.com/danbloomberg/leptonica
 	ignore = dirty
 [submodule "Mobile/Android/03_CheckNativeLibraryDependency/opencv"]
