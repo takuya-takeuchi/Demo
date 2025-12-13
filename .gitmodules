@@ -172,8 +172,8 @@
 	path = ComputerVision/Tesseract/C++/tessdata
 	url = https://github.com/tesseract-ocr/tessdata
 	ignore = dirty
-[submodule "ComputerVision/Tesseract/leptonica"]
-	path = ComputerVision/Tesseract/cpp/leptonica
+[submodule "ComputerVision/Tesseract/C++/leptonica"]
+	path = ComputerVision/Tesseract/C++/leptonica
 	url = https://github.com/danbloomberg/leptonica
 	ignore = dirty
 [submodule "Mobile/Android/03_CheckNativeLibraryDependency/opencv"]
