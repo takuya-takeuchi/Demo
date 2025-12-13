@@ -220,3 +220,6 @@
 	path = Misc/oneTBB/oneTBB
 	url = https://github.com/uxlfoundation/oneTBB
 	ignore = dirty
+[submodule "ComputerVision/libyuv/C++/libyuv"]
+	path = ComputerVision/libyuv/C++/libyuv
+	url = https://chromium.googlesource.com/libyuv/libyuv
