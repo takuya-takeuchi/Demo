@@ -27,46 +27,56 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "benchmark"
-$shared = "static"
+$target = "libyuv"
+# libyuv generate both static and dynamic
+# $sharedFlag = "OFF"
+# if ($sharedFlag -eq "OFF")
+# {
+#     $shared = "static"
+# }
+# else
+# {
+#     $shared = "dynamic"
+# }
 
 # build
 $sourceDir = Join-Path $current $target
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target | `
-            Join-Path -ChildPath $shared
+            Join-Path -ChildPath $target
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target | `
-              Join-Path -ChildPath $shared
+              Join-Path -ChildPath $target
+$targetDir = Join-Path $installDir $target | `
+             Join-Path -ChildPath lib | `
+             Join-Path -ChildPath cmake
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
 if ($global:IsWindows)
-{    
+{
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=OFF `
-          -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
+          -D BUILD_SHARED_LIBS=${sharedFlag} `
+          -D UNIT_TEST=OFF `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=OFF `
-          -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
+          -D BUILD_SHARED_LIBS=${sharedFlag} `
+          -D UNIT_TEST=OFF `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=OFF `
-          -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
+          -D BUILD_SHARED_LIBS=${sharedFlag} `
+          -D UNIT_TEST=OFF `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

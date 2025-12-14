@@ -27,46 +27,58 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "benchmark"
+$target = "libyuv"
 $shared = "static"
 
 # build
-$sourceDir = Join-Path $current $target
+$sourceDir = $current
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target | `
-            Join-Path -ChildPath $shared
+            Join-Path -ChildPath program
 $installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target | `
-              Join-Path -ChildPath $shared
+              Join-Path -ChildPath $os
+
+$rootDir = Split-Path $current -Parent
+
+$libyuvInstallDir = Join-Path $rootDir install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath "${target}"
+$openBenchmarkDir = Join-Path $rootDir install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath benchmark | `
+                    Join-Path -ChildPath $shared
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
+New-Item -Type Directory (Join-Path $installDir bin) -Force | Out-Null
 
 Push-Location $buildDir
 if ($global:IsWindows)
-{    
+{
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=OFF `
-          -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
+          -D CMAKE_PREFIX_PATH="${openBenchmarkDir}" `
+          -D libyuv_LIBRARIES="${libyuvInstallDir}\lib\yuv.lib" `
+          -D libyuv_INCLUDE_DIRS="${libyuvInstallDir}\include" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=OFF `
-          -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
+          -D CMAKE_PREFIX_PATH="${openBenchmarkDir}" `
+          -D libyuv_LIBRARIES="${libyuvInstallDir}/lib/libyuv.a" `
+          -D libyuv_INCLUDE_DIRS="${libyuvInstallDir}/include" `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=OFF `
-          -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
+          -D CMAKE_PREFIX_PATH="${openBenchmarkDir}" `
+          -D libyuv_LIBRARIES="${libyuvInstallDir}/lib/libyuv.a" `
+          -D libyuv_INCLUDE_DIRS="${libyuvInstallDir}/include" `
+          -D CMAKE_POLICY_VERSION_MINIMUM=3.5 `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

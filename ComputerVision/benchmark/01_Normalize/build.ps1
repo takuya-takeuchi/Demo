@@ -18,55 +18,58 @@ if ($global:IsWindows)
 {
     $os = "win"
 }
-elseif ($global:IsMacOS)
-{
-    $os = "osx"
-}
 elseif ($global:IsLinux)
 {
     $os = "linux"
 }
+else
+{
+    Write-Host "This platfor is not supported"
+    exit 1
+}
 
-$target = "benchmark"
 $shared = "static"
 
 # build
-$sourceDir = Join-Path $current $target
+$sourceDir = $current
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target | `
-            Join-Path -ChildPath $shared
+            Join-Path -ChildPath program
 $installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target | `
-              Join-Path -ChildPath $shared
+              Join-Path -ChildPath $os
+
+$rootDir = Split-Path $current -Parent
+
+$openBenchmarkDir = Join-Path $rootDir install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath benchmark | `
+                    Join-Path -ChildPath $shared
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
+New-Item -Type Directory (Join-Path $installDir bin) -Force | Out-Null
 
 Push-Location $buildDir
 if ($global:IsWindows)
-{    
+{
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=OFF `
-          -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
+          -D CMAKE_PREFIX_PATH="${openBenchmarkDir}" `
           $sourceDir
 }
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=OFF `
-          -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
+          -D CMAKE_PREFIX_PATH="${openBenchmarkDir}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
-          -D BUILD_SHARED_LIBS=OFF `
-          -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
+          -D CMAKE_PREFIX_PATH="${openBenchmarkDir}" `
+          -D CMAKE_POLICY_VERSION_MINIMUM=3.5 `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
