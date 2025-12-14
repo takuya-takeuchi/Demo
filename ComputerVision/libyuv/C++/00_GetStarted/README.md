@@ -26,23 +26,21 @@
 
 ## Dependencies
 
-* [opencv](https://github.com/opencv/opencv)
-  * 4.11.0
-  * Apache-2.0 License
+* [libyuv](https://chromium.googlesource.com/libyuv/libyuv)
+  * main (deeb764bb92b6305ee0cb5dae7a5940fdb457fa9, Wed Dec 10 03:46:41 2025 +0000)
+  * BSD 3-Clause License
 
 ## How to build?
 
-### OpenCV 4, libjxl and benchmark
+### libyuv
 
-Go to [OpenCV](..).
+Go to [libyuv](..).
 
 ````shell
-$ pwsh build-libjxl.ps1 <Debug/Release>
-$ pwsh build-benchmark.ps1 <Debug/Release>
-$ pwsh build-enable-jpegxl.ps1 <Debug/Release>
+$ pwsh build.ps1 <Debug/Release>
 ````
 
-Once time you built `opencv4`, you need not to do again.
+Once time you built `libyuv`, you need not to do again.
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>
@@ -55,4 +53,11 @@ $ pwsh build.ps1 <Debug/Release>
 ````bat
 $ ./install/linux/win/Demo
 libyuv cpu: AVX2=8192 FMA3=65536
+````
+
+#### OSX
+
+````bash
+$ ./install/osx/bin/Demo
+libyuv cpu: AVX2=0 FMA3=0
 ````

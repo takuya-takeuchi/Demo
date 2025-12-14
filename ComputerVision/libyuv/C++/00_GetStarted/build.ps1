@@ -59,7 +59,8 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openCVInstallDir};${openBenchmarkDir}" `
+          -D libyuv_LIBRARIES="${libyuvInstallDir}/lib/libyuv.a" `
+          -D libyuv_INCLUDE_DIRS="${libyuvInstallDir}/include" `
           $sourceDir
 }
 elseif ($global:IsLinux)

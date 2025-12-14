@@ -27,9 +27,6 @@
 
 ## Dependencies
 
-* [benchmark](https://github.com/google/benchmark)
-  * v1.9.4
-  * Apache-2.0 License
 * [libyuv](https://chromium.googlesource.com/libyuv/libyuv)
   * main (deeb764bb92b6305ee0cb5dae7a5940fdb457fa9, Wed Dec 10 03:46:41 2025 +0000)
   * BSD 3-Clause License
