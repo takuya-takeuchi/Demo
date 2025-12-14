@@ -28,26 +28,25 @@ elseif ($global:IsLinux)
 }
 
 $target = "libyuv"
-$sharedFlag = "OFF"
-if ($sharedFlag -eq "OFF")
-{
-    $shared = "static"
-}
-else
-{
-    $shared = "dynamic"
-}
+# libyuv generate both static and dynamic
+# $sharedFlag = "OFF"
+# if ($sharedFlag -eq "OFF")
+# {
+#     $shared = "static"
+# }
+# else
+# {
+#     $shared = "dynamic"
+# }
 
 # build
 $sourceDir = Join-Path $current $target
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target | `
-            Join-Path -ChildPath $shared
+            Join-Path -ChildPath $target
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target | `
-              Join-Path -ChildPath $shared
+              Join-Path -ChildPath $target
 $targetDir = Join-Path $installDir $target | `
              Join-Path -ChildPath lib | `
              Join-Path -ChildPath cmake
