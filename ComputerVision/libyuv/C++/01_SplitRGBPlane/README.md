@@ -58,8 +58,8 @@ $ pwsh build.ps1 <Debug/Release>
 
 ````bat
 $ ./install/linux/win/Demo
-2025-12-14T10:48:50+09:00
-Running install\win\bin\Demo.exe
+2025-12-14T11:40:49+09:00
+Running .\install\win\bin\Demo.exe
 Run on (12 X 3192 MHz CPU s)
 CPU Caches:
   L1 Data 32 KiB (x6)
@@ -69,18 +69,18 @@ CPU Caches:
 -------------------------------------------------------------------------------------------------------------
 Benchmark                                                                   Time             CPU   Iterations
 -------------------------------------------------------------------------------------------------------------
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_mean                        2.02 ms         2.02 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_median                      2.01 ms         2.01 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_stddev                     0.023 ms        0.016 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_cv                          1.13 %          0.79 %             5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_mean         2.02 ms         2.01 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_median       2.00 ms         2.01 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_stddev      0.026 ms        0.028 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_cv           1.29 %          1.41 %             5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_mean          2.01 ms         2.00 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_median        2.00 ms         2.01 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_stddev       0.016 ms        0.017 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_cv            0.82 %          0.84 %             5
+BM_SplitBGR24Planar/min_time:2.000/repeats:5_mean                        1.89 ms         1.89 ms            5
+BM_SplitBGR24Planar/min_time:2.000/repeats:5_median                      1.88 ms         1.87 ms            5
+BM_SplitBGR24Planar/min_time:2.000/repeats:5_stddev                     0.032 ms        0.033 ms            5
+BM_SplitBGR24Planar/min_time:2.000/repeats:5_cv                          1.68 %          1.73 %             5
+BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_mean         1.85 ms         1.85 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_median       1.85 ms         1.84 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_stddev      0.003 ms        0.006 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_cv           0.14 %          0.31 %             5
+BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_mean          1.85 ms         1.85 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_median        1.85 ms         1.85 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_stddev       0.005 ms        0.005 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_cv            0.25 %          0.25 %             5
 ````
 
 #### Linux
