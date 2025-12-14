@@ -54,7 +54,7 @@ $ pwsh build.ps1 <Debug/Release>
 
 ````bat
 $ ./install/linux/win/Demo
-2025-12-14T11:40:49+09:00
+2025-12-14T13:47:17+09:00
 Running .\install\win\bin\Demo.exe
 Run on (12 X 3192 MHz CPU s)
 CPU Caches:
@@ -62,21 +62,17 @@ CPU Caches:
   L1 Instruction 32 KiB (x6)
   L2 Unified 256 KiB (x6)
   L3 Unified 12288 KiB (x1)
--------------------------------------------------------------------------------------------------------------
-Benchmark                                                                   Time             CPU   Iterations
--------------------------------------------------------------------------------------------------------------
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_mean                        1.89 ms         1.89 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_median                      1.88 ms         1.87 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_stddev                     0.032 ms        0.033 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_cv                          1.68 %          1.73 %             5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_mean         1.85 ms         1.85 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_median       1.85 ms         1.84 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_stddev      0.003 ms        0.006 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_cv           0.14 %          0.31 %             5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_mean          1.85 ms         1.85 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_median        1.85 ms         1.85 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_stddev       0.005 ms        0.005 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_cv            0.25 %          0.25 %             5
+------------------------------------------------------------------------------------
+Benchmark                                          Time             CPU   Iterations
+------------------------------------------------------------------------------------
+BM_Scalar/min_time:2.000/repeats:5_mean         3.38 ms         3.39 ms            5
+BM_Scalar/min_time:2.000/repeats:5_median       3.35 ms         3.35 ms            5
+BM_Scalar/min_time:2.000/repeats:5_stddev      0.055 ms        0.060 ms            5
+BM_Scalar/min_time:2.000/repeats:5_cv           1.64 %          1.77 %             5
+BM_AVX2/min_time:2.000/repeats:5_mean           1.92 ms         1.92 ms            5
+BM_AVX2/min_time:2.000/repeats:5_median         1.91 ms         1.90 ms            5
+BM_AVX2/min_time:2.000/repeats:5_stddev        0.053 ms        0.048 ms            5
+BM_AVX2/min_time:2.000/repeats:5_cv             2.78 %          2.51 %             5
 ````
 
 #### Linux
