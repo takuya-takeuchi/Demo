@@ -79,162 +79,92 @@ static void BM_Scalar(benchmark::State &state)
     }
 }
 
-static inline void DeinterleaveBGR24_16px_SSSE3(const uint8_t* s, uint8_t* b, uint8_t* g, uint8_t* r)
+// Gather 8 pixels of a single channel from BGR24.
+// channel_offset: B=0, G=1, R=2
+static inline __m256 Load8_u8_as_f32_gather_AVX2(const uint8_t* base, __m256i byteOffsets)
 {
-    // Input layout (48 bytes):
-    // [B0 G0 R0  B1 G1 R1  ...  B15 G15 R15]
+    // Gather 8x 32-bit words starting at base + offset (scale=1 byte)
+    __m256i v = _mm256_i32gather_epi32(reinterpret_cast<const int*>(base), byteOffsets, 1);
 
-    // Load 48 bytes into 3 x 16-byte registers.
-    const __m128i x0 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(s +  0)); // bytes  0..15
-    const __m128i x1 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(s + 16)); // bytes 16..31
-    const __m128i x2 = _mm_loadu_si128(reinterpret_cast<const __m128i*>(s + 32)); // bytes 32..47
+    // Keep only the lowest byte of each dword
+    v = _mm256_and_si256(v, _mm256_set1_epi32(0xFF));
 
-    const __m128i Z = _mm_set1_epi8(static_cast<char>(0x80)); // pshufb: 0x80 => zero
-
-    // ---- B channel ----
-    // Bk comes from source index 3*k.
-    // x0 provides B0..B5  (src 0,3,6,9,12,15) -> dst 0..5
-    // x1 provides B6..B10 (src 18,21,24,27,30) -> dst 6..10 (x1 idx 2,5,8,11,14)
-    // x2 provides B11..B15(src 33,36,39,42,45) -> dst 11..15 (x2 idx 1,4,7,10,13)
-    const __m128i mb0 = _mm_setr_epi8(
-        0, 3, 6, 9, 12, 15,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80);
-
-    const __m128i mb1 = _mm_setr_epi8(
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        2, 5, 8, 11, 14,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80);
-
-    const __m128i mb2 = _mm_setr_epi8(
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        1, 4, 7, 10, 13);
-
-    __m128i vb = _mm_or_si128(_mm_shuffle_epi8(x0, mb0), _mm_shuffle_epi8(x1, mb1));
-    vb = _mm_or_si128(vb, _mm_shuffle_epi8(x2, mb2));
-
-    // ---- G channel ----
-    // Gk comes from source index 3*k+1.
-    // x0 provides G0..G4  (src 1,4,7,10,13) -> dst 0..4
-    // x1 provides G5..G10 (src 16,19,22,25,28,31) -> dst 5..10 (x1 idx 0,3,6,9,12,15)
-    // x2 provides G11..G15(src 34,37,40,43,46) -> dst 11..15 (x2 idx 2,5,8,11,14)
-    const __m128i mg0 = _mm_setr_epi8(
-        1, 4, 7, 10, 13,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80);
-
-    const __m128i mg1 = _mm_setr_epi8(
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        0, 3, 6, 9, 12, 15,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80);
-
-    const __m128i mg2 = _mm_setr_epi8(
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        2, 5, 8, 11, 14);
-
-    __m128i vg = _mm_or_si128(_mm_shuffle_epi8(x0, mg0), _mm_shuffle_epi8(x1, mg1));
-    vg = _mm_or_si128(vg, _mm_shuffle_epi8(x2, mg2));
-
-    // ---- R channel ----
-    // Rk comes from source index 3*k+2.
-    // x0 provides R0..R4  (src 2,5,8,11,14) -> dst 0..4
-    // x1 provides R5..R9  (src 17,20,23,26,29) -> dst 5..9 (x1 idx 1,4,7,10,13)
-    // x2 provides R10..R15(src 32,35,38,41,44,47) -> dst 10..15 (x2 idx 0,3,6,9,12,15)
-    const __m128i mr0 = _mm_setr_epi8(
-        2, 5, 8, 11, 14,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80);
-
-    const __m128i mr1 = _mm_setr_epi8(
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        1, 4, 7, 10, 13,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80);
-
-    const __m128i mr2 = _mm_setr_epi8(
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        (char)0x80,(char)0x80,(char)0x80,(char)0x80,(char)0x80,
-        0, 3, 6, 9, 12, 15);
-
-    __m128i vr = _mm_or_si128(_mm_shuffle_epi8(x0, mr0), _mm_shuffle_epi8(x1, mr1));
-    vr = _mm_or_si128(vr, _mm_shuffle_epi8(x2, mr2));
-
-    // Store 16 bytes each (unaligned safe)
-    _mm_storeu_si128(reinterpret_cast<__m128i*>(b), vb);
-    _mm_storeu_si128(reinterpret_cast<__m128i*>(g), vg);
-    _mm_storeu_si128(reinterpret_cast<__m128i*>(r), vr);
+    // u8 -> i32 -> f32
+    return _mm256_cvtepi32_ps(v);
 }
 
-static inline void Normalize8_to_f32_AVX2(
-    const uint8_t* src8,
-    float* dst,
-    int n,
-    float mean,
-    float invStd)
+static inline void Normalize8_f32_AVX2(__m256 x_u8_as_f32, float mean, float invStd, float* dst)
 {
     const __m256 vScale = _mm256_set1_ps(INV255);
     const __m256 vMean  = _mm256_set1_ps(mean);
     const __m256 vInv   = _mm256_set1_ps(invStd);
 
-    int i = 0;
-    for (; i + 8 <= n; i += 8)
-    {
-        __m128i u8  = _mm_loadl_epi64(reinterpret_cast<const __m128i*>(src8 + i));
-        __m256i i32 = _mm256_cvtepu8_epi32(u8);
-        __m256 f32  = _mm256_cvtepi32_ps(i32);
-
-        __m256 x = _mm256_mul_ps(f32, vScale);
-        x = _mm256_mul_ps(_mm256_sub_ps(x, vMean), vInv);
-        _mm256_storeu_ps(dst + i, x);
-    }
-
-    for (; i < n; ++i)
-    {
-        const float x = src8[i] * INV255;
-        dst[i] = (x - mean) * invStd;
-    }
+    __m256 x = _mm256_mul_ps(x_u8_as_f32, vScale);
+    x = _mm256_mul_ps(_mm256_sub_ps(x, vMean), vInv);
+    _mm256_storeu_ps(dst, x);
 }
 
 void AVX2(const uint8_t* data,
           int width,
           int height,
-          int stride,
+          int strideBytes,
           int dstStride,
-          uint8_t* b8,
-          uint8_t* g8,
-          uint8_t* r8,
           float* bf,
           float* gf,
           float* rf)
 {
+    const __m256i offB0 = _mm256_setr_epi32(0,  3,  6,  9, 12, 15, 18, 21);
+    const __m256i offG0 = _mm256_setr_epi32(1,  4,  7, 10, 13, 16, 19, 22);
+    const __m256i offR0 = _mm256_setr_epi32(2,  5,  8, 11, 14, 17, 20, 23);
+
+    const __m256i offB1 = _mm256_setr_epi32(24, 27, 30, 33, 36, 39, 42, 45);
+    const __m256i offG1 = _mm256_setr_epi32(25, 28, 31, 34, 37, 40, 43, 46);
+    const __m256i offR1 = _mm256_setr_epi32(26, 29, 32, 35, 38, 41, 44, 47);
+
     for (int y = 0; y < height; ++y)
     {
-        const uint8_t* s = data + y * stride;
-        uint8_t* pb8 = b8 + y * dstStride;
-        uint8_t* pg8 = g8 + y * dstStride;
-        uint8_t* pr8 = r8 + y * dstStride;
-
-        float* pbf = bf + y * dstStride;
-        float* pgf = gf + y * dstStride;
-        float* prf = rf + y * dstStride;
+        const uint8_t* s = data + y * strideBytes;
+        float* outB = bf + y * dstStride;
+        float* outG = gf + y * dstStride;
+        float* outR = rf + y * dstStride;
 
         int x = 0;
+
+        // Process 16 pixels per iteration (2 x 8 pixels)
         for (; x + 16 <= width; x += 16)
         {
-            DeinterleaveBGR24_16px_SSSE3(s + 3*x, pb8 + x, pg8 + x, pr8 + x);
+            const uint8_t* p = s + 3 * x;
+
+            // First 8 pixels
+            __m256 b0 = Load8_u8_as_f32_gather_AVX2(p, offB0);
+            __m256 g0 = Load8_u8_as_f32_gather_AVX2(p, offG0);
+            __m256 r0 = Load8_u8_as_f32_gather_AVX2(p, offR0);
+
+            Normalize8_f32_AVX2(b0, MEAN_B, INVSTD_B, outB + x + 0);
+            Normalize8_f32_AVX2(g0, MEAN_G, INVSTD_G, outG + x + 0);
+            Normalize8_f32_AVX2(r0, MEAN_R, INVSTD_R, outR + x + 0);
+
+            // Next 8 pixels (same base p, different offsets)
+            __m256 b1 = Load8_u8_as_f32_gather_AVX2(p, offB1);
+            __m256 g1 = Load8_u8_as_f32_gather_AVX2(p, offG1);
+            __m256 r1 = Load8_u8_as_f32_gather_AVX2(p, offR1);
+
+            Normalize8_f32_AVX2(b1, MEAN_B, INVSTD_B, outB + x + 8);
+            Normalize8_f32_AVX2(g1, MEAN_G, INVSTD_G, outG + x + 8);
+            Normalize8_f32_AVX2(r1, MEAN_R, INVSTD_R, outR + x + 8);
         }
 
+        // Remainder (scalar)
         for (; x < width; ++x)
         {
-            pb8[x] = s[3 * x + 0];
-            pg8[x] = s[3 * x + 1];
-            pr8[x] = s[3 * x + 2];
-        }
+            const float b = s[3 * x + 0] * INV255;
+            const float g = s[3 * x + 1] * INV255;
+            const float r = s[3 * x + 2] * INV255;
 
-        Normalize8_to_f32_AVX2(pb8, pbf, width, MEAN_B, INVSTD_B);
-        Normalize8_to_f32_AVX2(pg8, pgf, width, MEAN_G, INVSTD_G);
-        Normalize8_to_f32_AVX2(pr8, prf, width, MEAN_G, INVSTD_G);
+            outB[x] = (b - MEAN_B) * INVSTD_B;
+            outG[x] = (g - MEAN_G) * INVSTD_G;
+            outR[x] = (r - MEAN_R) * INVSTD_R;
+        }
     }
 }
 
@@ -242,12 +172,6 @@ static void BM_AVX2(benchmark::State &state)
 {
     std::vector<uint8_t> buf;
     buf.resize(IMG_WIDTH * IMG_HEIGHT * IMG_CHANNELS);
-    std::vector<uint8_t> b8;
-    b8.resize(IMG_WIDTH * IMG_HEIGHT);
-    std::vector<uint8_t> g8;
-    g8.resize(IMG_WIDTH * IMG_HEIGHT);
-    std::vector<uint8_t> r8;
-    r8.resize(IMG_WIDTH * IMG_HEIGHT);
     std::vector<float> bf;
     bf.resize(IMG_WIDTH * IMG_HEIGHT);
     std::vector<float> gf;
@@ -258,9 +182,6 @@ static void BM_AVX2(benchmark::State &state)
     for (auto _ : state)
     {
         benchmark::DoNotOptimize(buf.data());
-        benchmark::DoNotOptimize(b8.data());
-        benchmark::DoNotOptimize(g8.data());
-        benchmark::DoNotOptimize(r8.data());
         benchmark::DoNotOptimize(bf.data());
         benchmark::DoNotOptimize(gf.data());
         benchmark::DoNotOptimize(rf.data());
@@ -270,9 +191,6 @@ static void BM_AVX2(benchmark::State &state)
              IMG_HEIGHT,
              IMG_WIDTH * IMG_CHANNELS,
              IMG_WIDTH,
-             b8.data(),
-             g8.data(),
-             r8.data(),
              bf.data(),
              gf.data(),
              rf.data());
