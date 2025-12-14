@@ -20,10 +20,6 @@
 
 * g++
 
-### OSX
-
-* Xcode
-
 ## Dependencies
 
 * [benchmark](https://github.com/google/benchmark)
@@ -31,8 +27,6 @@
   * Apache-2.0 License
 
 ## How to build?
-
-### libyuv
 
 ### benchmark
 
@@ -99,37 +93,4 @@ BM_AVX2/min_time:2.000/repeats:5_mean           4.07 ms         4.06 ms         
 BM_AVX2/min_time:2.000/repeats:5_median         4.06 ms         4.05 ms            5
 BM_AVX2/min_time:2.000/repeats:5_stddev        0.039 ms        0.040 ms            5
 BM_AVX2/min_time:2.000/repeats:5_cv             0.95 %          0.99 %             5
-````
-
-#### OSX
-
-````bash
-$ ./install/osx/bin/Demo
-Unable to determine clock rate from sysctl: hw.cpufrequency: No such file or directory
-This does not affect benchmark measurements, only the metadata output.
-***WARNING*** Failed to set thread affinity. Estimated CPU frequency may be incorrect.
-2025-12-14T11:05:31+09:00
-Running ./install/osx/bin/Demo
-Run on (8 X 24 MHz CPU s)
-CPU Caches:
-  L1 Data 64 KiB
-  L1 Instruction 128 KiB
-  L2 Unified 4096 KiB (x8)
-Load Average: 2.50, 2.56, 2.53
-***WARNING*** Library was built as DEBUG. Timings may be affected.
--------------------------------------------------------------------------------------------------------------
-Benchmark                                                                   Time             CPU   Iterations
--------------------------------------------------------------------------------------------------------------
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_mean                       0.154 ms        0.154 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_median                     0.154 ms        0.154 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_stddev                     0.004 ms        0.004 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_cv                          2.74 %          2.57 %             5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_mean        0.249 ms        0.249 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_median      0.249 ms        0.249 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_stddev      0.004 ms        0.004 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_cv           1.73 %          1.50 %             5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_mean         0.247 ms        0.247 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_median       0.246 ms        0.246 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_stddev       0.001 ms        0.001 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_cv            0.24 %          0.25 %             5
 ````

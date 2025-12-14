@@ -18,13 +18,14 @@ if ($global:IsWindows)
 {
     $os = "win"
 }
-elseif ($global:IsMacOS)
-{
-    $os = "osx"
-}
 elseif ($global:IsLinux)
 {
     $os = "linux"
+}
+else
+{
+    Write-Host "This platfor is not supported"
+    exit 1
 }
 
 $shared = "static"
