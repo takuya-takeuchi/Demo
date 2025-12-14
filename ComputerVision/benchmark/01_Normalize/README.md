@@ -1,8 +1,8 @@
-# Split RGB to Plane8
+# Normalize (optimized for AVX2)
 
 ## Abstracts
 
-* Split RGB data to 3 Plane8
+* Normalize RGB data by optimized code for AVX2
 
 ## Requirements
 
@@ -29,24 +29,20 @@
 * [benchmark](https://github.com/google/benchmark)
   * v1.9.4
   * Apache-2.0 License
-* [libyuv](https://chromium.googlesource.com/libyuv/libyuv)
-  * main (deeb764bb92b6305ee0cb5dae7a5940fdb457fa9, Wed Dec 10 03:46:41 2025 +0000)
-  * BSD 3-Clause License
 
 ## How to build?
 
 ### libyuv
 
-### libyuv and benchmark
+### benchmark
 
-Go to [libyuv](..).
+Go to [benchmark](..).
 
 ````shell
-$ pwsh build.ps1 <Debug/Release>
 $ pwsh build-benchmark.ps1 <Debug/Release>
 ````
 
-Once time you built `libyuv` and `benchmark`, you need not to do again.
+Once time you built `benchmark`, you need not to do again.
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>

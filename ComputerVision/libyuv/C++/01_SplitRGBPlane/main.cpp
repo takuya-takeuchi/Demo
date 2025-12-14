@@ -13,13 +13,13 @@
 #define IMG_CHANNELS 3
 
 void SplitBGR24Planar(const uint8_t* data,
-                      uint8_t* b8,
-                      uint8_t* g8,
-                      uint8_t* r8,
                       int width,
                       int height,
                       int stride,
-                      int dstStride)
+                      int dstStride,
+                      uint8_t* b8,
+                      uint8_t* g8,
+                      uint8_t* r8)
 {
     for (int y = 0; y < height; ++y)
     {
@@ -42,13 +42,13 @@ void SplitBGR24Planar(const uint8_t* data,
 }
 
 void SplitBGR24PlanarByLibYuv(const uint8_t* data,
-                              uint8_t* b8,
-                              uint8_t* g8,
-                              uint8_t* r8,
                               int width,
                               int height,
                               int stride,
-                              int dstStride)
+                              int dstStride,
+                              uint8_t* b8,
+                              uint8_t* g8,
+                              uint8_t* r8)
 {
     libyuv::SplitRGBPlane(data,
                           stride,
@@ -81,13 +81,13 @@ static void BM_SplitBGR24Planar(benchmark::State &state)
         benchmark::DoNotOptimize(r8.data());
 
         SplitBGR24Planar(buf.data(),
-                         b8.data(),
-                         g8.data(),
-                         r8.data(),
                          IMG_WIDTH,
                          IMG_HEIGHT,
                          IMG_WIDTH * IMG_CHANNELS,
-                         IMG_WIDTH);
+                         IMG_WIDTH,
+                         b8.data(),
+                         g8.data(),
+                         r8.data());
 
         benchmark::ClobberMemory();
     }
@@ -115,13 +115,13 @@ static void BM_SplitBGR24PlanarByLibYuvAVX2OFF(benchmark::State &state)
         benchmark::DoNotOptimize(r8.data());
 
         SplitBGR24PlanarByLibYuv(buf.data(),
-                                 b8.data(),
-                                 g8.data(),
-                                 r8.data(),
                                  IMG_WIDTH,
                                  IMG_HEIGHT,
                                  IMG_WIDTH * IMG_CHANNELS,
-                                 IMG_WIDTH);
+                                 IMG_WIDTH,
+                                 b8.data(),
+                                 g8.data(),
+                                 r8.data());
 
         benchmark::ClobberMemory();
     }
@@ -148,13 +148,13 @@ static void BM_SplitBGR24PlanarByLibYuvAVX2ON(benchmark::State &state)
         benchmark::DoNotOptimize(r8.data());
 
         SplitBGR24PlanarByLibYuv(buf.data(),
-                                 b8.data(),
-                                 g8.data(),
-                                 r8.data(),
                                  IMG_WIDTH,
                                  IMG_HEIGHT,
                                  IMG_WIDTH * IMG_CHANNELS,
-                                 IMG_WIDTH);
+                                 IMG_WIDTH,
+                                 b8.data(),
+                                 g8.data(),
+                                 r8.data());
 
         benchmark::ClobberMemory();
     }
