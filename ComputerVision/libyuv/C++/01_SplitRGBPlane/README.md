@@ -83,6 +83,36 @@ BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_stddev       0.016 ms
 BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_cv            0.82 %          0.84 %             5
 ````
 
+#### Linux
+
+````bash
+$ ./install/osx/bin/Demo
+2025-12-14T11:30:21+09:00
+Running ./install/linux/bin/Demo
+Run on (4 X 3092.84 MHz CPU s)
+CPU Caches:
+  L1 Data 32 KiB (x4)
+  L1 Instruction 32 KiB (x4)
+  L2 Unified 256 KiB (x4)
+  L3 Unified 10240 KiB (x4)
+Load Average: 0.72, 0.64, 0.38
+-------------------------------------------------------------------------------------------------------------
+Benchmark                                                                   Time             CPU   Iterations
+-------------------------------------------------------------------------------------------------------------
+BM_SplitBGR24Planar/min_time:2.000/repeats:5_mean                        2.70 ms         2.70 ms            5
+BM_SplitBGR24Planar/min_time:2.000/repeats:5_median                      2.69 ms         2.69 ms            5
+BM_SplitBGR24Planar/min_time:2.000/repeats:5_stddev                     0.042 ms        0.042 ms            5
+BM_SplitBGR24Planar/min_time:2.000/repeats:5_cv                          1.55 %          1.55 %             5
+BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_mean        0.980 ms        0.980 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_median      0.981 ms        0.981 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_stddev      0.007 ms        0.007 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_cv           0.72 %          0.71 %             5
+BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_mean         0.932 ms        0.932 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_median       0.922 ms        0.922 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_stddev       0.045 ms        0.045 ms            5
+BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_cv            4.82 %          4.82 %             5
+````
+
 #### OSX
 
 ````bash

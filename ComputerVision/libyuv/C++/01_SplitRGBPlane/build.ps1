@@ -56,6 +56,7 @@ Push-Location $buildDir
 if ($global:IsWindows)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_BUILD_TYPE=$Configuration `
           -D CMAKE_PREFIX_PATH="${openBenchmarkDir}" `
           -D libyuv_LIBRARIES="${libyuvInstallDir}\lib\yuv.lib" `
           -D libyuv_INCLUDE_DIRS="${libyuvInstallDir}\include" `
@@ -64,6 +65,7 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_BUILD_TYPE=$Configuration `
           -D CMAKE_PREFIX_PATH="${openBenchmarkDir}" `
           -D libyuv_LIBRARIES="${libyuvInstallDir}/lib/libyuv.a" `
           -D libyuv_INCLUDE_DIRS="${libyuvInstallDir}/include" `
@@ -71,17 +73,12 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
-    $rootDir = Split-Path $current -Parent
-    $openCVInstallDir = Join-Path $rootDir install | `
-                        Join-Path -ChildPath $os | `
-                        Join-Path -ChildPath "${target}-enable-jpegxl" | `
-                        Join-Path -ChildPath $shared | `
-                        Join-Path -ChildPath lib | `
-                        Join-Path -ChildPath cmake | `
-                        Join-Path -ChildPath $target
-
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${openCVInstallDir};${openBenchmarkDir}" `
+          -D CMAKE_BUILD_TYPE=$Configuration `
+          -D CMAKE_PREFIX_PATH="${openBenchmarkDir}" `
+          -D libyuv_LIBRARIES="${libyuvInstallDir}/lib/libyuv.a" `
+          -D libyuv_INCLUDE_DIRS="${libyuvInstallDir}/include" `
+          -D CMAKE_POLICY_VERSION_MINIMUM=3.5 `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install

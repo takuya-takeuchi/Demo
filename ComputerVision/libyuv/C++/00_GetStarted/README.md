@@ -55,6 +55,13 @@ $ ./install/linux/win/Demo
 libyuv cpu: AVX2=8192 FMA3=65536
 ````
 
+#### Linux
+
+````bash
+$ ./nstall/linux/bin/Demo 
+libyuv cpu: AVX2=8192 FMA3=65536
+````
+
 #### OSX
 
 ````bash

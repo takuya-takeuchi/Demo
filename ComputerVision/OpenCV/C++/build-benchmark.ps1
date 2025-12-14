@@ -48,6 +48,7 @@ Push-Location $buildDir
 if ($global:IsWindows)
 {    
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=OFF `
           -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
           $sourceDir
@@ -55,6 +56,7 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=OFF `
           -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
           $sourceDir
@@ -62,6 +64,7 @@ elseif ($global:IsMacOS)
 elseif ($global:IsLinux)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
+          -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=OFF `
           -D BENCHMARK_DOWNLOAD_DEPENDENCIES=ON `
           $sourceDir
