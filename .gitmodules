@@ -223,3 +223,4 @@
 [submodule "ComputerVision/libyuv/C++/libyuv"]
 	path = ComputerVision/libyuv/C++/libyuv
 	url = https://chromium.googlesource.com/libyuv/libyuv
+	ignore = dirty
