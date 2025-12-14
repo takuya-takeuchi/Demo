@@ -227,6 +227,8 @@
 [submodule "ComputerVision/libyuv/C++/benchmark"]
 	path = ComputerVision/libyuv/C++/benchmark
 	url = https://github.com/google/benchmark
+	ignore = dirty
 [submodule "ComputerVision/benchmark/benchmark"]
 	path = ComputerVision/benchmark/benchmark
 	url = https://github.com/google/benchmark
+	ignore = dirty
