@@ -1,8 +1,8 @@
-# Benchmark of JPEG XL
+# Split RGB to Plane8
 
 ## Abstracts
 
-* Benchmark `cv::imencode` and `cv::imdecode`
+* Split RGB data to 3 Plane8
 
 ## Requirements
 
