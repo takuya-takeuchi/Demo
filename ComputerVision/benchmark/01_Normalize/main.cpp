@@ -6,6 +6,16 @@
 
 #include <benchmark/benchmark.h>
 
+#if defined(_MSC_VER)
+  // MSVC
+  #include <intrin.h>
+  #include <immintrin.h>
+#else
+  // GCC / Clang
+  #include <immintrin.h>
+  #include <tmmintrin.h>
+#endif
+
 #define IMG_WIDTH 1920
 #define IMG_HEIGHT 1080
 #define IMG_CHANNELS 3

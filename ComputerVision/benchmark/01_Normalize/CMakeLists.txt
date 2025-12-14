@@ -23,6 +23,12 @@ endif()
 add_executable(${PROJ_NAME} main.cpp)
 
 if (MSVC)
+    target_compile_options(${PROJ_NAME} PRIVATE $<$<CONFIG:Release>:/O2 /arch:AVX2>)
+else()
+    target_compile_options(${PROJ_NAME} PRIVATE $<$<CONFIG:Release>:-O3 -DNDEBUG -mavx2 -mfma -mssse3>)
+endif()
+
+if (MSVC)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
                                benchmark::benchmark)

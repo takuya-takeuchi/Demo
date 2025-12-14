@@ -78,8 +78,8 @@ BM_AVX2/min_time:2.000/repeats:5_cv             2.78 %          2.51 %          
 #### Linux
 
 ````bash
-$ ./install/osx/bin/Demo
-2025-12-14T11:30:21+09:00
+$ ./install/linux/bin/Demo
+2025-12-14T14:06:09+09:00
 Running ./install/linux/bin/Demo
 Run on (4 X 3092.84 MHz CPU s)
 CPU Caches:
@@ -87,22 +87,18 @@ CPU Caches:
   L1 Instruction 32 KiB (x4)
   L2 Unified 256 KiB (x4)
   L3 Unified 10240 KiB (x4)
-Load Average: 0.72, 0.64, 0.38
--------------------------------------------------------------------------------------------------------------
-Benchmark                                                                   Time             CPU   Iterations
--------------------------------------------------------------------------------------------------------------
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_mean                        2.70 ms         2.70 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_median                      2.69 ms         2.69 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_stddev                     0.042 ms        0.042 ms            5
-BM_SplitBGR24Planar/min_time:2.000/repeats:5_cv                          1.55 %          1.55 %             5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_mean        0.980 ms        0.980 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_median      0.981 ms        0.981 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_stddev      0.007 ms        0.007 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2OFF/min_time:2.000/repeats:5_cv           0.72 %          0.71 %             5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_mean         0.932 ms        0.932 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_median       0.922 ms        0.922 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_stddev       0.045 ms        0.045 ms            5
-BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_cv            4.82 %          4.82 %             5
+Load Average: 0.21, 0.17, 0.14
+------------------------------------------------------------------------------------
+Benchmark                                          Time             CPU   Iterations
+------------------------------------------------------------------------------------
+BM_Scalar/min_time:2.000/repeats:5_mean         3.29 ms         3.29 ms            5
+BM_Scalar/min_time:2.000/repeats:5_median       3.29 ms         3.28 ms            5
+BM_Scalar/min_time:2.000/repeats:5_stddev      0.021 ms        0.021 ms            5
+BM_Scalar/min_time:2.000/repeats:5_cv           0.63 %          0.64 %             5
+BM_AVX2/min_time:2.000/repeats:5_mean           4.07 ms         4.06 ms            5
+BM_AVX2/min_time:2.000/repeats:5_median         4.06 ms         4.05 ms            5
+BM_AVX2/min_time:2.000/repeats:5_stddev        0.039 ms        0.040 ms            5
+BM_AVX2/min_time:2.000/repeats:5_cv             0.95 %          0.99 %             5
 ````
 
 #### OSX

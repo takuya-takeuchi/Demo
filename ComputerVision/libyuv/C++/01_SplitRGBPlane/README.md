@@ -86,7 +86,7 @@ BM_SplitBGR24PlanarByLibYuvAVX2ON/min_time:2.000/repeats:5_cv            0.25 % 
 #### Linux
 
 ````bash
-$ ./install/osx/bin/Demo
+$ ./install/linux/bin/Demo
 2025-12-14T11:30:21+09:00
 Running ./install/linux/bin/Demo
 Run on (4 X 3092.84 MHz CPU s)
