@@ -34,6 +34,9 @@
 
 ## Dependencies
 
+* [benchmark](https://github.com/google/benchmark)
+  * v1.9.2
+  * Apache-2.0 License
 * [opencv](https://github.com/opencv/opencv)
   * 4.11.0
   * Apache-2.0 License
