@@ -171,7 +171,7 @@ class _MainPageState extends State<MainPage> {
     final deviceDeg = _orientationToDegrees(orientation);
 
     if (cameraDescription.lensDirection == CameraLensDirection.front) {
-      return (deviceDeg) % 360;
+      return (deviceDeg + 360) % 360;
     } else {
       return -(deviceDeg + 360) % 360;
     }
