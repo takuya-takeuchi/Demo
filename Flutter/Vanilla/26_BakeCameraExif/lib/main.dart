@@ -74,7 +74,10 @@ class _MainPageState extends State<MainPage> {
                         onTap: () async => await _onSwitchCamera(),
                         child: const Padding(
                           padding: EdgeInsets.all(padding),
-                          child: Icon(Icons.switch_camera, size: barHeight, color: Colors.white),
+                          child: Visibility(
+                            visible: false,
+                            child: Icon(Icons.switch_camera, size: barHeight, color: Colors.white),
+                          ),
                         ),
                       ),
                       Text("$_capturePictureWidth x $_capturePictureHeight", style: const TextStyle(color: Colors.white)),
