@@ -1,8 +1,9 @@
-# Bake Camera Exif
+# Detect device pose adn correct photo image
 
 ## Abstracts
 
-* How to bake exif orientation property from camera image
+* How to detect device pose and correct camera image 
+  * For rear camera, all photos are adjusted to match the appearance at the time they were taken.
 
 ## Dependencies
 
