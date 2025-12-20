@@ -1,12 +1,9 @@
-import 'dart:ffi';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:camera/camera.dart';
 import 'package:image/image.dart' as img;
-import 'package:exif/exif.dart';
+import 'package:native_device_orientation/native_device_orientation.dart';
 
 Future<void> main() async {
   runApp(const MainPage());
@@ -23,7 +20,6 @@ class _MainPageState extends State<MainPage> {
   late List<CameraDescription> _cameras;
   late Future<CameraController?> _cameraController;
   CameraController? _currentCameraController;
-  CameraDescription? _currentCamera;
   Image? _picture;
   double? _pictureWidth;
   double? _pictureHeight;
@@ -149,35 +145,35 @@ class _MainPageState extends State<MainPage> {
     _currentCameraController = cameraController;
     setState(() {
       _cameraController = Future.value(cameraController);
-      _currentCamera = cameraController.description;
     });
 
     await cameraController.startImageStream(_processImage);
     return cameraController;
   }
 
-  int _deviceOrientationToDegrees(DeviceOrientation o) {
+  int _orientationToDegrees(NativeDeviceOrientation o) {
     switch (o) {
-      case DeviceOrientation.portraitUp:
+      case NativeDeviceOrientation.portraitUp:
         return 0;
-      case DeviceOrientation.landscapeLeft:
+      case NativeDeviceOrientation.landscapeLeft:
         return 90;
-      case DeviceOrientation.portraitDown:
+      case NativeDeviceOrientation.portraitDown:
         return 180;
-      case DeviceOrientation.landscapeRight:
+      case NativeDeviceOrientation.landscapeRight:
         return 270;
+      default:
+        return 0;
     }
   }
 
-  int _computeJpegRotationDegrees(CameraController controller, CameraDescription desc) {
-    final deviceDeg = _deviceOrientationToDegrees(controller.value.deviceOrientation);
-    final sensorDeg = desc.sensorOrientation; // 90 or 270 が多い
+  Future<int> _computeJpegRotationDegrees(CameraDescription cameraDescription) async {
+    final orientation = await NativeDeviceOrientationCommunicator().orientation(useSensor: true);
+    final deviceDeg = _orientationToDegrees(orientation);
 
-    // CameraX/Camera2 の一般的な補正式
-    if (desc.lensDirection == CameraLensDirection.front) {
-      return (sensorDeg + deviceDeg) % 360;
+    if (cameraDescription.lensDirection == CameraLensDirection.front) {
+      return (deviceDeg) % 360;
     } else {
-      return (sensorDeg - deviceDeg + 360) % 360;
+      return -(deviceDeg + 360) % 360;
     }
   }
 
@@ -195,12 +191,10 @@ class _MainPageState extends State<MainPage> {
         throw StateError('decode failed: ${picture.path}');
       }
 
-      final angle = _computeJpegRotationDegrees(_currentCameraController!, _currentCamera!);
+      final angle = await _computeJpegRotationDegrees(_currentCameraController!.value.description);
       final fixed = (angle == 0) ? image : img.copyRotate(image, angle: angle);
 
-      final Uint8List imageBinary = Uint8List.fromList(
-        img.encodePng(image), // or encodeJpg
-      );
+      final Uint8List imageBinary = Uint8List.fromList(img.encodePng(fixed));
 
       var ratio = fixed.width / fixed.height;
       var isLandscape = ratio > 1;

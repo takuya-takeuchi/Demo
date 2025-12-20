@@ -37,8 +37,8 @@ dependencies:
   app_settings: ^5.1.1
   camera: 0.10.6
   image: 4.7.1
+  native_device_orientation: 2.1.0
   path_provider: 2.1.5
-  exif: 3.3.0
 
 dev_dependencies:
   flutter_test:
