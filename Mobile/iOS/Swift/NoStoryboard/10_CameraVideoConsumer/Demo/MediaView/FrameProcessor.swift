@@ -21,8 +21,16 @@ final class FrameProcessor: VideoFrameProviderDelegate {
         // Perform image processing and ML inference here.
         // Any UI updates must be dispatched to the main thread.
         // DispatchQueue.main.async { ... }
+        guard let pixelBuffer = CMSampleBufferGetImageBuffer(sampleBuffer) else {
+            return
+        }
+
+        let width = CVPixelBufferGetWidth(pixelBuffer)
+        let height = CVPixelBufferGetHeight(pixelBuffer)
+
         let now = Date()
         let timestamp = FrameProcessor.formatter.string(from: now)
-        print("Frame received at \(timestamp)")
+
+        print("Frame received at \(timestamp) - size: \(width)x\(height)")
     }
 }

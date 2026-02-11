@@ -5,8 +5,8 @@
 //  Created by Takuya Takeuchi on 2026/02/11.
 //
 
-import UIKit
 import AVFoundation
+import UIKit
 
 final class CameraOrFileCaptureView: UIView {
 
@@ -25,9 +25,7 @@ final class CameraOrFileCaptureView: UIView {
     private var shouldResumeAfterForeground = false
     private(set) var mode: Mode = .camera
     private(set) var isRunning: Bool = false
-
-    /// Frame processor exposed for external use if needed.
-    let processor: FrameProcessor = FrameProcessor()
+    private let frameDelegate: VideoFrameProviderDelegate
 
     /// Controls how the video content is scaled within the view.
     var videoGravity: AVLayerVideoGravity = .resizeAspectFill {
@@ -40,24 +38,29 @@ final class CameraOrFileCaptureView: UIView {
     /// Automatically start when the view is attached to a window.
     var autoStartOnWindow: Bool = true
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    init(frameDelegate: VideoFrameProviderDelegate) {
+        self.frameDelegate = frameDelegate
+        super.init(frame: .zero)
         commonInit()
     }
 
+    override init(frame: CGRect) {
+        fatalError("Use init(frameDelegate:) to inject a VideoFrameProviderDelegate.")
+    }
+
     required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        commonInit()
+        fatalError("Storyboard is not supported. Use init(frameDelegate:).")
     }
 
     deinit {
         unregisterAppLifecycleObservers()
+        stop()
     }
 
     private func commonInit() {
-        // Source delegate
-        cameraSource.delegate = processor
-        fileSource.delegate = processor
+        // Assign injected delegate
+        cameraSource.delegate = frameDelegate
+        fileSource.delegate = frameDelegate
 
         // Preview layers
         capturePreviewLayer.videoGravity = videoGravity

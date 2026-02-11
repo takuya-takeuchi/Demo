@@ -16,10 +16,18 @@ final class CaptureViewController: UIViewController {
 
     private let mode: Mode
     private let onDeinit: (() -> Void)?
-    private let captureView = CameraOrFileCaptureView()
+    private let processor: VideoFrameProviderDelegate
+    private lazy var captureView: CameraOrFileCaptureView = {
+        let v = CameraOrFileCaptureView(frameDelegate: processor)
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }()
 
-    init(mode: Mode, onDeinit: (() -> Void)? = nil) {
+    init(mode: Mode,
+         processor: VideoFrameProviderDelegate = FrameProcessor(),
+         onDeinit: (() -> Void)? = nil) {
         self.mode = mode
+        self.processor = processor
         self.onDeinit = onDeinit
         super.init(nibName: nil, bundle: nil)
     }
