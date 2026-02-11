@@ -16,7 +16,6 @@ final class CaptureViewController: UIViewController {
 
     private let mode: Mode
     private let onDeinit: (() -> Void)?
-
     private let captureView = CameraOrFileCaptureView()
 
     init(mode: Mode, onDeinit: (() -> Void)? = nil) {
@@ -55,6 +54,5 @@ final class CaptureViewController: UIViewController {
             title = "File"
             captureView.setMode(.file(url: url))
         }
-        // autoStartOnWindow = true のままなら、表示されたら自動で start します
     }
 }
