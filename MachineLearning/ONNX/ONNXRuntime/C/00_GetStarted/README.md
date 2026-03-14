@@ -29,7 +29,7 @@
 ## Dependencies
 
 * [ONNX Runtime](https://onnxruntime.ai/)
-  * 1.16.3
+  * 1.22.2
   * MIT license
 
 ## How to build?
@@ -49,20 +49,20 @@ $ pwsh build.ps1 <Debug/Release>
 #### Windows
 
 ````bat
-$ .\install\win\bin\Demo.exe testdata\mnist.onnx Input3 1 28 28 Plus214_Output_0
+$ .\install\win\bin\Demo.exe .\install\win\bin\mnist.onnx Input3 1 28 28 Plus214_Output_0
 [Info] output tensor: {1, 10}
 ````
 
 #### Linux
 
 ````bat
-$ ./install/linux/bin/Demo testdata/mnist.onnx Input3 1 28 28 Plus214_Output_0
+$ ./install/linux/bin/Demo ./install/linux/bin/mnist.onnx Input3 1 28 28 Plus214_Output_0
 [Info] output tensor: {1, 10}
 ````
 
 #### OSX
 
 ````shell
-$ ./install/osx/bin/Demo testdata/mnist.onnx Input3 1 28 28 Plus214_Output_0 
+$ ./install/osx/bin/Demo ./install/linux/bin/mnist.onnx Input3 1 28 28 Plus214_Output_0 
 [Info] output tensor: {1, 10}
 ````

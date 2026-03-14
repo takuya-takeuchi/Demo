@@ -12,6 +12,15 @@ Param
 )
 
 $current = $PSScriptRoot
+$rootDir = Split-Path $current -Parent
+$copnfigPath = Join-Path $rootDir "build-config.json"
+if (!(Test-Path($copnfigPath)))
+{
+    Write-Host "${copnfigPath} is missing" -ForegroundColor Red
+    exit
+}
+
+$config = Get-Content -Path $copnfigPath | ConvertFrom-Json
 
 # get os name
 if ($global:IsWindows)
@@ -28,12 +37,14 @@ elseif ($global:IsLinux)
 }
 
 $target = "onnxruntime"
+$version = $config.onnxruntime.version
 
 # build
 $sourceDir = $current
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath program
+            Join-Path -ChildPath program | `
+            Join-Path -ChildPath $Configuration
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
 $installBinaryDir = Join-Path $installDir bin
@@ -45,10 +56,10 @@ New-Item -Type Directory $installBinaryDir -Force | Out-Null
 Push-Location $buildDir
 if ($global:IsWindows)
 {
-    $rootDir = Split-Path $current -Parent
     $targetInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath $version | `
                         Join-Path -ChildPath $Configuration
     if (!(Test-Path(${targetInstallDir})))
     {
@@ -62,10 +73,10 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    $rootDir = Split-Path $current -Parent
     $targetInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath $version | `
                         Join-Path -ChildPath $Configuration
     if (!(Test-Path(${targetInstallDir})))
     {
@@ -79,10 +90,10 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
-    $rootDir = Split-Path $current -Parent
     $targetInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath $target | `
+                        Join-Path -ChildPath $version | `
                         Join-Path -ChildPath $Configuration
     if (!(Test-Path(${targetInstallDir})))
     {
