@@ -1,0 +1,5 @@
+{
+    "onnxruntime": {
+        "version": "v1.22.2"
+    }
+}
