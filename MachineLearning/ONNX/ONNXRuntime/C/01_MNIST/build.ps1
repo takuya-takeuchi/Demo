@@ -38,6 +38,7 @@ elseif ($global:IsLinux)
 
 $target = "onnxruntime"
 $version = $config.onnxruntime.version
+$openCVVersion = $config.opencv.version
 
 # build
 $sourceDir = $current
@@ -59,6 +60,7 @@ if ($global:IsWindows)
     $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath opencv | `
+                        Join-Path -ChildPath $openCVVersion | `
                         Join-Path -ChildPath static | `
                         Join-Path -ChildPath $Configuration
     $cmakeModuleFile = Get-ChildItem $openCVInstallDir -Recurse -include OpenCVModules.cmake | Select-Object -First 1
@@ -91,6 +93,7 @@ elseif ($global:IsLinux)
     $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath opencv | `
+                        Join-Path -ChildPath $openCVVersion | `
                         Join-Path -ChildPath static | `
                         Join-Path -ChildPath $Configuration
     $cmakeModuleFile = Get-ChildItem $openCVInstallDir -Recurse -include OpenCVModules.cmake | Select-Object -First 1
