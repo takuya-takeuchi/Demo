@@ -63,7 +63,8 @@ elseif (APPLE)
                           ${OpenCV_LIBRARIES}
                           Iconv::Iconv
                           ${ORT_LIBS}
-                          ${ORT_LIBS_DEPS})
+                          ${ORT_LIBS_DEPS}
+                          "-framework Foundation")
 else()
     find_package(Iconv REQUIRED)
 
@@ -101,7 +102,6 @@ if (MSVC)
     )
 elseif (APPLE)
     set(BINARY_DATA
-        ${ONNXRUNTIME_ROOT}/lib/libonnxruntime_providers_shared.so
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist-7.bmp
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist.onnx
     )
