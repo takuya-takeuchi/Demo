@@ -1,5 +1,8 @@
 {
     "onnxruntime": {
         "version": "v1.22.2"
+    },
+    "cuda": {
+        "version": "12.8"
     }
 }

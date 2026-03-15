@@ -37,8 +37,8 @@ elseif ($global:IsLinux)
 
 $target = "onnxruntime"
 $version = $config.onnxruntime.version
-$cudaVersion = "11.8"
-$cudaVersionEnv = "11_8"
+$cudaVersion = $config.cuda.version
+$cudaVersionEnv = $cudaVersion.replace(".", "_")
 
 # build
 $sourceDir = Join-Path $current $target
@@ -57,10 +57,42 @@ New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $target
 
+git fetch -ap
+git checkout $version
 git submodule update --init --recursive .
 
 if ($global:IsWindows)
 {
+    function CallVisualStudioDeveloperConsole()
+    {
+        $vs = "C:\Program Files\Microsoft Visual Studio\2022"
+        $path = "${vs}\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        if (!(Test-Path($path)))
+        {
+            $path = "${vs}\Professional\VC\Auxiliary\Build\vcvars64.bat"
+        }
+        if (!(Test-Path($path)))
+        {
+            $path = "${vs}\Community\VC\Auxiliary\Build\vcvars64.bat"
+        }
+
+        Write-Host "Use: ${path}" -ForegroundColor Green
+
+        cmd.exe /c "call `"${path}`" && set > %temp%\vcvars.txt"
+        Get-Content "${env:temp}\vcvars.txt" | Foreach-Object {
+            if ($_ -match "^(.*?)=(.*)$") {
+                Set-Content "env:\$($matches[1])" $matches[2]
+            }
+        }
+    }
+    CallVisualStudioDeveloperConsole
+
+    $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded"
+    if ($Configuration -eq "Debug")
+    {
+        $CMAKE_MSVC_RUNTIME_LIBRARY += "Debug"
+    }
+    
     $env:CUDA_PATH = [System.Environment]::GetEnvironmentVariable("CUDA_PATH_V${cudaVersionEnv}", 'Machine')
     $cudaHome = $env:CUDA_PATH
     if (!(Test-Path($cudaHome)))
@@ -69,8 +101,11 @@ if ($global:IsWindows)
         exit
     }
     
+    # Do not speficy onnxruntime_BUILD_UNIT_TESTS. It occurs re2 is missing
+    # Refer to https://github.com/microsoft/onnxruntime/issues/22513
     python tools/ci_build/build.py --config ${Configuration} `
                                    --cmake_generator "Visual Studio 17 2022" `
+                                   --enable_msvc_static_runtime `
                                    --parallel `
                                    --build_dir ${buildDir} `
                                    --skip_tests `
@@ -80,7 +115,8 @@ if ($global:IsWindows)
                                    --cudnn_home "${cudaHome}" `
                                    --cuda_home "${cudaHome}" `
                                    --cuda_version $cudaVersion `
-                                   --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir onnxruntime_BUILD_UNIT_TESTS=OFF
+                                   --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir `
+                                                         CMAKE_MSVC_RUNTIME_LIBRARY="${CMAKE_MSVC_RUNTIME_LIBRARY}"
 
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}
@@ -98,7 +134,7 @@ elseif ($global:IsLinux)
                                     --skip_tests `
                                     --skip_onnx_tests `
                                     --use_full_protobuf `
-                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir onnxruntime_BUILD_UNIT_TESTS=OFF
+                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
 
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}

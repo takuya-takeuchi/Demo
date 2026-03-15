@@ -12,6 +12,15 @@ Param
 )
 
 $current = $PSScriptRoot
+$rootDir = Split-Path $current -Parent
+$copnfigPath = Join-Path $rootDir "build-config.json"
+if (!(Test-Path($copnfigPath)))
+{
+    Write-Host "${copnfigPath} is missing" -ForegroundColor Red
+    exit
+}
+
+$config = Get-Content -Path $copnfigPath | ConvertFrom-Json
 
 # get os name
 if ($global:IsWindows)
@@ -28,6 +37,7 @@ elseif ($global:IsLinux)
 }
 
 $target = "onnxruntime"
+$version = $config.onnxruntime.version
 
 # build
 $sourceDir = $current
@@ -46,7 +56,6 @@ New-Item -Type Directory $installBinaryDir -Force | Out-Null
 Push-Location $buildDir
 if ($global:IsWindows)
 {
-    $rootDir = Split-Path $current -Parent
     $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath opencv | `
@@ -61,10 +70,10 @@ if ($global:IsWindows)
 
     $openCVInstallDir = Split-Path $cmakeModuleFile -Parent
 
-    $rootDir = Split-Path $current -Parent
     $targetInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath $target-cuda | `
+                        Join-Path -ChildPath $version | `
                         Join-Path -ChildPath $Configuration
     if (!(Test-Path(${targetInstallDir})))
     {
@@ -79,7 +88,6 @@ if ($global:IsWindows)
 }
 elseif ($global:IsLinux)
 {
-    $rootDir = Split-Path $current -Parent
     $openCVInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath opencv | `
@@ -98,6 +106,7 @@ elseif ($global:IsLinux)
     $targetInstallDir = Join-Path $rootDir install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath $target-cuda | `
+                        Join-Path -ChildPath $version | `
                         Join-Path -ChildPath $Configuration
     if (!(Test-Path(${targetInstallDir})))
     {
