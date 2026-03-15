@@ -2,6 +2,9 @@
     "onnxruntime": {
         "version": "v1.22.2"
     },
+    "opencv": {
+        "version": "4.7.0"
+    },
     "cuda": {
         "version": "12.8"
     }
