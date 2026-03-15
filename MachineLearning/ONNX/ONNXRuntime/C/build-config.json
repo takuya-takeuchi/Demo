@@ -1,6 +1,6 @@
 {
     "onnxruntime": {
-        "version": "v1.22.2"
+        "version": "v1.24.3"
     },
     "opencv": {
         "version": "4.7.0"

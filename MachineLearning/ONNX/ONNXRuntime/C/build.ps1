@@ -91,7 +91,7 @@ if ($global:IsWindows)
         $CMAKE_MSVC_RUNTIME_LIBRARY += "Debug"
     }
 
-    # Do not speficy onnxruntime_BUILD_UNIT_TESTS. It occurs re2 is missing
+    # Do not speficy onnxruntime_BUILD_UNIT_TESTS=OFF. It occurs re2 is missing
     # Refer to https://github.com/microsoft/onnxruntime/issues/22513
     python tools/ci_build/build.py --config ${Configuration} `
                                    --cmake_generator "Visual Studio 17 2022" `
@@ -114,7 +114,7 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    # Do not speficy onnxruntime_BUILD_UNIT_TESTS. It occurs re2 is missing
+    # Do not speficy onnxruntime_BUILD_UNIT_TESTS=OFF. It occurs re2 is missing
     # Refer to https://github.com/microsoft/onnxruntime/issues/22513
     python3 tools/ci_build/build.py --config ${Configuration} `
                                     --parallel `
@@ -134,7 +134,7 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
-    # Do not speficy onnxruntime_BUILD_UNIT_TESTS. It occurs re2 is missing
+    # Do not speficy onnxruntime_BUILD_UNIT_TESTS=OFF. It occurs re2 is missing
     # Refer to https://github.com/microsoft/onnxruntime/issues/22513
     python3 tools/ci_build/build.py --config ${Configuration} `
                                     --parallel `

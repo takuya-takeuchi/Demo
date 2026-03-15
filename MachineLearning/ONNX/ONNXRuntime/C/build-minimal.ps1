@@ -37,20 +37,20 @@ elseif ($global:IsLinux)
 
 $target = "onnxruntime"
 $version = $config.onnxruntime.version
-$cudaVersion = $config.cuda.version
-$cudaVersionEnv = $cudaVersion.replace(".", "_")
 
 # build
 $sourceDir = Join-Path $current $target
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target-cuda | `
+            Join-Path -ChildPath $target-minimal | `
             Join-Path -ChildPath $version
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target-cuda | `
+              Join-Path -ChildPath $target-minimal | `
               Join-Path -ChildPath $version | `
               Join-Path -ChildPath $Configuration
+
+$operators_config = Join-Path $current "mnist.required_operators.config"
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -92,15 +92,7 @@ if ($global:IsWindows)
     {
         $CMAKE_MSVC_RUNTIME_LIBRARY += "Debug"
     }
-    
-    $env:CUDA_PATH = [System.Environment]::GetEnvironmentVariable("CUDA_PATH_V${cudaVersionEnv}", 'Machine')
-    $cudaHome = $env:CUDA_PATH
-    if (!(Test-Path($cudaHome)))
-    {
-        Write-Host "[Error] ${cudaHome}' is missing" -ForegroundColor Red
-        exit
-    }
-    
+
     # Do not speficy onnxruntime_BUILD_UNIT_TESTS=OFF. It occurs re2 is missing
     # Refer to https://github.com/microsoft/onnxruntime/issues/22513
     python tools/ci_build/build.py --config ${Configuration} `
@@ -111,12 +103,12 @@ if ($global:IsWindows)
                                    --skip_tests `
                                    --skip_onnx_tests `
                                    --use_full_protobuf `
-                                   --use_cuda `
-                                   --cudnn_home "${cudaHome}" `
-                                   --cuda_home "${cudaHome}" `
-                                   --cuda_version $cudaVersion `
+                                   --minimal_build extended `
+                                   --disable_ml_ops `
+                                   --include_ops_by_config $operators_config `
                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir `
-                                                         CMAKE_MSVC_RUNTIME_LIBRARY="${CMAKE_MSVC_RUNTIME_LIBRARY}"
+                                                         CMAKE_MSVC_RUNTIME_LIBRARY="${CMAKE_MSVC_RUNTIME_LIBRARY}" `
+                                                          onnxruntime_BUILD_UNIT_TESTS=ON
 
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}
@@ -125,6 +117,30 @@ if ($global:IsWindows)
     New-Item -Type Directory $depsInstallDir -Force | Out-Null
     $depsDir = Join-Path $artifactDir _deps
     Get-ChildItem -Path $depsDir -Recurse -Filter "*.lib" | Copy-Item -Destination $depsInstallDir
+}
+elseif ($global:IsMacOS)
+{
+    # Do not speficy onnxruntime_BUILD_UNIT_TESTS=OFF. It occurs re2 is missing
+    # Refer to https://github.com/microsoft/onnxruntime/issues/22513
+    python3 tools/ci_build/build.py --config ${Configuration} `
+                                    --parallel `
+                                    --build_dir ${buildDir} `
+                                    --skip_tests `
+                                    --skip_onnx_tests `
+                                    --use_full_protobuf `
+                                    --minimal_build extended `
+                                    --disable_ml_ops `
+                                    --include_ops_by_config $operators_config `
+                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir `
+                                                          onnxruntime_BUILD_UNIT_TESTS=ON
+
+    $artifactDir = Join-Path $buildDir $Configuration
+    cmake --install $artifactDir --config ${Configuration}
+
+    $depsInstallDir = Join-Path $installDir lib | Join-Path -ChildPath deps
+    New-Item -Type Directory $depsInstallDir -Force | Out-Null
+    $depsDir = Join-Path $artifactDir _deps
+    Get-ChildItem -Path $depsDir -Recurse -Filter "*.a" | Copy-Item -Destination $depsInstallDir
 }
 elseif ($global:IsLinux)
 {
@@ -136,7 +152,11 @@ elseif ($global:IsLinux)
                                     --skip_tests `
                                     --skip_onnx_tests `
                                     --use_full_protobuf `
-                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
+                                    --minimal_build extended `
+                                    --disable_ml_ops `
+                                    --include_ops_by_config $operators_config `
+                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir `
+                                                          onnxruntime_BUILD_UNIT_TESTS=ON
 
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}

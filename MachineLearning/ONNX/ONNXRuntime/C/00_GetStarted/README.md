@@ -63,6 +63,6 @@ $ ./install/linux/bin/Demo ./install/linux/bin/mnist.onnx Input3 1 28 28 Plus214
 #### OSX
 
 ````shell
-$ ./install/osx/bin/Demo ./install/linux/bin/mnist.onnx Input3 1 28 28 Plus214_Output_0 
+$ ./install/osx/bin/Demo ./install/osx/bin/mnist.onnx Input3 1 28 28 Plus214_Output_0 
 [Info] output tensor: {1, 10}
 ````
