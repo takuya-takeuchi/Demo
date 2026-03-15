@@ -49,7 +49,7 @@ $ pwsh build-cuda.ps1 <Debug/Release>
 #### Windows
 
 ````bat
-$ .\install\win\bin\Demo.exe mnist.onnx mnist-7.bmp cuda
+$ .\install\win\bin\Demo.exe .\install\win\bin\mnist.onnx .\install\win\bin\mnist-7.bmp cuda
 0:0.000000
 1:0.000000
 2:0.000000
@@ -65,7 +65,7 @@ $ .\install\win\bin\Demo.exe mnist.onnx mnist-7.bmp cuda
 #### Linux
 
 ````bat
-$ ./install/osx/bin/Demo mnist.onnx mnist-7.bmp cpu
+$ ./install/linux/bin/Demo ./install/linux/bin/Demo/mnist.onnx ./install/linux/bin/Demo/mnist-7.bmp cpu
 0:0.000000
 1:0.000000
 2:0.000000
