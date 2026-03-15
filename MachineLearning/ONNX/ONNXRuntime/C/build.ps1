@@ -134,14 +134,15 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
+    # Do not speficy onnxruntime_BUILD_UNIT_TESTS. It occurs re2 is missing
+    # Refer to https://github.com/microsoft/onnxruntime/issues/22513
     python3 tools/ci_build/build.py --config ${Configuration} `
                                     --parallel `
                                     --build_dir ${buildDir} `
                                     --skip_tests `
                                     --skip_onnx_tests `
                                     --use_full_protobuf `
-                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir `
-                                                          onnxruntime_BUILD_UNIT_TESTS=OFF
+                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
 
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}

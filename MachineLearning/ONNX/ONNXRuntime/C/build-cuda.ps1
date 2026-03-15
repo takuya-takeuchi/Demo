@@ -128,6 +128,8 @@ if ($global:IsWindows)
 }
 elseif ($global:IsLinux)
 {
+    # Do not speficy onnxruntime_BUILD_UNIT_TESTS. It occurs re2 is missing
+    # Refer to https://github.com/microsoft/onnxruntime/issues/22513
     python3 tools/ci_build/build.py --config ${Configuration} `
                                     --parallel `
                                     --build_dir ${buildDir} `

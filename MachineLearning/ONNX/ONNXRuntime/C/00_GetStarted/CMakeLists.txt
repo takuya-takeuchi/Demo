@@ -69,8 +69,13 @@ else()
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           Iconv::Iconv
+                          -Wl,--whole-archive
                           ${ORT_LIBS}
-                          ${ORT_LIBS_DEPS})
+                          ${ORT_LIBS_DEPS}
+                          -Wl,--no-whole-archive
+                          dl
+                          z
+                          pthread)
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
