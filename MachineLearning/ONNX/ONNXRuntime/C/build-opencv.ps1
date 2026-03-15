@@ -66,18 +66,11 @@ git submodule update --init --recursive .
 
 if ($global:IsWindows)
 {
-    $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded"
-    if ($Configuration -eq "Debug")
-    {
-        $CMAKE_MSVC_RUNTIME_LIBRARY += "Debug"
-    }
-
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
           -D CMAKE_INSTALL_PREFIX="${installDir}" `
-          -D CMAKE_MSVC_RUNTIME_LIBRARY="${CMAKE_MSVC_RUNTIME_LIBRARY}" `
-          -D BUILD_WITH_STATIC_CRT=OFF `
+          -D BUILD_WITH_STATIC_CRT=ON `
           -D BUILD_opencv_world=OFF `
           -D BUILD_opencv_java=OFF `
           -D BUILD_opencv_python=OFF `

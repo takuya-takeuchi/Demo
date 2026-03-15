@@ -95,7 +95,7 @@ install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
 
 if (MSVC)
     set(BINARY_DATA
-        ${ONNXRUNTIME_ROOT}/lib/onnxruntime_providers_shared.dll
+        ${ONNXRUNTIME_ROOT}/bin/onnxruntime_providers_shared.dll
         ${ONNXRUNTIME_ROOT}/lib/onnxruntime_providers_cuda.dll
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist-7.bmp
         ${CMAKE_CURRENT_SOURCE_DIR}/testdata/mnist.onnx
