@@ -236,3 +236,7 @@
 	path = Multimedia/GStreamer/gstreamer
 	url = https://gitlab.freedesktop.org/gstreamer/gstreamer
 	ignore = dirty
+[submodule "Multimedia/GStreamer/gst-plugins-bad"]
+	path = Multimedia/GStreamer/gst-plugins-bad
+	url = https://github.com/GStreamer/gst-plugins-bad
+	ignore = dirty

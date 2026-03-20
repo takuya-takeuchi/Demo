@@ -2,6 +2,9 @@
     "gstreamer": {
         "version": "1.26.11"
     },
+    "gst_plugins_bad": {
+        "version": "1.19.2"
+    },
     "pkg_config": {
         "version": "0.23-2",
         "sha256": "bf29de75400556db7a6e98020e576a3cb7f3f0e5e97d224fb35154812f8eea4a"
