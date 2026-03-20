@@ -106,19 +106,22 @@ $Configuration = $Configuration.ToLower()
 
 if ($global:IsWindows)
 {
+    meson subprojects update
     meson setup $buildDir --vsenv --buildtype=$Configuration --prefix=$installDir
     meson compile -C $buildDir
     meson install -C $buildDir
 }
 elseif ($global:IsMacOS)
 {
-    meson setup $buildDir --vsenv --buildtype=$Configuration --prefix=$installDir
+    meson subprojects update
+    meson setup $buildDir --buildtype=$Configuration --prefix=$installDir
     meson compile -C $buildDir
     meson install -C $buildDir
 }
 elseif ($global:IsLinux)
 {
-    meson setup $buildDir --vsenv --buildtype=$Configuration --prefix=$installDir
+    meson subprojects update
+    meson setup $buildDir --buildtype=$Configuration --prefix=$installDir
     meson compile -C $buildDir
     meson install -C $buildDir
 }
