@@ -24,6 +24,8 @@
 ### OSX
 
 * Xcode
+* pkg-config
+  * You can install `brew install pkg-config`
 
 ## Dependencies
 
@@ -61,6 +63,6 @@ $ ./install/linux/bin/Demo testdata/mnist.onnx Input3 1 28 28 Plus214_Output_0
 #### OSX
 
 ````shell
-$ ./install/osx/bin/Demo testdata/mnist.onnx Input3 1 28 28 Plus214_Output_0 
-[Info] output tensor: {1, 10}
+$ ./install/osx/bin/Demo
+GStreamer 1.26.11
 ````

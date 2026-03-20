@@ -50,9 +50,8 @@ if (MSVC)
         ${GSTREAMER_ROOT}/bin/gstreamer-1.0-0.dll
         ${GSTREAMER_ROOT}/bin/intl-8.dll
     )
+    add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${BINARY_DATA} ${CMAKE_INSTALL_PREFIX}/bin)
 elseif (APPLE)
 else()
 endif()
-
-add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
-                   COMMAND ${CMAKE_COMMAND} -E copy_if_different ${BINARY_DATA} ${CMAKE_INSTALL_PREFIX}/bin)
