@@ -58,13 +58,6 @@ if (!(Test-Path(${targetInstallDir})))
     Write-Host "[Error] ${targetInstallDir} is missing" -ForegroundColor Red
     return
 }
-$cmakeModuleFile = Get-ChildItem $targetInstallDir -Recurse -include FindGStreamer.cmake | Select-Object -First 1
-if (!($cmakeModuleFile))
-{
-    Write-Host "[Error] FindGStreamer.cmake is missing" -ForegroundColor Red
-    exit
-}
-$gstreamerInstallDir = (Split-Path $cmakeModuleFile -Parent).Replace("`\", "/")
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -84,7 +77,6 @@ if ($global:IsWindows)
         return
     }
 
-    # Multimedia\GStreamer\install\win\gstreamer\1.26.11\Release\bin\gstreamer-1.0-0.dll
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
           -D GSTREAMER_ROOT="${targetInstallDir}" `
@@ -93,14 +85,22 @@ if ($global:IsWindows)
 elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_MODULE_PATH="${gstreamerInstallDir}" `
+          -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
           -D GSTREAMER_ROOT="${targetInstallDir}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
 {
+    $config = "${targetInstallDir}/lib/x86_64-linux-gnu/pkgconfig"
+    if (!(Test-Path(${config})))
+    {
+        Write-Host "[Error] ${config} is missing" -ForegroundColor Red
+        return
+    }
+    
+    cmake -E env PKG_CONFIG_PATH="${config}" `
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_MODULE_PATH="${gstreamerInstallDir}" `
+          -D PKG_CONFIG_USE_CMAKE_PREFIX_PATH=FALSE `
           -D GSTREAMER_ROOT="${targetInstallDir}" `
           $sourceDir
 }
