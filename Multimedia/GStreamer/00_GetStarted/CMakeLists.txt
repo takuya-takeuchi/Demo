@@ -20,8 +20,6 @@ endif()
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GST REQUIRED IMPORTED_TARGET
-    NO_CMAKE_PATH
-    NO_CMAKE_ENVIRONMENT_PATH
     gstreamer-1.0
 )
 

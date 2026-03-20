@@ -58,6 +58,7 @@ if (!(Test-Path(${targetInstallDir})))
     Write-Host "[Error] ${targetInstallDir} is missing" -ForegroundColor Red
     return
 }
+$targetInstallDir = $targetInstallDir.Replace("`\", "/")
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -79,6 +80,7 @@ if ($global:IsWindows)
 
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+          -D PKG_CONFIG_EXECUTABLE="${pkgConfigExe}" `
           -D GSTREAMER_ROOT="${targetInstallDir}" `
           $sourceDir
 }
