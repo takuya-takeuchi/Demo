@@ -232,3 +232,7 @@
 	path = ComputerVision/benchmark/benchmark
 	url = https://github.com/google/benchmark
 	ignore = dirty
+[submodule "Multimedia/GStreamer/gstreamer"]
+	path = Multimedia/GStreamer/gstreamer
+	url = https://gitlab.freedesktop.org/gstreamer/gstreamer
+	ignore = dirty
