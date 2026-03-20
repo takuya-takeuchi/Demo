@@ -20,6 +20,8 @@ endif()
 
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GST REQUIRED IMPORTED_TARGET
+    NO_CMAKE_PATH
+    NO_CMAKE_ENVIRONMENT_PATH
     gstreamer-1.0
 )
 
@@ -37,6 +39,11 @@ else()
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           PkgConfig::GST)
+
+    set_target_properties(${PROJ_NAME} PROPERTIES
+        BUILD_RPATH "${GST_LIBRARY_DIRS}"
+        INSTALL_RPATH "${GST_LIBRARY_DIRS}"
+    )
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

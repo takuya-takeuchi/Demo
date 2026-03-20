@@ -91,8 +91,16 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
+    $config = "${targetInstallDir}/lib/x86_64-linux-gnu/pkgconfig"
+    if (!(Test-Path(${config})))
+    {
+        Write-Host "[Error] ${config} is missing" -ForegroundColor Red
+        return
+    }
+    
+    cmake -E env PKG_CONFIG_PATH="${config}" `
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-          -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
+          -D PKG_CONFIG_USE_CMAKE_PREFIX_PATH=FALSE `
           -D GSTREAMER_ROOT="${targetInstallDir}" `
           $sourceDir
 }

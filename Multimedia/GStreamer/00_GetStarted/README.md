@@ -56,8 +56,11 @@ GStreamer 1.26.11
 #### Linux
 
 ````bat
-$ ./install/linux/bin/Demo testdata/mnist.onnx Input3 1 28 28 Plus214_Output_0
-[Info] output tensor: {1, 10}
+$ export GST_PLUGIN_SCANNER=../install/linux/gstreamer/1.26.11/Release/libexec/gstreamer-1.0/gst-plugin-scanner
+$ export GST_PLUGIN_SYSTEM_PATH=../install/linux/gstreamer/1.26.11/Release/lib/x86_64-linux-gnu/gstreamer-1.0
+$ export LD_LIBRARY_PATH=../install/linux/gstreamer/1.26.11/Release/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+$ ./install/linux/bin/Demo
+GStreamer 1.26.11
 ````
 
 #### OSX
