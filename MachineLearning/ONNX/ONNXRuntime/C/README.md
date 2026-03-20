@@ -43,5 +43,5 @@ $ pwsh build.ps1  <Debug/Release>
 Generate ORT format by
 
 ````bash
-$ python3 onnxruntime/tools/python/create_reduced_build_config.py 00_GetStarted/testdata
+$ python3 onnxruntime/tools/python/convert_onnx_models_to_ort.py 00_GetStarted/testdata --output_dir output
 ````

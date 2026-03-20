@@ -108,7 +108,7 @@ if ($global:IsWindows)
                                    --include_ops_by_config $operators_config `
                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir `
                                                          CMAKE_MSVC_RUNTIME_LIBRARY="${CMAKE_MSVC_RUNTIME_LIBRARY}" `
-                                                          onnxruntime_BUILD_UNIT_TESTS=ON
+                                                         onnxruntime_BUILD_UNIT_TESTS=ON
 
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}
