@@ -241,8 +241,10 @@ h264_au_sei_from_file_add_meta(GstH264AuSeiFromFile *self,
     payload[0] = 1;
     memcpy(payload + 8, &be_wallclock, sizeof(be_wallclock));
 
-    return gst_buffer_add_video_sei_user_data_unregistered_meta(
+    GstVideoSEIUserDataUnregisteredMeta* meta = gst_buffer_add_video_sei_user_data_unregistered_meta(
         buf, self->uuid, payload, sizeof(payload));
+
+    return meta != NULL;
 }
 
 /* ---------- GstBaseTransform ---------- */
