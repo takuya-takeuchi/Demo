@@ -1,9 +1,17 @@
-# Get started
+# Timestamp plugins
 
 ## Abstracts
 
-* Link gstreamer binary
-* Show gstreamer version
+* h264autimestampdump
+  * Output timestamp per frame data to csv file
+* h264auseifromfile
+  * Insert SEI (Supplemental Enhancement Information) data into mp4 from csv
+
+## Causion!!
+
+Latest stable (1.28.X) Gstreamer does not support `h264seiinserter`.
+`h264seiinserter` is introduces main branch and it would be provided on 1.29.1.
+So you need modify gstreamer version in [build-config.json](../build-config.json).
 
 ## Requirements
 
@@ -12,6 +20,7 @@
 * Powershell 7 or later
 * CMake
   * 3.26 or higher
+* ffmpeg
 
 ### Windows
 
@@ -52,21 +61,51 @@ $ pwsh build.ps1 <Debug/Release>
 
 ## How to test?
 
-#### Windows
-
-````bat
-$ .\install\win\bin\Demo.exe
-GStreamer 1.26.11
-````
-
 #### Linux
 
 ````bat
-$ export GST_PLUGIN_SCANNER=../install/linux/gstreamer/1.26.11/Release/libexec/gstreamer-1.0/gst-plugin-scanner
-$ export GST_PLUGIN_SYSTEM_PATH=../install/linux/gstreamer/1.26.11/Release/lib/x86_64-linux-gnu/gstreamer-1.0
-$ export LD_LIBRARY_PATH=../install/linux/gstreamer/1.26.11/Release/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-$ ./install/linux/bin/Demo
-GStreamer 1.26.11
+$ pwsh test.ps1 Release
+Setting pipeline to PAUSED ...
+Pipeline is PREROLLING ...
+Redistribute latency...
+Pipeline is PREROLLED ...
+Setting pipeline to PLAYING ...
+Redistribute latency...
+New clock: GstSystemClock
+Got EOS from element "pipeline0".
+EOS received - stopping pipeline...
+Execution ended after 0:00:00.002494105
+Setting pipeline to NULL ...
+Freeing pipeline ...
+Setting pipeline to PAUSED ...
+Pipeline is PREROLLING ...
+Redistribute latency...
+Redistribute latency...
+Pipeline is PREROLLED ...
+Setting pipeline to PLAYING ...
+Redistribute latency...
+New clock: GstSystemClock
+Got EOS from element "pipeline0".
+EOS received - stopping pipeline...
+Execution ended after 0:00:00.009721145
+Setting pipeline to NULL ...
+Freeing pipeline ...
+
+$ ffmpeg -i sample-5s.with_sei.mp4 -map 0:v:0 -c:v copy -bsf:v h264_mp4toannexb -f h264 out.h264
+$ python3 read_sei out.h264
+[MATCH] nal_index=3
+  uuid = 09452e60-e626-c69e-a7ad-5ad265449e64
+  body_len = 16
+  version = 1
+  wallclock_ns = 1774035500496559000
+[MATCH] nal_index=5
+...
+  wallclock_ns = 1774035500499251000
+[MATCH] nal_index=343
+  uuid = 09452e60-e626-c69e-a7ad-5ad265449e64
+  body_len = 16
+  version = 1
+  wallclock_ns = 1774035500499259000
 ````
 
 #### OSX

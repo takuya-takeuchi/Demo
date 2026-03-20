@@ -47,7 +47,6 @@ $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $Configuration
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
-$installBinaryDir = Join-Path $installDir bin
 $targetInstallDir = Join-Path $rootDir install | `
                     Join-Path -ChildPath $os | `
                     Join-Path -ChildPath $target | `
@@ -62,13 +61,21 @@ if (!(Test-Path(${targetInstallDir})))
 
 if ($global:IsWindows)
 {
+    $installBinaryDir = Join-Path $installDir bin
     $gstLaunch = Join-Path $targetInstallDir bin | Join-Path -ChildPath gst-launch-1.0.exe
 }
 elseif ($global:IsMacOS)
 {
+    $installBinaryDir = Join-Path $installDir lib
+    $gstLaunch = Join-Path $targetInstallDir bin | Join-Path -ChildPath gst-launch-1.0
 }
 elseif ($global:IsLinux)
 {
+    $installBinaryDir = Join-Path $installDir lib
+    $env:GST_PLUGIN_SCANNER="../install/linux/gstreamer/${version}/Release/libexec/gstreamer-1.0/gst-plugin-scanner"
+    $env:GST_PLUGIN_SYSTEM_PATH="../install/linux/gstreamer/${version}/Release/lib/x86_64-linux-gnu/gstreamer-1.0"
+    $env:LD_LIBRARY_PATH="../install/linux/gstreamer/${version}/Release/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH}"
+    $gstLaunch = Join-Path $targetInstallDir bin | Join-Path -ChildPath gst-launch-1.0
 }
 
 $env:GST_PLUGIN_PATH="${installBinaryDir}"
