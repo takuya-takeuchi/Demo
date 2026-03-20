@@ -58,7 +58,6 @@ if (!(Test-Path(${targetInstallDir})))
     return
 }
 
-
 if ($global:IsWindows)
 {
     $installBinaryDir = Join-Path $installDir bin
