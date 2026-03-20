@@ -12,6 +12,14 @@ Param
 )
 
 $current = $PSScriptRoot
+$copnfigPath = Join-Path $current "build-config.json"
+if (!(Test-Path($copnfigPath)))
+{
+    Write-Host "${copnfigPath} is missing" -ForegroundColor Red
+    exit
+}
+
+$config = Get-Content -Path $copnfigPath | ConvertFrom-Json
 
 # get os name
 if ($global:IsWindows)
@@ -28,6 +36,7 @@ elseif ($global:IsLinux)
 }
 
 $target = "opencv"
+$version = $config.opencv.version
 $shared = "static"
 $sharedFlag = "OFF"
 
@@ -36,11 +45,13 @@ $sourceDir = Join-Path $current $target
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
             Join-Path -ChildPath $target | `
+            Join-Path -ChildPath $version | `
             Join-Path -ChildPath $shared | `
             Join-Path -ChildPath $Configuration
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
               Join-Path -ChildPath $target | `
+              Join-Path -ChildPath $version | `
               Join-Path -ChildPath $shared | `
               Join-Path -ChildPath $Configuration
 
@@ -48,29 +59,18 @@ New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
+
+git fetch -ap
+git checkout $version
+git submodule update --init --recursive .
+
 if ($global:IsWindows)
 {
-    if (!($env:VCPKG_ROOT_DIR))
-    {
-        Write-Host "VCPKG_ROOT_DIR environmental variable is missing" -ForegroundColor Red
-        return
-    }
-
-    $toolchain = "${env:VCPKG_ROOT_DIR}\scripts\buildsystems\vcpkg.cmake"
-    if (!(Test-Path(${toolchain})))
-    {
-        Write-Host "${toolchain} is missing" -ForegroundColor Red
-        return
-    }
-
-    $library_type = "x64-windows"
-    $vcpkg_base_directory = "${env:VCPKG_ROOT_DIR}\installed\${library_type}"
-
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_BUILD_TYPE=$Configuration `
           -D BUILD_SHARED_LIBS=${sharedFlag} `
           -D CMAKE_INSTALL_PREFIX="${installDir}" `
-          -D BUILD_WITH_STATIC_CRT=OFF `
+          -D BUILD_WITH_STATIC_CRT=ON `
           -D BUILD_opencv_world=OFF `
           -D BUILD_opencv_java=OFF `
           -D BUILD_opencv_python=OFF `

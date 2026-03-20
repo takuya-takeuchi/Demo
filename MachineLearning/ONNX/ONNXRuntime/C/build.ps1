@@ -12,6 +12,14 @@ Param
 )
 
 $current = $PSScriptRoot
+$copnfigPath = Join-Path $current "build-config.json"
+if (!(Test-Path($copnfigPath)))
+{
+    Write-Host "${copnfigPath} is missing" -ForegroundColor Red
+    exit
+}
+
+$config = Get-Content -Path $copnfigPath | ConvertFrom-Json
 
 # get os name
 if ($global:IsWindows)
@@ -28,79 +36,86 @@ elseif ($global:IsLinux)
 }
 
 $target = "onnxruntime"
+$version = $config.onnxruntime.version
 
 # build
 $sourceDir = Join-Path $current $target
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target
+            Join-Path -ChildPath $target | `
+            Join-Path -ChildPath $version
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
               Join-Path -ChildPath $target | `
+              Join-Path -ChildPath $version | `
               Join-Path -ChildPath $Configuration
-$targetDir = Join-Path $installDir $target | `
-             Join-Path -ChildPath lib | `
-             Join-Path -ChildPath cmake
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $target
 
+git fetch -ap
+git checkout $version
 git submodule update --init --recursive .
 
 if ($global:IsWindows)
 {
+    function CallVisualStudioDeveloperConsole()
+    {
+        $vs = "C:\Program Files\Microsoft Visual Studio\2022"
+        $path = "${vs}\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        if (!(Test-Path($path)))
+        {
+            $path = "${vs}\Professional\VC\Auxiliary\Build\vcvars64.bat"
+        }
+        if (!(Test-Path($path)))
+        {
+            $path = "${vs}\Community\VC\Auxiliary\Build\vcvars64.bat"
+        }
+
+        Write-Host "Use: ${path}" -ForegroundColor Green
+
+        cmd.exe /c "call `"${path}`" && set > %temp%\vcvars.txt"
+        Get-Content "${env:temp}\vcvars.txt" | Foreach-Object {
+            if ($_ -match "^(.*?)=(.*)$") {
+                Set-Content "env:\$($matches[1])" $matches[2]
+            }
+        }
+    }
+    CallVisualStudioDeveloperConsole
+
+    $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded"
+    if ($Configuration -eq "Debug")
+    {
+        $CMAKE_MSVC_RUNTIME_LIBRARY += "Debug"
+    }
+
+    # Do not speficy onnxruntime_BUILD_UNIT_TESTS=OFF. It occurs re2 is missing
+    # Refer to https://github.com/microsoft/onnxruntime/issues/22513
     python tools/ci_build/build.py --config ${Configuration} `
                                    --cmake_generator "Visual Studio 17 2022" `
+                                   --enable_msvc_static_runtime `
                                    --parallel `
                                    --build_dir ${buildDir} `
                                    --skip_tests `
                                    --skip_onnx_tests `
                                    --use_full_protobuf `
-                                   --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
+                                   --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir `
+                                                         CMAKE_MSVC_RUNTIME_LIBRARY="${CMAKE_MSVC_RUNTIME_LIBRARY}"
 
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}
 
-    $deps = @()
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\base"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\container"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\debugging"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\hash"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\numeric"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\profiling"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\strings"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\synchronization"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\time"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build\absl\types"; }
-    $deps += New-Object PSObject -Property @{ Name = "flatbuffers";     Target = "flatbuffers-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "onnx";            Target = "onnx-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "protobuf";        Target = "protobuf-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "pytorch_cpuinfo"; Target = "pytorch_cpuinfo-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "re2";             Target = "re2-build"; }
-    $exts = @(
-        "*.lib"
-        "*.pdb"
-    )
-
     $depsInstallDir = Join-Path $installDir lib | Join-Path -ChildPath deps
+    New-Item -Type Directory $depsInstallDir -Force | Out-Null
     $depsDir = Join-Path $artifactDir _deps
-    foreach ($dep in $deps)
-    {
-        $depSourceDir = Join-Path $depsDir $dep.Target | Join-Path -ChildPath $Configuration
-        $depsDestDir = Join-Path $depsInstallDir $dep.Name
-        New-Item -Type Directory $depsDestDir -Force | Out-Null
-
-        foreach ($ext in $exts)
-        {
-            $src = Join-Path $depSourceDir $ext
-            Copy-Item "${src}" "${depsDestDir}" -Force
-        }
-    }
+    Get-ChildItem -Path $depsDir -Recurse -Filter "*.lib" | Copy-Item -Destination $depsInstallDir
 }
 elseif ($global:IsMacOS)
 {
+    # Do not speficy onnxruntime_BUILD_UNIT_TESTS=OFF. It occurs re2 is missing
+    # Refer to https://github.com/microsoft/onnxruntime/issues/22513
     python3 tools/ci_build/build.py --config ${Configuration} `
                                     --parallel `
                                     --build_dir ${buildDir} `
@@ -112,91 +127,29 @@ elseif ($global:IsMacOS)
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}
 
-    $deps = @()
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/base"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/container"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/debugging"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/hash"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/numeric"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/profiling"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/strings"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/synchronization"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/time"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/types"; }
-    $deps += New-Object PSObject -Property @{ Name = "flatbuffers";     Target = "flatbuffers-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "google_nsync";    Target = "google_nsync-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "onnx";            Target = "onnx-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "protobuf";        Target = "protobuf-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "pytorch_cpuinfo"; Target = "pytorch_cpuinfo-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "clog";            Target = "pytorch_cpuinfo-build/deps/clog"; }
-    $deps += New-Object PSObject -Property @{ Name = "re2";             Target = "re2-build"; }
-    $exts = @(
-        "*.a"
-    )
-
     $depsInstallDir = Join-Path $installDir lib | Join-Path -ChildPath deps
+    New-Item -Type Directory $depsInstallDir -Force | Out-Null
     $depsDir = Join-Path $artifactDir _deps
-    foreach ($dep in $deps)
-    {
-        $depSourceDir = Join-Path $depsDir $dep.Target
-        $depsDestDir = Join-Path $depsInstallDir $dep.Name
-        New-Item -Type Directory $depsDestDir -Force | Out-Null
-
-        foreach ($ext in $exts)
-        {
-            $src = Join-Path $depSourceDir $ext
-            Copy-Item "${src}" "${depsDestDir}" -Force
-        }
-    }
+    Get-ChildItem -Path $depsDir -Recurse -Filter "*.a" | Copy-Item -Destination $depsInstallDir
 }
 elseif ($global:IsLinux)
 {
+    # Do not speficy onnxruntime_BUILD_UNIT_TESTS=OFF. It occurs re2 is missing
+    # Refer to https://github.com/microsoft/onnxruntime/issues/22513
     python3 tools/ci_build/build.py --config ${Configuration} `
                                     --parallel `
                                     --build_dir ${buildDir} `
                                     --skip_tests `
                                     --skip_onnx_tests `
                                     --use_full_protobuf `
-                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir `
+                                    --cmake_extra_defines CMAKE_INSTALL_PREFIX=$installDir
 
     $artifactDir = Join-Path $buildDir $Configuration
     cmake --install $artifactDir --config ${Configuration}
 
-    $deps = @()
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/base"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/container"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/debugging"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/hash"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/numeric"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/profiling"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/strings"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/synchronization"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/time"; }
-    $deps += New-Object PSObject -Property @{ Name = "abseil";          Target = "abseil_cpp-build/absl/types"; }
-    $deps += New-Object PSObject -Property @{ Name = "flatbuffers";     Target = "flatbuffers-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "google_nsync";    Target = "google_nsync-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "onnx";            Target = "onnx-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "protobuf";        Target = "protobuf-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "pytorch_cpuinfo"; Target = "pytorch_cpuinfo-build"; }
-    $deps += New-Object PSObject -Property @{ Name = "clog";            Target = "pytorch_cpuinfo-build/deps/clog"; }
-    $deps += New-Object PSObject -Property @{ Name = "re2";             Target = "re2-build"; }
-    $exts = @(
-        "*.a"
-    )
-
     $depsInstallDir = Join-Path $installDir lib | Join-Path -ChildPath deps
+    New-Item -Type Directory $depsInstallDir -Force | Out-Null
     $depsDir = Join-Path $artifactDir _deps
-    foreach ($dep in $deps)
-    {
-        $depSourceDir = Join-Path $depsDir $dep.Target
-        $depsDestDir = Join-Path $depsInstallDir $dep.Name
-        New-Item -Type Directory $depsDestDir -Force | Out-Null
-
-        foreach ($ext in $exts)
-        {
-            $src = Join-Path $depSourceDir $ext
-            Copy-Item "${src}" "${depsDestDir}" -Force
-        }
-    }
+    Get-ChildItem -Path $depsDir -Recurse -Filter "*.a" | Copy-Item -Destination $depsInstallDir
 }
 Pop-Location

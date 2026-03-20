@@ -11,6 +11,7 @@
 * Powershell 7 or later
 * CMake
   * 3.26 or higher
+* python packages `onnx`, `onnxruntime` and `flatbuffers` for minimal build
 
 ### Windows
 
@@ -28,11 +29,19 @@
 ## Dependencies
 
 * [ONNX Runtime](https://onnxruntime.ai/)
-  * 1.16.3
+  * 1.24.3
   * MIT license
 
 ## How to use?
 
 ````shell
 $ pwsh build.ps1  <Debug/Release>
+````
+
+## Misc
+
+Generate ORT format by
+
+````bash
+$ python3 onnxruntime/tools/python/convert_onnx_models_to_ort.py 00_GetStarted/testdata --output_dir output
 ````
