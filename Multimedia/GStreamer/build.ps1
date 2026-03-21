@@ -86,7 +86,8 @@ $sourceDir = Join-Path $current $target
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
             Join-Path -ChildPath $target | `
-            Join-Path -ChildPath $version
+            Join-Path -ChildPath $version | `
+            Join-Path -ChildPath $Configuration
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
               Join-Path -ChildPath $target | `
@@ -106,19 +107,26 @@ $Configuration = $Configuration.ToLower()
 
 if ($global:IsWindows)
 {
+    meson subprojects update
     meson setup $buildDir --vsenv --buildtype=$Configuration --prefix=$installDir
+    meson configure $buildDir -Drtsp_server=enabled
     meson compile -C $buildDir
     meson install -C $buildDir
 }
 elseif ($global:IsMacOS)
 {
-    meson setup $buildDir --vsenv --buildtype=$Configuration --prefix=$installDir
+    # sudo apt install libgtk-3-dev libsdl2-dev
+    meson subprojects update
+    meson setup $buildDir --buildtype=$Configuration --prefix=$installDir
+    meson configure $buildDir -Drtsp_server=enabled
     meson compile -C $buildDir
     meson install -C $buildDir
 }
 elseif ($global:IsLinux)
 {
-    meson setup $buildDir --vsenv --buildtype=$Configuration --prefix=$installDir
+    meson subprojects update
+    meson setup $buildDir --buildtype=$Configuration --prefix=$installDir
+    meson configure $buildDir -Drtsp_server=enabled
     meson compile -C $buildDir
     meson install -C $buildDir
 }
