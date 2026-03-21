@@ -98,15 +98,15 @@ $ python3 read_sei.py out.h264
   uuid = 09452e60-e626-c69e-a7ad-5ad265449e64
   body_len = 16
   version = 1
-  wallclock_ns = 1774035500496559000
+  wallclock_ns = 1774035500496559000 (2026-03-20 19:38:20.496559+00:00)
 [MATCH] nal_index=5
 ...
-  wallclock_ns = 1774035500499251000
+  wallclock_ns = 1774035500499251000 (2026-03-20 19:38:20.499251+00:00)
 [MATCH] nal_index=343
   uuid = 09452e60-e626-c69e-a7ad-5ad265449e64
   body_len = 16
   version = 1
-  wallclock_ns = 1774035500499259000
+  wallclock_ns = 1774035500499259000 (2026-03-20 19:38:20.499259+00:00)
 ````
 
 #### OSX
