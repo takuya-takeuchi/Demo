@@ -236,6 +236,3 @@
 	path = Multimedia/GStreamer/gstreamer
 	url = https://gitlab.freedesktop.org/gstreamer/gstreamer
 	ignore = dirty
-[submodule "Multimedia/GStreamer/gst-rtsp-server"]
-	path = Multimedia/GStreamer/gst-rtsp-server
-	url = https://github.com/GStreamer/gst-rtsp-server
