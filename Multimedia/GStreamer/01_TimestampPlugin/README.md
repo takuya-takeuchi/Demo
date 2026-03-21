@@ -156,3 +156,15 @@ $ python3 read_sei.py out.h264
   version = 1
   wallclock_ns = 1774070237010621000 (2026-03-21 05:17:17.010621+00:00)
 ````
+
+## Note
+
+[test.ps1](./test.ps1) dump gstreamer pipeline as dot files into [dot](./dot) directory.
+You can visualize thems by `dot`.
+For examples,
+
+````bash
+$ dot -Grankdir=TB -Tpng dot/0.00.00.016787036-gst-launch.NULL_READY.dot -o test.png
+````
+
+<img src="./images/pipeline.png" />

@@ -77,6 +77,7 @@ elseif ($global:IsLinux)
     $gstLaunch = Join-Path $targetInstallDir bin | Join-Path -ChildPath gst-launch-1.0
 }
 
+$env:GST_DEBUG_DUMP_DOT_DIR=Join-Path $current dot
 $env:GST_PLUGIN_PATH="${installBinaryDir}"
 & $gstLaunch -e `
   filesrc location=sample-5s.mp4 ! `
