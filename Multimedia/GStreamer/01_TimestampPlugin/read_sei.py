@@ -1,3 +1,4 @@
+import datetime
 import sys
 import uuid
 from pathlib import Path
@@ -109,8 +110,9 @@ def main(path: str):
             if len(body) >= 16:
                 version = body[0]
                 wallclock_ns = int.from_bytes(body[8:16], "big")
+                dt = datetime.datetime.fromtimestamp(wallclock_ns / 1_000_000_000, datetime.timezone.utc)
                 print("  version =", version)
-                print("  wallclock_ns =", wallclock_ns)
+                print(f"  wallclock_ns = {wallclock_ns} ({dt})")
             else:
                 print("  body too short for wallclock format")
 
