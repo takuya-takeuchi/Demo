@@ -1,14 +1,10 @@
 cmake_minimum_required(VERSION 3.26.0)
 
-set(PROJ_NAME client)
+set(PROJ_NAME server)
 project(${PROJ_NAME} VERSION 1.0.0)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-
-find_package(Protobuf CONFIG REQUIRED)
-find_package(gRPC CONFIG REQUIRED)
-find_package(Threads CONFIG REQUIRED)
 
 # Select the release build type by default
 if (NOT CMAKE_BUILD_TYPE)
@@ -26,18 +22,15 @@ add_executable(${PROJ_NAME} main.cpp)
 
 if (MSVC)
     set(LIBRARIES
-        protobuf::libprotobuf
-        gRPC::grpc++
+        greeter
     )
 elseif (APPLE)
     set(LIBRARIES
-        protobuf::libprotobuf
-        gRPC::grpc++
+        greeter
     )
 else()
     set(LIBRARIES
-        protobuf::libprotobuf
-        gRPC::grpc++
+        greeter
     )
 endif()
 

@@ -23,20 +23,14 @@ add_executable(${PROJ_NAME} main.cpp)
 if (MSVC)
     set(LIBRARIES
         greeter
-        protobuf::libprotobuf
-        gRPC::grpc++
     )
 elseif (APPLE)
     set(LIBRARIES
         greeter
-        protobuf::libprotobuf
-        gRPC::grpc++
     )
 else()
     set(LIBRARIES
         greeter
-        protobuf::libprotobuf
-        gRPC::grpc++
     )
 endif()
 

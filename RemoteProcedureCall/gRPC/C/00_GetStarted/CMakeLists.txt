@@ -49,4 +49,4 @@ target_link_libraries(${PROJ_NAME} PUBLIC
 )
 
 add_subdirectory(client)
-# add_subdirectory(service)
+add_subdirectory(service)

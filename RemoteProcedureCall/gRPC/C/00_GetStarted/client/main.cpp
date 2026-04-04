@@ -13,38 +13,40 @@ using demo::Greeter;
 using demo::HelloReply;
 using demo::HelloRequest;
 
-class GreeterClient {
+class GreeterClient final
+{
 public:
-    explicit GreeterClient(std::shared_ptr<Channel> channel)
-        : stub_(Greeter::NewStub(channel)) {}
+    explicit GreeterClient(std::shared_ptr<Channel> channel):
+        m_stub(Greeter::NewStub(channel)) {}
 
-    std::string SayHello(const std::string& name) {
+    std::string SayHello(const std::string& name)
+    {
         HelloRequest request;
         request.set_name(name);
 
         HelloReply reply;
         ClientContext context;
 
-        Status status = stub_->SayHello(&context, request, &reply);
-
-        if (status.ok()) {
+        Status status = this->m_stub->SayHello(&context, request, &reply);
+        if (status.ok())
+        {
             return reply.message();
-        } else {
-            std::cerr << "RPC failed: "
-                      << status.error_code() << ": "
-                      << status.error_message() << std::endl;
+        }
+        else
+        {
+            std::cerr << "RPC failed: " << status.error_code() << ": " << status.error_message() << std::endl;
             return "";
         }
     }
 
 private:
-    std::unique_ptr<Greeter::Stub> stub_;
+    std::unique_ptr<Greeter::Stub> m_stub;
 };
 
 int main()
 {
     GreeterClient client(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()));
-    std::string reply = client.SayHello("Takuya");
+    std::string reply = client.SayHello("Hello!!");
     std::cout << "Server replied: " << reply << std::endl;
     return 0;
 }
