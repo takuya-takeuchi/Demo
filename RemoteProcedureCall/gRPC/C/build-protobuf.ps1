@@ -103,17 +103,13 @@ if ($global:IsWindows)
     }
     CallVisualStudioDeveloperConsole
 
-    if ($config.protobuf.shared)
+    if ($config.gRPC.shared)
     {
-        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreadedDLL"
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
     else
     {
-        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded"
-    }
-    if ($Configuration -eq "Debug")
-    {
-        $CMAKE_MSVC_RUNTIME_LIBRARY += "Debug"
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>"
     }
 
     $cmakeArgs = @(

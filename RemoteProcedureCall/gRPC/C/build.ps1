@@ -124,15 +124,13 @@ if ($global:IsWindows)
 
     if ($config.gRPC.shared)
     {
-        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreadedDLL"
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
+        $gRPC_MSVC_STATIC_RUNTIME = "OFF"
     }
     else
     {
-        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded"
-    }
-    if ($Configuration -eq "Debug")
-    {
-        $CMAKE_MSVC_RUNTIME_LIBRARY += "Debug"
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+        $gRPC_MSVC_STATIC_RUNTIME = "ON"
     }
 
     $cmakeArgs = @(
@@ -140,11 +138,20 @@ if ($global:IsWindows)
         "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
+        "-D CMAKE_CXX_STANDARD=17"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
-        "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
+        "-D gRPC_MSVC_STATIC_RUNTIME=${gRPC_MSVC_STATIC_RUNTIME}"
+        "-D gRPC_INSTALL=ON"
         "-D gRPC_INSTALL=ON"
         "-D gRPC_BUILD_TESTS=OFF"
         "-D gRPC_PROTOBUF_PROVIDER=package"
+        "-D gRPC_BUILD_GRPC_CPP_PLUGIN=ON"
+        "-D gRPC_BUILD_GRPC_CSHARP_PLUGIN=OFF"
+        "-D gRPC_BUILD_GRPC_NODE_PLUGIN=OFF"
+        "-D gRPC_BUILD_GRPC_OBJECTIVE_C_PLUGIN=OFF"
+        "-D gRPC_BUILD_GRPC_PHP_PLUGIN=OFF"
+        "-D gRPC_BUILD_GRPC_PYTHON_PLUGIN=OFF"
+        "-D gRPC_BUILD_GRPC_RUBY_PLUGIN=OFF"
         "${sourceDir}"
     )
 }
@@ -155,6 +162,7 @@ elseif ($global:IsMacOS)
         "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
+        "-D CMAKE_CXX_STANDARD=17"
         "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
         "-D gRPC_INSTALL=ON"
         "-D gRPC_BUILD_TESTS=OFF"
@@ -169,6 +177,7 @@ elseif ($global:IsLinux)
         "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
+        "-D CMAKE_CXX_STANDARD=17"
         "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
         "-D gRPC_INSTALL=ON"
         "-D gRPC_BUILD_TESTS=OFF"
