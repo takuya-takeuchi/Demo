@@ -20,7 +20,7 @@ if (!(Test-Path($copnfigPath)))
 }
 
 $config = Get-Content -Path $copnfigPath | ConvertFrom-Json
-$target = "gRPC"
+$target = "grpc"
 $version = $config.gRPC.version
 if ($config.gRPC.shared)
 {
