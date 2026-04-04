@@ -138,7 +138,6 @@ elseif ($global:IsLinux)
     )
 }
 
-
 $configLogFile = Join-Path $buildDir cmake-config.log
 $buildLogFile = Join-Path $buildDir cmake-build.log
 
