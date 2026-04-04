@@ -70,7 +70,6 @@ Push-Location $target
 git fetch -ap
 git checkout $version
 git submodule update --init --recursive .
-exit
 
 if ($global:IsWindows)
 {
