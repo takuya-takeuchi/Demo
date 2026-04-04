@@ -1,0 +1,10 @@
+{
+    "gRPC": {
+        "version": "v1.80.0",
+        "shared": false
+    },
+    "protobuf": {
+        "version": "v34.1",
+        "shared": false
+    }
+}
