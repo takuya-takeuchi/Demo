@@ -122,7 +122,14 @@ if ($global:IsWindows)
     }
     CallVisualStudioDeveloperConsole
 
-    $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded"
+    if ($config.gRPC.shared)
+    {
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreadedDLL"
+    }
+    else
+    {
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded"
+    }
     if ($Configuration -eq "Debug")
     {
         $CMAKE_MSVC_RUNTIME_LIBRARY += "Debug"
@@ -133,6 +140,7 @@ if ($global:IsWindows)
         "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
+        "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
         "-D CMAKE_CXX_STANDARD=17"
         "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
         "-D gRPC_INSTALL=ON"
