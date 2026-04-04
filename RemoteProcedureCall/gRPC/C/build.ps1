@@ -86,12 +86,15 @@ New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $current
 git submodule update --init --recursive .
+Pop-Location
 
 Push-Location $target
-
 git fetch -ap
 git checkout $version
 git submodule update --init --recursive .
+Pop-Location
+
+Push-Location $buildDir
 
 if ($global:IsWindows)
 {
