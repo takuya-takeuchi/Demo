@@ -84,6 +84,9 @@ $PROTOBUF_CMAKE_DIR = Join-Path $PROTOBUF_INSTALL_DIR lib | `
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
+Push-Location $current
+git submodule update --init --recursive .
+
 Push-Location $target
 
 git fetch -ap
