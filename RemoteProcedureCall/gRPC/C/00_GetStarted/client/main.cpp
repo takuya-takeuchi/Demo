@@ -46,7 +46,7 @@ private:
 int main()
 {
     GreeterClient client(grpc::CreateChannel("localhost:50051", grpc::InsecureChannelCredentials()));
-    std::string reply = client.SayHello("Hello!!");
+    std::string reply = client.SayHello("client");
     std::cout << "Server replied: " << reply << std::endl;
     return 0;
 }

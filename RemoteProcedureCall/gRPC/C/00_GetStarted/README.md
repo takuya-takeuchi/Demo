@@ -2,7 +2,7 @@
 
 ## Abstracts
 
-* Input simple onnx file and inference sample tensor
+* Simple client and server program
 
 ## Requirements
 
@@ -19,28 +19,21 @@
 ### Ubuntu
 
 * g++
-* libiconv
 
 ### OSX
 
 * Xcode
-* libiconv
-
-## Dependencies
-
-* [ONNX Runtime](https://onnxruntime.ai/)
-  * 1.22.2
-  * MIT license
 
 ## How to build?
 
 ### ONNX Runtime
 
-Go to [ONNXRuntime/C](..).
+Go to [gRPC/C](..).
 
-Once time you built `ONNX Runtime`, you need not to do again.
+Once time you built `gRPC` and `protobuf`, you need not to do again.
 
 ````shell
+$ pwsh build-protobuf.ps1 <Debug/Release>
 $ pwsh build.ps1 <Debug/Release>
 ````
 
@@ -48,21 +41,63 @@ $ pwsh build.ps1 <Debug/Release>
 
 #### Windows
 
+At first, launch server program.
+
 ````bat
-$ .\install\win\bin\Demo.exe .\install\win\bin\mnist.onnx Input3 1 28 28 Plus214_Output_0
-[Info] output tensor: {1, 10}
+$ .\install\win\bin\server.exe
+gRPC server listening on 0.0.0.0:50051
+````
+
+Next, kick client program.
+
+````bat
+$ .\install\win\bin\client.exe
+````
+
+Then, server side console show message from client.
+
+````bat
+Received request: name=client
 ````
 
 #### Linux
 
-````bat
-$ ./install/linux/bin/Demo ./install/linux/bin/mnist.onnx Input3 1 28 28 Plus214_Output_0
-[Info] output tensor: {1, 10}
+At first, launch server program.
+
+````bash
+$ ./install/linux/bin/server
+gRPC server listening on 0.0.0.0:50051
+````
+
+Next, kick client program.
+
+````bash
+$ ./install/linux/bin/client
+````
+
+Then, server side console show message from client.
+
+````bash
+Received request: name=client
 ````
 
 #### OSX
 
-````shell
-$ ./install/osx/bin/Demo ./install/osx/bin/mnist.onnx Input3 1 28 28 Plus214_Output_0 
-[Info] output tensor: {1, 10}
+At first, launch server program.
+
+````bash
+$ ./install/osx/bin/server
+gRPC server listening on 0.0.0.0:50051
+````
+
+Next, kick client program.
+
+````bash
+$ ./install/osx/bin/client
+````
+
+Then, server side console show message from client.
+
+````bash
+Received request: name=client
 ````

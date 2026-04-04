@@ -92,8 +92,7 @@ $buildDir = Join-Path $current build | `
             Join-Path -ChildPath program | `
             Join-Path -ChildPath $Configuration
 $installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $Configuration
+              Join-Path -ChildPath $os
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -155,8 +154,6 @@ $configLogFile = Join-Path $buildDir cmake-config.log
 $buildLogFile = Join-Path $buildDir cmake-build.log
 
 cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
-cmake --build . --config ${Configuration} 2>&1 | Tee-Object -FilePath $buildLogFile
-# cmake --build . --config ${Configuration} --verbose 2>&1 | Tee-Object -FilePath $buildLogFile
-# cmake --build . --config ${Configuration} --target install --verbose 2>&1 | Tee-Object -FilePath $buildLogFile
+cmake --build . --config ${Configuration} --target install 2>&1 | Tee-Object -FilePath $buildLogFile
 
 Pop-Location

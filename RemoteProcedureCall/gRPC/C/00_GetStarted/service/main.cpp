@@ -10,15 +10,17 @@ using grpc::ServerBuilder;
 using grpc::ServerContext;
 using grpc::Status;
 
-using sample::Greeter;
-using sample::HelloReply;
-using sample::HelloRequest;
+using demo::Greeter;
+using demo::HelloReply;
+using demo::HelloRequest;
 
-class GreeterServiceImpl final : public Greeter::Service {
+class GreeterServiceImpl final : public Greeter::Service
+{
 public:
     Status SayHello(ServerContext* context,
                     const HelloRequest* request,
-                    HelloReply* reply) override {
+                    HelloReply* reply) override
+    {
         (void)context;
 
         std::string prefix = "Hello, ";
@@ -29,22 +31,20 @@ public:
     }
 };
 
-int main() {
+int main()
+{
     const std::string server_address = "0.0.0.0:50051";
     GreeterServiceImpl service;
 
     ServerBuilder builder;
-
-    // 平文通信
     builder.AddListeningPort(server_address, grpc::InsecureServerCredentials());
-
-    // サービス登録
     builder.RegisterService(&service);
 
     std::unique_ptr<Server> server(builder.BuildAndStart());
-    if (!server) {
+    if (!server)
+    {
         std::cerr << "Failed to start server" << std::endl;
-        return 1;
+        return -1;
     }
 
     std::cout << "gRPC server listening on " << server_address << std::endl;
