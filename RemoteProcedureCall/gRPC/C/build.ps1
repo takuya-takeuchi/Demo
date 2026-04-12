@@ -142,18 +142,19 @@ if ($global:IsWindows)
     }
     CallVisualStudioDeveloperConsole
 
-    if ($config.gRPC.shared)
-    {
-        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
-        $gRPC_MSVC_STATIC_RUNTIME = "OFF"
-    }
-    else
+    if ($config.gRPC.windows.msvcStaticRuntime)
     {
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>"
         $gRPC_MSVC_STATIC_RUNTIME = "ON"
     }
+    else
+    {
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
+        $gRPC_MSVC_STATIC_RUNTIME = "OFF"
+    }
 
     $cmakeArgs = @(
+        "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"

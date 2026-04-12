@@ -41,24 +41,7 @@ $ pwsh build.ps1 <Debug/Release>
 
 #### Windows
 
-At first, launch server program.
-
-````bat
-$ .\install\win\bin\server.exe
-gRPC server listening on 0.0.0.0:50051
-````
-
-Next, kick client program.
-
-````bat
-$ .\install\win\bin\client.exe
-````
-
-Then, server side console show message from client.
-
-````bat
-Received request: name=client
-````
+Not supported.
 
 #### Linux
 

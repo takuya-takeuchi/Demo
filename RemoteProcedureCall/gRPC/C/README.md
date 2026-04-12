@@ -16,6 +16,10 @@
 
 * Visual Studio 2022
 
+##### NOTE
+
+Not supported.
+
 ### Ubuntu
 
 * g++

@@ -10,5 +10,8 @@
     "zlib": {
         "version": "v1.3.2",
         "shared": false
+    },
+    "windows": {
+        "msvcStaticRuntime": true
     }
 }
