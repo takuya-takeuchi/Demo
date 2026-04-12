@@ -32,10 +32,14 @@
 * [protobuf](https://github.com/protocolbuffers/protobuf)
   * v34.1
   * BSD-3-Clause license
+* [zlib](https://github.com/madler/zlib)
+  * v1.3.2
+  * zlib License
 
 ## How to use?
 
 ````shell
 $ pwsh build-protobuf.ps1 <Debug/Release>
+$ pwsh build-zlib.ps1 <Debug/Release>
 $ pwsh build.ps1 <Debug/Release>
 ````
