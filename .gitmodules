@@ -247,3 +247,6 @@
 [submodule "RemoteProcedureCall/gRPC/C/zlib"]
 	path = RemoteProcedureCall/gRPC/C/zlib
 	url = https://github.com/madler/zlib
+[submodule "RemoteProcedureCall/gRPC/C/abseil-cpp"]
+	path = RemoteProcedureCall/gRPC/C/abseil-cpp
+	url = https://github.com/abseil/abseil-cpp

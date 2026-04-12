@@ -72,6 +72,16 @@ else
     $protobufShared = "static"
 }
 
+$abslVersion = $config.abseil_cpp.version
+if ($config.abseil_cpp.shared)
+{
+    $abslShared = "dynamic"
+}
+else
+{
+    $abslShared = "static"
+}
+
 $zlibVersion = $config.zlib.version
 if ($config.zlib.shared)
 {
@@ -91,6 +101,15 @@ $PROTOBUF_INSTALL_DIR = Join-Path $current install | `
 $PROTOBUF_CMAKE_DIR = Join-Path $PROTOBUF_INSTALL_DIR lib | `
                       Join-Path -ChildPath cmake | `
                       Join-Path -ChildPath protobuf
+$ABSL_INSTALL_DIR = Join-Path $current install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath abseil-cpp | `
+                    Join-Path -ChildPath $abslVersion | `
+                    Join-Path -ChildPath $abslShared | `
+                    Join-Path -ChildPath $Configuration
+$ABSL_CMAKE_DIR = Join-Path $ABSL_INSTALL_DIR lib | `
+                  Join-Path -ChildPath cmake | `
+                  Join-Path -ChildPath absl
 $ZLIB_INSTALL_DIR = Join-Path $current install | `
                     Join-Path -ChildPath $os | `
                     Join-Path -ChildPath zlib | `
@@ -113,6 +132,16 @@ git fetch -ap
 git checkout $version
 git submodule update --init --recursive .
 Pop-Location
+
+# apply patch
+$patch = Join-Path $current patch |
+         Join-Path -ChildPath grpc |
+         Join-Path -ChildPath $version |
+         Join-Path -ChildPath $os
+if (Test-Path($patch))
+{
+    Copy-Item -Recurse $patch/* $sourceDir -Force
+}
 
 Push-Location $buildDir
 
@@ -142,7 +171,7 @@ if ($global:IsWindows)
     }
     CallVisualStudioDeveloperConsole
 
-    if ($config.gRPC.windows.msvcStaticRuntime)
+    if ($config.windows.msvcStaticRuntime)
     {
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>"
         $gRPC_MSVC_STATIC_RUNTIME = "ON"
@@ -156,7 +185,7 @@ if ($global:IsWindows)
     $cmakeArgs = @(
         "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
-        "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR}"
+        "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR};${ABSL_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_CXX_STANDARD=17"
@@ -171,10 +200,14 @@ if ($global:IsWindows)
         "-D gRPC_BUILD_GRPC_RUBY_PLUGIN=OFF"
         "-D gRPC_BUILD_TESTS=OFF"
         "-D gRPC_INSTALL=ON"
+        "-D gRPC_ABSL_PROVIDER=package"
         "-D gRPC_PROTOBUF_PROVIDER=package"
         "-D gRPC_ZLIB_PROVIDER=package"
+        "-D absl_DIR=${ABSL_CMAKE_DIR}"
         "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
         "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
+        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/zs.lib"
+        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/zsd.lib"
         "${sourceDir}"
     )
 }

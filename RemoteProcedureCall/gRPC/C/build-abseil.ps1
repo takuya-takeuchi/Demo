@@ -20,19 +20,17 @@ if (!(Test-Path($copnfigPath)))
 }
 
 $config = Get-Content -Path $copnfigPath | ConvertFrom-Json
-$target = "zlib"
-$version = $config.zlib.version
-if ($config.zlib.shared)
+$target = "abseil-cpp"
+$version = $config.abseil_cpp.version
+if ($config.abseil_cpp.shared)
 {
     $shared = "dynamic"
     $sharedFlag = "ON"
-    $staticFlag = "OFF"
 }
 else
 {
     $shared = "static"
     $sharedFlag = "OFF"
-    $staticFlag = "ON"
 }
 
 # get os name
@@ -108,10 +106,12 @@ if ($global:IsWindows)
     if ($config.windows.msvcStaticRuntime)
     {
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+        $ABSL_MSVC_STATIC_RUNTIME = "ON"
     }
     else
     {
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
+        $ABSL_MSVC_STATIC_RUNTIME = "OFF"
     }
 
     $cmakeArgs = @(
@@ -119,8 +119,7 @@ if ($global:IsWindows)
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
         "-D CMAKE_CXX_STANDARD=17"
-        "-D ZLIB_BUILD_SHARED=${sharedFlag}"
-        "-D ZLIB_BUILD_STATIC=${staticFlag}"
+        "-D ABSL_MSVC_STATIC_RUNTIME=${ABSL_MSVC_STATIC_RUNTIME}"
         "${sourceDir}"
     )
 }
@@ -131,8 +130,6 @@ elseif ($global:IsMacOS)
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D CMAKE_CXX_STANDARD=20"
         "-D CMAKE_POSITION_INDEPENDENT_CODE=OFF"
-        "-D ZLIB_BUILD_SHARED=${sharedFlag}"
-        "-D ZLIB_BUILD_STATIC=${staticFlag}"
         "${sourceDir}"
     )
 }
@@ -143,8 +140,6 @@ elseif ($global:IsLinux)
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D CMAKE_CXX_STANDARD=17"
         "-D CMAKE_POSITION_INDEPENDENT_CODE=OFF"
-        "-D ZLIB_BUILD_SHARED=${sharedFlag}"
-        "-D ZLIB_BUILD_STATIC=${staticFlag}"
         "${sourceDir}"
     )
 }
