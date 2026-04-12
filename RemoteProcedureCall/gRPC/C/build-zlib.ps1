@@ -145,7 +145,6 @@ elseif ($global:IsLinux)
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_CXX_STANDARD=17"
         "-D CMAKE_POSITION_INDEPENDENT_CODE=OFF"
         "-D ZLIB_BUILD_SHARED=${sharedFlag}"
