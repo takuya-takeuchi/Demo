@@ -121,6 +121,7 @@ if ($global:IsWindows)
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
+        "-D CMAKE_CXX_STANDARD=17"
         "-D protobuf_BUILD_TESTS=OFF"
         "${sourceDir}"
     )
@@ -131,6 +132,7 @@ elseif ($global:IsMacOS)
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
+        "-D CMAKE_CXX_STANDARD=20"
         "-D protobuf_BUILD_TESTS=OFF"
         "${sourceDir}"
     )
@@ -141,6 +143,7 @@ elseif ($global:IsLinux)
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
+        "-D CMAKE_CXX_STANDARD=17"
         "-D protobuf_BUILD_TESTS=OFF"
         "${sourceDir}"
     )

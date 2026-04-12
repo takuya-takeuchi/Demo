@@ -20,9 +20,9 @@ if (!(Test-Path($copnfigPath)))
 }
 
 $config = Get-Content -Path $copnfigPath | ConvertFrom-Json
-$target = "grpc"
-$version = $config.gRPC.version
-if ($config.gRPC.shared)
+$target = "zlib"
+$version = $config.zlib.version
+if ($config.zlib.shared)
 {
     $shared = "dynamic"
     $sharedFlag = "ON"
@@ -61,25 +61,6 @@ $installDir = Join-Path $current install | `
               Join-Path -ChildPath $version | `
               Join-Path -ChildPath $shared | `
               Join-Path -ChildPath $Configuration
-
-$protobufVersion = $config.protobuf.version
-if ($config.protobuf.shared)
-{
-    $protobufShared = "dynamic"
-}
-else
-{
-    $protobufShared = "static"
-}
-$PROTOBUF_INSTALL_DIR = Join-Path $current install | `
-                        Join-Path -ChildPath $os | `
-                        Join-Path -ChildPath protobuf | `
-                        Join-Path -ChildPath $protobufVersion | `
-                        Join-Path -ChildPath $protobufShared | `
-                        Join-Path -ChildPath $Configuration
-$PROTOBUF_CMAKE_DIR = Join-Path $PROTOBUF_INSTALL_DIR lib | `
-                      Join-Path -ChildPath cmake | `
-                      Join-Path -ChildPath protobuf
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -122,7 +103,7 @@ if ($global:IsWindows)
     }
     CallVisualStudioDeveloperConsole
 
-    if ($config.gRPC.shared)
+    if ($config.zlib.shared)
     {
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreadedDLL"
     }
@@ -137,15 +118,10 @@ if ($global:IsWindows)
 
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
-        "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
         "-D CMAKE_CXX_STANDARD=17"
-        "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
-        "-D gRPC_INSTALL=ON"
-        "-D gRPC_BUILD_TESTS=OFF"
-        "-D gRPC_PROTOBUF_PROVIDER=package"
         "${sourceDir}"
     )
 }
@@ -153,14 +129,10 @@ elseif ($global:IsMacOS)
 {
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
-        "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_CXX_STANDARD=20"
-        "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
-        "-D gRPC_INSTALL=ON"
-        "-D gRPC_BUILD_TESTS=OFF"
-        "-D gRPC_PROTOBUF_PROVIDER=package"
+        "-D CMAKE_POSITION_INDEPENDENT_CODE=OFF"
         "${sourceDir}"
     )
 }
@@ -168,14 +140,10 @@ elseif ($global:IsLinux)
 {
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
-        "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_CXX_STANDARD=17"
-        "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
-        "-D gRPC_INSTALL=ON"
-        "-D gRPC_BUILD_TESTS=OFF"
-        "-D gRPC_PROTOBUF_PROVIDER=package"
+        "-D CMAKE_POSITION_INDEPENDENT_CODE=OFF"
         "${sourceDir}"
     )
 }

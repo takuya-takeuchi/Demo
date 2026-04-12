@@ -6,5 +6,9 @@
     "protobuf": {
         "version": "v34.1",
         "shared": false
+    },
+    "zlib": {
+        "version": "v1.3.2",
+        "shared": false
     }
 }

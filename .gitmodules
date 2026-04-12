@@ -244,3 +244,6 @@
 	path = RemoteProcedureCall/gRPC/C/grpc
 	url = https://github.com/grpc/grpc
 	ignore = dirty
+[submodule "RemoteProcedureCall/gRPC/C/zlib"]
+	path = RemoteProcedureCall/gRPC/C/zlib
+	url = https://github.com/madler/zlib
