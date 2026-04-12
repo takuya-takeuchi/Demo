@@ -71,6 +71,17 @@ else
 {
     $protobufShared = "static"
 }
+
+$zlibVersion = $config.zlib.version
+if ($config.zlib.shared)
+{
+    $zlibShared = "dynamic"
+}
+else
+{
+    $zlibShared = "static"
+}
+
 $PROTOBUF_INSTALL_DIR = Join-Path $current install | `
                         Join-Path -ChildPath $os | `
                         Join-Path -ChildPath protobuf | `
@@ -80,6 +91,15 @@ $PROTOBUF_INSTALL_DIR = Join-Path $current install | `
 $PROTOBUF_CMAKE_DIR = Join-Path $PROTOBUF_INSTALL_DIR lib | `
                       Join-Path -ChildPath cmake | `
                       Join-Path -ChildPath protobuf
+$ZLIB_INSTALL_DIR = Join-Path $current install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath zlib | `
+                    Join-Path -ChildPath $zlibVersion | `
+                    Join-Path -ChildPath $zlibShared | `
+                    Join-Path -ChildPath $Configuration
+$ZLIB_CMAKE_DIR = Join-Path $ZLIB_INSTALL_DIR lib | `
+                  Join-Path -ChildPath cmake | `
+                  Join-Path -ChildPath zlib
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -143,9 +163,11 @@ if ($global:IsWindows)
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
         "-D CMAKE_CXX_STANDARD=17"
         "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
+        "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
         "-D gRPC_INSTALL=ON"
         "-D gRPC_BUILD_TESTS=OFF"
         "-D gRPC_PROTOBUF_PROVIDER=package"
+        "-D gRPC_ZLIB_PROVIDER=package"
         "${sourceDir}"
     )
 }
@@ -153,14 +175,16 @@ elseif ($global:IsMacOS)
 {
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
-        "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR}"
+        "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR};${ZLIB_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_CXX_STANDARD=20"
         "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
+        "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
         "-D gRPC_INSTALL=ON"
         "-D gRPC_BUILD_TESTS=OFF"
         "-D gRPC_PROTOBUF_PROVIDER=package"
+        "-D gRPC_ZLIB_PROVIDER=package"
         "${sourceDir}"
     )
 }
@@ -173,9 +197,11 @@ elseif ($global:IsLinux)
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_CXX_STANDARD=17"
         "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
+        "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
         "-D gRPC_INSTALL=ON"
         "-D gRPC_BUILD_TESTS=OFF"
         "-D gRPC_PROTOBUF_PROVIDER=package"
+        "-D gRPC_ZLIB_PROVIDER=package"
         "${sourceDir}"
     )
 }

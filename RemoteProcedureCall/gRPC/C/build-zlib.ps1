@@ -26,11 +26,13 @@ if ($config.zlib.shared)
 {
     $shared = "dynamic"
     $sharedFlag = "ON"
+    $staticFlag = "OFF"
 }
 else
 {
     $shared = "static"
     $sharedFlag = "OFF"
+    $staticFlag = "ON"
 }
 
 # get os name
@@ -119,9 +121,10 @@ if ($global:IsWindows)
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
         "-D CMAKE_CXX_STANDARD=17"
+        "-D ZLIB_BUILD_SHARED=${sharedFlag}"
+        "-D ZLIB_BUILD_STATIC=${staticFlag}"
         "${sourceDir}"
     )
 }
@@ -130,9 +133,10 @@ elseif ($global:IsMacOS)
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_CXX_STANDARD=20"
         "-D CMAKE_POSITION_INDEPENDENT_CODE=OFF"
+        "-D ZLIB_BUILD_SHARED=${sharedFlag}"
+        "-D ZLIB_BUILD_STATIC=${staticFlag}"
         "${sourceDir}"
     )
 }
@@ -144,6 +148,8 @@ elseif ($global:IsLinux)
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_CXX_STANDARD=17"
         "-D CMAKE_POSITION_INDEPENDENT_CODE=OFF"
+        "-D ZLIB_BUILD_SHARED=${sharedFlag}"
+        "-D ZLIB_BUILD_STATIC=${staticFlag}"
         "${sourceDir}"
     )
 }
