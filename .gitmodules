@@ -236,3 +236,19 @@
 	path = Multimedia/GStreamer/gstreamer
 	url = https://gitlab.freedesktop.org/gstreamer/gstreamer
 	ignore = dirty
+[submodule "RemoteProcedureCall/gRPC/C/protobuf"]
+	path = RemoteProcedureCall/gRPC/C/protobuf
+	url = https://github.com/protocolbuffers/protobuf
+	ignore = dirty
+[submodule "RemoteProcedureCall/gRPC/C/grpc"]
+	path = RemoteProcedureCall/gRPC/C/grpc
+	url = https://github.com/grpc/grpc
+	ignore = dirty
+[submodule "RemoteProcedureCall/gRPC/C/zlib"]
+	path = RemoteProcedureCall/gRPC/C/zlib
+	url = https://github.com/madler/zlib
+	ignore = dirty
+[submodule "RemoteProcedureCall/gRPC/C/abseil-cpp"]
+	path = RemoteProcedureCall/gRPC/C/abseil-cpp
+	url = https://github.com/abseil/abseil-cpp
+	ignore = dirty
