@@ -120,6 +120,20 @@ $ZLIB_CMAKE_DIR = Join-Path $ZLIB_INSTALL_DIR lib | `
                   Join-Path -ChildPath cmake | `
                   Join-Path -ChildPath zlib
 
+$paths = @(
+    "${PROTOBUF_CMAKE_DIR}"
+    "${ABSL_CMAKE_DIR}"
+    "${ZLIB_CMAKE_DIR}"
+)
+foreach ($path in $paths)
+{
+    if (!(Test-Path($path)))
+    {
+        Write-Host "${path} is missing" -ForegroundColor Red
+        exit
+    }        
+}
+
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
@@ -225,6 +239,9 @@ elseif ($global:IsMacOS)
         "-D gRPC_BUILD_TESTS=OFF"
         "-D gRPC_PROTOBUF_PROVIDER=package"
         "-D gRPC_ZLIB_PROVIDER=package"
+        "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
+        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/zs.a"
+        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/zsd.a"
         "${sourceDir}"
     )
 }
@@ -242,6 +259,8 @@ elseif ($global:IsLinux)
         "-D gRPC_BUILD_TESTS=OFF"
         "-D gRPC_PROTOBUF_PROVIDER=package"
         "-D gRPC_ZLIB_PROVIDER=package"
+        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/zs.a"
+        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/zsd.a"
         "${sourceDir}"
     )
 }

@@ -33,6 +33,9 @@ Not supported.
 * [gRPC](https://github.com/grpc/grpc)
   * v1.80.0
   * Apache-2.0 license
+* [abseil](https://github.com/abseil/abseil-cpp)
+  * 20250512.1
+  * Apache-2.0 license
 * [protobuf](https://github.com/protocolbuffers/protobuf)
   * v34.1
   * BSD-3-Clause license
@@ -43,7 +46,8 @@ Not supported.
 ## How to use?
 
 ````shell
-$ pwsh build-protobuf.ps1 <Debug/Release>
+$ pwsh build-abseil.ps1 <Debug/Release>
 $ pwsh build-zlib.ps1 <Debug/Release>
+$ pwsh build-protobuf.ps1 <Debug/Release>
 $ pwsh build.ps1 <Debug/Release>
 ````

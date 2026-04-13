@@ -62,6 +62,45 @@ $installDir = Join-Path $current install | `
               Join-Path -ChildPath $shared | `
               Join-Path -ChildPath $Configuration
 
+$abslVersion = $config.abseil_cpp.version
+if ($config.abseil_cpp.shared)
+{
+    $abslShared = "dynamic"
+}
+else
+{
+    $abslShared = "static"
+}
+
+$zlibVersion = $config.zlib.version
+if ($config.zlib.shared)
+{
+    $zlibShared = "dynamic"
+}
+else
+{
+    $zlibShared = "static"
+}
+
+$ABSL_INSTALL_DIR = Join-Path $current install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath abseil-cpp | `
+                    Join-Path -ChildPath $abslVersion | `
+                    Join-Path -ChildPath $abslShared | `
+                    Join-Path -ChildPath $Configuration
+$ABSL_CMAKE_DIR = Join-Path $ABSL_INSTALL_DIR lib | `
+                  Join-Path -ChildPath cmake | `
+                  Join-Path -ChildPath absl
+$ZLIB_INSTALL_DIR = Join-Path $current install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath zlib | `
+                    Join-Path -ChildPath $zlibVersion | `
+                    Join-Path -ChildPath $zlibShared | `
+                    Join-Path -ChildPath $Configuration
+$ZLIB_CMAKE_DIR = Join-Path $ZLIB_INSTALL_DIR lib | `
+                  Join-Path -ChildPath cmake | `
+                  Join-Path -ChildPath zlib
+
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
@@ -115,10 +154,15 @@ if ($global:IsWindows)
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=${ABSL_INSTALL_DIR}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
         "-D CMAKE_CXX_STANDARD=17"
+        "-D absl_DIR=${ABSL_CMAKE_DIR}"
         "-D protobuf_BUILD_TESTS=OFF"
+        "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
+        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/zs.lib"
+        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/zsd.lib"
         "${sourceDir}"
     )
 }
@@ -127,9 +171,14 @@ elseif ($global:IsMacOS)
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=${ABSL_INSTALL_DIR}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_CXX_STANDARD=20"
+        "-D absl_DIR=${ABSL_CMAKE_DIR}"
         "-D protobuf_BUILD_TESTS=OFF"
+        "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
+        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/zs.a"
+        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/zsd.a"
         "${sourceDir}"
     )
 }
@@ -138,9 +187,14 @@ elseif ($global:IsLinux)
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=${ABSL_INSTALL_DIR}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_CXX_STANDARD=17"
+        "-D absl_DIR=${ABSL_CMAKE_DIR}"
         "-D protobuf_BUILD_TESTS=OFF"
+        "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
+        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/zs.a"
+        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/zsd.a"
         "${sourceDir}"
     )
 }

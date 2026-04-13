@@ -3,7 +3,9 @@ cmake_minimum_required(VERSION 3.26.0)
 set(PROJ_NAME greeter)
 project(${PROJ_NAME} VERSION 1.0.0)
 
+find_package(absl REQUIRED)
 find_package(Protobuf CONFIG REQUIRED)
+find_package(ZLIB REQUIRED)
 find_package(gRPC CONFIG REQUIRED)
 
 set(PROTO_FILE ${CMAKE_CURRENT_SOURCE_DIR}/proto/greeter.proto)
@@ -41,6 +43,7 @@ target_include_directories(${PROJ_NAME} PUBLIC
 
 # This definition will be propagated to the client and service targets that link against this library
 target_link_libraries(${PROJ_NAME} PUBLIC
+    ZLIB::ZLIB
     protobuf::libprotobuf
     gRPC::grpc++
 )

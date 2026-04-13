@@ -30,9 +30,11 @@
 
 Go to [gRPC/C](..).
 
-Once time you built `gRPC` and `protobuf`, you need not to do again.
+Once time you built `abseil`, `zlib`, `protobuf` and `gRPC`, you need not to do again.
 
 ````shell
+$ pwsh build-abseil.ps1 <Debug/Release>
+$ pwsh build-zlib.ps1 <Debug/Release>
 $ pwsh build-protobuf.ps1 <Debug/Release>
 $ pwsh build.ps1 <Debug/Release>
 ````
@@ -41,7 +43,24 @@ $ pwsh build.ps1 <Debug/Release>
 
 #### Windows
 
-Not supported.
+At first, launch server program.
+
+````bat
+$ .\install\win\bin\server.exe
+gRPC server listening on 0.0.0.0:50051
+````
+
+Next, kick client program.
+
+````bat
+$ .\install\win\bin\client.exe
+````
+
+Then, server side console show message from client.
+
+````bat
+Received request: name=client
+````
 
 #### Linux
 
