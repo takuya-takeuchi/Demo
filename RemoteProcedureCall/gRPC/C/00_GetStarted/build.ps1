@@ -184,8 +184,12 @@ elseif ($global:IsMacOS)
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_PREFIX_PATH=${GRPC_INSTALL_DIR};${PROTOBUF_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D absl_DIR=${ABSL_CMAKE_DIR}"
         "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
         "-D gRPC_DIR=${GRPC_CMAKE_DIR}"
+        "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
+        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/libz.a"
+        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/libz.a"
         "${sourceDir}"
     )
 }
@@ -200,8 +204,12 @@ elseif ($global:IsLinux)
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_PREFIX_PATH=${GRPC_INSTALL_DIR};${PROTOBUF_INSTALL_DIR}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D absl_DIR=${ABSL_CMAKE_DIR}"
         "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
         "-D gRPC_DIR=${GRPC_CMAKE_DIR}"
+        "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
+        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/libz.a"
+        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/libz.a"
         "${sourceDir}"
     )
 }
