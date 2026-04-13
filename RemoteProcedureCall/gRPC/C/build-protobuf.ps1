@@ -177,8 +177,8 @@ elseif ($global:IsMacOS)
         "-D absl_DIR=${ABSL_CMAKE_DIR}"
         "-D protobuf_BUILD_TESTS=OFF"
         "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
-        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/zs.a"
-        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/zsd.a"
+        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/libz.a"
+        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/libz.a"
         "${sourceDir}"
     )
 }
@@ -193,8 +193,8 @@ elseif ($global:IsLinux)
         "-D absl_DIR=${ABSL_CMAKE_DIR}"
         "-D protobuf_BUILD_TESTS=OFF"
         "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
-        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/zs.a"
-        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/zsd.a"
+        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/libz.a"
+        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/libz.a"
         "${sourceDir}"
     )
 }
