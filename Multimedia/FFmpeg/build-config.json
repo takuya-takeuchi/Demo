@@ -1,0 +1,9 @@
+{
+    "ffmpeg": {
+        "version": "n8.1",
+        "shared": true,
+        "enableGpl": false,
+        "enableNonFree": false,
+        "linkStaticRuntime": true
+    }
+}

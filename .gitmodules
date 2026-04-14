@@ -252,3 +252,7 @@
 	path = RemoteProcedureCall/gRPC/C/abseil-cpp
 	url = https://github.com/abseil/abseil-cpp
 	ignore = dirty
+[submodule "Multimedia/FFmpeg/FFmpeg"]
+	path = Multimedia/FFmpeg/FFmpeg
+	url = https://github.com/FFmpeg/FFmpeg
+	ignore = dirty
