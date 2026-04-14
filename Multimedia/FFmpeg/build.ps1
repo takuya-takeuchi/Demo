@@ -73,7 +73,7 @@ Push-Location $current
 git submodule update --init --recursive .
 Pop-Location
 
-Push-Location $target
+Push-Location $sourceDir
 git fetch -ap
 git checkout $version
 git submodule update --init --recursive .
