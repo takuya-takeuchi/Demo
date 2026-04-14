@@ -253,6 +253,6 @@
 	url = https://github.com/abseil/abseil-cpp
 	ignore = dirty
 [submodule "Multimedia/FFmpeg/FFmpeg"]
-	path = Multimedia/FFmpeg/FFmpeg
+	path = Multimedia/FFmpeg/ffmpeg
 	url = https://github.com/FFmpeg/FFmpeg
 	ignore = dirty
