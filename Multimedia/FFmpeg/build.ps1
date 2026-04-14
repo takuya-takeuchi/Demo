@@ -100,69 +100,63 @@ if (!(Test-Path($configure)))
 
 if ($global:IsWindows)
 {
-    function CallVisualStudioDeveloperConsole()
+    $msysRoot = "C:\msys64"
+    $shell = Join-Path $msysRoot "msys2_shell.cmd"
+    if (!(Test-Path($shell)))
     {
-        $vs = "C:\Program Files\Microsoft Visual Studio\2022"
-        $path = "${vs}\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        if (!(Test-Path($path)))
-        {
-            $path = "${vs}\Professional\VC\Auxiliary\Build\vcvars64.bat"
-        }
-        if (!(Test-Path($path)))
-        {
-            $path = "${vs}\Community\VC\Auxiliary\Build\vcvars64.bat"
-        }
+        Write-Host "${shell} is missing" -ForegroundColor Red
+        exit
+    } 
 
-        Write-Host "Use: ${path}" -ForegroundColor Green
-
-        cmd.exe /c "call `"${path}`" && set > %temp%\vcvars.txt"
-        Get-Content "${env:temp}\vcvars.txt" | Foreach-Object {
-            if ($_ -match "^(.*?)=(.*)$") {
-                Set-Content "env:\$($matches[1])" $matches[2]
-            }
-        }
-    }
-    CallVisualStudioDeveloperConsole
-
-    if ($config.windows.msvcStaticRuntime)
-    {
-        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>"
-        $gRPC_MSVC_STATIC_RUNTIME = "ON"
-    }
-    else
-    {
-        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
-        $gRPC_MSVC_STATIC_RUNTIME = "OFF"
-    }
+    & $shell -defterm -no-start -ucrt64 -here -c "pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime -y"
+    exit
 
     $configureArgs = @(
-        "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
-        "-D CMAKE_INSTALL_PREFIX=${installDir}"
-        "-D CMAKE_PREFIX_PATH=${PROTOBUF_INSTALL_DIR};${ABSL_INSTALL_DIR}"
-        "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
-        "-D CMAKE_CXX_STANDARD=17"
-        "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
-        "-D gRPC_MSVC_STATIC_RUNTIME=${gRPC_MSVC_STATIC_RUNTIME}"
-        "-D gRPC_BUILD_GRPC_CPP_PLUGIN=ON"
-        "-D gRPC_BUILD_GRPC_CSHARP_PLUGIN=OFF"
-        "-D gRPC_BUILD_GRPC_NODE_PLUGIN=OFF"
-        "-D gRPC_BUILD_GRPC_OBJECTIVE_C_PLUGIN=OFF"
-        "-D gRPC_BUILD_GRPC_PHP_PLUGIN=OFF"
-        "-D gRPC_BUILD_GRPC_PYTHON_PLUGIN=OFF"
-        "-D gRPC_BUILD_GRPC_RUBY_PLUGIN=OFF"
-        "-D gRPC_BUILD_TESTS=OFF"
-        "-D gRPC_INSTALL=ON"
-        "-D gRPC_ABSL_PROVIDER=package"
-        "-D gRPC_PROTOBUF_PROVIDER=package"
-        "-D gRPC_ZLIB_PROVIDER=package"
-        "-D absl_DIR=${ABSL_CMAKE_DIR}"
-        "-D Protobuf_DIR=${PROTOBUF_CMAKE_DIR}"
-        "-D ZLIB_ROOT=${ZLIB_INSTALL_DIR}"
-        "-D ZLIB_LIBRARY_RELEASE=${ZLIB_INSTALL_DIR}/lib/zs.lib"
-        "-D ZLIB_LIBRARY_DEBUG=${ZLIB_INSTALL_DIR}/lib/zsd.lib"
-        "${sourceDir}"
+        "--prefix=${installDir}"
+        "--disable-logging"
+        "--disable-doc"
+        "--disable-htmlpages"
+        "--disable-manpages"
+        "--disable-podpages"
+        "--disable-txtpages"
+        "--disable-avdevice"
     )
+
+    if ($sharedFlag)
+    {
+        $configureArgs += @(
+            "--enable-shared"
+        )
+    }
+
+    if (!($config.ffmpeg.enableGpl))
+    {
+        $configureArgs += @(
+            "--disable-gpl"
+        )
+    }
+
+    if (!($config.ffmpeg.enableNonFree))
+    {
+        $configureArgs += @(
+            "--enable-nonfree"
+        )
+    }        
+
+    if ($Configure -ne "Debug")
+    {
+        $configureArgs += @(
+            "--enable-optimizations"
+            "--disable-debug"
+        )
+    }
+
+    if (!($config.ffmpeg.linkStaticRuntime))
+    {
+        $configureArgs += @(
+            "--extra-ldflags=-static-libgcc -static-libstdc++"
+        )
+    }
 }
 elseif ($global:IsMacOS)
 {
