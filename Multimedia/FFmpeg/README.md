@@ -9,16 +9,10 @@
 ### Common
 
 * Powershell 7 or later
-* CMake
-  * 3.16 or higher
 
 ### Windows
 
-* Visual Studio 2022
-
-##### NOTE
-
-Not supported.
+* [MSYS2](https://www.msys2.org/)
 
 ### Ubuntu
 

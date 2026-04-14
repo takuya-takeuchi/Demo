@@ -96,7 +96,7 @@ if (!(Test-Path($configure)))
 {
     Write-Host "${pconfigureath} is missing" -ForegroundColor Red
     exit
-} 
+}
 
 if ($global:IsWindows)
 {
@@ -106,162 +106,82 @@ if ($global:IsWindows)
     {
         Write-Host "${shell} is missing" -ForegroundColor Red
         exit
-    } 
-
-    & $shell -defterm -no-start -ucrt64 -here -c "pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime -y"
-    exit
-
-    $configureArgs = @(
-        "--prefix=${installDir}"
-        "--disable-logging"
-        "--disable-doc"
-        "--disable-htmlpages"
-        "--disable-manpages"
-        "--disable-podpages"
-        "--disable-txtpages"
-        "--disable-avdevice"
-    )
-
-    if ($sharedFlag)
-    {
-        $configureArgs += @(
-            "--enable-shared"
-        )
     }
 
-    if (!($config.ffmpeg.enableGpl))
-    {
-        $configureArgs += @(
-            "--disable-gpl"
-        )
-    }
-
-    if (!($config.ffmpeg.enableNonFree))
-    {
-        $configureArgs += @(
-            "--enable-nonfree"
-        )
-    }        
-
-    if ($Configure -ne "Debug")
-    {
-        $configureArgs += @(
-            "--enable-optimizations"
-            "--disable-debug"
-        )
-    }
-
-    if (!($config.ffmpeg.linkStaticRuntime))
-    {
-        $configureArgs += @(
-            "--extra-ldflags=-static-libgcc -static-libstdc++"
-        )
-    }
+    & $shell -defterm -no-start -ucrt64 -here -c "pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime --noconfirm"
+    & $shell -defterm -no-start -ucrt64 -here -c "pacman -Syuu --noconfirm"
+    & $shell -defterm -no-start -ucrt64 -here -c "pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-yasm mingw-w64-x86_64-pkg-config git make diffutils --noconfirm"
 }
-elseif ($global:IsMacOS)
+
+$configureArgs = @(
+    "--prefix=${installDir}"
+    "--disable-logging"
+    "--disable-doc"
+    "--disable-htmlpages"
+    "--disable-manpages"
+    "--disable-podpages"
+    "--disable-txtpages"
+    "--disable-avdevice"
+)
+
+if ($sharedFlag)
 {
-    $configureArgs = @(
-        "--prefix=${installDir}"
-        "--disable-logging"
-        "--disable-doc"
-        "--disable-htmlpages"
-        "--disable-manpages"
-        "--disable-podpages"
-        "--disable-txtpages"
-        "--disable-avdevice"
+    $configureArgs += @(
+        "--enable-shared"
     )
-
-    if ($sharedFlag)
-    {
-        $configureArgs += @(
-            "--enable-shared"
-        )
-    }
-
-    if (!($config.ffmpeg.enableGpl))
-    {
-        $configureArgs += @(
-            "--disable-gpl"
-        )
-    }
-
-    if (!($config.ffmpeg.enableNonFree))
-    {
-        $configureArgs += @(
-            "--enable-nonfree"
-        )
-    }        
-
-    if ($Configure -ne "Debug")
-    {
-        $configureArgs += @(
-            "--enable-optimizations"
-            "--disable-debug"
-        )
-    }
-
-    if (!($config.ffmpeg.linkStaticRuntime))
-    {
-        $configureArgs += @(
-            "--extra-ldflags=-static-libgcc -static-libstdc++"
-        )
-    }
 }
-elseif ($global:IsLinux)
+
+if (!($config.ffmpeg.enableGpl))
 {
-    $configureArgs = @(
-        "--prefix=${installDir}"
-        "--disable-logging"
-        "--disable-doc"
-        "--disable-htmlpages"
-        "--disable-manpages"
-        "--disable-podpages"
-        "--disable-txtpages"
-        "--disable-avdevice"
+    $configureArgs += @(
+        "--disable-gpl"
     )
+}
 
-    if ($sharedFlag)
-    {
-        $configureArgs += @(
-            "--enable-shared"
-        )
-    }
+if (!($config.ffmpeg.enableNonFree))
+{
+    $configureArgs += @(
+        "--enable-nonfree"
+    )
+}
 
-    if (!($config.ffmpeg.enableGpl))
-    {
-        $configureArgs += @(
-            "--disable-gpl"
-        )
-    }
+if ($Configure -ne "Debug")
+{
+    $configureArgs += @(
+        "--enable-optimizations"
+        "--disable-debug"
+    )
+}
 
-    if (!($config.ffmpeg.enableNonFree))
-    {
-        $configureArgs += @(
-            "--enable-nonfree"
-        )
-    }        
-
-    if ($Configure -ne "Debug")
-    {
-        $configureArgs += @(
-            "--enable-optimizations"
-            "--disable-debug"
-        )
-    }
-
-    if (!($config.ffmpeg.linkStaticRuntime))
-    {
-        $configureArgs += @(
-            "--extra-ldflags=-static-libgcc -static-libstdc++"
-        )
-    }
+if (!($config.ffmpeg.linkStaticRuntime))
+{
+    $configureArgs += @(
+        "--extra-ldflags=-static-libgcc -static-libstdc++"
+    )
 }
 
 $configLogFile = Join-Path $buildDir make-config.log
 $buildLogFile = Join-Path $buildDir make-build.log
 
-& "${configure}" @configureArgs 2>&1 | Tee-Object -FilePath $configLogFile
-make -j $nproc
-make install 2>&1 | Tee-Object -FilePath $buildLogFile
+if ($global:IsWindows)
+{
+    $msysRoot = "C:\msys64"
+    $shell = Join-Path $msysRoot "msys2_shell.cmd"
+    if (!(Test-Path($shell)))
+    {
+        Write-Host "${shell} is missing" -ForegroundColor Red
+        exit
+    }
+
+    & $shell -defterm -no-start -ucrt64 -here -c "${configure} @{configureArgs}" 2>&1 | Tee-Object -FilePath $configLogFile
+    & $shell -defterm -no-start -ucrt64 -here -c  "make -j ${nproc}" 2>&1 | Tee-Object -FilePath $buildLogFile
+    & $shell -defterm -no-start -ucrt64 -here -c  "make install" 2>&1 | Tee-Object -FilePath $buildLogFile
+}
+else
+{
+    & "${configure}" @configureArgs 2>&1 | Tee-Object -FilePath $configLogFile
+    make -j $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
+    make install
+}
 
 Pop-Location
