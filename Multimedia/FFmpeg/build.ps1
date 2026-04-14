@@ -98,23 +98,7 @@ if (!(Test-Path($configure)))
     exit
 }
 
-if ($global:IsWindows)
-{
-    $msysRoot = "C:\msys64"
-    $shell = Join-Path $msysRoot "msys2_shell.cmd"
-    if (!(Test-Path($shell)))
-    {
-        Write-Host "${shell} is missing" -ForegroundColor Red
-        exit
-    }
-
-    & $shell -defterm -no-start -ucrt64 -here -c "pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime --noconfirm"
-    & $shell -defterm -no-start -ucrt64 -here -c "pacman -Syuu --noconfirm"
-    & $shell -defterm -no-start -ucrt64 -here -c "pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-yasm mingw-w64-x86_64-pkg-config git make diffutils --noconfirm"
-}
-
 $configureArgs = @(
-    "--prefix=${installDir}"
     "--disable-logging"
     "--disable-doc"
     "--disable-htmlpages"
@@ -128,6 +112,12 @@ if ($sharedFlag)
 {
     $configureArgs += @(
         "--enable-shared"
+    )
+}
+else
+{
+    $configureArgs += @(
+        "--enable-static"
     )
 }
 
@@ -173,12 +163,32 @@ if ($global:IsWindows)
         exit
     }
 
-    & $shell -defterm -no-start -ucrt64 -here -c "${configure} @{configureArgs}" 2>&1 | Tee-Object -FilePath $configLogFile
+    # & $shell -defterm -no-start -ucrt64 -here -c "pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime --noconfirm"
+    # & $shell -defterm -no-start -ucrt64 -here -c "pacman -Syuu --noconfirm"
+    # & $shell -defterm -no-start -ucrt64 -here -c "pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-yasm mingw-w64-x86_64-pkg-config git make diffutils --noconfirm"
+
+    $configureArgs += @(
+        "--enable-cross-compile"
+    )
+    
+    $installDir = $installDir.Replace("`\", "/").Replace(":", "")
+    $configureArgs += @(
+        "--prefix=/${installDir}"
+    )
+
+    $configure = $configure.Replace("`\", "/").Replace(":", "")
+    Write-Host "/${configure} ${configureArgs}" -ForegroundColor Red
+
+    & $shell -defterm -no-start -ucrt64 -here -c "/${configure} ${configureArgs}" 2>&1 | Tee-Object -FilePath $configLogFile
     & $shell -defterm -no-start -ucrt64 -here -c  "make -j ${nproc}" 2>&1 | Tee-Object -FilePath $buildLogFile
-    & $shell -defterm -no-start -ucrt64 -here -c  "make install" 2>&1 | Tee-Object -FilePath $buildLogFile
+    & $shell -defterm -no-start -ucrt64 -here -c  "make install"
 }
 else
 {
+    $configureArgs += @(
+        "--prefix=${installDir}"
+    )
+
     & "${configure}" @configureArgs 2>&1 | Tee-Object -FilePath $configLogFile
     make -j $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
     make install
