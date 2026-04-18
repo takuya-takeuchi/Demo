@@ -113,7 +113,6 @@ if (!(Test-Path($configure)))
     exit
 }
 
-$configureArgs = @()
 $buildTargets = @()
 $buildTargets += New-Object PSObject -Property @{ Option = "--enable-optimizations";                           Flag = ($Configure -ne "Debug") }
 $buildTargets += New-Object PSObject -Property @{ Option = "--disable-debug";                                  Flag = ($Configure -ne "Debug") }
@@ -137,9 +136,10 @@ $config.ffmpeg.options.externalLibrarySupport | Where-Object { $_.flag } | ForEa
     $buildTargets += New-Object PSObject -Property @{ Option = $_.option; Flag = $_.flag }
 }
 
+$configureArgs = @()
 foreach ($buildTarget in $buildTargets)
 {
-    $option = $buildTarget.Switch
+    $option = $buildTarget.Option
     $flag = $buildTarget.Flag
     if ($flag)
     {
@@ -186,6 +186,12 @@ if ($global:IsWindows)
         exit
     }
 
+    Write-Host "Build Options:" -ForegroundColor Green
+    foreach ($arg in configureArgs)
+    {
+        Write-Host "`t${arg}" -ForegroundColor Green
+    }
+
     Write-Host "Start configure. It take a long time..." -ForegroundColor Blue
     $configLogFile = $configLogFile.Replace("`\", "/").Replace(":", "")
     & $bash -lc "/${configure} ${configureArgs} 2>&1 | tee /${configLogFile}"
@@ -201,6 +207,12 @@ else
     $configureArgs += @(
         "--prefix=${installDir}"
     )
+
+    Write-Host "Build Options:" -ForegroundColor Green
+    foreach ($arg in $configureArgs)
+    {
+        Write-Host "`t${arg}" -ForegroundColor Green
+    }
 
     & "${configure}" @configureArgs 2>&1 | Tee-Object -FilePath $configLogFile
     make -j $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
