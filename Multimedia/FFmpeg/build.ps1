@@ -117,7 +117,7 @@ $buildTargets = @()
 $buildTargets += New-Object PSObject -Property @{ Option = "--enable-optimizations";                           Flag = ($Configure -ne "Debug") }
 $buildTargets += New-Object PSObject -Property @{ Option = "--disable-debug";                                  Flag = ($Configure -ne "Debug") }
 $buildTargets += New-Object PSObject -Property @{ Option = "--enable-shared";                                  Flag = $sharedFlag }
-$buildTargets += New-Object PSObject -Property @{ Option = "--enable-static";                                  Flag = !$sharedFlag }
+$buildTargets += New-Object PSObject -Property @{ Option = "--disable-static";                                 Flag = $sharedFlag }
 $buildTargets += New-Object PSObject -Property @{ Option = "--extra-ldflags=-static-libgcc -static-libstdc++"; Flag = !$config.ffmpeg.linkStaticRuntime }
 
 $config.ffmpeg.options.standard | Where-Object { $_.flag } | ForEach-Object {
