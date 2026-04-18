@@ -113,25 +113,29 @@ if (!(Test-Path($configure)))
     exit
 }
 
-$configureArgs = @(
-    "--disable-logging"
-    "--disable-doc"
-    "--disable-htmlpages"
-    "--disable-manpages"
-    "--disable-podpages"
-    "--disable-txtpages"
-    "--disable-avdevice"
-)
-
+$configureArgs = @()
 $buildTargets = @()
 $buildTargets += New-Object PSObject -Property @{ Option = "--enable-optimizations";                           Flag = ($Configure -ne "Debug") }
 $buildTargets += New-Object PSObject -Property @{ Option = "--disable-debug";                                  Flag = ($Configure -ne "Debug") }
 $buildTargets += New-Object PSObject -Property @{ Option = "--enable-shared";                                  Flag = $sharedFlag }
 $buildTargets += New-Object PSObject -Property @{ Option = "--enable-static";                                  Flag = !$sharedFlag }
-$buildTargets += New-Object PSObject -Property @{ Option = "--disable-gpl";                                    Flag = !$config.ffmpeg.enableGpl }
-$buildTargets += New-Object PSObject -Property @{ Option = "--enable-nonfree";                                 Flag = $config.ffmpeg.enableNonFree }
-$buildTargets += New-Object PSObject -Property @{ Option = "--enable-libopenh264 ";                            Flag = $config.ffmpeg.enableLibOpenH264 }
 $buildTargets += New-Object PSObject -Property @{ Option = "--extra-ldflags=-static-libgcc -static-libstdc++"; Flag = !$config.ffmpeg.linkStaticRuntime }
+
+$config.ffmpeg.options.standard | Where-Object { $_.flag } | ForEach-Object {
+    $buildTargets += New-Object PSObject -Property @{ Option = $_.option; Flag = $_.flag }
+}
+$config.ffmpeg.options.documentation | Where-Object { $_.flag } | ForEach-Object {
+    $buildTargets += New-Object PSObject -Property @{ Option = $_.option; Flag = $_.flag }
+}
+$config.ffmpeg.options.licensing | Where-Object { $_.flag } | ForEach-Object {
+    $buildTargets += New-Object PSObject -Property @{ Option = $_.option; Flag = $_.flag }
+}
+$config.ffmpeg.options.component | Where-Object { $_.flag } | ForEach-Object {
+    $buildTargets += New-Object PSObject -Property @{ Option = $_.option; Flag = $_.flag }
+}
+$config.ffmpeg.options.externalLibrarySupport | Where-Object { $_.flag } | ForEach-Object {
+    $buildTargets += New-Object PSObject -Property @{ Option = $_.option; Flag = $_.flag }
+}
 
 foreach ($buildTarget in $buildTargets)
 {
@@ -158,9 +162,9 @@ if ($global:IsWindows)
         exit
     }
 
-    # & $shell -defterm -no-start -ucrt64 -here -c "pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime --noconfirm"
-    # & $shell -defterm -no-start -ucrt64 -here -c "pacman -Syuu --noconfirm"
-    # & $shell -defterm -no-start -ucrt64 -here -c "pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-yasm mingw-w64-x86_64-pkg-config git make diffutils --noconfirm"
+    & $shell -defterm -no-start -ucrt64 -here -c "pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime --noconfirm"
+    & $shell -defterm -no-start -ucrt64 -here -c "pacman -Syuu --noconfirm"
+    & $shell -defterm -no-start -ucrt64 -here -c "pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-yasm mingw-w64-x86_64-pkg-config git make diffutils --noconfirm"
 
     $configureArgs += @(
         "--enable-cross-compile"
