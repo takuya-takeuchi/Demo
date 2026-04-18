@@ -149,6 +149,50 @@ foreach ($buildTarget in $buildTargets)
     }
 }
 
+$pkgConfigPathList = @()
+foreach ($item in $config.ffmpeg.options.externalLibrarySupport)
+{
+    $flag = $item.flag
+    $option = $item.option
+    if (!$flag)
+    {
+        continue
+    }
+
+    if ($null -ne $item.PSObject.Properties['version'])
+    {
+        $name = $option.Replace("--enable-", "")
+        $scriptPath = Join-Path $current "scripts" | Join-Path -ChildPath "${name}.ps1"
+        if (Test-Path($scriptPath))
+        {
+            $version = $item.version
+            $buildExternalDir = Join-Path $current build | `
+                                Join-Path -ChildPath $os | `
+                                Join-Path -ChildPath $name | `
+                                Join-Path -ChildPath $version
+            $installExternalDir = Join-Path $current install | `
+                                  Join-Path -ChildPath $os | `
+                                  Join-Path -ChildPath $name | `
+                                  Join-Path -ChildPath $version
+            Write-Host "[Info] Start build ${name}..." -ForegroundColor Green
+            & $scriptPath -BuildDir $buildExternalDir -InstallDir $installExternalDir -Version $version
+            Write-Host "[Info] Finish build ${name}" -ForegroundColor Green
+
+            $pkgConfigPath = Join-Path ${installExternalDir} lib | Join-Path -ChildPath pkgconfig
+            if (!(Test-Path($pkgConfigPath)))
+            {
+                Write-Host "[Warn] ${pkgConfigPath} is missing" -ForegroundColor Yellow
+                continue
+            }
+            $pkgConfigPathList += ${pkgConfigPath}
+        }
+        else
+        {
+            Write-Host "[Info] Script for ${option} is missing. Skip build ${option}." -ForegroundColor Yellow
+        }
+    }
+}
+
 $configLogFile = Join-Path $buildDir make-config.log
 $buildLogFile = Join-Path $buildDir make-build.log
 
@@ -214,6 +258,8 @@ else
         Write-Host "`t${arg}" -ForegroundColor Green
     }
 
+    $pkgConfigPath = $pkgConfigPathList -Join ":"
+    $env:PKG_CONFIG_PATH = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
     & "${configure}" @configureArgs 2>&1 | Tee-Object -FilePath $configLogFile
     make -j $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
     make install
