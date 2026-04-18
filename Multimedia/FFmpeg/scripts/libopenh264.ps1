@@ -229,7 +229,6 @@ else
 {
     Push-Location $sourceDir
     make PREFIX="${InstallDir}" install-shared 2>&1 | Tee-Object -FilePath $buildLogFile
-    make install 2>&1 | Tee-Object -FilePath $buildLogFile
     Pop-Location
 
     $deployPath = Join-Path $InstallDir lib | Join-Path -ChildPath $deployName
