@@ -11,6 +11,21 @@ Param
    $Configuration
 )
 
+$ConfigurationArray =
+@(
+   "Debug",
+   "Release",
+   "RelWithDebInfo",
+   "MinSizeRel"
+)
+
+if ($ConfigurationArray.Contains($Configuration) -eq $False)
+{
+   $candidate = $ConfigurationArray -join "/"
+   Write-Host "Specify build configuration [${candidate}]" -ForegroundColor Red
+   exit -1
+}
+
 $current = $PSScriptRoot
 $copnfigPath = Join-Path $current "build-config.json"
 if (!(Test-Path($copnfigPath)))
