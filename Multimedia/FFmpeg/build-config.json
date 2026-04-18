@@ -1,0 +1,165 @@
+{
+    "ffmpeg": {
+        "version": "n8.1",
+        "shared": true,
+        "options": {
+            "standard": [
+                { "option": "--disable-logging", "flag": true }, // do not log configure debug information
+                { "option": "--fatal-warnings",  "flag": true }  // fail if any configure warning is generated
+            ],
+            "documentation": [
+                { "option": "--disable-doc" ,      "flag": true }, // do not build documentation
+                { "option": "--disable-htmlpages", "flag": true }, // do not build HTML documentation pages
+                { "option": "--disable-manpages",  "flag": true }, // do not build man documentation pages
+                { "option": "--disable-podpages",  "flag": true }, // do not build POD documentation pages
+                { "option": "--disable-txtpages",  "flag": true }  // do not build text documentation pages
+            ],
+            "licensing": [
+                { "option": "--disable-gpl",     "flag": true },  // allow use of GPL code, the resulting libs and binaries will be under GPL [no]
+                { "option": "--enable-version3", "flag": false }, // upgrade (L)GPL to version 3 [no]
+                { "option": "--enable-nonfree",  "flag": false }  // allow use of nonfree code, the resulting libs and binaries will be unredistributable [no]
+            ],
+            "component": [
+                { "option": "--disable-everything",      "flag": false }, // disable all components listed below
+                { "option": "--disable-encoders",        "flag": false }, // disable all encoders
+                { "option": "--disable-decoders",        "flag": false }, // disable all decoders
+                { "option": "--disable-hwaccels",        "flag": false }, // disable all hwaccels
+                { "option": "--disable-muxers",          "flag": false }, // disable all muxers
+                { "option": "--disable-demuxers",        "flag": false }, // disable all demuxers
+                { "option": "--disable-parsers",         "flag": false }, // disable all parsers
+                { "option": "--disable-bsfs",            "flag": false }, // disable all bitstream filters
+                { "option": "--disable-protocols",       "flag": false }, // disable all protocols
+                { "option": "--disable-indevs",          "flag": false }, // disable input devices
+                { "option": "--disable-outdevs",         "flag": false }, // disable output devices
+                { "option": "--disable-devices",         "flag": false }, // disable all devices
+                { "option": "--disable-filters",         "flag": false },  // disable all filters
+                
+                { "option": "--disable-avdevice",         "flag": false }, // disable libavdevice build
+                { "option": "--disable-avcodec",          "flag": false }, // disable libavcodec build
+                { "option": "--disable-avformat",         "flag": false }, // disable libavformat build
+                { "option": "--disable-swresample",       "flag": false }, // disable libswresample build
+                { "option": "--disable-swscale",          "flag": false }, // disable libswscale build
+                { "option": "--disable-postproc",         "flag": false }, // disable libpostproc build
+                { "option": "--disable-avfilter",         "flag": false }, // disable libavfilter build
+                { "option": "--enable-avresample",        "flag": false }, // enable libavresample build (deprecated) [no]
+                { "option": "--disable-pthreads",         "flag": false }, // disable pthreads [autodetect]
+                { "option": "--disable-w32threads",       "flag": false }, // disable Win32 threads [autodetect]
+                { "option": "--disable-os2threads",       "flag": false }, // disable OS/2 threads [autodetect]
+                { "option": "--disable-network",          "flag": false }, // disable network support [no]
+                { "option": "--disable-dct",              "flag": false }, // disable DCT code
+                { "option": "--disable-dwt",              "flag": false }, // disable DWT code
+                { "option": "--disable-error-resilience", "flag": false }, // disable error resilience code
+                { "option": "--disable-lsp",              "flag": false }, // disable LSP code
+                { "option": "--disable-lzo",              "flag": false }, // disable LZO decoder code
+                { "option": "--disable-mdct",             "flag": false }, // disable MDCT code
+                { "option": "--disable-rdft",             "flag": false }, // disable RDFT code
+                { "option": "--disable-fft",              "flag": false }, // disable FFT code
+                { "option": "--disable-faan",             "flag": false }, // disable floating point AAN (I)DCT code
+                { "option": "--disable-pixelutils",       "flag": false }  // disable pixel utils in libavutil
+            ],
+            "externalLibrarySupport": [
+                { "option": "--disable-alsa",             "flag": false                      }, // disable ALSA support [autodetect]
+                { "option": "--disable-appkit",           "flag": false                      }, // disable Apple AppKit framework [autodetect]
+                { "option": "--disable-avfoundation",     "flag": false                      }, // disable Apple AVFoundation framework [autodetect]
+                { "option": "--enable-avisynth",          "flag": false, "version": ""       }, // enable reading of AviSynth script files [no]
+                { "option": "--disable-bzlib",            "flag": false                      }, // disable bzlib [autodetect]
+                { "option": "--disable-coreimage",        "flag": false                      }, // disable Apple CoreImage framework [autodetect]
+                { "option": "--enable-chromaprint",       "flag": false, "version": ""       }, // enable audio fingerprinting with chromaprint [no]
+                { "option": "--enable-frei0r",            "flag": false, "version": ""       }, // enable frei0r video filtering [no]
+                { "option": "--enable-gcrypt",            "flag": false, "version": ""       }, // enable gcrypt, needed for rtmp(t)e support if openssl, librtmp or gmp is not used [no]
+                { "option": "--enable-gmp",               "flag": false, "version": ""       }, // enable gmp, needed for rtmp(t)e support if openssl or librtmp is not used [no]
+                { "option": "--enable-gnutls",            "flag": false, "version": ""       }, // enable gnutls, needed for https supportif openssl, libtls or mbedtls is not used [no]
+                { "option": "--disable-iconv",            "flag": false                      }, // disable iconv [autodetect] enable JNI support [no]
+                { "option": "--enable-ladspa",            "flag": false, "version": ""       }, // enable LADSPA audio filtering [no]
+                { "option": "--enable-libaom",            "flag": false, "version": ""       }, // enable AV1 video encoding/decoding via libaom [no]
+                { "option": "--enable-libass",            "flag": false, "version": ""       }, // enable libass subtitles rendering, needed for subtitles and ass filter [no]
+                { "option": "--enable-libbluray",         "flag": false, "version": ""       }, // enable BluRay reading using libbluray [no]
+                { "option": "--enable-libbs2b",           "flag": false, "version": ""       }, // enable bs2b DSP library [no]
+                { "option": "--enable-libcaca",           "flag": false, "version": ""       }, // enable textual display using libcaca [no]
+                { "option": "--enable-libcelt",           "flag": false, "version": ""       }, // enable CELT decoding via libcelt [no]
+                { "option": "--enable-libcdio",           "flag": false, "version": ""       }, // enable audio CD grabbing with libcdio [no]
+                { "option": "--enable-libcodec2",         "flag": false, "version": ""       }, // enable codec2 en/decoding using libcodec2 [no]
+                { "option": "--enable-libdavs2",          "flag": false, "version": ""       }, // enable AVS2 decoding via libdavs2 [no]
+                { "option": "--enable-libdc1394",         "flag": false, "version": ""       }, // enable IIDC-1394 grabbing using libdc1394 and libraw1394 [no]
+                { "option": "--enable-libfdk-aac",        "flag": false, "version": ""       }, // enable AAC de/encoding via libfdk-aac [no]
+                { "option": "--enable-libflite",          "flag": false, "version": ""       }, // enable flite (voice synthesis) support via libflite [no]
+                { "option": "--enable-libfontconfig",     "flag": false, "version": ""       }, // enable libfontconfig, useful for drawtext filter [no]
+                { "option": "--enable-libfreetype",       "flag": false, "version": ""       }, // enable libfreetype, needed for drawtext filter [no]
+                { "option": "--enable-libfribidi",        "flag": false, "version": ""       }, // enable libfribidi, improves drawtext filter [no]
+                { "option": "--enable-libgme",            "flag": false, "version": ""       }, // enable Game Music Emu via libgme [no]
+                { "option": "--enable-libgsm",            "flag": false, "version": ""       }, // enable GSM de/encoding via libgsm [no]
+                { "option": "--enable-libiec61883",       "flag": false, "version": ""       }, // enable iec61883 via libiec61883 [no]
+                { "option": "--enable-libilbc",           "flag": false, "version": ""       }, // enable iLBC de/encoding via libilbc [no]
+                { "option": "--enable-libjack",           "flag": false, "version": ""       }, // enable JACK audio sound server [no]
+                { "option": "--enable-libklvanc",         "flag": false, "version": ""       }, // enable Kernel Labs VANC processing [no]
+                { "option": "--enable-libkvazaar",        "flag": false, "version": ""       }, // enable HEVC encoding via libkvazaar [no]
+                { "option": "--enable-liblensfun",        "flag": false, "version": ""       }, // enable lensfun lens correction [no]
+                { "option": "--enable-libmodplug",        "flag": false, "version": ""       }, // enable ModPlug via libmodplug [no]
+                { "option": "--enable-libmp3lame",        "flag": false, "version": ""       }, // enable MP3 encoding via libmp3lame [no]
+                { "option": "--enable-libopencore-amrnb", "flag": false, "version": ""       }, // enable AMR-NB de/encoding via libopencore-amrnb [no]
+                { "option": "--enable-libopencore-amrwb", "flag": false, "version": ""       }, // enable AMR-WB decoding via libopencore-amrwb [no]
+                { "option": "--enable-libopencv",         "flag": false, "version": ""       }, // enable video filtering via libopencv [no]
+                { "option": "--enable-libopenh264",       "flag": false, "version": "v2.6.0" }, // enable H.264 encoding via OpenH264 [no]
+                { "option": "--enable-libopenjpeg",       "flag": false, "version": ""       }, // enable JPEG 2000 de/encoding via OpenJPEG [no]
+                { "option": "--enable-libopenmpt",        "flag": false, "version": ""       }, // enable decoding tracked files via libopenmpt [no]
+                { "option": "--enable-libopus",           "flag": false, "version": ""       }, // enable Opus de/encoding via libopus [no]
+                { "option": "--enable-libpulse",          "flag": false, "version": ""       }, // enable Pulseaudio input via libpulse [no]
+                { "option": "--enable-librsvg",           "flag": false, "version": ""       }, // enable SVG rasterization via librsvg [no]
+                { "option": "--enable-librubberband",     "flag": false, "version": ""       }, // enable rubberband needed for rubberband filter [no]
+                { "option": "--enable-librtmp",           "flag": false, "version": ""       }, // enable RTMP[E] support via librtmp [no]
+                { "option": "--enable-libshine",          "flag": false, "version": ""       }, // enable fixed-point MP3 encoding via libshine [no]
+                { "option": "--enable-libsmbclient",      "flag": false, "version": ""       }, // enable Samba protocol via libsmbclient [no]
+                { "option": "--enable-libsnappy",         "flag": false, "version": ""       }, // enable Snappy compression, needed for hap encoding [no]
+                { "option": "--enable-libsoxr",           "flag": false, "version": ""       }, // enable Include libsoxr resampling [no]
+                { "option": "--enable-libspeex",          "flag": false, "version": ""       }, // enable Speex de/encoding via libspeex [no]
+                { "option": "--enable-libsrt",            "flag": false, "version": ""       }, // enable Haivision SRT protocol via libsrt [no]
+                { "option": "--enable-libssh",            "flag": false, "version": ""       }, // enable SFTP protocol via libssh [no]
+                { "option": "--enable-libtensorflow",     "flag": false, "version": ""       }, // enable TensorFlow as a DNN module backend for DNN based filters like sr [no]
+                { "option": "--enable-libtesseract",      "flag": false, "version": ""       }, // enable Tesseract, needed for ocr filter [no]
+                { "option": "--enable-libtheora",         "flag": false, "version": ""       }, // enable Theora encoding via libtheora [no]
+                { "option": "--enable-libtls",            "flag": false, "version": ""       }, // enable LibreSSL (via libtls), needed for https support if openssl, gnutls or mbedtls is not used [no]
+                { "option": "--enable-libtwolame",        "flag": false, "version": ""       }, // enable MP2 encoding via libtwolame [no]
+                { "option": "--enable-libv4l2",           "flag": false, "version": ""       }, // enable libv4l2/v4l-utils [no]
+                { "option": "--enable-libvidstab",        "flag": false, "version": ""       }, // enable video stabilization using vid.stab [no]
+                { "option": "--enable-libvmaf",           "flag": false, "version": ""       }, // enable vmaf filter via libvmaf [no]
+                { "option": "--enable-libvo-amrwbenc",    "flag": false, "version": ""       }, // enable AMR-WB encoding via libvo-amrwbenc [no]
+                { "option": "--enable-libvorbis",         "flag": false, "version": ""       }, // enable Vorbis en/decoding via libvorbis, native implementation exists [no]
+                { "option": "--enable-libvpx",            "flag": false, "version": ""       }, // enable VP8 and VP9 de/encoding via libvpx [no]
+                { "option": "--enable-libwavpack",        "flag": false, "version": ""       }, // enable wavpack encoding via libwavpack [no]
+                { "option": "--enable-libwebp",           "flag": false, "version": ""       }, // enable WebP encoding via libwebp [no]
+                { "option": "--enable-libx264",           "flag": false, "version": ""       }, // enable H.264 encoding via x264 [no]
+                { "option": "--enable-libx265",           "flag": false, "version": ""       }, // enable HEVC encoding via x265 [no]
+                { "option": "--enable-libxavs",           "flag": false, "version": ""       }, // enable AVS encoding via xavs [no]
+                { "option": "--enable-libxavs2",          "flag": false, "version": ""       }, // enable AVS2 encoding via xavs2 [no]
+                { "option": "--enable-libxcb",            "flag": false, "version": ""       }, // enable X11 grabbing using XCB [autodetect]
+                { "option": "--enable-libxcb-shm",        "flag": false, "version": ""       }, // enable X11 grabbing shm communication [autodetect]
+                { "option": "--enable-libxcb-xfixes",     "flag": false, "version": ""       }, // enable X11 grabbing mouse rendering [autodetect]
+                { "option": "--enable-libxcb-shape",      "flag": false, "version": ""       }, // enable X11 grabbing shape rendering [autodetect]
+                { "option": "--enable-libxvid",           "flag": false, "version": ""       }, // enable Xvid encoding via xvidcore, native MPEG-4/Xvid encoder exists [no]
+                { "option": "--enable-libxml2",           "flag": false, "version": ""       }, // enable XML parsing using the C library libxml2, needed for dash demuxing support [no]
+                { "option": "--enable-libzimg",           "flag": false, "version": ""       }, // enable z.lib, needed for zscale filter [no]
+                { "option": "--enable-libzmq",            "flag": false, "version": ""       }, // enable message passing via libzmq [no]
+                { "option": "--enable-libzvbi",           "flag": false, "version": ""       }, // enable teletext support via libzvbi [no]
+                { "option": "--enable-lv2",               "flag": false, "version": ""       }, // enable LV2 audio filtering [no]
+                { "option": "--disable-lzma",             "flag": false                      }, // disable lzma [autodetect]
+                { "option": "--enable-decklink",          "flag": false, "version": ""       }, // enable Blackmagic DeckLink I/O support [no]
+                { "option": "--enable-libndi_newtek",     "flag": false, "version": ""       }, // enable Newteck NDI I/O support [no]
+                { "option": "--enable-mbedtls",           "flag": false, "version": ""       }, // enable mbedTLS, needed for https support if openssl, gnutls or libtls is not used [no]
+                { "option": "--enable-mediacodec",        "flag": false, "version": ""       }, // enable Android MediaCodec support [no]
+                { "option": "--enable-libmysofa",         "flag": false, "version": ""       }, // enable libmysofa, needed for sofalizer filter [no]
+                { "option": "--enable-openal",            "flag": false, "version": ""       }, // enable OpenAL 1.1 capture support [no]
+                { "option": "--enable-opencl",            "flag": false, "version": ""       }, // enable OpenCL processing [no]
+                { "option": "--enable-opengl",            "flag": false, "version": ""       }, // enable OpenGL rendering [no]
+                { "option": "--enable-openssl",           "flag": false, "version": ""       }, // enable openssl, needed for https support if gnutls, libtls or mbedtls is not used [no]
+                { "option": "--disable-sndio",            "flag": false                      }, // disable sndio support [autodetect]
+                { "option": "--disable-schannel",         "flag": false                      }, // disable SChannel SSP, needed for TLS support on Windows if openssl and gnutls are not used [autodetect]
+                { "option": "--disable-sdl2",             "flag": false                      }, // disable sdl2 [autodetect]
+                { "option": "--disable-securetransport",  "flag": false                      }, // disable Secure Transport, needed for TLS support on OSX if openssl and gnutls are not used [autodetect]
+                { "option": "--enable-vapoursynth",       "flag": false, "version": ""       }, // enable VapourSynth demuxer [no]
+                { "option": "--disable-xlib",             "flag": false                      }, // disable xlib [autodetect]
+                { "option": "--disable-zlib",             "flag": false                      } // disable zlib [autodetect]
+            ]
+        },
+        "linkStaticRuntime": true
+    }
+}
