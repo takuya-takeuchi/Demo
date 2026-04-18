@@ -212,16 +212,65 @@ if ($global:IsWindows)
     & $shell -defterm -no-start -ucrt64 -here -c "pacman -Syuu --noconfirm"
     & $shell -defterm -no-start -ucrt64 -here -c "pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-yasm mingw-w64-x86_64-pkg-config git make diffutils --noconfirm"
 
+    function Convert-ToMsys2Path {
+        param(
+            [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+            [string]$Path
+        )
+
+        process {
+            if ([string]::IsNullOrWhiteSpace($Path)) {
+                return ""
+            }
+
+            $p = $Path.Trim()
+            $p = $p -replace '\\', '/'
+
+            # replace drive letter
+            if ($p -match '^([A-Za-z]):(/.*)?$') {
+                $drive = $Matches[1].ToLower()
+                $rest  = $Matches[2]
+
+                if ([string]::IsNullOrEmpty($rest)) {
+                    return "/$drive"
+                }
+
+                return "/$drive$rest"
+            }
+
+            # already msys2-path
+            if ($p -match '^/[A-Za-z](/|$)') {
+                return $p
+            }
+
+            # unc-path
+            if ($p -match '^//') {
+                return $p
+            }
+
+            # relative-path
+            return $p
+        }
+    }
+
     $configureArgs += @(
         "--enable-cross-compile"
     )
     
-    $installDir = $installDir.Replace("`\", "/").Replace(":", "")
+    $installDir = Convert-ToMsys2Path $installDir
     $configureArgs += @(
-        "--prefix=/${installDir}"
+        "--prefix=${installDir}"
     )
 
-    $configure = $configure.Replace("`\", "/").Replace(":", "")
+    # /bin/sh: line 1: strip: command not found
+    $configureArgs += @(
+        "--strip=/C/msys64/mingw64/bin/strip.exe"
+    )
+
+    $configure = Convert-ToMsys2Path $configure
+
+    $pkgConfigPath = ($pkgConfigPathList | Convert-ToMsys2Path) -Join ":"
+    $env:PKG_CONFIG_PATH = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
 
     $env:MSYSTEM = "MINGW64"
     $env:CHERE_INVOKING = "1"
@@ -239,13 +288,13 @@ if ($global:IsWindows)
     }
 
     Write-Host "Start configure. It take a long time..." -ForegroundColor Blue
-    $configLogFile = $configLogFile.Replace("`\", "/").Replace(":", "")
-    & $bash -lc "/${configure} ${configureArgs} 2>&1 | tee /${configLogFile}"
+    $configLogFile = Convert-ToMsys2Path $configLogFile
+    & $bash -lc "${configure} ${configureArgs} 2>&1 | tee ${configLogFile}"
     
     Write-Host "Start build. It take a long time..." -ForegroundColor Blue
-    $buildLogFile = $buildLogFile.Replace("`\", "/").Replace(":", "")
+    $buildLogFile = Convert-ToMsys2Path $buildLogFile
     $nproc = [Environment]::ProcessorCount
-    & $bash -lc "make -j ${nproc} 2>&1 | tee /${buildLogFile}"
+    & $bash -lc "make -j ${nproc} 2>&1 | tee ${buildLogFile}"
     & $shell -defterm -no-start -ucrt64 -here -c  "make install"
 }
 else
