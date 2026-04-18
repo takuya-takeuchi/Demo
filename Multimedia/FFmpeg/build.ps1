@@ -287,7 +287,7 @@ if ($global:IsWindows)
     $configure = Convert-ToMsys2Path $configure
     $configLogFile = Convert-ToMsys2Path $configLogFile
     $pkgConfigPath = ($pkgConfigPathList | Convert-ToMsys2Path) -Join ":"
-    $pkgConfigPath = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
+    $pkgConfigPath = "${pkgConfigPath}"
     & $bash -lc "PKG_CONFIG_PATH=${pkgConfigPath} ${configure} ${configureArgs} 2>&1 | tee ${configLogFile}"
     
     Write-Host "Start build. It take a long time..." -ForegroundColor Blue
