@@ -2,7 +2,7 @@
 
 ## Abstracts
 
-* Build FFmpeg
+* Build FFmpeg and change build configuration
 
 ## Requirements
 
@@ -33,8 +33,11 @@
 ## How to use?
 
 ````shell
-$ pwsh build-abseil.ps1 <Debug/Release>
-$ pwsh build-zlib.ps1 <Debug/Release>
-$ pwsh build-protobuf.ps1 <Debug/Release>
 $ pwsh build.ps1 <Debug/Release>
 ````
+
+If you want to change build configuration, you can modify [build-config.json](./build-config.json).
+For example, you want to use **OpenH264** instead of **libx264**, set `true` flag property on `--enable-libopenh264` line.
+
+Currently, these scripts support only OpenH264.
+Please refer [./scripts/libopenh264.ps1](./scripts/libopenh264.ps1)
