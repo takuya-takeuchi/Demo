@@ -174,6 +174,8 @@ foreach ($item in $config.ffmpeg.options.externalLibrarySupport)
                                   Join-Path -ChildPath $os | `
                                   Join-Path -ChildPath $name | `
                                   Join-Path -ChildPath $version
+            New-Item -Type Directory $installExternalDir -Force | Out-Null
+            New-Item -Type Directory $buildExternalDir -Force | Out-Null
             Write-Host "[Info] Start build ${name}..." -ForegroundColor Green
             & $scriptPath -BuildDir $buildExternalDir -InstallDir $installExternalDir -Version $version
             Write-Host "[Info] Finish build ${name}" -ForegroundColor Green
