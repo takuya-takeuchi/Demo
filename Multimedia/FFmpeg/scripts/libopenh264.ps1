@@ -37,7 +37,16 @@ if ($global:IsWindows)
     $os = "win"
     $libname = "openh264"
     $postfix = "win64.dll"
-    $deployName = "${libname}.${versionNumber}.dll"
+    $deployName = "lib${libname}.dll"
+
+    # deploy bzip2
+    $zipRoot = Join-Path $installDir zip
+    New-Item -Type Directory $zipRoot -Force | Out-Null
+    $bzip2File = Join-Path $zipRoot "bzip2-1.0.5-bin.zip"
+    Invoke-WebRequest -Uri "http://downloads.sourceforge.net/gnuwin32/bzip2-1.0.5-bin.zip" -UserAgent "wget"  -OutFile $bzip2File
+    Expand-Archive -LiteralPath $bzip2File -DestinationPath $zipRoot -Force
+    $bzipDir = Join-Path $zipRoot bin
+    $env:PATH = "${env:PATH};${bzipDir}"
 }
 elseif ($global:IsMacOS)
 {
@@ -126,7 +135,6 @@ function Expand-ArchiveForce {
 
     Write-Host "[Info] [${packageName}] Expand: $ArchivePath -> $Destination" -ForegroundColor Yellow
     Push-Location $Destination
-    #tar -xjf $ArchivePath -C $Destination
     bzip2 -k -d $ArchivePath
     Pop-Location
 }
@@ -139,7 +147,14 @@ $response = Invoke-WebRequest -Uri $hash
 $bytes = $response.RawContentStream.ToArray()
 $content = [System.Text.Encoding]::UTF8.GetString($bytes)
 $content = ($content -split "`r?`n")[0]
-$hash = $content.Substring($content.Length - 32, 32);
+if ($global:IsWindows)
+{
+    $hash = $content.Substring(0, 32);
+}
+else
+{
+    $hash = $content.Substring($content.Length - 32, 32);
+}
 $binaryPath = Join-Path $InstallDir $binaryFileName
 $archivePath = Join-Path $InstallDir $archiveFileName
 
@@ -154,8 +169,9 @@ if (!(Test-Path $binaryPath))
 }
 
 $downloadedHash = Get-FileHashValue -Path $binaryPath
-if ($downloadedHash -ne $hash) {
-    Remove-Item $OutFile -Force -ErrorAction SilentlyContinue
+if ($downloadedHash -ne $hash)
+{
+    Remove-Item $binaryPath -Force -ErrorAction SilentlyContinue
     throw "[Error] [${packageName}] Hash mismatch for '${binaryPath}'. Expected=${hash} Actual=${downloadedHash}"
 }
 
@@ -173,7 +189,6 @@ else
     git clone -b ${Version} $repository $sourceDir
 }
 
-$configLogFile = Join-Path $buildDir make-config.log
 $buildLogFile = Join-Path $buildDir make-build.log
 
 $configureArgs = @()
@@ -191,17 +206,6 @@ if ($global:IsWindows)
     & $shell -defterm -no-start -ucrt64 -here -c "pacman -Syuu --noconfirm"
     & $shell -defterm -no-start -ucrt64 -here -c "pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-yasm mingw-w64-x86_64-pkg-config git make diffutils --noconfirm"
 
-    $configureArgs += @(
-        "--enable-cross-compile"
-    )
-    
-    $installDir = $installDir.Replace("`\", "/").Replace(":", "")
-    $configureArgs += @(
-        "--prefix=/${installDir}"
-    )
-
-    $configure = $configure.Replace("`\", "/").Replace(":", "")
-
     $env:MSYSTEM = "MINGW64"
     $env:CHERE_INVOKING = "1"
     $bash = "C:\msys64\usr\bin\bash.exe"
@@ -210,31 +214,26 @@ if ($global:IsWindows)
         Write-Host "${bash} is missing" -ForegroundColor Red
         exit
     }
-
-    Write-Host "Build Options:" -ForegroundColor Green
-    foreach ($arg in configureArgs)
-    {
-        Write-Host "`t${arg}" -ForegroundColor Green
-    }
-
-    Write-Host "Start configure. It take a long time..." -ForegroundColor Blue
-    $configLogFile = $configLogFile.Replace("`\", "/").Replace(":", "")
-    & $bash -lc "/${configure} ${configureArgs} 2>&1 | tee /${configLogFile}"
     
     Write-Host "Start build. It take a long time..." -ForegroundColor Blue
+    $installMsysDir = $installDir.Replace("`\", "/").Replace(":", "")
     $buildLogFile = $buildLogFile.Replace("`\", "/").Replace(":", "")
-    $nproc = [Environment]::ProcessorCount
-    & $bash -lc "make -j ${nproc} 2>&1 | tee /${buildLogFile}"
-    & $shell -defterm -no-start -ucrt64 -here -c  "make install"
+    Push-Location $sourceDir
+    & $bash -lc "make PREFIX=/${installMsysDir} install-shared 2>&1 | tee /${buildLogFile}"
+    Pop-Location
+
+    $deployPath = Join-Path $InstallDir bin | Join-Path -ChildPath $deployName
+    Copy-Item -Path ${binaryPath} -Destination ${deployPath} -Force
 }
 else
 {
     Push-Location $sourceDir
-    make PREFIX="${InstallDir}" install-shared
+    make PREFIX="${InstallDir}" install-shared 2>&1 | Tee-Object -FilePath $buildLogFile
+    make install 2>&1 | Tee-Object -FilePath $buildLogFile
     Pop-Location
-}
 
-$deployPath = Join-Path $InstallDir lib | Join-Path -ChildPath $deployName
-Copy-Item -Path ${binaryPath} -Destination ${deployPath} -Force
+    $deployPath = Join-Path $InstallDir lib | Join-Path -ChildPath $deployName
+    Copy-Item -Path ${binaryPath} -Destination ${deployPath} -Force
+}
 
 Write-Host "[Info] [${packageName}] All packages are ready in: $InstallDir" -ForegroundColor Green

@@ -233,7 +233,7 @@ if ($global:IsWindows)
     }
 
     Write-Host "Build Options:" -ForegroundColor Green
-    foreach ($arg in configureArgs)
+    foreach ($arg in $configureArgs)
     {
         Write-Host "`t${arg}" -ForegroundColor Green
     }
