@@ -263,14 +263,10 @@ if ($global:IsWindows)
     )
 
     # /bin/sh: line 1: strip: command not found
+    $stripPath = Convert-ToMsys2Path "C:\msys64\mingw64\bin\strip.exe"
     $configureArgs += @(
-        "--strip=/C/msys64/mingw64/bin/strip.exe"
+        "--strip=${stripPath}"
     )
-
-    $configure = Convert-ToMsys2Path $configure
-
-    $pkgConfigPath = ($pkgConfigPathList | Convert-ToMsys2Path) -Join ":"
-    $env:PKG_CONFIG_PATH = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
 
     $env:MSYSTEM = "MINGW64"
     $env:CHERE_INVOKING = "1"
@@ -288,8 +284,11 @@ if ($global:IsWindows)
     }
 
     Write-Host "Start configure. It take a long time..." -ForegroundColor Blue
+    $configure = Convert-ToMsys2Path $configure
     $configLogFile = Convert-ToMsys2Path $configLogFile
-    & $bash -lc "${configure} ${configureArgs} 2>&1 | tee ${configLogFile}"
+    $pkgConfigPath = ($pkgConfigPathList | Convert-ToMsys2Path) -Join ":"
+    $pkgConfigPath = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
+    & $bash -lc "PKG_CONFIG_PATH=${pkgConfigPath} ${configure} ${configureArgs} 2>&1 | tee ${configLogFile}"
     
     Write-Host "Start build. It take a long time..." -ForegroundColor Blue
     $buildLogFile = Convert-ToMsys2Path $buildLogFile
