@@ -4,6 +4,7 @@
         "shared": true,
         "enableGpl": false,
         "enableNonFree": false,
+        "enableLibOpenH264": true,
         "linkStaticRuntime": true
     }
 }

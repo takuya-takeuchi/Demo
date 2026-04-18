@@ -108,46 +108,26 @@ $configureArgs = @(
     "--disable-avdevice"
 )
 
-if ($sharedFlag)
-{
-    $configureArgs += @(
-        "--enable-shared"
-    )
-}
-else
-{
-    $configureArgs += @(
-        "--enable-static"
-    )
-}
+$buildTargets = @()
+$buildTargets += New-Object PSObject -Property @{ Option = "--enable-optimizations";                           Flag = ($Configure -ne "Debug") }
+$buildTargets += New-Object PSObject -Property @{ Option = "--disable-debug";                                  Flag = ($Configure -ne "Debug") }
+$buildTargets += New-Object PSObject -Property @{ Option = "--enable-shared";                                  Flag = $sharedFlag }
+$buildTargets += New-Object PSObject -Property @{ Option = "--enable-static";                                  Flag = !$sharedFlag }
+$buildTargets += New-Object PSObject -Property @{ Option = "--disable-gpl";                                    Flag = !$config.ffmpeg.enableGpl }
+$buildTargets += New-Object PSObject -Property @{ Option = "--enable-nonfree";                                 Flag = $config.ffmpeg.enableNonFree }
+$buildTargets += New-Object PSObject -Property @{ Option = "--enable-libopenh264 ";                            Flag = $config.ffmpeg.enableLibOpenH264 }
+$buildTargets += New-Object PSObject -Property @{ Option = "--extra-ldflags=-static-libgcc -static-libstdc++"; Flag = !$config.ffmpeg.linkStaticRuntime }
 
-if (!($config.ffmpeg.enableGpl))
+foreach ($buildTarget in $buildTargets)
 {
-    $configureArgs += @(
-        "--disable-gpl"
-    )
-}
-
-if (!($config.ffmpeg.enableNonFree))
-{
-    $configureArgs += @(
-        "--enable-nonfree"
-    )
-}
-
-if ($Configure -ne "Debug")
-{
-    $configureArgs += @(
-        "--enable-optimizations"
-        "--disable-debug"
-    )
-}
-
-if (!($config.ffmpeg.linkStaticRuntime))
-{
-    $configureArgs += @(
-        "--extra-ldflags=-static-libgcc -static-libstdc++"
-    )
+    $option = $buildTarget.Switch
+    $flag = $buildTarget.Flag
+    if ($flag)
+    {
+        $configureArgs += @(
+            $option
+        )
+    }
 }
 
 $configLogFile = Join-Path $buildDir make-config.log
@@ -177,10 +157,24 @@ if ($global:IsWindows)
     )
 
     $configure = $configure.Replace("`\", "/").Replace(":", "")
-    Write-Host "/${configure} ${configureArgs}" -ForegroundColor Red
 
-    & $shell -defterm -no-start -ucrt64 -here -c "/${configure} ${configureArgs}" 2>&1 | Tee-Object -FilePath $configLogFile
-    & $shell -defterm -no-start -ucrt64 -here -c  "make -j ${nproc}" 2>&1 | Tee-Object -FilePath $buildLogFile
+    $env:MSYSTEM = "MINGW64"
+    $env:CHERE_INVOKING = "1"
+    $bash = "C:\msys64\usr\bin\bash.exe"
+    if (!(Test-Path($bash)))
+    {
+        Write-Host "${bash} is missing" -ForegroundColor Red
+        exit
+    }
+
+    Write-Host "Start configure. It take a long time..." -ForegroundColor Blue
+    $configLogFile = $configLogFile.Replace("`\", "/").Replace(":", "")
+    & $bash -lc "/${configure} ${configureArgs} 2>&1 | tee /${configLogFile}"
+    
+    Write-Host "Start build. It take a long time..." -ForegroundColor Blue
+    $buildLogFile = $buildLogFile.Replace("`\", "/").Replace(":", "")
+    $nproc = [Environment]::ProcessorCount
+    & $bash -lc "make -j ${nproc} 2>&1 | tee /${buildLogFile}"
     & $shell -defterm -no-start -ucrt64 -here -c  "make install"
 }
 else
