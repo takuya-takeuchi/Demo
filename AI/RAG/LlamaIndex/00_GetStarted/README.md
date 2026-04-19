@@ -36,6 +36,7 @@ Please referr to [LlamaIndex](..).
 
 ````shell
 $ ..\.venv\Scripts\activate
+$ python -m pip install -r requirements.txt
 $ python qa.py --embedding_model kun432/cl-nagoya-ruri-large ^
                --embedding_server http://192.168.11.45:11434 ^
                --llm_model gemma4:26b ^
@@ -87,10 +88,52 @@ Arguments
 
 ````shell
 $ source ../venv/bin/activate
+$ python -m pip install -r requirements.txt
 $ python qa.py --embedding_model kun432/cl-nagoya-ruri-large \
                --embedding_server http://192.168.11.45:11434 \
                --llm_model gemma4:26b \
                --llm_server http://192.168.11.45:11434 \
                --vector_database_server http://192.168.11.45:9200 \
-               --query "2026年のヤクルトスワローズの開幕戦について説明して"
+               --query "2026年のヤクルトスワローズの開幕戦について説明して" \
+               --documents_dir documents
+Arguments
+        embedding_model: kun432/cl-nagoya-ruri-large
+       embedding_server: http://192.168.11.45:11434
+              llm_model: gemma4:26b
+             llm_server: http://192.168.11.45:11434
+ vector_database_server: http://192.168.11.45:9200
+                  query: 2026年のヤクルトスワローズの開幕戦について説明して
+              threshold: 0.6
+                   rank: 100
+            prompt_file: qa_template.txt
+          documents_dir: documents
+💡 LLM returns good context!!
+👤: 2026年のヤクルトスワローズの開幕戦について説明して
+🤖: 提供された参考情報には、2026年のヤクルトスワローズの開幕戦に関する情報は含まれていません（参考情報は競馬のレース結果に関するものです）。
+
+また、私の一般知識に基づいても、2026年のプロ野球（NPB）の公式日程は現時点ではまだ発表されていません。そのため、2026年のヤクルトスワローズの開幕戦がいつ、どの球場で、どのチームを相手に行われるかについては、現時点でお答えすることができません。
+
+$ python qa.py --embedding_model kun432/cl-nagoya-ruri-large \
+               --embedding_server http://192.168.11.45:11434 \
+               --llm_model gemma4:26b \
+               --llm_server http://192.168.11.45:11434 \
+               --vector_database_server http://192.168.11.45:9200 \
+               --query "2026年のアドマイヤテラの勝利レースについて説明して"
+
+Arguments
+        embedding_model: kun432/cl-nagoya-ruri-large
+       embedding_server: http://192.168.11.45:11434
+              llm_model: gemma4:26b
+             llm_server: http://192.168.11.45:11434
+ vector_database_server: http://192.168.11.45:9200
+                  query: 2026年のアドマイヤテラの勝利レースについて説明して
+              threshold: 0.6
+                   rank: 100
+            prompt_file: qa_template.txt
+          documents_dir: None
+💡 LLM returns good context!!
+👤: 2026年のアドマイヤテラの勝利レースについて説明して
+🤖: 2026年のアドマイヤテラの勝利レースについては、以下の通りです。
+
+2026年3月22日に開催された**阪神大賞典**（G2）で勝利を収めています。このレースは阪神競馬場の芝3,000mで行われ、騎手は武豊騎手が務めました。
 ````
