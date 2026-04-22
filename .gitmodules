@@ -256,3 +256,7 @@
 	path = Multimedia/FFmpeg/ffmpeg
 	url = https://github.com/FFmpeg/FFmpeg
 	ignore = dirty
+[submodule "StaticProgramAnalysis/C++/clang-tidy/01_CMake/opencv"]
+	path = StaticProgramAnalysis/C++/clang-tidy/01_CMake/opencv
+	url = https://github.com/opencv/opencv
+	ignore = dirty
