@@ -60,7 +60,7 @@ elseif ($global:IsLinux)
     $os = "linux"
     $libname = "libopenh264"
     $postfix = "linux64.8.so"
-    $deployName = "${libname}.${versionNumber}.so"
+    $deployName = "${libname}.so.${versionNumber}"
 }
 
 $binaryFileName = "${libname}-${versionNumber}-${postfix}"
@@ -191,7 +191,6 @@ else
 
 $buildLogFile = Join-Path $buildDir make-build.log
 
-$configureArgs = @()
 if ($global:IsWindows)
 {
     $msysRoot = "C:\msys64"

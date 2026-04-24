@@ -152,11 +152,6 @@ if ($global:IsWindows)
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
 
-    $PROTOC_BIN = Join-Path $PROTOBUF_INSTALL_DIR bin | `
-                  Join-Path -ChildPath proto.exe
-    $GRPC_C_PLUGIN_BIN = Join-Path $GRPC_INSTALL_DIR bin | `
-                         Join-Path -ChildPath grpc_cpp_plugin.exe
-
     chcp 65001
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
@@ -175,11 +170,6 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    $PROTOC_BIN = Join-Path $PROTOBUF_INSTALL_DIR bin | `
-                  Join-Path -ChildPath proto
-    $GRPC_C_PLUGIN_BIN = Join-Path $GRPC_INSTALL_DIR bin | `
-                         Join-Path -ChildPath grpc_cpp_plugin
-
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_PREFIX_PATH=${GRPC_INSTALL_DIR};${PROTOBUF_INSTALL_DIR}"
@@ -195,11 +185,6 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
-    $PROTOC_BIN = Join-Path $PROTOBUF_INSTALL_DIR bin | `
-                  Join-Path -ChildPath proto
-    $GRPC_C_PLUGIN_BIN = Join-Path $GRPC_INSTALL_DIR bin | `
-                         Join-Path -ChildPath grpc_cpp_plugin
-
     $cmakeArgs = @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_PREFIX_PATH=${GRPC_INSTALL_DIR};${PROTOBUF_INSTALL_DIR}"

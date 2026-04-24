@@ -5,7 +5,8 @@
         "options": {
             "standard": [
                 { "option": "--disable-logging", "flag": true }, // do not log configure debug information
-                { "option": "--fatal-warnings",  "flag": true }  // fail if any configure warning is generated
+                { "option": "--fatal-warnings",  "flag": true },  // fail if any configure warning is generated
+                { "option": "--enable-pic",      "flag": true }
             ],
             "documentation": [
                 { "option": "--disable-doc" ,      "flag": true }, // do not build documentation
