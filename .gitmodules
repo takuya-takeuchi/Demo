@@ -257,6 +257,6 @@
 	url = https://github.com/FFmpeg/FFmpeg
 	ignore = dirty
 [submodule "Multimedia/FFmpeg/01_OpenCV/opencv"]
-	path = Multimedia/FFmpeg/01_OpenCV/opencv
+	path = Multimedia/FFmpeg/01_OpenCV_with_libopenh264/opencv
 	url = https://github.com/opencv/opencv
 	ignore = dirty
