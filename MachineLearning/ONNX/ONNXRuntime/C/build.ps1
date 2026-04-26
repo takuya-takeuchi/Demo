@@ -12,14 +12,14 @@ Param
 )
 
 $current = $PSScriptRoot
-$copnfigPath = Join-Path $current "build-config.json"
-if (!(Test-Path($copnfigPath)))
+$configPath = Join-Path $current "build-config.json"
+if (!(Test-Path($configPath)))
 {
-    Write-Host "${copnfigPath} is missing" -ForegroundColor Red
+    Write-Host "${configPath} is missing" -ForegroundColor Red
     exit
 }
 
-$config = Get-Content -Path $copnfigPath | ConvertFrom-Json
+$config = Get-Content -Path $configPath | ConvertFrom-Json
 
 # get os name
 if ($global:IsWindows)
