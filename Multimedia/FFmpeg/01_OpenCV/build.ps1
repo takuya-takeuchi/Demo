@@ -214,11 +214,15 @@ if ($global:IsWindows)
 {
     $FFMPEG_LIB_DIRS = Join-Path $FFMPEG_INSTALL_DIR bin
     $OPENH264_LIB_DIRS = (Get-ChildItem -Path $OPENH264_INSTALL_ROOT_DIR -Recurse -Directory | Where-Object { $_.Name -eq "bin" } | Select-Object -First 1).FullName
+    $OPENCV_LIB_DIRS = (Get-ChildItem -Path $OPENCV_INSTALL_DIR -Recurse -Directory | Where-Object { $_.Name -eq "bin" } | Select-Object -First 1).FullName
 
     Get-ChildItem $FFMPEG_LIB_DIRS -Recurse |
         Where-Object { $_.Name -match ".+\.dll" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
     Get-ChildItem $OPENH264_LIB_DIRS -Recurse |
+        Where-Object { $_.Name -match ".+\.dll" } |
+        ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
+    Get-ChildItem $OPENCV_LIB_DIRS -Recurse |
         Where-Object { $_.Name -match ".+\.dll" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
 
