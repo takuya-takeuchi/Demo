@@ -182,6 +182,33 @@ if ($global:IsWindows)
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
 
+    Write-Host "Converting MSYS2 paths to Windows paths in .pc files..." -ForegroundColor Cyan
+
+    # replace msys2 format path strings in *.pc files
+    # but it may be unnecessary...
+    $pkgConfigList = $linkerPathList
+    $pkgConfigList += (Join-Path $FFMPEG_INSTALL_DIR lib)
+    foreach ($linker in $pkgConfigList)
+    {
+        $pkgconfigDir = Join-Path $linker "pkgconfig"
+        if (Test-Path $pkgconfigDir)
+        {
+            $pcFiles = Get-ChildItem -Path $pkgconfigDir -Filter "*.pc"
+            
+            foreach ($file in $pcFiles)
+            {
+                Write-Host "[Info] Processing: ${file}" -ForegroundColor Green
+                $content = Get-Content $file.FullName -Raw
+                $newContent = [regex]::Replace($content, "/([a-zA-Z])/([^/]+)", '$1:/$2')
+                Set-Content -Path $file.FullName -Value $newContent -Encoding UTF8
+            }
+        }
+        else
+        {
+            Write-Host "[Warn] pkgconfig directory not found at $pkgconfigDir" -ForegroundColor Yellow
+        }
+    }
+
     $cmakeArgs += @(
         "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
