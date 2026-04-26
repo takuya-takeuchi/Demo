@@ -113,7 +113,7 @@ foreach ($path in $paths)
     {
         Write-Host "${path} is missing" -ForegroundColor Red
         exit
-    }        
+    }
 }
 
 New-Item -Type Directory $buildDir -Force | Out-Null
@@ -156,11 +156,11 @@ if ($global:IsWindows)
     {
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
-    
+
     # Windows can't use pkg-config because *.pc file contains msys2 format path strings
     $FFMPEG_LIB_DIRS = Join-Path $FFMPEG_INSTALL_DIR bin
     $FFMPEG_INCLUDE_DIRS = Join-Path $FFMPEG_INSTALL_DIR include
-    $OPENH264_LIB_DIRS = Join-Path $OPENH264_INSTALL_ROOT_DIR lib
+    $OPENH264_LIB_DIRS = (Get-ChildItem -Path $OPENH264_INSTALL_ROOT_DIR -Recurse -Directory | Where-Object { $_.Name -eq "lib" } | Select-Object -First 1).FullName
 
     $cmakeArgs += @(
         "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
@@ -213,24 +213,42 @@ $installDir = Join-Path $installDir bin
 if ($global:IsWindows)
 {
     $FFMPEG_LIB_DIRS = Join-Path $FFMPEG_INSTALL_DIR bin
-    $OPENH264_LIB_DIRS = Join-Path $OPENH264_INSTALL_ROOT_DIR bin
+    $OPENH264_LIB_DIRS = (Get-ChildItem -Path $OPENH264_INSTALL_ROOT_DIR -Recurse -Directory | Where-Object { $_.Name -eq "bin" } | Select-Object -First 1).FullName
 
-    Get-ChildItem $FFMPEG_LIB_DIRS -Recurse | 
+    Get-ChildItem $FFMPEG_LIB_DIRS -Recurse |
         Where-Object { $_.Name -match ".+\.dll" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
-    Get-ChildItem $OPENH264_LIB_DIRS -Recurse | 
+    Get-ChildItem $OPENH264_LIB_DIRS -Recurse |
         Where-Object { $_.Name -match ".+\.dll" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
+
+    $dependencies = @(
+        "libiconv-2.dll"
+        "zlib1.dll"
+        "libgcc_s_seh-1.dll"
+        "libwinpthread-1.dll"
+        "libstdc++-6.dll"
+    )
+
+    foreach ($fileName in $dependencies) {
+        $src = Join-Path "C:\msys64\mingw64\bin" $fileName
+        if (!(Test-Path($src)))
+        {
+            Write-Host "${src} is missing" -ForegroundColor Red
+            exit
+        }
+        Copy-Item "${src}" (Join-Path $installDir $fileName) -Force
+    }    
 }
 elseif ($global:IsMacOS)
 {
     $FFMPEG_LIB_DIRS = Join-Path $FFMPEG_INSTALL_DIR lib
     $OPENH264_LIB_DIRS = (Get-ChildItem -Path $OPENH264_INSTALL_ROOT_DIR -Recurse -Directory | Where-Object { $_.Name -eq "lib" } | Select-Object -First 1).FullName
 
-    Get-ChildItem $FFMPEG_LIB_DIRS -Recurse | 
+    Get-ChildItem $FFMPEG_LIB_DIRS -Recurse |
         Where-Object { $_.Attributes -match "ReparsePoint" -and $_.Name -match "lib[^\.]+\.[0-9]+\.dylib" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
-    Get-ChildItem $OPENH264_LIB_DIRS -Recurse | 
+    Get-ChildItem $OPENH264_LIB_DIRS -Recurse |
         Where-Object { $_.Attributes -match "ReparsePoint" -and $_.Name -match "lib[^\.]+\.[0-9]+\.dylib" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
 }
@@ -238,11 +256,11 @@ elseif ($global:IsLinux)
 {
     $FFMPEG_LIB_DIRS = Join-Path $FFMPEG_INSTALL_DIR lib
     $OPENH264_LIB_DIRS = (Get-ChildItem -Path $OPENH264_INSTALL_ROOT_DIR -Recurse -Directory | Where-Object { $_.Name -eq "lib" } | Select-Object -First 1).FullName
-    
-    Get-ChildItem $FFMPEG_LIB_DIRS -Recurse | 
+
+    Get-ChildItem $FFMPEG_LIB_DIRS -Recurse |
         Where-Object { $_.Attributes -match "ReparsePoint" -and $_.Name -match "lib.+.so.[0-9]+" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
-    Get-ChildItem $OPENH264_LIB_DIRS -Recurse | 
+    Get-ChildItem $OPENH264_LIB_DIRS -Recurse |
         Where-Object { $_.Attributes -match "ReparsePoint" -and $_.Name -match "lib.+.so.[0-9]+" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
 }
