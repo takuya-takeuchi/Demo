@@ -18,5 +18,20 @@ int32_t main(int32_t argc, const char** argv)
         return -2;
     }
 
+    size_t count = 0;
+    while (true)
+    {
+        cv::Mat frame;
+        if (!videoCapture.read(frame))
+        {
+            std::cout << "[Info] Video has finished." << std::endl;
+            break;
+        }
+
+        count++;
+    }
+    
+    std::cout << "[Info] Total frame count: " << count << std::endl;
+
     return 0;
 }
