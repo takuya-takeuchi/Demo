@@ -16,21 +16,27 @@ if (MSVC)
 endif()
 
 find_package(OpenCV)
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(FFMPEG REQUIRED IMPORTED_TARGET libavcodec libavformat libavutil libswscale)
-pkg_check_modules(OPENH264 REQUIRED IMPORTED_TARGET openh264)
+if (NOT MSVC)
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(FFMPEG REQUIRED IMPORTED_TARGET libavcodec libavformat libavutil libswscale)
+    pkg_check_modules(OPENH264 REQUIRED IMPORTED_TARGET openh264)
+endif()
 
 add_executable(${PROJ_NAME} main.cpp)
 
 if (MSVC)
+    file(GLOB_RECURSE FFMPEG_LIBRARIES "${FFMPEG_LIB_DIRS}/*.lib")
+    file(GLOB_RECURSE OPENH264_LIBRARIES "${OPENH264_LIB_DIRS}/*.lib")
+
     target_include_directories(${PROJ_NAME}
                                PRIVATE
-                               ${OpenCV_INCLUDE_DIRS})
+                               ${OpenCV_INCLUDE_DIRS}
+                               ${FFMPEG_INCLUDE_DIRS})
 
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           ${OpenCV_LIBRARIES}
-                          PkgConfig::FFMPEG)
+                          ${FFMPEG_LIBRARIES})
 elseif (APPLE)
     target_include_directories(${PROJ_NAME}
                                PRIVATE
@@ -39,7 +45,8 @@ elseif (APPLE)
     target_link_libraries(${PROJ_NAME}
                           PRIVATE
                           ${OpenCV_LIBRARIES}
-                          PkgConfig::FFMPEG)
+                          PkgConfig::FFMPEG
+                          PkgConfig::OPENH264)
 else()
     target_include_directories(${PROJ_NAME}
                                PRIVATE

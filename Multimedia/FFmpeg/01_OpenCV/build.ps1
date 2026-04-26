@@ -12,14 +12,14 @@ Param
 )
 
 $current = $PSScriptRoot
-$copnfigPath = Join-Path $current "build-config.json"
-if (!(Test-Path($copnfigPath)))
+$configPath = Join-Path $current "build-config.json"
+if (!(Test-Path($configPath)))
 {
-    Write-Host "${copnfigPath} is missing" -ForegroundColor Red
+    Write-Host "${configPath} is missing" -ForegroundColor Red
     exit
 }
 
-$config = Get-Content -Path $copnfigPath | ConvertFrom-Json
+$config = Get-Content -Path $configPath | ConvertFrom-Json
 $openCvVersion = $config.opencv.version
 if ($config.opencv.shared)
 {
@@ -34,15 +34,15 @@ else
 
 $current = $PSScriptRoot
 $rootDir = Split-Path $current -Parent
-$copnfigPath = Join-Path $rootDir "build-config.json"
-if (!(Test-Path($copnfigPath)))
+$configPath = Join-Path $rootDir "build-config.json"
+if (!(Test-Path($configPath)))
 {
-    Write-Host "${copnfigPath} is missing" -ForegroundColor Red
+    Write-Host "${configPath} is missing" -ForegroundColor Red
     exit
 }
-$config = Get-Content -Path $copnfigPath | ConvertFrom-Json
-$ffmpegVersion = $config.ffmpeg.version
-if ($config.ffmpeg.shared)
+$rootConfig = Get-Content -Path $configPath | ConvertFrom-Json
+$ffmpegVersion = $rootConfig.ffmpeg.version
+if ($rootConfig.ffmpeg.shared)
 {
     $ffmpegShared = "dynamic"
     $ffmpegSharedFlag = "ON"
@@ -57,14 +57,17 @@ else
 if ($global:IsWindows)
 {
     $os = "win"
+    $pathDelimiter = ";"
 }
 elseif ($global:IsMacOS)
 {
     $os = "osx"
+    $pathDelimiter = ":"
 }
 elseif ($global:IsLinux)
 {
     $os = "linux"
+    $pathDelimiter = ":"
 }
 
 # build
@@ -153,24 +156,20 @@ if ($global:IsWindows)
     {
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
-
-    $pkgConfigExe = Join-Path $current install | `
-                    Join-Path -ChildPath $os | `
-                    Join-Path -ChildPath pkg-config | `
-                    Join-Path -ChildPath bin | `
-                    Join-Path -ChildPath pkg-config.exe
-    if (!(Test-Path(${pkgConfigExe})))
-    {
-        Write-Host "[Error] ${pkgConfigExe} is missing. Please run ./download-pkg-config.ps1" -ForegroundColor Red
-        return
-    }
+    
+    # Windows can't use pkg-config because *.pc file contains msys2 format path strings
+    $FFMPEG_LIB_DIRS = Join-Path $FFMPEG_INSTALL_DIR bin
+    $FFMPEG_INCLUDE_DIRS = Join-Path $FFMPEG_INSTALL_DIR include
+    $OPENH264_LIB_DIRS = Join-Path $OPENH264_INSTALL_ROOT_DIR lib
 
     $cmakeArgs += @(
         "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
-        "-D PKG_CONFIG_EXECUTABLE=${pkgConfigExe}"
+        "-D FFMPEG_LIB_DIRS=${FFMPEG_LIB_DIRS}"
+        "-D FFMPEG_INCLUDE_DIRS=${FFMPEG_INCLUDE_DIRS}"
+        "-D OPENH264_LIB_DIRS=${OPENH264_LIB_DIRS}"
     )
 }
 elseif ($global:IsMacOS)
@@ -200,34 +199,50 @@ $cmakeArgs += @(
 $configLogFile = Join-Path $buildDir cmake-config.log
 $buildLogFile = Join-Path $buildDir cmake-build.log
 
-$env:PKG_CONFIG_PATH="${FFMPEG_PKGCONFIG_DIR}:${OPENH264_PKGCONFIG_DIR}"
+$pkgConfigPaths = @(
+    "${FFMPEG_PKGCONFIG_DIR}"
+    "${OPENH264_PKGCONFIG_DIR}"
+)
+$env:PKG_CONFIG_PATH = $pkgConfigPaths | Join-String -Property Name -DoubleQuote -Separator $pathDelimiter
+
 cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
 cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
 
-$FFMPEG_LIB_DIR = Join-Path $FFMPEG_INSTALL_DIR lib
-$OPENH264_LIB_DIR = (Get-ChildItem -Path $OPENH264_INSTALL_ROOT_DIR -Recurse -Directory | Where-Object { $_.Name -eq "lib" } | Select-Object -First 1).FullName
-
 $installDir = Join-Path $installDir bin
 if ($global:IsWindows)
 {
-    $os = "win"
+    $FFMPEG_LIB_DIRS = Join-Path $FFMPEG_INSTALL_DIR bin
+    $OPENH264_LIB_DIRS = Join-Path $OPENH264_INSTALL_ROOT_DIR bin
+
+    Get-ChildItem $FFMPEG_LIB_DIRS -Recurse | 
+        Where-Object { $_.Name -match ".+\.dll" } |
+        ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
+    Get-ChildItem $OPENH264_LIB_DIRS -Recurse | 
+        Where-Object { $_.Name -match ".+\.dll" } |
+        ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
 }
 elseif ($global:IsMacOS)
 {
-    Get-ChildItem $FFMPEG_LIB_DIR -Recurse | 
+    $FFMPEG_LIB_DIRS = Join-Path $FFMPEG_INSTALL_DIR lib
+    $OPENH264_LIB_DIRS = (Get-ChildItem -Path $OPENH264_INSTALL_ROOT_DIR -Recurse -Directory | Where-Object { $_.Name -eq "lib" } | Select-Object -First 1).FullName
+
+    Get-ChildItem $FFMPEG_LIB_DIRS -Recurse | 
         Where-Object { $_.Attributes -match "ReparsePoint" -and $_.Name -match "lib[^\.]+\.[0-9]+\.dylib" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
-    Get-ChildItem $OPENH264_LIB_DIR -Recurse | 
+    Get-ChildItem $OPENH264_LIB_DIRS -Recurse | 
         Where-Object { $_.Attributes -match "ReparsePoint" -and $_.Name -match "lib[^\.]+\.[0-9]+\.dylib" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
 }
 elseif ($global:IsLinux)
 {
-    Get-ChildItem $FFMPEG_LIB_DIR -Recurse | 
+    $FFMPEG_LIB_DIRS = Join-Path $FFMPEG_INSTALL_DIR lib
+    $OPENH264_LIB_DIRS = (Get-ChildItem -Path $OPENH264_INSTALL_ROOT_DIR -Recurse -Directory | Where-Object { $_.Name -eq "lib" } | Select-Object -First 1).FullName
+    
+    Get-ChildItem $FFMPEG_LIB_DIRS -Recurse | 
         Where-Object { $_.Attributes -match "ReparsePoint" -and $_.Name -match "lib.+.so.[0-9]+" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
-    Get-ChildItem $OPENH264_LIB_DIR -Recurse | 
+    Get-ChildItem $OPENH264_LIB_DIRS -Recurse | 
         Where-Object { $_.Attributes -match "ReparsePoint" -and $_.Name -match "lib.+.so.[0-9]+" } |
         ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
 }
