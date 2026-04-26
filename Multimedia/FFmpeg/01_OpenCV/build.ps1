@@ -203,7 +203,7 @@ $pkgConfigPaths = @(
     "${FFMPEG_PKGCONFIG_DIR}"
     "${OPENH264_PKGCONFIG_DIR}"
 )
-$env:PKG_CONFIG_PATH = $pkgConfigPaths | Join-String -Property Name -DoubleQuote -Separator $pathDelimiter
+$env:PKG_CONFIG_PATH = $pkgConfigPaths | Join-String -Separator $pathDelimiter
 
 cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
