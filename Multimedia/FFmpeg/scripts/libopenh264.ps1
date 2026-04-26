@@ -218,7 +218,7 @@ if ($global:IsWindows)
     $installMsysDir = $installDir.Replace("`\", "/").Replace(":", "")
     $buildLogFile = $buildLogFile.Replace("`\", "/").Replace(":", "")
     Push-Location $sourceDir
-    & $bash -lc "make PREFIX=/${installMsysDir} install-shared 2>&1 | tee /${buildLogFile}"
+    & $bash -lc "PATH=/mingw64/bin:`$PATH make PREFIX=/${installMsysDir} install-shared 2>&1 | tee /${buildLogFile}"
     Pop-Location
 
     $deployPath = Join-Path $InstallDir bin | Join-Path -ChildPath $deployName

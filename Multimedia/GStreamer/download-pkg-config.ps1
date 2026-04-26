@@ -22,7 +22,7 @@ else
 $target = "pkg-config"
 $pkgConfigversion = $config.pkg_config.version
 $glibVersion = $config.glib.version
-$getTextRuntimeVersion = $config.gettext_runtime.version
+$getTextRuntimeVersion = $config.gettext.version
 
 $pkgConfigZipName = "pkg-config_${pkgConfigversion}_win64.zip"
 $glibZipName= "glib_${glibVersion}_win64.zip"
@@ -110,7 +110,7 @@ $packages = @(
     @{
         Url    = "https://download.gnome.org/binaries/win64/dependencies/${getTextRuntimeZipName}"
         File   = ${getTextRuntimeZipName}
-        Sha256 = $config.gettext_runtime.sha256
+        Sha256 = $config.gettext.sha256
     },
     @{
         Url    = "https://download.gnome.org/binaries/win64/dependencies/${pkgConfigZipName}"
