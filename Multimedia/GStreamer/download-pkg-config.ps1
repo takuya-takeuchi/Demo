@@ -22,7 +22,7 @@ else
 $target = "pkg-config"
 $pkgConfigversion = $config.pkg_config.version
 $glibVersion = $config.glib.version
-$getTextRuntimeVersion = $config.gettext_runtime.version
+$getTextRuntimeVersion = $config.gettext.version
 
 $pkgConfigZipName = "pkg-config_${pkgConfigversion}_win64.zip"
 $glibZipName= "glib_${glibVersion}_win64.zip"
@@ -31,7 +31,7 @@ $getTextRuntimeZipName = "gettext-runtime_${getTextRuntimeVersion}_win64.zip"
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
               Join-Path -ChildPath $target
-New-Item -ItemType Directory -Path $installDir | Out-Null
+New-Item -ItemType Directory -Path $installDir -Force | Out-Null
 
 function Get-FileSha256 {
     param(
@@ -110,7 +110,7 @@ $packages = @(
     @{
         Url    = "https://download.gnome.org/binaries/win64/dependencies/${getTextRuntimeZipName}"
         File   = ${getTextRuntimeZipName}
-        Sha256 = $config.gettext_runtime.sha256
+        Sha256 = $config.gettext.sha256
     },
     @{
         Url    = "https://download.gnome.org/binaries/win64/dependencies/${pkgConfigZipName}"

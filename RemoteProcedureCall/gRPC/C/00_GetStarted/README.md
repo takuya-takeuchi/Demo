@@ -26,7 +26,7 @@
 
 ## How to build?
 
-### ONNX Runtime
+### gRPC
 
 Go to [gRPC/C](..).
 

@@ -1,0 +1,9 @@
+{
+    "opencv": {
+        "version": "4.13.0",
+        "shared": false
+    },
+    "windows": {
+        "msvcStaticRuntime": true
+    }
+}

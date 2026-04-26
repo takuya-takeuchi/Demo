@@ -288,13 +288,13 @@ if ($global:IsWindows)
     $configLogFile = Convert-ToMsys2Path $configLogFile
     $pkgConfigPath = ($pkgConfigPathList | Convert-ToMsys2Path) -Join ":"
     $pkgConfigPath = "${pkgConfigPath}"
-    & $bash -lc "PKG_CONFIG_PATH=${pkgConfigPath} ${configure} ${configureArgs} 2>&1 | tee ${configLogFile}"
+    & $bash -lc "PATH=/mingw64/bin:`$PATH PKG_CONFIG_PATH=${pkgConfigPath} ${configure} ${configureArgs} 2>&1 | tee ${configLogFile}"
     
     Write-Host "Start build. It take a long time..." -ForegroundColor Blue
     $buildLogFile = Convert-ToMsys2Path $buildLogFile
     $nproc = [Environment]::ProcessorCount
-    & $bash -lc "make -j ${nproc} 2>&1 | tee ${buildLogFile}"
-    & $shell -defterm -no-start -ucrt64 -here -c  "make install"
+    & $bash -lc "PATH=/mingw64/bin:`$PATH make -j ${nproc} 2>&1 | tee ${buildLogFile}"
+    & $bash -lc "PATH=/mingw64/bin:`$PATH make install"
 }
 else
 {

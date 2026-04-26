@@ -68,10 +68,10 @@ Push-Location $buildDir
 if ($global:IsWindows)
 {
     $pkgConfigExe = Join-Path $rootDir install | `
-                        Join-Path -ChildPath $os | `
-                        Join-Path -ChildPath pkg-config | `
-                        Join-Path -ChildPath bin | `
-                        Join-Path -ChildPath pkg-config.exe
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath pkg-config | `
+                    Join-Path -ChildPath bin | `
+                    Join-Path -ChildPath pkg-config.exe
     if (!(Test-Path(${pkgConfigExe})))
     {
         Write-Host "[Error] ${pkgConfigExe} is missing. Please run ../download-pkg-config.ps1" -ForegroundColor Red
