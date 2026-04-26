@@ -59,16 +59,22 @@ $ pwsh build.ps1 <Debug/Release>
 
 ````bat
 $ \install\win\Release\bin\Demo.exe .\install\win\Release\bin\bun33s.mp4
+[Info] Video has finished.
+[Info] Total frame count: 812
 ````
 
 ### Linux
 
 ````shell
-$ LD_LIBRARY_PATH=./install/linux/Release/bin ./install/linux/Release/bin/Demo ./install/linux/Release/bin/bun33s.mp4 
+$ LD_LIBRARY_PATH=./install/linux/Release/bin ./install/linux/Release/bin/Demo ./install/linux/Release/bin/bun33s.mp4
+[Info] Video has finished.
+[Info] Total frame count: 812
 ````
 
 ### OSX
 
 ````shell
-$ DYLD_LIBRARY_PATH=./install/osx/Release/bin ./install/osx/Release/bin/Demo ./install/osx/Release/bin/bun33s.mp4 
+$ DYLD_LIBRARY_PATH=./install/osx/Release/bin ./install/osx/Release/bin/Demo ./install/osx/Release/bin/bun33s.mp4
+[Info] Video has finished.
+[Info] Total frame count: 812
 ````
