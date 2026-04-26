@@ -85,9 +85,8 @@ $OPENCV_INSTALL_DIR = Join-Path $current install | `
                       Join-Path -ChildPath $openCvVersion | `
                       Join-Path -ChildPath $openCvShared | `
                       Join-Path -ChildPath $Configuration
-$OPENCV_CMAKE_DIR = Join-Path $OPENCV_INSTALL_DIR lib | `
-                    Join-Path -ChildPath cmake | `
-                    Join-Path -ChildPath opencv4
+$OPENCV_CMAKECONFIG_FILE = (Get-ChildItem -Path $OPENCV_INSTALL_DIR -Recurse -File | Where-Object { $_.Name -eq "OpenCVModules.cmake" } | Select-Object -First 1).FullName
+$OPENCV_CMAKE_DIR = Split-Path -Parent $OPENCV_CMAKECONFIG_FILE
 $FFMPEG_INSTALL_DIR = Join-Path $rootDir install | `
                       Join-Path -ChildPath $os | `
                       Join-Path -ChildPath ffmpeg | `
@@ -155,11 +154,23 @@ if ($global:IsWindows)
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
 
+    $pkgConfigExe = Join-Path $current install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath pkg-config | `
+                    Join-Path -ChildPath bin | `
+                    Join-Path -ChildPath pkg-config.exe
+    if (!(Test-Path(${pkgConfigExe})))
+    {
+        Write-Host "[Error] ${pkgConfigExe} is missing. Please run ./download-pkg-config.ps1" -ForegroundColor Red
+        return
+    }
+
     $cmakeArgs += @(
         "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
+        "-D PKG_CONFIG_EXECUTABLE=${pkgConfigExe}"
     )
 }
 elseif ($global:IsMacOS)

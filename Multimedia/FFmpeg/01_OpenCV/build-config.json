@@ -3,6 +3,18 @@
         "version": "4.13.0",
         "shared": false
     },
+    "pkg_config": {
+        "version": "0.23-2",
+        "sha256": "bf29de75400556db7a6e98020e576a3cb7f3f0e5e97d224fb35154812f8eea4a"
+    },
+    "glib": {
+        "version": "2.26.1-1",
+        "sha256": "88d857087e86f16a9be651ee7021880b3f7ba050d34a1ed9f06113b8799cb973"
+    },
+    "gettext_runtime": {
+        "version": "0.18.1.1-2",
+        "sha256": "1f4269c0e021076d60a54e98da6f978a3195013f6de21674ba0edbc339c5b079"
+    },
     "windows": {
         "msvcStaticRuntime": true
     }
