@@ -66,3 +66,9 @@ $ .\install\win\bin\Demo.exe bun33s.mp4
 ````shell
 $ LD_LIBRARY_PATH=./install/linux/Release/bin ./install/linux/Release/bin/Demo ./install/linux/Release/bin/bun33s.mp4 
 ````
+
+### OSX
+
+````shell
+$ DYLD_LIBRARY_PATH=./install/osx/Release/bin ./install/osx/Release/bin/Demo ./install/osx/Release/bin/bun33s.mp4 
+````

@@ -204,7 +204,12 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    $os = "osx"
+    Get-ChildItem $FFMPEG_LIB_DIR -Recurse | 
+        Where-Object { $_.Attributes -match "ReparsePoint" -and $_.Name -match "lib[^\.]+\.[0-9]+\.dylib" } |
+        ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
+    Get-ChildItem $OPENH264_LIB_DIR -Recurse | 
+        Where-Object { $_.Attributes -match "ReparsePoint" -and $_.Name -match "lib[^\.]+\.[0-9]+\.dylib" } |
+        ForEach-Object { Copy-Item (Get-Item $_.FullName) (Join-Path $installDir $_.Name) -Force }
 }
 elseif ($global:IsLinux)
 {
