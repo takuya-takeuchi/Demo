@@ -35,7 +35,7 @@
 
 ### Build AWS SDK for C++
 
-Go to [aws-sdk-cpp](../aws-sdk-cpp).
+Go to [AmazonWebService](../../..).
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>
