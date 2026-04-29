@@ -1,0 +1,9 @@
+{
+    "cxxopts": {
+        "version": "v3.3.1",
+        "shared": false
+    },
+    "windows": {
+        "msvcStaticRuntime": true
+    }
+}
