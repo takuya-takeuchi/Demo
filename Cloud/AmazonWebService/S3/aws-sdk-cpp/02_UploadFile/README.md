@@ -10,7 +10,7 @@
 ### Common
 
 * Powershell
-* CMake 3.0.0 or later
+* CMake 3.15.0 or later
 * C++ Compiler supports C++11
 
 ### Windows
@@ -28,14 +28,14 @@
 ## Dependencies
 
 * [AWS SDK for C++](https://github.com/aws/aws-sdk-cpp)
-  * 1.11.4
+  * 1.11.798
   * Apache 2.0 License
 
 ## How to build?
 
 ### Build AWS SDK for C++
 
-Go to [aws-sdk-cpp](../aws-sdk-cpp).
+Go to [AmazonWebService](../../..).
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>

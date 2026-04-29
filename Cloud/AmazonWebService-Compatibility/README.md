@@ -1,9 +1,9 @@
-# S3 samples by Amazon Web Service SDK for C++
+# Amazon Web Service (Compatibility)
 
 ## Abstracts
 
 * Build aws-sdk-cpp
-* Minimal S3 sample codes
+  * This artifact are used in subdirectory
 
 ## Requirements
 
@@ -20,7 +20,7 @@
 ### Ubuntu
 
 * g++
-* libcurl4-openssl-dev
+* `libcurl4-openssl-dev` and `libz3-dev`
   * via `apt` command
 
 ### OSX

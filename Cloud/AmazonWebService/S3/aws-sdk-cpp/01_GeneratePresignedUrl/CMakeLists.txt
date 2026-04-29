@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0.0)
+cmake_minimum_required(VERSION 3.15.0)
 
 set(PROJ_NAME Test)
 set(CMAKE_CXX_STANDARD 11)
@@ -9,6 +9,10 @@ project(${PROJ_NAME} VERSION 1.0.0)
 # Select the release build type by default
 if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
+endif()
+
+if (MSVC)
+    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
 endif()
 
 find_package(AWSSDK CONFIG REQUIRED COMPONENTS s3)

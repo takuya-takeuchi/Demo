@@ -82,7 +82,7 @@
 	url = https://github.com/microsoft/cpprestsdk
 	ignore = dirty
 [submodule "Cloud/AmazonWebService/S3/aws-sdk-cpp/aws-sdk-cpp"]
-	path = Cloud/AmazonWebService/S3/aws-sdk-cpp/aws-sdk-cpp
+	path = Cloud/AmazonWebService/aws-sdk-cpp
 	url = https://github.com/aws/aws-sdk-cpp
 	ignore = dirty
 [submodule "Networking/Apache-Kafka/cppkafka/cppkafka"]
@@ -263,4 +263,8 @@
 [submodule "Misc/CommandLineParser/cxxopts/cxxopts"]
 	path = Misc/CommandLineParser/C++/cxxopts/cxxopts
 	url = https://github.com/jarro2783/cxxopts
+	ignore = dirty
+[submodule "Cloud/AmazonWebService-Compatibility/aws-sdk-cpp"]
+	path = Cloud/AmazonWebService-Compatibility/aws-sdk-cpp
+	url = https://github.com/aws/aws-sdk-cpp
 	ignore = dirty
