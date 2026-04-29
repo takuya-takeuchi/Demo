@@ -134,7 +134,7 @@ if ($global:IsWindows)
 
     if ($config.windows.msvcStaticRuntime)
     {
-        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded"
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>"
     }
     else
     {
