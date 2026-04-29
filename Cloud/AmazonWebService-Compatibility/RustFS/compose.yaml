@@ -1,0 +1,44 @@
+services:
+  rustfs:
+    image: rustfs/rustfs:1.0.0-beta.1
+    environment:
+      RUSTFS_ADDRESS: 0.0.0.0:9000
+      RUSTFS_CONSOLE_ADDRESS: 0.0.0.0:9001
+      RUSTFS_CONSOLE_ENABLE: "true"
+      RUSTFS_ACCESS_KEY: rustfsadmin
+      RUSTFS_SECRET_KEY: rustfsadmin
+      RUSTFS_VOLUMES: /data/rustfs0
+    volumes:
+      - rustfs-data:/data
+      - rustfs-logs:/logs
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    healthcheck:
+      test: ["CMD", "sh", "-c", "curl -sS http://localhost:9000/ >/dev/null"]
+      interval: 1s
+      timeout: 5s
+      retries: 20
+
+  rustfs-init:
+    image: amazon/aws-cli:2.31.15
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - |
+        set -eu
+        until aws --endpoint-url http://rustfs:9000 s3api list-buckets >/dev/null 2>&1; do
+          sleep 2
+        done
+        for bucket in data-bucket log-bucket; do
+          aws --endpoint-url http://rustfs:9000 s3api create-bucket --bucket "$$bucket" || true
+        done
+    environment:
+      AWS_ACCESS_KEY_ID: rustfsadmin
+      AWS_SECRET_ACCESS_KEY: rustfsadmin
+      AWS_REGION: ap-northeast-1
+    depends_on:
+      rustfs:
+        condition: service_healthy
+volumes:
+  rustfs-data:
+  rustfs-logs:

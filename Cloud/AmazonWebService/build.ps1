@@ -130,6 +130,7 @@ if ($global:IsWindows)
         }
     }
     CallVisualStudioDeveloperConsole
+    chcp 65001
 
     if ($config.windows.msvcStaticRuntime)
     {

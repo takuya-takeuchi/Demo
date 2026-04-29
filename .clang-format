@@ -14,9 +14,9 @@ BinPackParameters: OnePerLine
 IndentCaseLabels: true
 Cpp11BracedListStyle: false
 AllowAllParametersOfDeclarationOnNextLine: false
-PenaltyBreakBeforeFirstCallParameter: 100000
-PenaltyBreakOpenParenthesis: 100000
-PenaltyExcessCharacter: 1000
+PenaltyBreakBeforeFirstCallParameter: 10
+PenaltyBreakOpenParenthesis: 10
+PenaltyExcessCharacter: 10
 PackConstructorInitializers: Never
 SpaceBeforeCaseColon: false
 SpaceBeforeCtorInitializerColon: false
