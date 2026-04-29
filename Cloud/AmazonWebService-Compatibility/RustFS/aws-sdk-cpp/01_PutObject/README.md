@@ -54,9 +54,34 @@ Then, program will be present in `install/<your os name>/bin`.
 
 ### Windows
 
- <endpoint> <bucket_name> <object_name> <region> <filepath>
 ````bat
 $ set AWS_ACCESS_KEY_ID=rustfsadmin
 $ set AWS_SECRET_ACCESS_KEY=rustfsadmin
-$ .\install\win\Release\bin\Demo.exe http://192.168.11.45:9000 data-bucket test-image ap-northeast-1 lenna.jpg
+$ .\install\win\Release\bin\Demo.exe http://192.168.11.45:9000 data-bucket /tmp/test-image.jpg ap-northeast-1
+[Info]    endpoint: http://192.168.11.45:9000
+[Info] bucket_name: data-bucket
+[Info] object_name: /tmp/test-image.jpg
+[Info]      region: ap-northeast-1
+[Info]    filepath: lenna.jpg
+[Info] Aws::InitAPI
+[Info] Use access key and secret key
+[Info] Succeded to upload file
+[Info] Aws::ShutdownAPI
+````
+
+### Linux
+
+````bat
+$ set AWS_ACCESS_KEY_ID=rustfsadmin
+$ set AWS_SECRET_ACCESS_KEY=rustfsadmin
+$ ./install/linux/Release/bin/Demo http://192.168.11.45:9000 data-bucket /tmp/test-image.jpg ap-northeast-1 lenna.jpg
+[Info]    endpoint: http://192.168.11.45:9000
+[Info] bucket_name: data-bucket
+[Info] object_name: /tmp/test-image.jpg
+[Info]      region: ap-northeast-1
+[Info]    filepath: lenna.jpg
+[Info] Aws::InitAPI
+[Info] Use access key and secret key
+[Info] Succeded to upload file
+[Info] Aws::ShutdownAPI
 ````

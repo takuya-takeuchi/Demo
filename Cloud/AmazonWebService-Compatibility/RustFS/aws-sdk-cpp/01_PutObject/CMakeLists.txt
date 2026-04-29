@@ -16,6 +16,9 @@ if (MSVC)
 endif()
 
 find_package(AWSSDK CONFIG REQUIRED COMPONENTS s3)
+if (NOT MSVC)
+    find_package(ZLIB REQUIRED)
+endif()
 
 if (${AWSSDK_FOUND})
     message(" AWSSDK_PLATFORM_DEPS: ${AWSSDK_PLATFORM_DEPS}")
@@ -25,13 +28,25 @@ endif()
 
 add_executable(${PROJ_NAME} main.cpp)
 
-target_include_directories(${PROJ_NAME}
-                           PRIVATE
-                           ${AWSSDK_INCLUDE_DIRS})
+if (MSVC)
+    target_include_directories(${PROJ_NAME}
+                               PRIVATE
+                               ${AWSSDK_INCLUDE_DIRS})
 
-target_link_libraries(${PROJ_NAME}
-                      PRIVATE
-                      ${AWSSDK_LINK_LIBRARIES}
-                      ${AWSSDK_PLATFORM_DEPS})
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          ${AWSSDK_LINK_LIBRARIES}
+                          ${AWSSDK_PLATFORM_DEPS})
+else()
+    target_include_directories(${PROJ_NAME}
+                               PRIVATE
+                               ${AWSSDK_INCLUDE_DIRS})
+
+    target_link_libraries(${PROJ_NAME}
+                          PRIVATE
+                          ${AWSSDK_LINK_LIBRARIES}
+                          ${AWSSDK_PLATFORM_DEPS}
+                          ZLIB::ZLIB)
+endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)
