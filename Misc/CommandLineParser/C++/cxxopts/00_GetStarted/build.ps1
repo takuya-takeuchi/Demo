@@ -78,9 +78,8 @@ $CXXOPTS_INSTALL_DIR = Join-Path $rootDir install | `
                       Join-Path -ChildPath $cxxoptsVersion | `
                       Join-Path -ChildPath $cxxoptsShared | `
                       Join-Path -ChildPath $Configuration
-$CXXOPTS_CMAKE_DIR = Join-Path $CXXOPTS_INSTALL_DIR share | `
-                     Join-Path -ChildPath cmake | `
-                     Join-Path -ChildPath cxxopts
+$CXXOPTS_CMAKECONFIG_FILE = (Get-ChildItem -Path $CXXOPTS_INSTALL_DIR -Recurse -File | Where-Object { $_.Name -eq "cxxopts-config.cmake" } | Select-Object -First 1).FullName
+$CXXOPTS_CMAKE_DIR = Split-Path -Parent $CXXOPTS_CMAKECONFIG_FILE
 
 $paths = @(
     "${CXXOPTS_CMAKE_DIR}"
