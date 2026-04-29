@@ -12,6 +12,7 @@
 
 ### Windows
 
+* Visual Studio
 * [MSYS2](https://www.msys2.org/)
 
 ### Ubuntu

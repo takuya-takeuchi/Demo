@@ -119,4 +119,8 @@
     },
     "dart.lineLength": 160,
     "cmake.sourceDirectory": "/home/t-takeuchi/Work/Demo/AudioSignalProcessing/01_ASIOSample",
+    "C_Cpp.clang_format_path": "",
+    "C_Cpp.default.cppStandard": "c++17",
+    "editor.formatOnSave": true,
+    "editor.formatOnPaste": false
 }

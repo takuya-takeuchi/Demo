@@ -1,0 +1,35 @@
+BasedOnStyle: Microsoft
+IndentWidth: 4
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Left
+AllowAllArgumentsOnNextLine: false
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+BraceWrapping:
+  AfterNamespace: false
+  AfterCaseLabel: true
+  AfterClass: true
+BinPackParameters: OnePerLine
+IndentCaseLabels: true
+Cpp11BracedListStyle: false
+AllowAllParametersOfDeclarationOnNextLine: false
+PenaltyBreakBeforeFirstCallParameter: 100000
+PenaltyBreakOpenParenthesis: 100000
+PenaltyExcessCharacter: 1000
+PackConstructorInitializers: Never
+SpaceBeforeCaseColon: false
+SpaceBeforeCtorInitializerColon: false
+SpaceBeforeInheritanceColon: false
+SpaceBeforeEnumUnderlyingTypeColon: false
+SpaceBeforeJsonColon: false
+SortIncludes: true
+SortUsingDeclarations: Lexicographic
+BreakConstructorInitializers: AfterColon
+BreakInheritanceList: AfterComma
+BreakTemplateDeclarations: Yes
+InsertNewlineAtEOF: true
+WrapNamespaceBodyWithEmptyLines: Always
+MaxEmptyLinesToKeep: 1
+FixNamespaceComments: true
+ShortNamespaceLines: 0
