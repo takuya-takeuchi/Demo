@@ -40,8 +40,7 @@ void UploadFile(const Aws::String &bucket,
                 std::shared_ptr<Aws::S3::S3Client> s3_client)
 {
     Aws::S3::Model::PutObjectRequest request;
-    request.WithBucket(bucket).WithKey("keyw");
-    // request.SetBucket(bucket);
+    request.WithBucket(bucket);
     request.SetKey(key);
 
     const auto input_data = Aws::MakeShared<Aws::FStream>("PutObjectInputStream", filePath.c_str(),
@@ -96,7 +95,9 @@ int32_t main(int32_t argc, const char **argv)
 
         const auto s3Clinet = CreateS3Client(endpoint, region, accessKey ? accessKey : "", secretKey ? secretKey : "");
 
-        UploadFile(bucket_name, "./key.jpg", filepath, s3Clinet);
+        UploadFile(bucket_name, object_name, filepath, s3Clinet);
+
+        std::cout << "[Info] Succeded to upload file" << std::endl;
     }
     catch (const std::runtime_error &re)
     {
