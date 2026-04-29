@@ -83,9 +83,6 @@ $AWSSDKCPP_INSTALL_DIR = Join-Path $rootDir install | `
 $AWSSDKCPP_CMAKE_DIR = Join-Path $AWSSDKCPP_INSTALL_DIR lib | `
                        Join-Path -ChildPath cmake | `
                        Join-Path -ChildPath AWSSDK
-$AWSSDKCPP_CMAKE_ROOT_DIR = (Get-ChildItem -Path $AWSSDKCPP_INSTALL_DIR -Recurse -Directory | Where-Object { $_.Name -eq "cmake" } | Select-Object -First 1).FullName
-$AWSSDKCPP_CMAKE_FILE_DIRS = Get-ChildItem -Path $AWSSDKCPP_CMAKE_ROOT_DIR -Recurse -Directory | Where-Object { $_.Name -match "^aws-" }
-$AWSSDKCPP_CMAKE_FILE_DIRS += $AWSSDKCPP_CMAKE_DIR
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -135,7 +132,8 @@ if ($global:IsWindows)
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
-        "-D CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
+        "-D CMAKE_PREFIX_PATH=${AWSSDKCPP_INSTALL_DIR}"
+        "-D AWSSDK_DIR=${AWSSDKCPP_CMAKE_DIR}"
     )
 }
 elseif ($global:IsMacOS)
@@ -144,16 +142,21 @@ elseif ($global:IsMacOS)
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
+        "-D CMAKE_PREFIX_PATH=${AWSSDKCPP_INSTALL_DIR}"
+        "-D AWSSDK_DIR=${AWSSDKCPP_CMAKE_DIR}"
     )
 }
 elseif ($global:IsLinux)
 {
-    $CMAKE_PREFIX_PATH = $AWSSDKCPP_CMAKE_FILE_DIRS -Join ":"
+    # $S2N_CMAKE_DIR = Join-Path $AWSSDKCPP_INSTALL_DIR lib | `
+    #                    Join-Path -ChildPath s2n | `
+    #                    Join-Path -ChildPath cmake
+    
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
+        "-D CMAKE_PREFIX_PATH=${AWSSDKCPP_INSTALL_DIR}"
+        "-D AWSSDK_DIR=${AWSSDKCPP_CMAKE_DIR}"
     )
 }
 

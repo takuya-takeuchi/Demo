@@ -67,3 +67,18 @@ $ .\install\win\Release\bin\Demo.exe http://192.168.11.45:9000 ap-northeast-1
 [Error] while ListBuckets InvalidAccessKeyId The Access Key Id you provided does not exist in our records.
 [Info] Aws::ShutdownAPI
 ````
+
+### Linux
+
+````bash
+$ export AWS_ACCESS_KEY=rustfsadmin
+$ export AWS_SECRET_ACCESS_KEY=rustfsadmin
+$ ./install/linux/Release/bin/Demo http://192.168.11.45:9000 ap-northeast-1
+[Info]    endpoint: http://192.168.11.45:9000
+[Info]      region: ap-northeast-1
+[Info] Aws::InitAPI
+[Info] Use access key and secret key
+data-bucket     2026-04-29T19:11:45Z
+log-bucket      2026-04-29T19:11:46Z
+[Info] Aws::ShutdownAPI
+````
