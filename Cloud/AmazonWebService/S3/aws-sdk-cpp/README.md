@@ -30,7 +30,7 @@
 ## Dependencies
 
 * [AWS SDK for C++](https://github.com/aws/aws-sdk-cpp)
-  * 1.11.4
+  * 1.11.798
   * Apache 2.0 License
 
 ## How to use?

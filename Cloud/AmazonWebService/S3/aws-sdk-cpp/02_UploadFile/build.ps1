@@ -12,6 +12,15 @@ Param
 )
 
 $current = $PSScriptRoot
+$rootDir = Split-Path $current -Parent
+$configPath = Join-Path $rootDir "build-config.json"
+if (!(Test-Path($configPath)))
+{
+    Write-Host "${configPath} is missing" -ForegroundColor Red
+    exit
+}
+
+$config = Get-Content -Path $configPath | ConvertFrom-Json
 
 # get os name
 if ($global:IsWindows)
@@ -27,83 +36,133 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "aws-sdk-cpp"
+$awsSdkCppVersion = $config.awssdkcpp.version
+if ($config.awssdkcpp.shared)
+{
+    $awsSdkCppShared = "dynamic"
+}
+else
+{
+    $awsSdkCppShared = "static"
+}
+
+# get os name
+if ($global:IsWindows)
+{
+    $os = "win"
+}
+elseif ($global:IsMacOS)
+{
+    $os = "osx"
+}
+elseif ($global:IsLinux)
+{
+    $os = "linux"
+}
 
 # build
 $sourceDir = $current
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath program
-
+            Join-Path -ChildPath $version | `
+            Join-Path -ChildPath $Configuration
 $installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os
+              Join-Path -ChildPath $os | `
+              Join-Path -ChildPath $version | `
+              Join-Path -ChildPath $shared | `
+              Join-Path -ChildPath $Configuration
 
-$rootDir = Split-Path $current -Parent
-$sdkDir = Join-Path $rootDir install | `
-          Join-Path -ChildPath $os | `
-          Join-Path -ChildPath $target
-$sdkInstallLibDir = Join-Path $sdkDir lib
-$sdkInstallDir = Join-Path $sdkDir lib | `
-                 Join-Path -ChildPath cmake
-$sdkDir = $sdkDir.Replace("`\", "/")
-
-$modules = @(
-    "aws-c-auth",
-    "aws-c-cal",
-    "aws-c-common",
-    "aws-c-compression",
-    "aws-c-event-stream",
-    "aws-c-http",
-    "aws-c-io",
-    "aws-c-mqtt",
-    "aws-c-s3",
-    "aws-c-sdkutils",
-    "aws-checksums",
-    "aws-crt-cpp",
-    "s2n"
-)
-$modulePath = "${sdkInstallDir}"
-foreach($module in $modules)
-{
-    $path = Join-Path $sdkInstallLibDir ${module} | `
-            Join-Path -ChildPath cmake
-    if (!(Test-Path("${path}")))
-    {
-        continue
-    }
-    $modulePath = "${modulePath};${path}"
-}
+$AWSSDKCPP_INSTALL_DIR = Join-Path $rootDir install | `
+                         Join-Path -ChildPath $os | `
+                         Join-Path -ChildPath aws-sdk-cpp | `
+                         Join-Path -ChildPath $awsSdkCppVersion | `
+                         Join-Path -ChildPath $awsSdkCppShared | `
+                         Join-Path -ChildPath $Configuration
+$AWSSDKCPP_CMAKE_DIR = Join-Path $AWSSDKCPP_INSTALL_DIR lib | `
+                       Join-Path -ChildPath cmake | `
+                       Join-Path -ChildPath AWSSDK
+$AWSSDKCPP_CMAKE_ROOT_DIR = (Get-ChildItem -Path $AWSSDKCPP_INSTALL_DIR -Recurse -Directory | Where-Object { $_.Name -eq "cmake" } | Select-Object -First 1).FullName
+$AWSSDKCPP_CMAKE_FILE_DIRS = Get-ChildItem -Path $AWSSDKCPP_CMAKE_ROOT_DIR -Recurse -Directory | Where-Object { $_.Name -match "^aws-" }
+$AWSSDKCPP_CMAKE_FILE_DIRS += $AWSSDKCPP_CMAKE_DIR
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $buildDir
-cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
-      -D CMAKE_PREFIX_PATH="${modulePath}" `
-      $sourceDir
-cmake --build . --config ${Configuration} --target install
-Pop-Location
 
-# run
+$cmakeArgs = @()
 if ($global:IsWindows)
 {
-    $programDir = Join-Path $current build | `
-                  Join-Path -ChildPath $os | `
-                  Join-Path -ChildPath program | `
-                  Join-Path -ChildPath ${Configuration}
-    $program = Join-Path $programDir Test.exe
+    function CallVisualStudioDeveloperConsole()
+    {
+        $vs = "C:\Program Files\Microsoft Visual Studio\2022"
+        $path = "${vs}\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        if (!(Test-Path($path)))
+        {
+            $path = "${vs}\Professional\VC\Auxiliary\Build\vcvars64.bat"
+        }
+        if (!(Test-Path($path)))
+        {
+            $path = "${vs}\Community\VC\Auxiliary\Build\vcvars64.bat"
+        }
+
+        Write-Host "Use: ${path}" -ForegroundColor Green
+
+        cmd.exe /c "call `"${path}`" && set > %temp%\vcvars.txt"
+        Get-Content "${env:temp}\vcvars.txt" | Foreach-Object {
+            if ($_ -match "^(.*?)=(.*)$") {
+                Set-Content "env:\$($matches[1])" $matches[2]
+            }
+        }
+    }
+    CallVisualStudioDeveloperConsole
+
+    if ($config.windows.msvcStaticRuntime)
+    {
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded"
+    }
+    else
+    {
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
+    }
+
+    $CMAKE_PREFIX_PATH = $AWSSDKCPP_CMAKE_FILE_DIRS -Join ";"
+    $cmakeArgs += @(
+        "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
+        "-D CMAKE_INSTALL_PREFIX=${installDir}"
+        "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
+        "-D CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
+    )
 }
 elseif ($global:IsMacOS)
 {
-    $programDir = Join-Path $current build | `
-                  Join-Path -ChildPath $os | `
-                  Join-Path -ChildPath program
-    $program = Join-Path $programDir Test
+    $CMAKE_PREFIX_PATH = $AWSSDKCPP_CMAKE_FILE_DIRS -Join ":"
+    $cmakeArgs += @(
+        "-D CMAKE_INSTALL_PREFIX=${installDir}"
+        "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
+    )
 }
 elseif ($global:IsLinux)
 {
-    $programDir = Join-Path $current build | `
-                  Join-Path -ChildPath $os | `
-                  Join-Path -ChildPath program
-    $program = Join-Path $programDir Test
+    $CMAKE_PREFIX_PATH = $AWSSDKCPP_CMAKE_FILE_DIRS -Join ":"
+    $cmakeArgs += @(
+        "-D CMAKE_INSTALL_PREFIX=${installDir}"
+        "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=${CMAKE_PREFIX_PATH}"
+    )
 }
+
+$cmakeArgs += @(
+    "${sourceDir}"
+)
+
+$configLogFile = Join-Path $buildDir cmake-config.log
+$buildLogFile = Join-Path $buildDir cmake-build.log
+
+cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
+$nproc = [Environment]::ProcessorCount
+cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
+
+Pop-Location
