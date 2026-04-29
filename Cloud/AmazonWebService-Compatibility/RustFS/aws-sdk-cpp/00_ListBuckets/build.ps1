@@ -126,7 +126,6 @@ if ($global:IsWindows)
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
 
-    $CMAKE_PREFIX_PATH = $AWSSDKCPP_CMAKE_FILE_DIRS -Join ";"
     $cmakeArgs += @(
         "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
@@ -147,11 +146,7 @@ elseif ($global:IsMacOS)
     )
 }
 elseif ($global:IsLinux)
-{
-    # $S2N_CMAKE_DIR = Join-Path $AWSSDKCPP_INSTALL_DIR lib | `
-    #                    Join-Path -ChildPath s2n | `
-    #                    Join-Path -ChildPath cmake
-    
+{    
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
