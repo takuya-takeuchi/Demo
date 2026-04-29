@@ -163,11 +163,11 @@ elseif ($global:IsLinux)
 }
 
 $buildOnlys = @()
-$config.awssdkcpp.options.build | Where-Object { $_.flag } | ForEach-Object {
+$config.awssdkcpp.build | Where-Object { $_.flag } | ForEach-Object {
     $buildOnlys += $_.option
 }
 
-$buildOnly = $buildOnlys = $pkgConfigPathList -Join ","
+$buildOnly = $buildOnlys -Join ","
 Write-Host "Build only: ${buildOnly}" -ForegroundColor Green
 $cmakeArgs += @(
     "-D BUILD_SHARED_LIBS=$sharedFlag"
