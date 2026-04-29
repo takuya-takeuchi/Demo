@@ -13,6 +13,8 @@ Param
 
 $current = $PSScriptRoot
 $rootDir = Split-Path $current -Parent
+$rootDir = Split-Path $rootDir -Parent
+$rootDir = Split-Path $rootDir -Parent
 $configPath = Join-Path $rootDir "build-config.json"
 if (!(Test-Path($configPath)))
 {
@@ -116,6 +118,7 @@ if ($global:IsWindows)
         }
     }
     CallVisualStudioDeveloperConsole
+    chcp 65001
 
     if ($config.windows.msvcStaticRuntime)
     {
