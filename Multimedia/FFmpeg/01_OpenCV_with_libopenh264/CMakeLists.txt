@@ -11,10 +11,6 @@ if (NOT CMAKE_BUILD_TYPE)
     set(CMAKE_BUILD_TYPE "Release")
 endif()
 
-if (MSVC)
-    set(CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} /MT")
-endif()
-
 find_package(OpenCV)
 if (NOT MSVC)
     find_package(PkgConfig REQUIRED)
