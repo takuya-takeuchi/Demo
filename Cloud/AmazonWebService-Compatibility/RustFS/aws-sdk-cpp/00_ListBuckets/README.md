@@ -82,3 +82,16 @@ data-bucket     2026-04-29T19:11:45Z
 log-bucket      2026-04-29T19:11:46Z
 [Info] Aws::ShutdownAPI
 ````
+
+### OSX
+
+````bash
+$ ./install/osx/Release/bin/Demo http://192.168.11.45:9000 ap-northeast-1
+[Info]    endpoint: http://192.168.11.45:9000
+[Info]      region: ap-northeast-1
+[Info] Aws::InitAPI
+[Info] Use access key and secret key
+data-bucket     2026-04-29T19:11:45Z
+log-bucket      2026-04-29T19:11:46Z
+[Info] Aws::ShutdownAPI
+````
