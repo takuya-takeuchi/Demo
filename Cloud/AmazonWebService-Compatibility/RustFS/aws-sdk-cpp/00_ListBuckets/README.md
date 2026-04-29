@@ -57,7 +57,7 @@ Then, program will be present in `install/<your os name>/bin`.
 ### Windows
 
 ````bat
-$ set AWS_ACCESS_KEY=rustfsadmin
+$ set AWS_ACCESS_KEY_ID=rustfsadmin
 $ set AWS_SECRET_ACCESS_KEY=rustfsadmin
 $ .\install\win\Release\bin\Demo.exe http://192.168.11.45:9000 ap-northeast-1
 [Info]    endpoint: http://192.168.11.45:9000
@@ -71,7 +71,7 @@ $ .\install\win\Release\bin\Demo.exe http://192.168.11.45:9000 ap-northeast-1
 ### Linux
 
 ````bash
-$ export AWS_ACCESS_KEY=rustfsadmin
+$ export AWS_ACCESS_KEY_ID=rustfsadmin
 $ export AWS_SECRET_ACCESS_KEY=rustfsadmin
 $ ./install/linux/Release/bin/Demo http://192.168.11.45:9000 ap-northeast-1
 [Info]    endpoint: http://192.168.11.45:9000

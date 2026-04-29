@@ -80,7 +80,7 @@ int32_t main(int32_t argc, const char **argv)
         Aws::InitAPI(options);
         // NOTE
         // accessKey and secretKey shall not be output in console!!
-        const char *accessKey = std::getenv("AWS_ACCESS_KEY");
+        const char *accessKey = std::getenv("AWS_ACCESS_KEY_ID");
         const char *secretKey = std::getenv("AWS_SECRET_ACCESS_KEY");
 
         const auto s3Clinet = CreateS3Client(endpoint, region, accessKey ? accessKey : "", secretKey ? secretKey : "");

@@ -16,10 +16,11 @@ std::shared_ptr<Aws::S3::S3Client> CreateS3Client(const Aws::String &endpoint,
     clientConfig.region = region;
     clientConfig.endpointOverride = endpoint;
     clientConfig.scheme = Aws::Http::Scheme::HTTP;
+    clientConfig.verifySSL = false;
 
     if (!accessKey.empty() && !secretKey.empty())
     {
-        // 1. キーが渡された場合：StaticCredentialsProviderを使用
+        std::cout << "[Info] Use access key and secret key" << std::endl;
         auto credentials = Aws::Auth::AWSCredentials(accessKey, secretKey);
         // Never sign the body of the request
         const auto payloadSigningPolicy = Aws::Client::AWSAuthV4Signer::PayloadSigningPolicy::Never;
@@ -28,8 +29,7 @@ std::shared_ptr<Aws::S3::S3Client> CreateS3Client(const Aws::String &endpoint,
     }
     else
     {
-        // 2. キーが空の場合：DefaultAWSCredentialsProviderChainを使用 (IAM Role等を自動取得)
-        // コンストラクタにproviderを渡さないことでデフォルト挙動になる
+        std::cout << "[Info] Use DefaultAWSCredentialsProviderChain like IAM Role etc" << std::endl;
         return std::make_shared<Aws::S3::S3Client>(clientConfig);
     }
 }
@@ -40,11 +40,12 @@ void UploadFile(const Aws::String &bucket,
                 std::shared_ptr<Aws::S3::S3Client> s3_client)
 {
     Aws::S3::Model::PutObjectRequest request;
-    request.SetBucket(bucket);
+    request.WithBucket(bucket).WithKey("keyw");
+    // request.SetBucket(bucket);
     request.SetKey(key);
 
-    const auto input_data =
-        Aws::MakeShared<Aws::FStream>("PutObjectStream", filePath.c_str(), std::ios_base::in | std::ios_base::binary);
+    const auto input_data = Aws::MakeShared<Aws::FStream>("PutObjectInputStream", filePath.c_str(),
+                                                          std::ios_base::in | std::ios_base::binary);
 
     if (!*input_data)
         throw std::runtime_error("Failed to open file: " + filePath);
@@ -53,7 +54,11 @@ void UploadFile(const Aws::String &bucket,
 
     auto outcome = s3_client->PutObject(request);
     if (!outcome.IsSuccess())
-        throw std::runtime_error(outcome.GetError().GetMessage());
+    {
+        const auto name = outcome.GetError().GetExceptionName();
+        const auto message = outcome.GetError().GetMessage();
+        throw std::runtime_error(name + ": " + message);
+    }
 }
 
 int32_t main(int32_t argc, const char **argv)
@@ -84,15 +89,14 @@ int32_t main(int32_t argc, const char **argv)
 
         std::cout << "[Info] Aws::InitAPI" << std::endl;
         Aws::InitAPI(options);
-
         // NOTE
         // accessKey and secretKey shall not be output in console!!
-        const char *accessKey = std::getenv("AWS_ACCESS_KEY");
+        const char *accessKey = std::getenv("AWS_ACCESS_KEY_ID");
         const char *secretKey = std::getenv("AWS_SECRET_ACCESS_KEY");
 
-        const auto s3Clinet = CreateS3Client(endpoint, region, accessKey, secretKey);
+        const auto s3Clinet = CreateS3Client(endpoint, region, accessKey ? accessKey : "", secretKey ? secretKey : "");
 
-        UploadFile(bucket_name, "", filepath, s3Clinet);
+        UploadFile(bucket_name, "./key.jpg", filepath, s3Clinet);
     }
     catch (const std::runtime_error &re)
     {

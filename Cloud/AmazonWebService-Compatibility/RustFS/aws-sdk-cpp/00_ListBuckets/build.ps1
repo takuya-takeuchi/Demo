@@ -137,7 +137,6 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    $CMAKE_PREFIX_PATH = $AWSSDKCPP_CMAKE_FILE_DIRS -Join ":"
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
