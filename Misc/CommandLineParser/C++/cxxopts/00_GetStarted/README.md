@@ -45,13 +45,25 @@ $ pwsh build.ps1 <Debug/Release>
 #### Windows
 
 ````bat
-$ .\install\win\bin\server.exe
+$ .\install\win\Release\bin\Demo.exe --name test -w 90.0 -a 20 -c Red -f "file1" -f "file2"  
+        Name: test
+         Age: 20
+      Weight: 90
+       Color: 0
+       Files: file1, file2
+Verbose mode: OFF
 ````
 
 #### Linux
 
 ````bash
-$ ./install/linux/bin/server
+$ ./install/linux/Release/bin/Demo --name test -w 90.0 -a 20 -c Red -f "file1" -f "file2"  
+        Name: test
+         Age: 20
+      Weight: 90
+       Color: 0
+       Files: file1, file2
+Verbose mode: OFF
 ````
 
 #### OSX
