@@ -81,8 +81,7 @@ New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $current
-# it takes so long time....
-# git submodule update --init --recursive $sourceDir
+# it may be deleted
 git checkout $sourceDir
 Pop-Location
 
@@ -90,7 +89,7 @@ Push-Location $sourceDir
 git fetch -ap
 git checkout $version
 # it takes so long time....
-# git submodule update --init --recursive .
+git submodule update --init --recursive .
 Pop-Location
 
 # apply patch
@@ -163,9 +162,16 @@ elseif ($global:IsLinux)
     )
 }
 
+$buildOnlys = @()
+$config.awssdkcpp.options.build | Where-Object { $_.flag } | ForEach-Object {
+    $buildOnlys += $_.option
+}
+
+$buildOnly = $buildOnlys = $pkgConfigPathList -Join ","
+Write-Host "Build only: ${buildOnly}" -ForegroundColor Green
 $cmakeArgs += @(
     "-D BUILD_SHARED_LIBS=$sharedFlag"
-    "-D BUILD_ONLY=s3"
+    "-D BUILD_ONLY=${buildOnly}"
     "-D ENABLE_TESTING=OFF"
     "${sourceDir}"
 )
