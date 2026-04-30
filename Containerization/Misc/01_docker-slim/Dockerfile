@@ -6,7 +6,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     wget \
     libz3-dev \
+    ca-certificates \
  && apt-get clean && rm -rf /var/lib/apt/lists/*
+
+RUN update-ca-certificates
 
 # install latest cmake
 ENV CMAKE_VERSION=3.31.12
@@ -20,9 +23,10 @@ RUN CMAKE_FILE=cmake-${CMAKE_VERSION}-linux-x86_64.tar.gz \
 # build and install opencv
 WORKDIR /opt/sources/opencv
 ENV OPENCV_VERSION=4.13.0
-RUN SRC_DIR=/opt/sources/opencv BUILD_DIR=/opt/sources/opencv/build INSTALL_DIR=/opt/packages/opencv \
-    git clone -b ${OPENCV_VERSION} https://github.com/opencv/opencv . \
- && cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+RUN git clone -b ${OPENCV_VERSION} https://github.com/opencv/opencv . \
+ && mkdir -p /opt/sources/opencv/build \
+ && mkdir -p /opt/packages/opencv \
+ && cmake -D CMAKE_INSTALL_PREFIX=/opt/packages/opencv \
           -D CMAKE_BUILD_TYPE=Release \
           -D BUILD_SHARED_LIBS=ON \
           -D BUILD_LIST=core,gapi,videoio \
@@ -58,22 +62,26 @@ RUN SRC_DIR=/opt/sources/opencv BUILD_DIR=/opt/sources/opencv/build INSTALL_DIR=
           -D WITH_PROTOBUF=OFF \
           -D WITH_OPENCL=OFF \
           -D WITH_FLATBUFFERS=OFF \
-          -B ${BUILD_DIR} \
-          -D ${SRC_DIR} \
- && cmake --build ${BUILD_DIR} --config Release --parallel $nproc --target install
+          -B /opt/sources/opencv/build \
+          -S /opt/sources/opencv \
+ && cmake --build /opt/sources/opencv/build --config Release --parallel $nproc --target install
 
  # app
 WORKDIR /opt/sources/app
 ADD CMakeLists.txt .
 ADD main.cpp .
-RUN SRC_DIR=/opt/sources/app BUILD_DIR=/opt/sources/app/build INSTALL_DIR=/opt/packages/app \
-    cmake -D CMAKE_INSTALL_PREFIX=${INSTALL_DIR} \
+RUN mkdir -p /opt/sources/app/build \
+ && mkdir -p /opt/packages/app \
+ && cmake -D CMAKE_INSTALL_PREFIX=/opt/packages/app \
           -D CMAKE_BUILD_TYPE=Release \
-          -B ${BUILD_DIR} \
-          -D ${SRC_DIR} \
- && cmake --build ${BUILD_DIR} --config Release --parallel $nproc --target install
+          -D CMAKE_PREFIX_PATH=/opt/packages/opencv \
+          -D OpenCV_DIR=/opt/packages/opencv/lib/cmake/opencv4 \
+          -B /opt/sources/app/build \
+          -S /opt/sources/app \
+ && cmake --build /opt/sources/app/build --config Release --parallel $nproc --target install
 
 FROM ubuntu:24.04 AS runtime
+LABEL maintainer="Takuya Takeuchi <takuya.takeuchi.dev@gmail.com>"
  
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libz3-4 \
@@ -81,5 +89,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 
 WORKDIR /app
 ADD *.tiff /app
-COPY --from=builder /opt/packages/app/* ./opt/app
+COPY --from=builder /opt/packages/app/* /app
 COPY --from=builder /opt/packages/opencv/lib/* /opt/opencv
+ENV LD_LIBRARY_PATH=/opt/opencv
