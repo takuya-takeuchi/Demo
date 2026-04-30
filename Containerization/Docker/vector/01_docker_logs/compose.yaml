@@ -1,0 +1,16 @@
+services:
+  app1:
+    image: demo-vector-sidecar-app
+    container_name: demo-vector-sidecar-app1
+    command: /app/Demo
+  app2:
+    image: demo-vector-sidecar-app
+    container_name: demo-vector-sidecar-app2
+    command: /app/Demo
+  sidecar:
+    image: timberio/vector:0.55.0-alpine
+    container_name: demo-vector-sidecar-vector
+    volumes:
+      - ./vector.yaml:/etc/vector/vector.yaml:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+
