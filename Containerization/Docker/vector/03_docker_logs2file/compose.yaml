@@ -9,11 +9,7 @@ services:
     network_mode: host
     volumes:
       - ./vector.yaml:/etc/vector/vector.yaml:ro
+      - ./logs/:/tmp/logs/
       - /var/run/docker.sock:/var/run/docker.sock
     environment:
       - VECTOR_LOG=error
-      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
-      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
-      - AWS_REGION=${AWS_REGION}
-      - S3_ENDPOINT=${S3_ENDPOINT}
-      - S3_BUCKET_NAME=${S3_BUCKET_NAME}

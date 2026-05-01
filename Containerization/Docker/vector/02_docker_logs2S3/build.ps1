@@ -2,7 +2,7 @@ Param
 (
 )
 
-$dockerImageName = "demo-vector-sidecar-app"
+$dockerImageName = "demo-vector-app"
 
 $current = $PSScriptRoot
 $appDir = Join-Path $current app
