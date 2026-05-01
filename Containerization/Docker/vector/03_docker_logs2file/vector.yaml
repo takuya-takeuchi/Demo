@@ -1,13 +1,14 @@
 sources:
-  sidercar_logs:
+  app_logs:
     type: docker_logs
-    include_containers: ["demo-vector-sidecar-app1"]
+    include_containers: ["demo-vector-app1"]
 
 transforms:
   clean_logs:
     type: remap
-    inputs: ["sidercar_logs"]
+    inputs: ["app_logs"]
     source: |
+      .debug_source = "app_logs_source" 
       del(.container_created_at)
       del(.container_id)
       del(.host)

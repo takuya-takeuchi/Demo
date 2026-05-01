@@ -3,10 +3,11 @@ services:
     image: demo-vector-app
     container_name: demo-vector-app1
     command: /app/Demo
-  sidecar:
+    depends_on:
+      - vector
+  vector:
     image: timberio/vector:0.55.0-alpine
     container_name: demo-vector-vector
-    network_mode: host
     volumes:
       - ./vector.yaml:/etc/vector/vector.yaml:ro
       - ./logs/:/tmp/logs/

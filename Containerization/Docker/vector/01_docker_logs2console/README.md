@@ -11,6 +11,13 @@
   * v0.55.0
   * Mozilla Public License 2.0
 
+#### Warning
+
+As discussed below `[Info] Finished loop` logs are duplicated.
+It is sepcification of `docker_logs` input due to lack of checkpoint features.
+This issue is discussed on [Add support for end-to-end acknowledgements to all relevant sources #7336](https://github.com/vectordotdev/vector/issues/7336).
+And this support is just development on [feat(docker_logs source): add checkpointing #24869](https://github.com/vectordotdev/vector/pull/24869).
+
 ## How to use?
 
 At first, build app image.
@@ -24,8 +31,8 @@ Then, lanuch container and show logs.
 ````bash
 $ docker compose up -d && docker logs -f demo-vector-vector
 
-2026-04-30T20:26:39.348137Z  INFO source{component_kind="source" component_id=sidercar_logs component_type=docker_logs}: vector::internal_events::docker_logs: Internal log [Started watching for container logs.] has been suppressed 1 times.
-2026-04-30T20:26:39.348153Z  INFO source{component_kind="source" component_id=sidercar_logs component_type=docker_logs}: vector::internal_events::docker_logs: Started watching for container logs. container_id=e01c6b92f79bf7215283ad0873b9bb9b4556f2e668ba90b27f12fda4cc3f47ba
+2026-04-30T20:26:39.348137Z  INFO source{component_kind="source" component_id=app_logs component_type=docker_logs}: vector::internal_events::docker_logs: Internal log [Started watching for container logs.] has been suppressed 1 times.
+2026-04-30T20:26:39.348153Z  INFO source{component_kind="source" component_id=app_logs component_type=docker_logs}: vector::internal_events::docker_logs: Started watching for container logs. container_id=e01c6b92f79bf7215283ad0873b9bb9b4556f2e668ba90b27f12fda4cc3f47ba
 {"container_name":"demo-vector-app1","message":"[Info] Starting loop","timestamp":"2026-04-30T20:26:39.341921540Z"}
 {"container_name":"demo-vector-app1","message":"[Info] Tick 1","timestamp":"2026-04-30T20:26:39.341958833Z"}
 {"container_name":"demo-vector-app1","message":"[Info] Tick 2","timestamp":"2026-04-30T20:26:40.342114130Z"}
@@ -33,10 +40,10 @@ $ docker compose up -d && docker logs -f demo-vector-vector
 {"container_name":"demo-vector-app1","message":"[Info] Tick 4","timestamp":"2026-04-30T20:26:42.342483888Z"}
 {"container_name":"demo-vector-app1","message":"[Info] Tick 5","timestamp":"2026-04-30T20:26:43.342790668Z"}
 {"container_name":"demo-vector-app1","message":"[Info] Finished loop","timestamp":"2026-04-30T20:26:44.343093015Z"}
-2026-04-30T20:26:44.395571Z  INFO source{component_kind="source" component_id=sidercar_logs component_type=docker_logs}: vector::internal_events::docker_logs: Internal log [Stopped watching for container logs.] has been suppressed 1 times.
-2026-04-30T20:26:44.395589Z  INFO source{component_kind="source" component_id=sidercar_logs component_type=docker_logs}: vector::internal_events::docker_logs: Stopped watching for container logs. container_id=e01c6b92f79bf7215283ad0873b9bb9b4556f2e668ba90b27f12fda4cc3f47ba
-2026-04-30T20:26:44.395653Z  INFO source{component_kind="source" component_id=sidercar_logs component_type=docker_logs}: vector::internal_events::docker_logs: Internal log [Started watching for container logs.] is being suppressed to avoid flooding.
-2026-04-30T20:26:44.494482Z  INFO source{component_kind="source" component_id=sidercar_logs component_type=docker_logs}: vector::internal_events::docker_logs: Internal log [Stopped watching for container logs.] is being suppressed to avoid flooding.
+2026-04-30T20:26:44.395571Z  INFO source{component_kind="source" component_id=app_logs component_type=docker_logs}: vector::internal_events::docker_logs: Internal log [Stopped watching for container logs.] has been suppressed 1 times.
+2026-04-30T20:26:44.395589Z  INFO source{component_kind="source" component_id=app_logs component_type=docker_logs}: vector::internal_events::docker_logs: Stopped watching for container logs. container_id=e01c6b92f79bf7215283ad0873b9bb9b4556f2e668ba90b27f12fda4cc3f47ba
+2026-04-30T20:26:44.395653Z  INFO source{component_kind="source" component_id=app_logs component_type=docker_logs}: vector::internal_events::docker_logs: Internal log [Started watching for container logs.] is being suppressed to avoid flooding.
+2026-04-30T20:26:44.494482Z  INFO source{component_kind="source" component_id=app_logs component_type=docker_logs}: vector::internal_events::docker_logs: Internal log [Stopped watching for container logs.] is being suppressed to avoid flooding.
 {"container_name":"demo-vector-app1","message":"[Info] Finished loop","timestamp":"2026-04-30T20:26:44.343093015Z"}
 ````
 
@@ -78,7 +85,7 @@ But `remap` transformer can delete elements you don't want.
 transforms:
   clean_logs:
     type: remap
-    inputs: ["sidercar_logs"]
+    inputs: ["app_logs"]
     source: |
       del(.container_created_at)
       del(.container_id)
