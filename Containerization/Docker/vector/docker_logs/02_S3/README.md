@@ -21,14 +21,6 @@ And this support is just development on [feat(docker_logs source): add checkpoin
 
 ## How to use?
 
-At first, build app image.
-
-````bash
-$ pwsh build.ps1
-````
-
-Then, lanuch container and show logs.
-
 ````bash
 $ export AWS_ACCESS_KEY_ID=rustfsadmin
 $ export AWS_SECRET_ACCESS_KEY=rustfsadmin
