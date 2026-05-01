@@ -1,0 +1,16 @@
+services:
+  app1:
+    image: demo-vector-app
+    container_name: demo-vector-app1
+    command: /app/Demo
+    depends_on:
+      - vector
+  vector:
+    image: timberio/vector:0.55.0-alpine
+    container_name: demo-vector-vector
+    volumes:
+      - ./vector.yaml:/etc/vector/vector.yaml:ro
+      - ./logs/:/tmp/logs/
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - VECTOR_LOG=error

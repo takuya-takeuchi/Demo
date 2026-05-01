@@ -1,0 +1,30 @@
+sources:
+  app_logs:
+    type: docker_logs
+    include_containers: ["demo-vector-app1"]
+
+transforms:
+  clean_logs:
+    type: remap
+    inputs: ["app_logs"]
+    source: |
+      del(.container_created_at)
+      del(.container_id)
+      del(.host)
+      del(.image)
+      del(.label)
+      del(.source_type)
+      del(.stream)
+
+sinks:
+  rustfs:
+    type: aws_s3
+    inputs: ["clean_logs"]
+    bucket: ${S3_BUCKET_NAME}
+    endpoint: ${S3_ENDPOINT}
+    key_prefix: "metrics/date=%Y-%m-%d"
+    encoding:
+      codec: json
+      pretty: true
+    tls:
+      verify_certificate: false
