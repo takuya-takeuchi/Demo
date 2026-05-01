@@ -1,10 +1,14 @@
 services:
   app1:
-    image: demo-vector-app
+    build:
+      context: app
+      dockerfile: Dockerfile
     container_name: demo-vector-app1
     command: /app/Demo
   app2:
-    image: demo-vector-app
+    build:
+      context: app
+      dockerfile: Dockerfile
     container_name: demo-vector-app2
     command: /app/Demo
   vector:
