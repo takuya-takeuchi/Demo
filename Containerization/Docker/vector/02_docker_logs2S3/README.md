@@ -30,3 +30,7 @@ $ export S3_ENDPOINT=http://192.168.11.45:9000
 $ export S3_BUCKET_NAME=log-bucket
 $ docker compose up -d
 ````
+
+<img src="./images/rustfs_1.png" />
+
+<img src="./images/rustfs_2.png" />
