@@ -58,6 +58,7 @@ $ pwsh build.ps1 <Debug/Release>
 ### Windows
 
 ````bat
+$ set OPENCV_FFMPEG_CAPTURE_OPTIONS="video_codec;libopenh264" 
 $ \install\win\Release\bin\Demo.exe .\install\win\Release\bin\bun33s.mp4
 [Info] Video has finished.
 [Info] Total frame count: 812
@@ -66,7 +67,7 @@ $ \install\win\Release\bin\Demo.exe .\install\win\Release\bin\bun33s.mp4
 ### Linux
 
 ````shell
-$ LD_LIBRARY_PATH=./install/linux/Release/bin ./install/linux/Release/bin/Demo ./install/linux/Release/bin/bun33s.mp4
+$ OPENCV_FFMPEG_CAPTURE_OPTIONS="video_codec;libopenh264" LD_LIBRARY_PATH=./install/linux/Release/bin ./install/linux/Release/bin/Demo ./install/linux/Release/bin/bun33s.mp4
 [Info] Video has finished.
 [Info] Total frame count: 812
 ````
@@ -74,7 +75,7 @@ $ LD_LIBRARY_PATH=./install/linux/Release/bin ./install/linux/Release/bin/Demo .
 ### OSX
 
 ````shell
-$ DYLD_LIBRARY_PATH=./install/osx/Release/bin ./install/osx/Release/bin/Demo ./install/osx/Release/bin/bun33s.mp4
+$ OPENCV_FFMPEG_CAPTURE_OPTIONS="video_codec;libopenh264" DYLD_LIBRARY_PATH=./install/osx/Release/bin ./install/osx/Release/bin/Demo ./install/osx/Release/bin/bun33s.mp4
 [Info] Video has finished.
 [Info] Total frame count: 812
 ````
