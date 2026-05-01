@@ -29,12 +29,12 @@ $ docker compose up -d
 Then, you can see logs in [logs](./logs)
 
 ````
-{"container_name":"demo-vector-sidecar-app1","message":"[Info] Starting loop","timestamp":"2026-05-01T07:50:07.280936447Z"}
-{"container_name":"demo-vector-sidecar-app1","message":"[Info] Tick 1","timestamp":"2026-05-01T07:50:07.281209682Z"}
-{"container_name":"demo-vector-sidecar-app1","message":"[Info] Tick 2","timestamp":"2026-05-01T07:50:08.281101766Z"}
-{"container_name":"demo-vector-sidecar-app1","message":"[Info] Tick 3","timestamp":"2026-05-01T07:50:09.281473013Z"}
-{"container_name":"demo-vector-sidecar-app1","message":"[Info] Tick 4","timestamp":"2026-05-01T07:50:10.281552780Z"}
-{"container_name":"demo-vector-sidecar-app1","message":"[Info] Tick 5","timestamp":"2026-05-01T07:50:11.281698658Z"}
-{"container_name":"demo-vector-sidecar-app1","message":"[Info] Finished loop","timestamp":"2026-05-01T07:50:12.287411974Z"}
-{"container_name":"demo-vector-sidecar-app1","message":"[Info] Finished loop","timestamp":"2026-05-01T07:50:12.287411974Z"}
+{"container_name":"demo-vector-app1","message":"[Info] Starting loop","timestamp":"2026-05-01T07:50:07.280936447Z"}
+{"container_name":"demo-vector-app1","message":"[Info] Tick 1","timestamp":"2026-05-01T07:50:07.281209682Z"}
+{"container_name":"demo-vector-app1","message":"[Info] Tick 2","timestamp":"2026-05-01T07:50:08.281101766Z"}
+{"container_name":"demo-vector-app1","message":"[Info] Tick 3","timestamp":"2026-05-01T07:50:09.281473013Z"}
+{"container_name":"demo-vector-app1","message":"[Info] Tick 4","timestamp":"2026-05-01T07:50:10.281552780Z"}
+{"container_name":"demo-vector-app1","message":"[Info] Tick 5","timestamp":"2026-05-01T07:50:11.281698658Z"}
+{"container_name":"demo-vector-app1","message":"[Info] Finished loop","timestamp":"2026-05-01T07:50:12.287411974Z"}
+{"container_name":"demo-vector-app1","message":"[Info] Finished loop","timestamp":"2026-05-01T07:50:12.287411974Z"}
 ````
