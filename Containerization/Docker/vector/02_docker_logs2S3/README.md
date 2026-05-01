@@ -12,6 +12,13 @@
   * v0.55.0
   * Mozilla Public License 2.0
 
+#### Warning
+
+As discussed below `[Info] Finished loop` logs are duplicated.
+It is sepcification of `docker_logs` input due to lack of checkpoint features.
+This issue is discussed on [Add support for end-to-end acknowledgements to all relevant sources #7336](https://github.com/vectordotdev/vector/issues/7336).
+And this support is just development on [feat(docker_logs source): add checkpointing #24869](https://github.com/vectordotdev/vector/pull/24869).
+
 ## How to use?
 
 At first, build app image.

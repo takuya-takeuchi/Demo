@@ -7,7 +7,7 @@ services:
     image: demo-vector-app
     container_name: demo-vector-app2
     command: /app/Demo
-  sidecar:
+  vector:
     image: timberio/vector:0.55.0-alpine
     container_name: demo-vector-vector
     volumes:
