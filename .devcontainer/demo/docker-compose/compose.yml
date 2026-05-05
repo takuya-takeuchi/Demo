@@ -1,0 +1,16 @@
+services:
+  app:
+    build: ./app
+    container_name: python_app
+    environment:
+      - REDIS_HOST=${REDIS_HOST}
+      - REDIS_PORT=${REDIS_PORT}
+    depends_on:
+      - redis
+
+  redis:
+    image: redis:7-alpine
+    container_name: ${REDIS_HOST}
+    command: --port ${REDIS_PORT}
+    ports:
+      - "6379:${REDIS_PORT}"

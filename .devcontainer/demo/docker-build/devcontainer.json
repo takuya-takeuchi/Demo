@@ -1,0 +1,16 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/powershell
+{
+	"name": "docker-build-devcontainer",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	// set container name by --name flag in runArgs
+	"runArgs": [
+		"--name",
+		"${localEnv:USER}-devcontainer",
+		"--rm"
+	],
+	"postCreateCommand": "sudo chsh vscode -s \"$(which pwsh)\"",
+	"shutdownAction": "stopContainer"
+}
