@@ -1,0 +1,39 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/powershell
+{
+	"name": "C/C++ with PowerShell",
+	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
+	"image": "mcr.microsoft.com/powershell:lts-debian-11",
+	// set container name by --name flag in runArgs
+	"runArgs": [
+		"--name",
+		"${localEnv:USER}-devcontainer",
+		"--rm"
+	],
+	"features": {
+		"ghcr.io/devcontainers/features/common-utils:2": {
+			"installZsh": "true",
+			"username": "vscode",
+			"upgradePackages": "false",
+			"nonFreePackages": "true"
+		},
+		"ghcr.io/devcontainers/features/powershell:2": {},
+		"ghcr.io/devcontainer-community/devcontainer-features/collection-c-cpp:1": {}
+	},
+	"postCreateCommand": "sudo chsh vscode -s \"$(which pwsh)\"",
+	// Configure tool-specific properties.
+	"customizations": {
+		// Configure properties specific to VS Code.
+		"vscode": {
+			// Set *default* container specific settings.json values on container create.
+			"settings": {
+				"terminal.integrated.defaultProfile.linux": "pwsh"
+			},
+			// Add the IDs of extensions you want installed when the container is created.
+			"extensions": [
+				"ms-vscode.powershell"
+			]
+		}
+	},
+	"shutdownAction": "stopContainer"
+}

@@ -1,0 +1,10 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/powershell
+{
+	"name": "docker-compose-devcontainer",
+	"dockerComposeFile": "compose.yml",
+	// servina name you want to use as development container is written in docker-compose.yml
+	"service": "app",
+	// work directory in container
+	"workspaceFolder": "/app"
+}
