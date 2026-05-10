@@ -1,8 +1,8 @@
-# Get File from S3
+# Get File from RustFS
 
 ## Abstracts
 
-* Download file from S3
+* Download file from RustFS
 
 ## Requirements
 
@@ -27,40 +27,41 @@
 ### Windows
 
 ````bat
-$ set AWS_ACCESS_KEY_ID=xxxxxxxx
-$ set AWS_SECRET_ACCESS_KEY=yyyyyyyy
-$ dotnet run -c <Debug/Release> -- ZZZZZZZZZZZZZZ lenna.jpg ap-northeast-1
-2026-05-10 18:32:16.3326 [INFO ] bucket_name: ZZZZZZZZZZZZZZ 
+$ set AWS_ACCESS_KEY_ID=rustfsadmin
+$ set AWS_SECRET_ACCESS_KEY=rustfsadmin
+$ dotnet run -c <Debug/Release> -- http://192.168.11.45:9000 data-bucket /tmp/test-image.jpg ap-northeast-1
+2026-05-10 18:32:16.3326 [INFO ] bucket_name: bucket-data 
 2026-05-10 18:32:16.3630 [INFO ] object_name: lenna.jpg 
 2026-05-10 18:32:16.3630 [INFO ] region: ap-northeast-1
 2026-05-10 18:32:16.3630 [INFO ] GetObject
-2026-05-10 18:32:17.7929 [INFO ] Retrieved object 'lenna.jpg' from bucket 'ZZZZZZZZZZZZZZ'.
+2026-05-10 18:32:17.7929 [INFO ] Retrieved object 'lenna.jpg' from bucket 'bucket-data'.
 ````
 
 ### Linux
 
 ````bash
-$ export AWS_ACCESS_KEY_ID=xxxxxxxx
-$ export AWS_SECRET_ACCESS_KEY=yyyyyyyy
-$ dotnet run -c <Debug/Release> -- ZZZZZZZZZZZZZZ lenna.jpg ap-northeast-1
-2026-05-10 17:53:35.5135 [INFO ] bucket_name: ZZZZZZZZZZZZZZ 
-2026-05-10 17:53:35.5694 [INFO ] object_name: lenna.jpg 
-2026-05-10 17:53:35.5694 [INFO ] region: ap-northeast-1 
-2026-05-10 17:53:35.5694 [INFO ] [Info] GetObject 
-2026-05-10 17:53:37.2876 [INFO ] [Info] Retrieved object 'lenna.jpg' from bucket 'ZZZZZZZZZZZZZZ'.
+$ export AWS_ACCESS_KEY_ID=rustfsadmin
+$ export AWS_SECRET_ACCESS_KEY=rustfsadmin
+$ dotnet run -c <Debug/Release> -- http://192.168.11.45:9000 data-bucket tmp/test-image.jpg ap-northeast-1
+2026-05-10 19:00:49.3168 [INFO ] endpoint: http://192.168.11.45:9000 
+2026-05-10 19:00:49.4059 [INFO ] bucket_name: data-bucket 
+2026-05-10 19:00:49.4059 [INFO ] object_name: tmp/test-image.jpg 
+2026-05-10 19:00:49.4062 [INFO ] region: ap-northeast-1 
+2026-05-10 19:00:49.4062 [INFO ] GetObject 
+2026-05-10 19:00:50.2078 [INFO ] Retrieved object 'tmp/test-image.jpg' from bucket 'data-bucket'. 
 ````
 
 ### OSX
 
 ````bash
-$ export AWS_ACCESS_KEY_ID=xxxxxxxx
-$ export AWS_SECRET_ACCESS_KEY=yyyyyyyy
-$ dotnet run -c <Debug/Release> -- ZZZZZZZZZZZZZZ lenna.jpg ap-northeast-1
-2026-05-10 18:10:23.2225 [INFO ] bucket_name: ZZZZZZZZZZZZZZ 
+$ export AWS_ACCESS_KEY_ID=rustfsadmin
+$ export AWS_SECRET_ACCESS_KEY=rustfsadmin
+$ dotnet run -c <Debug/Release> -- bucket-data lenna.jpg ap-northeast-1
+2026-05-10 18:10:23.2225 [INFO ] bucket_name: bucket-data 
 2026-05-10 18:10:23.2338 [INFO ] object_name: lenna.jpg 
 2026-05-10 18:10:23.2339 [INFO ] region: ap-northeast-1 
 2026-05-10 18:10:23.2339 [INFO ] GetObject 
-2026-05-10 18:10:23.8840 [INFO ] Retrieved object 'lenna.jpg' from bucket 'ZZZZZZZZZZZZZZ'. 
+2026-05-10 18:10:23.8840 [INFO ] Retrieved object 'lenna.jpg' from bucket 'bucket-data'. 
 ````
 
 ## Why does program not work?
