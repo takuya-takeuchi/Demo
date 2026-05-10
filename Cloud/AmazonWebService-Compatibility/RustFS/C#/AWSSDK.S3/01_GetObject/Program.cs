@@ -53,7 +53,7 @@ namespace Demo
         {
             try
             {
-                IAmazonS3 client = null;
+                IAmazonS3 client;
                 
                 var uri = new Uri(endpoint);
                 var config = new AmazonS3Config
