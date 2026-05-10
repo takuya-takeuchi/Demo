@@ -87,53 +87,15 @@ $ ./install/linux/Release/bin/Demo http://192.168.11.45:9000 data-bucket tmp/tes
 ### OSX
 
 ````bash
-$ export AWS_ACCESS_KEY_ID=xxxxxxxx
-$ export AWS_SECRET_ACCESS_KEY=yyyyyyyy
-$ ./install/osx/Release/bin/Demo http://192.168.11.45:9000 data-bucket /tmp/test-image.jpg ap-northeast-1 lenna.jpg
+$ export AWS_ACCESS_KEY_ID=rustfsadmin
+$ export AWS_SECRET_ACCESS_KEY=rustfsadmin
+$ ./install/osx/Release/bin/Demo http://192.168.11.45:9000 data-bucket tmp/test-image.jpg ap-northeast-1
 [Info]    endpoint: http://192.168.11.45:9000
 [Info] bucket_name: data-bucket
-[Info] object_name: /tmp/test-image.jpg
+[Info] object_name: tmp/test-image.jpg
 [Info]      region: ap-northeast-1
-[Info]    filepath: lenna.jpg
 [Info] Aws::InitAPI
 [Info] Use access key and secret key
-[Info] Succeded to upload file
+[Info] Retrieved object 'tmp/test-image.jpg' from bucket 'data-bucket' size: 227148 bytes
 [Info] Aws::ShutdownAPI
-````
-
-## Why does program not work?
-
-### Error: GetObject: Access Denied
-
-You must check the following things
-
-#### Block public access (bucket setting)
-
-This program does not take care of credentials. In other words, we have to disable block public access in AWS console.
-
-<img src="images/block.png" />
-
-#### Block policy
-
-Bcket policy must allow write actions.
-For examples, you can write json like 
-
-````json
-{
-    "Version": "2012-10-17",
-    "Id": "Policy9999999999999",
-    "Statement": [
-        {
-            "Sid": "Stmt9999999999999",
-            "Effect": "Allow",
-            "Principal": "*",
-            "Action": [
-                "s3:DeleteObject",
-                "s3:GetObject",
-                "s3:PutObject"
-            ],
-            "Resource": "arn:aws:s3:::<your-bucket-name>/*"
-        }
-    ]
-}
 ````
