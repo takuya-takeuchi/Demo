@@ -26,12 +26,12 @@ Once time you cratead virtual python environmental, you need not to do again.
 ````bat
 $ set AWS_ACCESS_KEY_ID=xxxxxxxx
 $ set AWS_SECRET_ACCESS_KEY=yyyyyyyy
-$ python main.py -b ve8rjmzuy84wq7f2iyhp -k lenna.jpg -r ap-northeast-1
+$ python main.py -b ZZZZZZZZZZZZZZ -k lenna.jpg -r ap-northeast-1
 Arguments
-  bucket_name: ve8rjmzuy84wq7f2iyhp
+  bucket_name: ZZZZZZZZZZZZZZ
           key: lenna.jpg
        region: ap-northeast-1
-[Info] Retrieved object 'lenna.jpg' from bucket 've8rjmzuy84wq7f2iyhp'.
+[Info] Retrieved object 'lenna.jpg' from bucket 'ZZZZZZZZZZZZZZ'.
 ````
 
 ### Linux
@@ -39,26 +39,25 @@ Arguments
 ````bash
 $ export AWS_ACCESS_KEY_ID=xxxxxxxx
 $ export AWS_SECRET_ACCESS_KEY=yyyyyyyy
-$ python main.py -b ve8rjmzuy84wq7f2iyhp -k lenna.jpg -r ap-northeast-1
+$ python main.py -b ZZZZZZZZZZZZZZ -k lenna.jpg -r ap-northeast-1
 Arguments
-  bucket_name: ve8rjmzuy84wq7f2iyhp
+  bucket_name: ZZZZZZZZZZZZZZ
           key: lenna.jpg
        region: ap-northeast-1
-[Info] Retrieved object 'lenna.jpg' from bucket 've8rjmzuy84wq7f2iyhp'.
+[Info] Retrieved object 'lenna.jpg' from bucket 'ZZZZZZZZZZZZZZ'.
 ````
 
 ### OSX
 
 ````bash
-$ export AWS_ACCESS_KEY_ID=rustfsadmin
-$ export AWS_SECRET_ACCESS_KEY=rustfsadmin
-$ dotnet run -c <Debug/Release> -- http://192.168.11.45:9000 data-bucket tmp/test-image.jpg ap-northeast-1
-2026-05-10 19:15:11.5467 [INFO ] endpoint: http://192.168.11.45:9000 
-2026-05-10 19:15:11.5586 [INFO ] bucket_name: data-bucket 
-2026-05-10 19:15:11.5586 [INFO ] object_name: tmp/test-image.jpg 
-2026-05-10 19:15:11.5586 [INFO ] region: ap-northeast-1 
-2026-05-10 19:15:11.5586 [INFO ] GetObject 
-2026-05-10 19:15:11.8883 [INFO ] Retrieved object 'tmp/test-image.jpg' from bucket 'data-bucket'.
+$ export AWS_ACCESS_KEY_ID=xxxxxxxx
+$ export AWS_SECRET_ACCESS_KEY=yyyyyyyy
+$ python main.py -b ZZZZZZZZZZZZZZ -k lenna.jpg -r ap-northeast-1
+Arguments
+  bucket_name: ZZZZZZZZZZZZZZ
+          key: lenna.jpg
+       region: ap-northeast-1
+[Info] Retrieved object 'lenna.jpg' from bucket 'ZZZZZZZZZZZZZZ'.
 ````
 
 ## Why does program not work?
