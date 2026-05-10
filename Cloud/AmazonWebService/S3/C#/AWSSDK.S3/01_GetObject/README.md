@@ -30,15 +30,11 @@
 $ set AWS_ACCESS_KEY_ID=xxxxxxxx
 $ set AWS_SECRET_ACCESS_KEY=yyyyyyyy
 $ dotnet run -c <Debug/Release> data-bucket /tmp/test-image.jpg ap-northeast-1
-[Info]    endpoint: http://192.168.11.45:9000
-[Info] bucket_name: data-bucket
-[Info] object_name: /tmp/test-image.jpg
-[Info]      region: ap-northeast-1
-[Info]    filepath: lenna.jpg
-[Info] Aws::InitAPI
-[Info] Use access key and secret key
-[Info] Succeded to upload file
-[Info] Aws::ShutdownAPI
+2026-05-10 18:32:16.3326 [INFO ] bucket_name: ZZZZZZZZZZZZZZ 
+2026-05-10 18:32:16.3630 [INFO ] object_name: lenna.jpg 
+2026-05-10 18:32:16.3630 [INFO ] region: ap-northeast-1
+2026-05-10 18:32:16.3630 [INFO ] GetObject
+2026-05-10 18:32:17.7929 [INFO ] Retrieved object 'lenna.jpg' from bucket 'ZZZZZZZZZZZZZZ'.
 ````
 
 ### Linux
@@ -46,12 +42,12 @@ $ dotnet run -c <Debug/Release> data-bucket /tmp/test-image.jpg ap-northeast-1
 ````bash
 $ export AWS_ACCESS_KEY_ID=xxxxxxxx
 $ export AWS_SECRET_ACCESS_KEY=yyyyyyyy
-$ dotnet run -c <Debug/Release> ve8rjmzuy84wq7f2iyhp lenna.jpg ap-northeast-1
-2026-05-10 17:53:35.5135 [INFO ] bucket_name: ve8rjmzuy84wq7f2iyhp 
+$ dotnet run -c <Debug/Release> -- ZZZZZZZZZZZZZZ lenna.jpg ap-northeast-1
+2026-05-10 17:53:35.5135 [INFO ] bucket_name: ZZZZZZZZZZZZZZ 
 2026-05-10 17:53:35.5694 [INFO ] object_name: lenna.jpg 
 2026-05-10 17:53:35.5694 [INFO ] region: ap-northeast-1 
 2026-05-10 17:53:35.5694 [INFO ] [Info] GetObject 
-2026-05-10 17:53:37.2876 [INFO ] [Info] Retrieved object 'lenna.jpg' from bucket 've8rjmzuy84wq7f2iyhp'.
+2026-05-10 17:53:37.2876 [INFO ] [Info] Retrieved object 'lenna.jpg' from bucket 'ZZZZZZZZZZZZZZ'.
 ````
 
 ### OSX
@@ -59,16 +55,12 @@ $ dotnet run -c <Debug/Release> ve8rjmzuy84wq7f2iyhp lenna.jpg ap-northeast-1
 ````bash
 $ export AWS_ACCESS_KEY_ID=xxxxxxxx
 $ export AWS_SECRET_ACCESS_KEY=yyyyyyyy
-$ ./install/osx/Release/bin/Demo http://192.168.11.45:9000 data-bucket /tmp/test-image.jpg ap-northeast-1 lenna.jpg
-[Info]    endpoint: http://192.168.11.45:9000
-[Info] bucket_name: data-bucket
-[Info] object_name: /tmp/test-image.jpg
-[Info]      region: ap-northeast-1
-[Info]    filepath: lenna.jpg
-[Info] Aws::InitAPI
-[Info] Use access key and secret key
-[Info] Succeded to upload file
-[Info] Aws::ShutdownAPI
+$ dotnet run -c <Debug/Release> -- ZZZZZZZZZZZZZZ lenna.jpg ap-northeast-1
+2026-05-10 18:10:23.2225 [INFO ] bucket_name: ZZZZZZZZZZZZZZ 
+2026-05-10 18:10:23.2338 [INFO ] object_name: lenna.jpg 
+2026-05-10 18:10:23.2339 [INFO ] region: ap-northeast-1 
+2026-05-10 18:10:23.2339 [INFO ] GetObject 
+2026-05-10 18:10:23.8840 [INFO ] Retrieved object 'lenna.jpg' from bucket 'ZZZZZZZZZZZZZZ'. 
 ````
 
 ## Why does program not work?
