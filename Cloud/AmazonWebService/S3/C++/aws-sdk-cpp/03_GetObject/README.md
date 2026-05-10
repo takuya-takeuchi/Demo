@@ -78,7 +78,7 @@ object_name: lenna.jpg
      region: ap-northeast-1
 [Info] Aws::InitAPI
 [Info] GetObject
-[Info] Retrieved object 'lenna.jpg' from bucket 've8rjmzuy84wq7f2iyhp'.
+[Info] Retrieved object 'lenna.jpg' from bucket 've8rjmzuy84wq7f2iyhp'. size; 227148 bytes
 [Info] Aws::ShutdownAPI
 ````
 
