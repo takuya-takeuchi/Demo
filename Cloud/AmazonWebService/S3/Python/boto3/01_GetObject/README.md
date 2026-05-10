@@ -18,18 +18,20 @@
 
 ## How to use?
 
+Go to [boto3](..) and read [Setup](../README.md#Setup).
+Once time you cratead virtual python environmental, you need not to do again.
+
 ### Windows
 
 ````bat
-$ set AWS_ACCESS_KEY_ID=rustfsadmin
-$ set AWS_SECRET_ACCESS_KEY=rustfsadmin
-$ dotnet run -c <Debug/Release> -- http://192.168.11.45:9000 data-bucket /tmp/test-image.jpg ap-northeast-1
-2026-05-10 19:05:13.9550 [INFO ] endpoint: http://192.168.11.45:9000 
-2026-05-10 19:05:13.9972 [INFO ] bucket_name: data-bucket        
-2026-05-10 19:05:13.9972 [INFO ] object_name: tmp/test-image.jpg 
-2026-05-10 19:05:13.9972 [INFO ] region: ap-northeast-1 
-2026-05-10 19:05:13.9972 [INFO ] GetObject
-2026-05-10 19:05:15.1620 [INFO ] Retrieved object 'tmp/test-image.jpg' from bucket 'data-bucket'.
+$ set AWS_ACCESS_KEY_ID=xxxxxxxx
+$ set AWS_SECRET_ACCESS_KEY=yyyyyyyy
+$ python main.py -b ve8rjmzuy84wq7f2iyhp -k lenna.jpg -r ap-northeast-1
+Arguments
+  bucket_name: ve8rjmzuy84wq7f2iyhp
+          key: lenna.jpg
+       region: ap-northeast-1
+[Info] Retrieved object 'lenna.jpg' from bucket 've8rjmzuy84wq7f2iyhp'.
 ````
 
 ### Linux
@@ -42,7 +44,7 @@ Arguments
   bucket_name: ve8rjmzuy84wq7f2iyhp
           key: lenna.jpg
        region: ap-northeast-1
-[Info] Retrieved object 'tmp/test-image.jpg' from bucket 'data-bucket'.
+[Info] Retrieved object 'lenna.jpg' from bucket 've8rjmzuy84wq7f2iyhp'.
 ````
 
 ### OSX
