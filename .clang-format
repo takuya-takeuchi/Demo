@@ -33,3 +33,4 @@ WrapNamespaceBodyWithEmptyLines: Always
 MaxEmptyLinesToKeep: 1
 FixNamespaceComments: true
 ShortNamespaceLines: 0
+PointerAlignment: Left
