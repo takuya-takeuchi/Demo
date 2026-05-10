@@ -30,6 +30,7 @@ $current = $PSScriptRoot
 $rootDir = Split-Path $current -Parent
 $rootDir = Split-Path $rootDir -Parent
 $rootDir = Split-Path $rootDir -Parent
+$rootDir = Split-Path $rootDir -Parent
 $configPath = Join-Path $rootDir "build-config.json"
 if (!(Test-Path($configPath)))
 {
