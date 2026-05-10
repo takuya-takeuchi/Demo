@@ -64,7 +64,7 @@ $ .\install\win\Release\bin\Demo.exe http://192.168.11.45:9000 data-bucket tmp/t
 [Info]      region: ap-northeast-1
 [Info] Aws::InitAPI
 [Info] Use access key and secret key
-[Info] Retrieved object 'tmp/test-image.jpg' from bucket 'data-bucket'.
+[Info] Retrieved object 'tmp/test-image.jpg' from bucket 'data-bucket' size: 227148 bytes
 [Info] Aws::ShutdownAPI
 ````
 
@@ -80,7 +80,7 @@ $ ./install/linux/Release/bin/Demo http://192.168.11.45:9000 data-bucket tmp/tes
 [Info]      region: ap-northeast-1
 [Info] Aws::InitAPI
 [Info] Use access key and secret key
-[Info] Retrieved object 'tmp/test-image.jpg' from bucket 'data-bucket'. size; 227148 bytes
+[Info] Retrieved object 'tmp/test-image.jpg' from bucket 'data-bucket' size: 227148 bytes
 [Info] Aws::ShutdownAPI
 ````
 
