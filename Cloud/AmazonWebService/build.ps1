@@ -82,10 +82,11 @@ New-Item -Type Directory $installDir -Force | Out-Null
 
 Push-Location $current
 # it may be deleted
-git checkout $sourceDir
+git checkout $target
 Pop-Location
 
 Push-Location $sourceDir
+git clean -fxd .
 git fetch -ap
 git checkout $version
 # it takes so long time....

@@ -7,10 +7,10 @@
 #include <aws/s3/S3Client.h>
 #include <aws/s3/model/PutObjectRequest.h>
 
-std::shared_ptr<Aws::S3::S3Client> CreateS3Client(const Aws::String &endpoint,
-                                                  const Aws::String &region,
-                                                  const Aws::String &accessKey = "",
-                                                  const Aws::String &secretKey = "")
+std::shared_ptr<Aws::S3::S3Client> CreateS3Client(const Aws::String& endpoint,
+                                                  const Aws::String& region,
+                                                  const Aws::String& accessKey = "",
+                                                  const Aws::String& secretKey = "")
 {
     Aws::S3::S3ClientConfiguration clientConfig;
     clientConfig.region = region;
@@ -34,9 +34,9 @@ std::shared_ptr<Aws::S3::S3Client> CreateS3Client(const Aws::String &endpoint,
     }
 }
 
-void UploadFile(const Aws::String &bucket,
-                const Aws::String &key,
-                const Aws::String &filePath,
+void UploadFile(const Aws::String& bucket,
+                const Aws::String& key,
+                const Aws::String& filePath,
                 std::shared_ptr<Aws::S3::S3Client> s3_client)
 {
     Aws::S3::Model::PutObjectRequest request;
@@ -60,7 +60,7 @@ void UploadFile(const Aws::String &bucket,
     }
 }
 
-int32_t main(int32_t argc, const char **argv)
+int32_t main(int32_t argc, const char** argv)
 {
     if (argc != 6)
     {
@@ -73,7 +73,6 @@ int32_t main(int32_t argc, const char **argv)
 
     try
     {
-
         const auto endpoint = argv[1];
         const auto bucket_name = argv[2];
         const auto object_name = argv[3];
@@ -90,8 +89,8 @@ int32_t main(int32_t argc, const char **argv)
         Aws::InitAPI(options);
         // NOTE
         // accessKey and secretKey shall not be output in console!!
-        const char *accessKey = std::getenv("AWS_ACCESS_KEY_ID");
-        const char *secretKey = std::getenv("AWS_SECRET_ACCESS_KEY");
+        const char* accessKey = std::getenv("AWS_ACCESS_KEY_ID");
+        const char* secretKey = std::getenv("AWS_SECRET_ACCESS_KEY");
 
         const auto s3Clinet = CreateS3Client(endpoint, region, accessKey ? accessKey : "", secretKey ? secretKey : "");
 
@@ -99,12 +98,12 @@ int32_t main(int32_t argc, const char **argv)
 
         std::cout << "[Info] Succeded to upload file" << std::endl;
     }
-    catch (const std::runtime_error &re)
+    catch (const std::runtime_error& re)
     {
         std::cerr << "[Error] " << re.what() << std::endl;
         error = -1;
     }
-    catch (const std::exception &e)
+    catch (const std::exception& e)
     {
         std::cerr << "[Error] " << e.what() << std::endl;
         error = -1;
@@ -116,7 +115,7 @@ int32_t main(int32_t argc, const char **argv)
         Aws::ShutdownAPI(options);
         return error;
     }
-    catch (const std::exception &e)
+    catch (const std::exception& e)
     {
         std::cerr << e.what() << '\n';
         return -1;

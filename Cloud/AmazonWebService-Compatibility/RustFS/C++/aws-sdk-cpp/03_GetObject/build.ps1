@@ -27,7 +27,11 @@ if ($ConfigurationArray.Contains($Configuration) -eq $False)
 }
 
 $current = $PSScriptRoot
-$configPath = Join-Path $current "build-config.json"
+$rootDir = Split-Path $current -Parent
+$rootDir = Split-Path $rootDir -Parent
+$rootDir = Split-Path $rootDir -Parent
+$rootDir = Split-Path $rootDir -Parent
+$configPath = Join-Path $rootDir "build-config.json"
 if (!(Test-Path($configPath)))
 {
     Write-Host "${configPath} is missing" -ForegroundColor Red
@@ -35,17 +39,29 @@ if (!(Test-Path($configPath)))
 }
 
 $config = Get-Content -Path $configPath | ConvertFrom-Json
-$target = "aws-sdk-cpp"
-$version = $config.awssdkcpp.version
+
+# get os name
+if ($global:IsWindows)
+{
+    $os = "win"
+}
+elseif ($global:IsMacOS)
+{
+    $os = "osx"
+}
+elseif ($global:IsLinux)
+{
+    $os = "linux"
+}
+
+$awsSdkCppVersion = $config.awssdkcpp.version
 if ($config.awssdkcpp.shared)
 {
-    $shared = "dynamic"
-    $sharedFlag = "ON"
+    $awsSdkCppShared = "dynamic"
 }
 else
 {
-    $shared = "static"
-    $sharedFlag = "OFF"
+    $awsSdkCppShared = "static"
 }
 
 # get os name
@@ -63,45 +79,29 @@ elseif ($global:IsLinux)
 }
 
 # build
-$sourceDir = Join-Path $current $target
+$sourceDir = $current
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target | `
             Join-Path -ChildPath $version | `
-            Join-Path -ChildPath $shared | `
             Join-Path -ChildPath $Configuration
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target | `
               Join-Path -ChildPath $version | `
               Join-Path -ChildPath $shared | `
               Join-Path -ChildPath $Configuration
 
+$AWSSDKCPP_INSTALL_DIR = Join-Path $rootDir install | `
+                         Join-Path -ChildPath $os | `
+                         Join-Path -ChildPath aws-sdk-cpp | `
+                         Join-Path -ChildPath $awsSdkCppVersion | `
+                         Join-Path -ChildPath $awsSdkCppShared | `
+                         Join-Path -ChildPath $Configuration
+$AWSSDKCPP_CMAKE_DIR = Join-Path $AWSSDKCPP_INSTALL_DIR lib | `
+                       Join-Path -ChildPath cmake | `
+                       Join-Path -ChildPath AWSSDK
+
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
-
-Push-Location $current
-# it may be deleted
-git checkout $target
-Pop-Location
-
-Push-Location $sourceDir
-git clean -fxd .
-git fetch -ap
-git checkout $version
-# it takes so long time....
-git submodule update --init --recursive .
-Pop-Location
-
-# apply patch
-$patch = Join-Path $current patch |
-         Join-Path -ChildPath cxxopts |
-         Join-Path -ChildPath $version |
-         Join-Path -ChildPath $os
-if (Test-Path($patch))
-{
-    Copy-Item -Recurse $patch/* $sourceDir -Force
-}
 
 Push-Location $buildDir
 
@@ -135,18 +135,20 @@ if ($global:IsWindows)
 
     if ($config.windows.msvcStaticRuntime)
     {
-        $FORCE_SHARED_CRT = "OFF"
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>"
     }
     else
     {
-        $FORCE_SHARED_CRT = "ON"
+        $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
 
     $cmakeArgs += @(
         "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D FORCE_SHARED_CRT=${FORCE_SHARED_CRT}"
+        "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
+        "-D CMAKE_PREFIX_PATH=${AWSSDKCPP_INSTALL_DIR}"
+        "-D AWSSDK_DIR=${AWSSDKCPP_CMAKE_DIR}"
     )
 }
 elseif ($global:IsMacOS)
@@ -154,27 +156,21 @@ elseif ($global:IsMacOS)
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=${AWSSDKCPP_INSTALL_DIR}"
+        "-D AWSSDK_DIR=${AWSSDKCPP_CMAKE_DIR}"
     )
 }
 elseif ($global:IsLinux)
-{
+{    
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=${AWSSDKCPP_INSTALL_DIR}"
+        "-D AWSSDK_DIR=${AWSSDKCPP_CMAKE_DIR}"
     )
 }
 
-$buildOnlys = @()
-$config.awssdkcpp.build | Where-Object { $_.flag } | ForEach-Object {
-    $buildOnlys += $_.option
-}
-
-$buildOnly = $buildOnlys -Join ";"
-Write-Host "Build only: ${buildOnly}" -ForegroundColor Green
 $cmakeArgs += @(
-    "-D BUILD_SHARED_LIBS=$sharedFlag"
-    "-D BUILD_ONLY=${buildOnly}"
-    "-D ENABLE_TESTING=OFF"
     "${sourceDir}"
 )
 

@@ -24,7 +24,7 @@ bool GetObject(const Aws::String& bucketName,
     }
     else
     {
-        std::cout << "[Info] Retrieved object '" << fileName << "' from bucket '" << bucketName << "'.";
+        std::cout << "[Info] Retrieved object '" << fileName << "' from bucket '" << bucketName << "'." << std::endl;
     }
 
     return outcome.IsSuccess();
@@ -56,7 +56,6 @@ int32_t main(int32_t argc, const char** argv)
 
         std::cout << "[Info] GetObject" << std::endl;
         GetObject(bucket_name, object_name, clientConfig);
-        std::cout << "" << std::endl;
     }
 
     std::cout << "[Info] Aws::ShutdownAPI" << std::endl;
