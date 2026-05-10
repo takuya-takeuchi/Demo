@@ -48,7 +48,8 @@ bool GetObject(const Aws::String& bucketName, const Aws::String& fileName, std::
     }
     else
     {
-        std::cout << "[Info] Retrieved object '" << fileName << "' from bucket '" << bucketName << "'." << std::endl;
+        auto& retrieved_file = outcome.GetResultWithOwnership().GetBody();
+        std::cout << "[Info] Retrieved object '" << fileName << "' from bucket '" << bucketName << "'. size; " << retrieved_file.tellp() << " bytes" << std::endl;
     }
 
     return outcome.IsSuccess();

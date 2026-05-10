@@ -57,15 +57,13 @@ Then, program will be present in `install/<your os name>/bin`.
 ````bat
 $ set AWS_ACCESS_KEY_ID=xxxxxxxx
 $ set AWS_SECRET_ACCESS_KEY=yyyyyyyy
-$ .\install\win\Release\bin\Demo.exe http://192.168.11.45:9000 data-bucket /tmp/test-image.jpg ap-northeast-1
-[Info]    endpoint: http://192.168.11.45:9000
-[Info] bucket_name: data-bucket
-[Info] object_name: /tmp/test-image.jpg
-[Info]      region: ap-northeast-1
-[Info]    filepath: lenna.jpg
+$ .\install\win\Release\bin\Demo.exe ve8rjmzuy84wq7f2iyhp lenna.jpg ap-northeast-1
+bucket_name: ve8rjmzuy84wq7f2iyhp
+object_name: lenna.jpg
+     region: ap-northeast-1
 [Info] Aws::InitAPI
-[Info] Use access key and secret key
-[Info] Succeded to upload file
+[Info] GetObject
+[Info] Retrieved object 'lenna.jpg' from bucket 've8rjmzuy84wq7f2iyhp'.
 [Info] Aws::ShutdownAPI
 ````
 
