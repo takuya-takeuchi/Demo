@@ -1,0 +1,9 @@
+{
+    "ImageMagick": {
+        "version": "7.1.2-22",
+        "shared": false
+    },
+    "windows": {
+        "msvcStaticRuntime": true
+    }
+}

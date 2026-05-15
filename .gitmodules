@@ -268,3 +268,6 @@
 	path = Cloud/AmazonWebService-Compatibility/aws-sdk-cpp
 	url = https://github.com/aws/aws-sdk-cpp
 	ignore = dirty
+[submodule "ComputerVision/ImageMagick /C++/ImageMagick"]
+	path = ComputerVision/ImageMagick/C++/ImageMagick
+	url = https://github.com/ImageMagick/ImageMagick
