@@ -8,6 +8,11 @@ namespace Demo.ViewModels.Interfaces
     public interface IMainPageViewModel : IViewModel
     {
 
+        DelegateCommand ClearCommand
+        {
+            get;
+        }
+
         DelegateCommand<string> ConnectCommand
         {
             get;

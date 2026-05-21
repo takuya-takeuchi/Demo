@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 
 using Prism.Navigation;
 using Prism.Commands;
+using Xamarin.Essentials;
 
 using Demo.Services.Interfaces;
 using Demo.ViewModels.Interfaces;
@@ -29,6 +30,7 @@ namespace Demo.ViewModels
             this.Address = "tcp://192.168.11.21:12345";
 
             this._ZeroMqSubscribeService = zeroMqSubscribeService;
+            this._ZeroMqSubscribeService.StateChanged += this.StateChanged;
         }
 
         #endregion
@@ -43,6 +45,19 @@ namespace Demo.ViewModels
             set => SetProperty(ref this._Address, value);
         }
 
+        private DelegateCommand _ClearCommand;
+
+        public DelegateCommand ClearCommand
+        {
+            get
+            {
+                return this._ClearCommand ?? (this._ClearCommand = new DelegateCommand(() =>
+                {
+                    this._Messages.Clear();
+                }));
+            }
+        }
+
         private DelegateCommand<string> _ConnectCommand;
 
         public DelegateCommand<string> ConnectCommand
@@ -55,7 +70,6 @@ namespace Demo.ViewModels
                     {
                         this.IsConnected = false;
                         this._ZeroMqSubscribeService.Connect(s, this.Callback);
-                        this.IsConnected = true;
                     }
                     catch (Exception e)
                     {
@@ -75,7 +89,6 @@ namespace Demo.ViewModels
                 return this._DisconnectCommand ?? (this._DisconnectCommand = new DelegateCommand(() =>
                 {
                     this._ZeroMqSubscribeService.Disconnect();
-                    this.IsConnected = false;
                 }, () => this.IsConnected).ObservesProperty(() => this.IsConnected));
             }
         }
@@ -116,7 +129,15 @@ namespace Demo.ViewModels
 
         private void Callback(string obj)
         {
-            this._Messages.Add(obj);
+            MainThread.BeginInvokeOnMainThread(() =>
+            {
+                this._Messages.Add(obj);
+            });
+        }
+
+        private void StateChanged(object sender, bool state)
+        {
+            this.IsConnected = state;
         }
 
         #endregion

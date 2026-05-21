@@ -10,6 +10,11 @@ namespace Demo.DesignTimes
     public sealed class MainPageViewModel : IMainPageViewModel
     {
 
+        public DelegateCommand ClearCommand
+        {
+            get;
+        }
+
         public DelegateCommand<string> ConnectCommand
         {
             get;
