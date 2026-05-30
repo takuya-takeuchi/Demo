@@ -1,7 +1,6 @@
 #***************************************
 #Arguments
-#%1: Version  (e.g. 3.3.2)
-#%2: Build Configuration (Release/Debug)
+#%1: Build Configuration (Release/Debug)
 #***************************************
 Param
 (
@@ -9,16 +8,63 @@ Param
    Mandatory=$True,
    Position = 1
    )][string]
-   $Version,
-
+   $Configuration,
+   
    [Parameter(
    Mandatory=$True,
    Position = 2
    )][string]
-   $Configuration
+   $Architecture
 )
 
+$ConfigurationArray =
+@(
+   "Debug",
+   "Release",
+   "RelWithDebInfo",
+   "MinSizeRel"
+)
+
+$ArchitectureArray =
+@(
+   "arm64",
+   "x86_64",
+   "x86"
+)
+
+if ($ConfigurationArray.Contains($Configuration) -eq $False)
+{
+   $candidate = $ConfigurationArray -join "/"
+   Write-Host "Specify build configuration [${candidate}]" -ForegroundColor Red
+   exit -1
+}
+
+if ($ArchitectureArray.Contains($architecture) -eq $False)
+{
+   $candidate = $ArchitectureArray -join "/"
+   Write-Host "Error: Specify Architecture [${candidate}]" -ForegroundColor Red
+   exit -1
+}
+
 $current = $PSScriptRoot
+$configPath = Join-Path $current "build-config.json"
+if (!(Test-Path($configPath)))
+{
+    Write-Host "${configPath} is missing" -ForegroundColor Red
+    exit
+}
+
+$config = Get-Content -Path $configPath | ConvertFrom-Json
+$target = "openssl"
+$version = $config.openssl.version
+if ($config.openssl.shared)
+{
+    $shared = "dynamic"
+}
+else
+{
+    $shared = "static"
+}
 
 # get os name
 if ($global:IsWindows)
@@ -34,37 +80,64 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "openssl"
-$shared = "static"
-$sharedFlag = "OFF"
-
 # build
-$sourceDir = Join-Path $current $target | `
-             Join-Path -ChildPath $Version
+$sourceDir = Join-Path $current $target
 $buildDir = Join-Path $current build | `
-            Join-Path -ChildPath $os | `
             Join-Path -ChildPath $target | `
-            Join-Path -ChildPath $Version | `
-            Join-Path -ChildPath $shared
+            Join-Path -ChildPath $version | `
+            Join-Path -ChildPath $os | `
+            Join-Path -ChildPath $Architecture | `
+            Join-Path -ChildPath $shared | `
+            Join-Path -ChildPath $Configuration
 $installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os | `
               Join-Path -ChildPath $target | `
-              Join-Path -ChildPath $Version | `
-              Join-Path -ChildPath $shared
-
-$exist = Test-Path(${sourceDir})
-if (!$exist)
-{
-    Write-Host "[Error] '${sourceDir}' is missing" -ForegroundColor Red
-    exit
-}
+              Join-Path -ChildPath $version | `
+              Join-Path -ChildPath $os | `
+              Join-Path -ChildPath $Architecture | `
+              Join-Path -ChildPath $shared | `
+              Join-Path -ChildPath $Configuration
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
+Push-Location $current
+# it may be deleted
+git checkout $target
+Pop-Location
+
+Push-Location $sourceDir
+git clean -fxd .
+git fetch -ap
+git checkout $version
+# it takes so long time....
+git submodule update --init --recursive .
+Pop-Location
+
+# apply patch
+$patch = Join-Path $current patch |
+         Join-Path -ChildPath cxxopts |
+         Join-Path -ChildPath $version |
+         Join-Path -ChildPath $os
+if (Test-Path($patch))
+{
+    Copy-Item -Recurse $patch/* $sourceDir -Force
+}
+
+Push-Location $buildDir
+
+$configure = Join-Path $sourceDir "Configure"
+if (!(Test-Path($configure)))
+{
+    Write-Host "${configure} is missing" -ForegroundColor Red
+    exit
+}
+
+$configLogFile = Join-Path $buildDir make-config.log
+$buildLogFile = Join-Path $buildDir make-build.log
+
+$configureArgs = @()
 if ($global:IsWindows)
 {
-    # check build tool
     $perlDir = $env:PERLPATH
     if (!$perlDir)
     {
@@ -91,104 +164,113 @@ if ($global:IsWindows)
         exit
     }
 
-    # Check Visual Studio is installed or not
-    $visualStudioShells = @(
-        "C:\Program Files\Microsoft Visual Studio\2022\Community\VC\Auxiliary\Build\vcvars64.bat"
-        "C:\Program Files\Microsoft Visual Studio\2022\Professional\VC\Auxiliary\Build\vcvars64.bat"
-        "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-    )
-    
-    $visualStudioShell = ""
-    foreach ($shell in $visualStudioShells)
-    {
-        $visualStudioShell = $shell
-        if (Test-Path($visualStudioShell))
-        {
-            break
-        }
-    }
-    
-    if (!(Test-Path($visualStudioShell)))
-    {
-        Write-Host "[Error] Visual Studio is not installed or x64 Native Tools Command Prompt is missing" -ForegroundColor Red
-        exit
-    }
-    
-    Write-Host "[Info] Visual Studio x64 Native Tools Command Prompt: ${visualStudioShell}" -ForegroundColor Green
+    $env:PATH="${perlDir};${nasmDir};${env:PATH}"
 
-    function Call($batfile)
+    function CallVisualStudioDeveloperConsole()
     {
-        cmd.exe /c "call `"${batfile}`" && set > %temp%\vars.txt"
-        Get-Content "${env:temp}\vars.txt" | Foreach-Object {
+        $vs = "C:\Program Files\Microsoft Visual Studio\2022"
+        $path = "${vs}\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+        if (!(Test-Path($path)))
+        {
+            $path = "${vs}\Professional\VC\Auxiliary\Build\vcvars64.bat"
+        }
+        if (!(Test-Path($path)))
+        {
+            $path = "${vs}\Community\VC\Auxiliary\Build\vcvars64.bat"
+        }
+
+        Write-Host "Use: ${path}" -ForegroundColor Green
+
+        cmd.exe /c "call `"${path}`" && set > %temp%\vcvars.txt"
+        Get-Content "${env:temp}\vcvars.txt" | Foreach-Object {
             if ($_ -match "^(.*?)=(.*)$") {
                 Set-Content "env:\$($matches[1])" $matches[2]
             }
         }
     }
+    CallVisualStudioDeveloperConsole
+    chcp 65001
 
-    $env:PATH="${perlDir};${nasmDir};${env:PATH}"
-
-    Call("${visualStudioShell}")
-
-    # shared: Build a shared object in addition to the static archive. You probably need a RPATH when enabling shared to ensure openssl uses the correct libssl and libcrypto after installation.
-    # no-shared: Disables shared objects (only a static library is created)
-    # no-asm: Disables assembly language routines (and uses C routines)
-    Push-Location $sourceDir
-    if ($Configuration -eq "Debug")
-    {
-        perl Configure VC-WIN64A --prefix="${installDir}" no-asm no-shared -d
-    }
-    else
-    {
-        perl Configure VC-WIN64A --prefix="${installDir}" no-asm no-shared
-    }
-    nmake
-    nmake test
-    nmake install
-    Pop-Location
+    $configureArgs += @(
+        $targetAbi
+    )
 }
 elseif ($global:IsMacOS)
 {
-    Push-Location $sourceDir
-    $architecture = [System.Runtime.InteropServices.RuntimeInformation]::OSArchitecture
-    if ($architecture -eq "arm64")
-    {
-        if ($Configuration -eq "Debug")
-        {
-            perl Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared -d
-        }
-        else
-        {
-            perl Configure darwin64-arm64-cc --prefix="${installDir}" no-asm no-shared
-        }
-    }
-    else
-    {
-        if ($Configuration -eq "Debug")
-        {
-            perl Configure darwin64-x86_64-cc --prefix="${installDir}" no-asm no-shared -d
-        }
-        else
-        {
-            perl Configure darwin64-x86_64-cc --prefix="${installDir}" no-asm no-shared
-        }
-    }
-    make
-    make install
-    Pop-Location
+    $targetAbi = "darwin64-arm64-cc"
+
+    $env:SDK = "macosx"
+    $env:MACOSX_MIN_VERSION = "${MINIMUM_TARGET_IOS_VERSION}"
+
+    $SDKROOT = (& xcrun --sdk $env:SDK --show-sdk-path).Trim()
+    $CLANG = (& xcrun --sdk $env:SDK -find clang).Trim()
+    $AR = (& xcrun --sdk $env:SDK -find ar).Trim()
+    $RANLIB = (& xcrun --sdk $env:SDK -find ranlib).Trim()
+
+    $env:SDKROOT = $SDKROOT
+    $env:CC = $CLANG
+    $env:AR = $AR
+    $env:RANLIB = $RANLIB
+    $env:CFLAGS = "-arch arm64 -isysroot `"$SDKROOT`" -mmacosx-version-min=$env:MACOSX_MIN_VERSION"
+
+    $configureArgs += @(
+        $targetAbi
+    )
 }
 elseif ($global:IsLinux)
 {
-    Push-Location $sourceDir
-    if ($Configuration -eq "Debug")
+    if ($Architecture -eq "arm64")
     {
-        ./Configure --prefix="${installDir}" no-asm no-shared -d
+        $Architecture = "aarch64"
     }
-    else
-    {
-        ./Configure --prefix="${installDir}" no-asm no-shared
-    }
-    make
-    make install
-    Pop-Location
+
+    $configureArgs += @(
+        "linux-${Architecture}"
+    )
 }
+
+$configureArgs += @(
+    "no-docs",
+    "no-tests",
+    "no-apps",
+    "no-module",
+    "no-dso",
+    "no-engine",
+    "no-legacy",
+    "no-ssl",
+    "no-zlib"
+)
+
+if (!($config.openssl.shared))
+{
+    $configureArgs += @(
+        "no-shared"
+    )
+}
+
+$configureArgs += @(
+    "--prefix=${installDir}"
+)
+
+if ($Configuration -eq "Debug")
+{
+    $configureArgs += @(
+        "-d"
+    )
+}
+
+if ($global:IsWindows)
+{
+    perl Configure @configureArgs 2>&1 | Tee-Object -FilePath $configLogFile
+    $nproc = [Environment]::ProcessorCount
+    nmake -j $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
+    nmake install
+}
+else
+{
+    & "${configure}" @configureArgs 2>&1 | Tee-Object -FilePath $configLogFile
+    make -j $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
+    make install
+}
+
+Pop-Location
