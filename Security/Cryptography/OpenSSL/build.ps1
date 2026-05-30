@@ -261,7 +261,7 @@ if ($Configuration -eq "Debug")
 
 if ($global:IsWindows)
 {
-    perl Configure @configureArgs 2>&1 | Tee-Object -FilePath $configLogFile
+    perl "${configure}" @configureArgs 2>&1 | Tee-Object -FilePath $configLogFile
     $nproc = [Environment]::ProcessorCount
     nmake -j $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
     nmake install
