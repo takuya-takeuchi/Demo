@@ -5,5 +5,8 @@
     },
     "windows": {
         "msvcStaticRuntime": true
+    },
+    "osx": {
+        "macosxMinVersion": "12"
     }
 }

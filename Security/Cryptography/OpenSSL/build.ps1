@@ -197,10 +197,10 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    $targetAbi = "darwin64-arm64-cc"
+    $targetAbi = "darwin64-${Architecture}-cc"
 
     $env:SDK = "macosx"
-    $env:MACOSX_MIN_VERSION = "${MINIMUM_TARGET_IOS_VERSION}"
+    $env:MACOSX_MIN_VERSION = $config.osx.macosxMinVersion
 
     $SDKROOT = (& xcrun --sdk $env:SDK --show-sdk-path).Trim()
     $CLANG = (& xcrun --sdk $env:SDK -find clang).Trim()
@@ -211,7 +211,7 @@ elseif ($global:IsMacOS)
     $env:CC = $CLANG
     $env:AR = $AR
     $env:RANLIB = $RANLIB
-    $env:CFLAGS = "-arch arm64 -isysroot `"$SDKROOT`" -mmacosx-version-min=$env:MACOSX_MIN_VERSION"
+    $env:CFLAGS = "-arch ${Architecture} -isysroot `"$SDKROOT`" -mmacosx-version-min=$env:MACOSX_MIN_VERSION"
 
     $configureArgs += @(
         $targetAbi
