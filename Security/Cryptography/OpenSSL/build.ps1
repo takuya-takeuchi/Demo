@@ -14,7 +14,13 @@ Param
    Mandatory=$True,
    Position = 2
    )][string]
-   $Architecture
+   $Architecture,
+
+   [Parameter(
+   Mandatory=$False,
+   Position = 3
+   )][string]
+   $Option
 )
 
 $ConfigurationArray =
@@ -32,6 +38,14 @@ $ArchitectureArray =
    "x86"
 )
 
+$OptionArray =
+@(
+   "android",
+   "ios",
+   "ios-simulator",
+   "uwp"
+)
+
 if ($ConfigurationArray.Contains($Configuration) -eq $False)
 {
    $candidate = $ConfigurationArray -join "/"
@@ -39,10 +53,17 @@ if ($ConfigurationArray.Contains($Configuration) -eq $False)
    exit -1
 }
 
-if ($ArchitectureArray.Contains($architecture) -eq $False)
+if ($ArchitectureArray.Contains($Architecture) -eq $False)
 {
    $candidate = $ArchitectureArray -join "/"
    Write-Host "Error: Specify Architecture [${candidate}]" -ForegroundColor Red
+   exit -1
+}
+
+if ($Option -and $OptionArray.Contains($Option) -eq $False)
+{
+   $candidate = $OptionArray -join "/"
+   Write-Host "Error: Specify Option [${candidate}]" -ForegroundColor Red
    exit -1
 }
 
@@ -67,17 +88,24 @@ else
 }
 
 # get os name
-if ($global:IsWindows)
+if ($Option)
 {
-    $os = "win"
+    $os = $Option
 }
-elseif ($global:IsMacOS)
+else
 {
-    $os = "osx"
-}
-elseif ($global:IsLinux)
-{
-    $os = "linux"
+    if ($global:IsWindows)
+    {
+        $os = "win"
+    }
+    elseif ($global:IsMacOS)
+    {
+        $os = "osx"
+    }
+    elseif ($global:IsLinux)
+    {
+        $os = "linux"
+    }
 }
 
 # build
@@ -136,97 +164,171 @@ $configLogFile = Join-Path $buildDir make-config.log
 $buildLogFile = Join-Path $buildDir make-build.log
 
 $configureArgs = @()
-if ($global:IsWindows)
+switch ($os)
 {
-    $perlDir = $env:PERLPATH
-    if (!$perlDir)
+    "win"
     {
-        Write-Host "[Error] Environmental Variable: PERLPATH is missing" -ForegroundColor Red
-        exit
-    }
-
-    if (!(Test-Path("${perlDir}")))
-    {
-        Write-Host "[Error] '${perlDir}' is missing" -ForegroundColor Red
-        exit
-    }
-
-    $nasmDir = $env:NASMPATH
-    if (!$nasmDir)
-    {
-        Write-Host "[Error] Environmental Variable: NASMPATH is missing" -ForegroundColor Red
-        exit
-    }
-
-    if (!(Test-Path("${nasmDir}")))
-    {
-        Write-Host "[Error] '${nasmDir}' is missing" -ForegroundColor Red
-        exit
-    }
-
-    $env:PATH="${perlDir};${nasmDir};${env:PATH}"
-
-    function CallVisualStudioDeveloperConsole()
-    {
-        $vs = "C:\Program Files\Microsoft Visual Studio\2022"
-        $path = "${vs}\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
-        if (!(Test-Path($path)))
+        $perlDir = $env:PERLPATH
+        if (!$perlDir)
         {
-            $path = "${vs}\Professional\VC\Auxiliary\Build\vcvars64.bat"
-        }
-        if (!(Test-Path($path)))
-        {
-            $path = "${vs}\Community\VC\Auxiliary\Build\vcvars64.bat"
+            Write-Host "[Error] Environmental Variable: PERLPATH is missing" -ForegroundColor Red
+            exit
         }
 
-        Write-Host "Use: ${path}" -ForegroundColor Green
+        if (!(Test-Path("${perlDir}")))
+        {
+            Write-Host "[Error] '${perlDir}' is missing" -ForegroundColor Red
+            exit
+        }
 
-        cmd.exe /c "call `"${path}`" && set > %temp%\vcvars.txt"
-        Get-Content "${env:temp}\vcvars.txt" | Foreach-Object {
-            if ($_ -match "^(.*?)=(.*)$") {
-                Set-Content "env:\$($matches[1])" $matches[2]
+        $nasmDir = $env:NASMPATH
+        if (!$nasmDir)
+        {
+            Write-Host "[Error] Environmental Variable: NASMPATH is missing" -ForegroundColor Red
+            exit
+        }
+
+        if (!(Test-Path("${nasmDir}")))
+        {
+            Write-Host "[Error] '${nasmDir}' is missing" -ForegroundColor Red
+            exit
+        }
+
+        $env:PATH="${perlDir};${nasmDir};${env:PATH}"
+
+        function CallVisualStudioDeveloperConsole()
+        {
+            $vs = "C:\Program Files\Microsoft Visual Studio\2022"
+            $path = "${vs}\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+            if (!(Test-Path($path)))
+            {
+                $path = "${vs}\Professional\VC\Auxiliary\Build\vcvars64.bat"
+            }
+            if (!(Test-Path($path)))
+            {
+                $path = "${vs}\Community\VC\Auxiliary\Build\vcvars64.bat"
+            }
+
+            Write-Host "Use: ${path}" -ForegroundColor Green
+
+            cmd.exe /c "call `"${path}`" && set > %temp%\vcvars.txt"
+            Get-Content "${env:temp}\vcvars.txt" | Foreach-Object {
+                if ($_ -match "^(.*?)=(.*)$") {
+                    Set-Content "env:\$($matches[1])" $matches[2]
+                }
             }
         }
+        CallVisualStudioDeveloperConsole
+        chcp 65001
+
+        $targets = @{
+            "x86"    = "VC-WIN32"
+            "x86_64" = "VC-WIN64A"
+            "arm64"  = "VC-WIN64-ARM"
+        }
+
+        $configureArgs += @(
+            $targets[$Architecture]
+        )
     }
-    CallVisualStudioDeveloperConsole
-    chcp 65001
-
-    $configureArgs += @(
-        $targetAbi
-    )
-}
-elseif ($global:IsMacOS)
-{
-    $targetAbi = "darwin64-${Architecture}-cc"
-
-    $env:SDK = "macosx"
-    $env:MACOSX_MIN_VERSION = $config.osx.macosxMinVersion
-
-    $SDKROOT = (& xcrun --sdk $env:SDK --show-sdk-path).Trim()
-    $CLANG = (& xcrun --sdk $env:SDK -find clang).Trim()
-    $AR = (& xcrun --sdk $env:SDK -find ar).Trim()
-    $RANLIB = (& xcrun --sdk $env:SDK -find ranlib).Trim()
-
-    $env:SDKROOT = $SDKROOT
-    $env:CC = $CLANG
-    $env:AR = $AR
-    $env:RANLIB = $RANLIB
-    $env:CFLAGS = "-arch ${Architecture} -isysroot `"$SDKROOT`" -mmacosx-version-min=$env:MACOSX_MIN_VERSION"
-
-    $configureArgs += @(
-        $targetAbi
-    )
-}
-elseif ($global:IsLinux)
-{
-    if ($Architecture -eq "arm64")
+    "osx"
     {
-        $Architecture = "aarch64"
-    }
+        $targetAbi = "darwin64-${Architecture}-cc"
 
-    $configureArgs += @(
-        "linux-${Architecture}"
-    )
+        $env:SDK = "macosx"
+        $env:MACOSX_MIN_VERSION = $config.osx.macosxMinVersion
+
+        $SDKROOT = (& xcrun --sdk $env:SDK --show-sdk-path).Trim()
+        $CLANG = (& xcrun --sdk $env:SDK -find clang).Trim()
+        $AR = (& xcrun --sdk $env:SDK -find ar).Trim()
+        $RANLIB = (& xcrun --sdk $env:SDK -find ranlib).Trim()
+
+        $env:SDKROOT = $SDKROOT
+        $env:CC = $CLANG
+        $env:AR = $AR
+        $env:RANLIB = $RANLIB
+        $env:CFLAGS = "-arch ${Architecture} -isysroot `"$SDKROOT`" -mmacosx-version-min=$env:MACOSX_MIN_VERSION"
+
+        $configureArgs += @(
+            $targetAbi
+        )
+    }
+    "linux"
+    {
+        $targets = @{
+            "x86"    = "linux-x86"
+            "x86_64" = "linux-x86_64"
+            "arm64"  = "linux-aarch64"
+        }
+        
+        $configureArgs += @(
+            $targets[$Architecture]
+        )
+    }
+    "android"
+    {
+        $androidHome = $env:ANDROID_HOME
+        if (!(${androidHome}))
+        {
+            Write-Host "Error: ANDROID_HOME is missing" -ForegroundColor Red
+            exit -1
+        }
+        if (!(Test-Path ${androidHome}))
+        {
+            Write-Host "Error: ANDROID_HOME: ${androidHome} is missing" -ForegroundColor Red
+            exit -1
+        }
+        $androidNdkHome = $env:ANDROID_NDK_HOME
+        if (!(${androidNdkHome}))
+        {
+            Write-Host "Error: ANDROID_NDK_HOME is missing" -ForegroundColor Red
+            exit -1
+        }
+        if (!(Test-Path ${androidNdkHome}))
+        {
+            Write-Host "Error: ANDROID_NDK_HOME: ${androidNdkHome} is missing" -ForegroundColor Red
+            exit -1
+        }
+
+        $env:ANDROID_NDK_ROOT = $env:ANDROID_NDK_HOME
+        if ($global:IsWindows)
+        {
+            $env:TOOLCHAIN="$env:ANDROID_NDK_HOME/toolchains/llvm/prebuilt/windows-x86_64"
+        }
+        elseif ($global:IsMacOS)
+        {
+            $env:TOOLCHAIN="$env:ANDROID_NDK_HOME/toolchains/llvm/prebuilt/darwin-x86_64"
+        }
+        elseif ($global:IsLinux)
+        {
+            $env:TOOLCHAIN="$env:ANDROID_NDK_HOME/toolchains/llvm/prebuilt/linux-x86_64"
+        }
+        $env:PATH="$env:TOOLCHAIN/bin:$env:PATH"
+
+        $env:ANDROID_API=${ANDROID_NATIVE_API_LEVEL}
+        $env:CC="aarch64-linux-android${ANDROID_NATIVE_API_LEVEL}-clang"
+        $env:AR="llvm-ar"
+        $env:RANLIB="llvm-ranlib"
+        $env:STRIP="llvm-strip"
+
+        $targets = @{
+            "x86"    = "android-x86"
+            "x86_64" = "android-x86_64"
+            "arm64"  = "android-arm64"
+        }
+        
+        $configureArgs += @(
+            $targets[$Architecture]
+        )
+    }
+    "ios"
+    {
+        
+    }
+    "ios-simulator"
+    {
+        
+    }
 }
 
 $configureArgs += @(
@@ -262,8 +364,10 @@ if ($Configuration -eq "Debug")
 if ($global:IsWindows)
 {
     perl "${configure}" @configureArgs 2>&1 | Tee-Object -FilePath $configLogFile
-    $nproc = [Environment]::ProcessorCount
-    nmake -j $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
+    # It may occur exhasted memory when using multiple processes. So, use single process.
+    # $nproc = [Environment]::ProcessorCount
+    # nmake -j $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
+    nmake 2>&1 | Tee-Object -FilePath $buildLogFile
     nmake install
 }
 else

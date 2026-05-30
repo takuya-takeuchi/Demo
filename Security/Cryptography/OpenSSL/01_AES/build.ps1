@@ -39,7 +39,7 @@ if ($ConfigurationArray.Contains($Configuration) -eq $False)
    exit -1
 }
 
-if ($ArchitectureArray.Contains($architecture) -eq $False)
+if ($ArchitectureArray.Contains($Architecture) -eq $False)
 {
    $candidate = $ArchitectureArray -join "/"
    Write-Host "Error: Specify Architecture [${candidate}]" -ForegroundColor Red
@@ -56,7 +56,6 @@ if (!(Test-Path($configPath)))
 }
 
 $config = Get-Content -Path $configPath | ConvertFrom-Json
-$target = "openssl"
 $version = $config.openssl.version
 if ($config.openssl.shared)
 {
