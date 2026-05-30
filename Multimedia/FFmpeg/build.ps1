@@ -109,7 +109,7 @@ Push-Location $buildDir
 $configure = Join-Path $sourceDir "configure"
 if (!(Test-Path($configure)))
 {
-    Write-Host "${pconfigureath} is missing" -ForegroundColor Red
+    Write-Host "${configure} is missing" -ForegroundColor Red
     exit
 }
 

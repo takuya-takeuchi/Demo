@@ -7,6 +7,7 @@
 
 #include <openssl/err.h>
 #include <openssl/evp.h>
+#include <openssl/opensslv.h>
 #include <openssl/rand.h>
 
 #define AES_BLOCK_SIZE 16
@@ -163,6 +164,9 @@ int32_t main(int32_t argc, const char** argv)
         std::cerr << "Demo <plainText> <password> <aes length. 128, 192 or 256>" << std::endl;
         return -1;
     }
+
+    std::cout << "OpenSSL version text: " << OpenSSL_version(OPENSSL_VERSION) << std::endl;
+    std::cout << std::endl;
 
     const std::string plainTextStr = argv[1];
     const std::string passwordStr = argv[2];

@@ -1,0 +1,18 @@
+{
+    "openssl": {
+        "version": "openssl-3.6.2",
+        "shared": false
+    },
+    "windows": {
+        "msvcStaticRuntime": true
+    },
+    "osx": {
+        "minVersion": "12"
+    },
+    "android": {
+        "api": "21"
+    },
+    "ios": {
+        "minVersion": "12"
+    }
+}
