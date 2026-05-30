@@ -1,0 +1,9 @@
+{
+    "awssdkcpp": {
+        "version": "openssl-3.6.2",
+        "shared": false
+    },
+    "windows": {
+        "msvcStaticRuntime": true
+    }
+}

@@ -268,3 +268,7 @@
 	path = Cloud/AmazonWebService-Compatibility/aws-sdk-cpp
 	url = https://github.com/aws/aws-sdk-cpp
 	ignore = dirty
+[submodule "Security/Cryptography/OpenSSL/openssl"]
+	path = Security/Cryptography/OpenSSL/openssl
+	url = https://github.com/openssl/openssl
+	ignore = dirty
