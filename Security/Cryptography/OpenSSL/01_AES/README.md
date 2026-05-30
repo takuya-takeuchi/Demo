@@ -68,8 +68,8 @@ $ install\win\bin\Demo.exe "This is a secret message." password 256
 ### Linux
 
 ````bash
-$ ./install/linux/x86_64/static/Release/bin/Demo "This is a secret message." password 256
-OpenSSL version text: OpenSSL 3.0.2 15 Mar 2022
+$ ./install/openssl-3.6.2/linux/x86_64/static/Release/bin/Demo "This is a secret message." password 256
+OpenSSL version text: OpenSSL 3.6.2 7 Apr 2026
 
               Algorithm: AES-256
              Plain Text: This is a secret message.

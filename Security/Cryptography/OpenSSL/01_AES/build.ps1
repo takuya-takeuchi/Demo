@@ -167,6 +167,7 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {    
+    $env:OPENSSL_ROOT_DIR = "${OPENSSL_INSTALL_DIR}"
     $cmakeArgs += @(
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
