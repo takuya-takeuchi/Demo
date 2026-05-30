@@ -16,6 +16,14 @@
 
 * Visual Studio 2022
 
+### Linux
+
+* g++
+
+### OSX
+
+* Xcode
+
 ## How to build?
 
 At first, you must build OpenSSL on [OpenSSL](..) directory.

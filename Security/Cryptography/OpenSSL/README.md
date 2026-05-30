@@ -20,11 +20,19 @@
 * [NASM](https://www.nasm.us/)
   * BSD-2-Clause License
 
-### Ubuntu
+### Linux
 
 * g++
 
 ### OSX
+
+* Xcode
+
+### Android
+
+* Android SDK and NDK
+
+### iOS
 
 * Xcode
 
@@ -67,7 +75,7 @@ $ export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/28.2.13676358
 $ pwsh build.ps1 <Debug/Release> <x86/x86_64/arm32/arm64> android
 ````
 
-#### ios
+#### iOS
 
 ````bash
 $ pwsh build.ps1 <Debug/Release> <x86_64/arm64> <ios/ios-simulator>
