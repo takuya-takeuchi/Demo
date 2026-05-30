@@ -306,7 +306,14 @@ switch ($os)
         $env:PATH="$env:TOOLCHAIN/bin:$env:PATH"
 
         $env:ANDROID_API=$config.android.api
-        $env:CC="aarch64-linux-android$($env:ANDROID_API)-clang"
+        $cc = @{
+            "x86"    = "i686-linux-android$($env:ANDROID_API)-clang"
+            "x86_64" = "x86_64-linux-android$($env:ANDROID_API)-clang"
+            "arm64"  = "aarch64-linux-android$($env:ANDROID_API)-clang"
+            "arm"    = "armv7a-linux-android$($env:ANDROID_API)-clang"
+        }
+
+        $env:CC=$cc[$Architecture]
         $env:AR="llvm-ar"
         $env:RANLIB="llvm-ranlib"
         $env:STRIP="llvm-strip"
