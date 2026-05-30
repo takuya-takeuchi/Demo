@@ -305,8 +305,8 @@ switch ($os)
         }
         $env:PATH="$env:TOOLCHAIN/bin:$env:PATH"
 
-        $env:ANDROID_API=${ANDROID_NATIVE_API_LEVEL}
-        $env:CC="aarch64-linux-android${ANDROID_NATIVE_API_LEVEL}-clang"
+        $env:ANDROID_API=$config.android.api
+        $env:CC="aarch64-linux-android$($env:ANDROID_API)-clang"
         $env:AR="llvm-ar"
         $env:RANLIB="llvm-ranlib"
         $env:STRIP="llvm-strip"
@@ -323,6 +323,15 @@ switch ($os)
     }
     "ios"
     {
+      $SDKROOT = (& xcrun --sdk $env:SDK --show-sdk-path).Trim()
+      $CLANG = (& xcrun --sdk $env:SDK -find clang).Trim()
+      $AR = (& xcrun --sdk $env:SDK -find ar).Trim()
+      $RANLIB = (& xcrun --sdk $env:SDK -find ranlib).Trim()
+
+      $env:IOS_MIN_VERSION = "${MINIMUM_TARGET_IOS_VERSION}"
+      $env:CC = "$CLANG -arch arm64 -isysroot $SDKROOT -miphoneos-version-min=$env:IOS_MIN_VERSION"
+      $env:AR = $AR
+      $env:RANLIB = $RANLIB
         
     }
     "ios-simulator"
@@ -368,13 +377,13 @@ if ($global:IsWindows)
     # $nproc = [Environment]::ProcessorCount
     # nmake -j $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
     nmake 2>&1 | Tee-Object -FilePath $buildLogFile
-    nmake install
+    nmake install_sw
 }
 else
 {
     & "${configure}" @configureArgs 2>&1 | Tee-Object -FilePath $configLogFile
     make -j $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
-    make install
+    make install_sw
 }
 
 Pop-Location

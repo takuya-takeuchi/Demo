@@ -39,18 +39,6 @@
 
 At first, you have to download openssl source code.
 
-````shell
-$ pwsh download.ps1 <OpenSSL version>
-````
-
-Then, you can start building.
-It takes a long time.
-
-We tested the following versions
-
-* 1.1.1w
-* 3.4.0
-
 #### Windows
 
 ````shell
@@ -69,4 +57,20 @@ $ pwsh build.ps1 <OpenSSL version> <Debug/Release>
 
 ````shell
 $ pwsh build.ps1 <OpenSSL version> <Debug/Release>
+````
+
+#### Android
+
+````bash
+$ export ANDROID_HOME=~/Library/Android/sdk
+$ export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/28.2.13676358
+$ pwsh build.ps1 <Debug/Release> <x86_64/x86/arm64> android
+````
+
+#### ios
+
+````bash
+$ export ANDROID_HOME=~/Library/Android/sdk
+$ export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/28.2.13676358
+$ pwsh build.ps1 <Debug/Release> <x86_64/x86/arm64> <ios/ios-simulator>
 ````

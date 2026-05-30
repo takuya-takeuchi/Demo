@@ -23,7 +23,6 @@ At first, you must build OpenSSL on [OpenSSL](..) directory.
 ````shell
 $ pwsh build.ps1 <Debug/Release> <x86_64/x86/arm64>
 ````
-
 Once time you built opnessl, you need not to do again.
 
 ## How to use?

@@ -8,5 +8,8 @@
     },
     "osx": {
         "macosxMinVersion": "12"
+    },
+    "android": {
+        "api": "21"
     }
 }
