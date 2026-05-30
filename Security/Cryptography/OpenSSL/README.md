@@ -50,13 +50,13 @@ $ pwsh build.ps1 <Debug/Release> <x86_64/x86/arm64>
 #### Linux
 
 ````shell
-$ pwsh build.ps1 <OpenSSL version> <Debug/Release>
+$ pwsh build.ps1 <Debug/Release> <x86_64/x86/arm64>
 ````
 
 #### OSX
 
 ````shell
-$ pwsh build.ps1 <OpenSSL version> <Debug/Release>
+$ pwsh build.ps1 <Debug/Release> <x86_64/arm64>
 ````
 
 #### Android
@@ -64,13 +64,11 @@ $ pwsh build.ps1 <OpenSSL version> <Debug/Release>
 ````bash
 $ export ANDROID_HOME=~/Library/Android/sdk
 $ export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/28.2.13676358
-$ pwsh build.ps1 <Debug/Release> <x86_64/x86/arm64> android
+$ pwsh build.ps1 <Debug/Release> <x86/x86_64/arm32/arm64> android
 ````
 
 #### ios
 
 ````bash
-$ export ANDROID_HOME=~/Library/Android/sdk
-$ export ANDROID_NDK_HOME=${ANDROID_HOME}/ndk/28.2.13676358
-$ pwsh build.ps1 <Debug/Release> <x86_64/x86/arm64> <ios/ios-simulator>
+$ pwsh build.ps1 <Debug/Release> <x86_64/arm64> <ios/ios-simulator>
 ````

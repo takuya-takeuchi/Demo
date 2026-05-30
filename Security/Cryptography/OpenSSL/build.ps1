@@ -9,7 +9,7 @@ Param
    Position = 1
    )][string]
    $Configuration,
-   
+
    [Parameter(
    Mandatory=$True,
    Position = 2
@@ -33,6 +33,7 @@ $ConfigurationArray =
 
 $ArchitectureArray =
 @(
+   "arm32",
    "arm64",
    "x86_64",
    "x86"
@@ -236,7 +237,7 @@ switch ($os)
         $targetAbi = "darwin64-${Architecture}-cc"
 
         $env:SDK = "macosx"
-        $env:MACOSX_MIN_VERSION = $config.osx.macosxMinVersion
+        $env:MACOSX_MIN_VERSION = $config.osx.minVersion
 
         $SDKROOT = (& xcrun --sdk $env:SDK --show-sdk-path).Trim()
         $CLANG = (& xcrun --sdk $env:SDK -find clang).Trim()
@@ -260,7 +261,7 @@ switch ($os)
             "x86_64" = "linux-x86_64"
             "arm64"  = "linux-aarch64"
         }
-        
+
         $configureArgs += @(
             $targets[$Architecture]
         )
@@ -309,8 +310,8 @@ switch ($os)
         $cc = @{
             "x86"    = "i686-linux-android$($env:ANDROID_API)-clang"
             "x86_64" = "x86_64-linux-android$($env:ANDROID_API)-clang"
+            "arm32"  = "armv7a-linux-android$($env:ANDROID_API)-clang"
             "arm64"  = "aarch64-linux-android$($env:ANDROID_API)-clang"
-            "arm"    = "armv7a-linux-android$($env:ANDROID_API)-clang"
         }
 
         $env:CC=$cc[$Architecture]
@@ -321,29 +322,58 @@ switch ($os)
         $targets = @{
             "x86"    = "android-x86"
             "x86_64" = "android-x86_64"
+            "arm32"  = "android-arm"
             "arm64"  = "android-arm64"
         }
-        
+
         $configureArgs += @(
             $targets[$Architecture]
         )
     }
     "ios"
     {
-      $SDKROOT = (& xcrun --sdk $env:SDK --show-sdk-path).Trim()
-      $CLANG = (& xcrun --sdk $env:SDK -find clang).Trim()
-      $AR = (& xcrun --sdk $env:SDK -find ar).Trim()
-      $RANLIB = (& xcrun --sdk $env:SDK -find ranlib).Trim()
+        $env:SDK = "iphoneos"
 
-      $env:IOS_MIN_VERSION = "${MINIMUM_TARGET_IOS_VERSION}"
-      $env:CC = "$CLANG -arch arm64 -isysroot $SDKROOT -miphoneos-version-min=$env:IOS_MIN_VERSION"
-      $env:AR = $AR
-      $env:RANLIB = $RANLIB
-        
+        $SDKROOT = (& xcrun --sdk $env:SDK --show-sdk-path).Trim()
+        $CLANG = (& xcrun --sdk $env:SDK -find clang).Trim()
+        $AR = (& xcrun --sdk $env:SDK -find ar).Trim()
+        $RANLIB = (& xcrun --sdk $env:SDK -find ranlib).Trim()
+
+        $env:IOS_MIN_VERSION = $config.ios.minVersion
+        $env:CC = "$CLANG -arch arm64 -isysroot $SDKROOT -miphoneos-version-min=$env:IOS_MIN_VERSION"
+        $env:AR = $AR
+        $env:RANLIB = $RANLIB
+
+        $targets = @{
+            "arm64"  = "ios64-xcrun"
+        }
+
+        $configureArgs += @(
+            $targets[$Architecture]
+        )
     }
     "ios-simulator"
     {
-        
+        $env:SDK = "iphonesimulator"
+
+        $SDKROOT = (& xcrun --sdk $env:SDK --show-sdk-path).Trim()
+        $CLANG = (& xcrun --sdk $env:SDK -find clang).Trim()
+        $AR = (& xcrun --sdk $env:SDK -find ar).Trim()
+        $RANLIB = (& xcrun --sdk $env:SDK -find ranlib).Trim()
+
+        $env:IOS_MIN_VERSION = $config.ios.minVersion
+        $env:CC = "$CLANG -arch $Architecture -isysroot $SDKROOT -miphoneos-version-min=$env:IOS_MIN_VERSION"
+        $env:AR = $AR
+        $env:RANLIB = $RANLIB
+
+        $targets = @{
+            "x86_64" = "iossimulator-xcrun"
+            "arm64"  = "iossimulator-arm64-xcrun"
+        }
+
+        $configureArgs += @(
+            $targets[$Architecture]
+        )
     }
 }
 

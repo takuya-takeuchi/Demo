@@ -7,9 +7,12 @@
         "msvcStaticRuntime": true
     },
     "osx": {
-        "macosxMinVersion": "12"
+        "minVersion": "12"
     },
     "android": {
         "api": "21"
+    },
+    "ios": {
+        "minVersion": "12"
     }
 }
