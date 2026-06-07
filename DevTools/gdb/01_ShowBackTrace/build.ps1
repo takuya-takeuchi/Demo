@@ -27,11 +27,7 @@ if ($ConfigurationArray.Contains($Configuration) -eq $False)
 $current = $PSScriptRoot
 
 # get os name
-if ($global:IsMacOS)
-{
-    $os = "osx"
-}
-elseif ($global:IsLinux)
+if ($global:IsLinux)
 {
     $os = "linux"
 }
