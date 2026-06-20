@@ -95,16 +95,42 @@ int main(int argc, char* argv[])
     // Initialize GStreamer
     gst_init(&argc, &argv);
 
-    std::string pipeline_str = "rtspsrc name=src location=" + rtsp_url +
-                               " protocols=tcp latency=500 "
-                               "src. ! application/x-rtp,media=video,encoding-name=H264 ! "
-                               "rtph264depay ! "
-                               "h264parse name=parser config-interval=-1 ! "
-                               "avdec_h264 ! "
-                               "videoconvert ! "
-                               "jpegenc quality=100 ! "
-                               "appsink name=mysink emit-signals=true sync=false max-buffers=1 drop=true";
-    std::cout << "Pipeline: " << pipeline_str << std::endl;
+    std::string pipeline_str =
+        // Receive the stream from RTSP.
+        // Use TCP to reduce video corruption caused by RTP packet loss.
+        // latency controls the jitter buffer delay.
+        // A larger value improves stability but increases latency.
+        "rtspsrc name=src location=" + rtsp_url +
+        " protocols=tcp latency=500 "
+
+        // rtspsrc creates dynamic pads for audio and video.
+        // Restrict the connection to H.264 video RTP only.
+        "src. ! application/x-rtp,media=video,encoding-name=H264 ! "
+
+        // Extract the H.264 payload from RTP packets.
+        "rtph264depay ! "
+
+        // Parse the H.264 stream and prepare it for the decoder.
+        // name=parser is required so that C++ code can attach a pad probe.
+        // config-interval=-1 inserts SPS/PPS on every IDR frame,
+        // improving robustness when joining the stream mid-GOP.
+        "h264parse name=parser config-interval=-1 ! "
+
+        // Decode H.264 into raw video frames.
+        "avdec_h264 ! "
+
+        // Convert the raw video pixel format to one accepted by jpegenc.
+        "videoconvert ! "
+
+        // Encode raw video frames as JPEG images.
+        // quality=100 is the highest JPEG quality, but JPEG is still not truly lossless.
+        "jpegenc quality=100 ! "
+
+        // Receive JPEG buffers in C++.
+        // emit-signals=true enables the new-sample callback.
+        // max-buffers=1 drop=true prioritizes the latest frame.
+        // This is suitable for real-time processing, but not for saving every frame.
+        "appsink name=mysink emit-signals=true sync=false max-buffers=1 drop=true";
     std::cout << "Pipeline: " << pipeline_str << std::endl;
 
     GError* error = nullptr;
