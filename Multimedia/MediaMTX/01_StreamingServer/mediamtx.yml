@@ -11,5 +11,5 @@ paths:
       -i sample-30s.mp4
       -c copy
       -f rtsp
-      rtsp://localhost:12345/mystream
+      rtsp://0.0.0.0:12345/mystream
     runOnInitRestart: yes

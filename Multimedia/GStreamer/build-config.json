@@ -1,6 +1,6 @@
 {
     "gstreamer": {
-        "version": "1.26.11"
+        "version": "1.28.2"
     },
     "pkg_config": {
         "version": "0.23-2",

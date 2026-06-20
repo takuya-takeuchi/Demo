@@ -21,6 +21,7 @@ endif()
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(GST REQUIRED IMPORTED_TARGET
     gstreamer-1.0
+    gstreamer-app-1.0
 )
 
 add_executable(${PROJ_NAME} main.cpp)
