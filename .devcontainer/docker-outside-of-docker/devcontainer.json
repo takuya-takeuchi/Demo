@@ -1,0 +1,21 @@
+// For format details, see https://aka.ms/devcontainer.json. For config options, see the
+// README at: https://github.com/devcontainers/templates/tree/main/src/powershell
+{
+	"name": "docker-outside-of-docker-devcontainer",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	// set container name by --name flag in runArgs
+	"runArgs": [
+		"--name",
+		"${localEnv:USER}-devcontainer",
+		"--rm"
+	],
+	"shutdownAction": "stopContainer",
+	"features": {
+		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
+			"version": "latest",
+			"moby": false
+		}
+	}
+}
