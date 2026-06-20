@@ -1,6 +1,6 @@
 $current = $PSScriptRoot
 
-$target = "MediaMTX"
+$target = "mediamtx"
 
 # get os name
 if ($global:IsWindows)
