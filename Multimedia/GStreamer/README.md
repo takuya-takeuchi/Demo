@@ -26,7 +26,8 @@
 ## Dependencies
 
 * [GStreamer](https://gstreamer.freedesktop.org/)
-  * 1.26.11
+  * 1.28.2
+    * Build error 'ERROR: Requested variable "plugins_cache_generator" not found' occurs since 1.28.3
   * GNU General Public License (GPL) version 2.1
 
 ### Dependencies for development

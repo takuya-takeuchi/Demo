@@ -122,7 +122,7 @@ foreach ($path in $paths)
     {
         Write-Host "${path} is missing" -ForegroundColor Red
         exit
-    }        
+    }
 }
 
 New-Item -Type Directory $buildDir -Force | Out-Null
@@ -141,44 +141,61 @@ if ($global:IsWindows)
 {
     $setupArgs += @(
         "--vsenv"
-        "--buildtype=$Configuration"
-        "--prefix=$installDir"
-        "-Dgpl=disabled"
     )
 }
 elseif ($global:IsMacOS)
 {
     # sudo apt install libgtk-3-dev libsdl2-dev
-    $setupArgs += @(
-        "--buildtype=$Configuration"
-        "--prefix=$installDir"
-        "-Dgpl=disabled"
-    )
 }
 elseif ($global:IsLinux)
 {
-    $setupArgs += @(
-        "--buildtype=$Configuration"
-        "--prefix=$installDir"
-        "-Dgpl=disabled"
-
-        "-Dpython=disabled"
-        "-Dlibav=disabled"
-        "-Dlibnice=disabled"
-        "-Ddevtools=disabled"
-        "-Dges=disabled"
-        "-Drtsp_server=disabled"
-        "-Dvaapi=disabled"
-        "-Dsharp=disabled"
-        "-Drs=disabled"
-        "-Dgst-examples=disabled"
-        "-Dtls=disabled"
-        "-Dqt5=disabled"
-
-        "-Dgst-plugins-bad:opencv=disabled"
-        "-Dgst-plugins-bad:openh264=enabled"
-    )
 }
+
+$setupArgs += @(
+    "--buildtype=$Configuration"
+    "--prefix=$installDir"
+    "-Dgpl=disabled"
+    "-Dauto_features=disabled"
+
+    "-Dpython=disabled"
+    "-Dlibav=disabled"
+    "-Dlibnice=disabled"
+    "-Ddevtools=disabled"
+    "-Dges=disabled"
+    "-Drtsp_server=disabled"
+    "-Dsharp=disabled"
+    "-Drs=disabled"
+    "-Dgst-examples=disabled"
+    "-Dtls=disabled"
+    "-Dqt5=disabled"
+
+    "-Dgst-plugins-good:rtp=enabled"
+    "-Dgst-plugins-good:rtpmanager=enabled"
+    "-Dgst-plugins-good:rtsp=enabled"
+    "-Dgst-plugins-good:jpeg=enabled"
+
+    "-Dgst-plugins-base:app=enabled" # appsink
+    "-Dgst-plugins-base:videoconvertscale=enabled" # videoconvert
+
+    "-Dgst-plugins-good:soup=disabled"
+    "-Dgst-plugins-bad:webrtc=disabled"
+    "-Dgst-plugins-bad:webrtcdsp=disabled"
+    "-Dgst-plugins-bad:srtp=disabled"
+    "-Dgst-plugins-bad:sctp=disabled"
+    "-Dlibnice=disabled"
+    "-Dwebrtc=disabled"
+    "-Dgst-plugins-bad:videoparsers=enabled"
+    "-Dgst-plugins-bad:opencv=disabled"
+    "-Dgst-plugins-bad:openh264=enabled"
+
+    "-Dgst-plugins-bad:nvdswrapper=disabled"
+    "-Dgst-plugins-bad:nvcomp=disabled"
+    "-Dgst-plugins-bad:cuda-nvmm=disabled"
+    "-Dgst-plugins-bad:cuda-nvmm-include-path=disabled"
+    "-Dgst-plugins-bad:nvcodec=disabled"
+    "-Dgst-plugins-bad:vulkan=disabled"
+    "-Dgst-plugins-bad:vulkan-video=disabled"
+)
 
 $configLogFile = Join-Path $buildDir cmake-config.log
 $buildLogFile = Join-Path $buildDir cmake-build.log
@@ -186,8 +203,7 @@ $buildLogFile = Join-Path $buildDir cmake-build.log
 # $env:PKG_CONFIG_PATH="${OPENCV_PKGCONFIG_DIR}:$PKG_CONFIG_PATH"
 
 meson subprojects update
-meson setup @setupArgs $buildDir 2>&1 | Tee-Object -FilePath $configLogFile
-meson configure $buildDir -Drtsp_server=enabled
+meson setup $buildDir @setupArgs 2>&1 | Tee-Object -FilePath $configLogFile
 meson compile -C $buildDir 2>&1 | Tee-Object -FilePath $buildLogFile
 meson install -C $buildDir
 

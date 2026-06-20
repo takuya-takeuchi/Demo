@@ -1,6 +1,6 @@
 {
     "gstreamer": {
-        "version": "1.26.11"
+        "version": "1.28.2"
     },
     "pkg_config": {
         "version": "0.23-2",
@@ -13,12 +13,5 @@
     "gettext": {
         "version": "0.18.1.1-2",
         "sha256": "1f4269c0e021076d60a54e98da6f978a3195013f6de21674ba0edbc339c5b079"
-    },
-    "opencv": {
-        "version": "4.13.0",
-        "shared": true
-    },
-    "windows": {
-        "msvcStaticRuntime": true
     }
 }

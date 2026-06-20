@@ -272,11 +272,3 @@
 	path = Security/Cryptography/OpenSSL/openssl
 	url = https://github.com/openssl/openssl
 	ignore = dirty
-[submodule "Multimedia/GStreamer/opencv"]
-	path = Multimedia/GStreamer/opencv
-	url = https://github.com/opencv/opencv
-	ignore = dirty
-[submodule "Multimedia/GStreamer/opencv_contrib"]
-	path = Multimedia/GStreamer/opencv_contrib
-	url = https://github.com/opencv/opencv_contrib
-	ignore = dirty
