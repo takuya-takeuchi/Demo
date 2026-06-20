@@ -124,6 +124,33 @@ on_new_sample
 #### OSX
 
 ````shell
-$ ./install/osx/bin/Demo
-GStreamer 1.26.11
+$ export GSTREAMER_VERSION=1.28.2
+$ export GST_PLUGIN_SCANNER=../install/osx/gstreamer/${GSTREAMER_VERSION}$/Release/libexec/gstreamer-1.0/gst-plugin-scanner
+$ export GST_PLUGIN_SYSTEM_PATH=../install/osx/gstreamer/${GSTREAMER_VERSION}/Release/lib/gstreamer-1.0
+$ export DYLD_LIBRARY_PATH=../install/osx/gstreamer/${GSTREAMER_VERSION}/Release/lib:$DYLD_LIBRARY_PATH
+$ ./install/osx/bin/Demo rtsp://192.168.11.102:12345/mystream
+Pipeline: rtspsrc name=src location=rtsp://192.168.11.102:12345/mystream protocols=tcp latency=500 src. ! application/x-rtp,media=video,encoding-name=H264 ! rtph264depay ! h264parse name=parser config-interval=-1 ! openh264dec ! videoconvert ! jpegenc quality=100 ! appsink name=mysink emit-signals=true sync=false max-buffers=1 drop=true
+Streaming started. Press Ctrl+C to stop.
+Drop delta frame before first keyframe
+Drop delta frame before first keyframe
+...
+Drop delta frame before first keyframe
+Drop delta frame before first keyframe
+Drop delta frame before first keyframe
+First keyframe detected
+on_new_sample
+Saved: output/frame_0.jpg (1702872 bytes)
+on_new_sample
+Saved: output/frame_1.jpg (1752651 bytes)
+on_new_sample
+Saved: output/frame_2.jpg (1787726 bytes)
+on_new_sample
+Saved: output/frame_3.jpg (1783853 bytes)
+on_new_sample
+Saved: output/frame_4.jpg (1838364 bytes)
+on_new_sample
+Saved: output/frame_5.jpg (1767013 bytes)
+on_new_sample
+Saved: output/frame_6.jpg (1791758 bytes)
+on_new_sample
 ````

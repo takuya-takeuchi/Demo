@@ -39,6 +39,34 @@ elseif ($global:IsLinux)
 $target = "gstreamer"
 $version = $config.gstreamer.version
 
+# build
+$sourceDir = Join-Path $current $target
+$buildDir = Join-Path $current build | `
+            Join-Path -ChildPath $os | `
+            Join-Path -ChildPath $target | `
+            Join-Path -ChildPath $version | `
+            Join-Path -ChildPath $Configuration
+$installDir = Join-Path $current install | `
+              Join-Path -ChildPath $os | `
+              Join-Path -ChildPath $target | `
+              Join-Path -ChildPath $version | `
+              Join-Path -ChildPath $Configuration
+
+New-Item -Type Directory $buildDir -Force | Out-Null
+New-Item -Type Directory $installDir -Force | Out-Null
+
+git checkout $sourceDir
+git submodule update --init --recursive $sourceDir
+
+Push-Location $sourceDir
+
+git fetch -ap
+git checkout $version
+
+Pop-Location
+
+Push-Location $current
+
 # python venv activate
 $venvDir = Join-Path $current ".venv"
 Write-Host "[Info] Activate python venv"
@@ -82,27 +110,9 @@ python -c "import sys; print(f'Python executable: {sys.executable}')"
 python -m pip install pip --upgrade
 python -m pip install meson ninja
 
-# build
-$sourceDir = Join-Path $current $target
-$buildDir = Join-Path $current build | `
-            Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target | `
-            Join-Path -ChildPath $version | `
-            Join-Path -ChildPath $Configuration
-$installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target | `
-              Join-Path -ChildPath $version | `
-              Join-Path -ChildPath $Configuration
-
-New-Item -Type Directory $buildDir -Force | Out-Null
-New-Item -Type Directory $installDir -Force | Out-Null
+Pop-Location
 
 Push-Location $sourceDir
-
-git fetch -ap
-git checkout $version
-git submodule update --init --recursive .
 
 $Configuration = $Configuration.ToLower()
 
