@@ -1,7 +1,7 @@
 // For format details, see https://aka.ms/devcontainer.json. For config options, see the
 // README at: https://github.com/devcontainers/templates/tree/main/src/powershell
 {
-	"name": "docker-build-devcontainer",
+	"name": "docker-outside-of-docker-devcontainer",
 	"build": {
 		"dockerfile": "Dockerfile"
 	},
@@ -11,12 +11,11 @@
 		"${localEnv:USER}-devcontainer",
 		"--rm"
 	],
-	"postCreateCommand": "sudo chsh vscode -s \"$(which pwsh)\"",
 	"shutdownAction": "stopContainer",
 	"features": {
 		"ghcr.io/devcontainers/features/docker-outside-of-docker:1": {
-			"version": "latest"
-			// "moby": false
+			"version": "latest",
+			"moby": false
 		}
 	}
 }
