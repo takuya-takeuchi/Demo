@@ -1,0 +1,25 @@
+{
+    "mediamtx": {
+        "version": "v1.19.1",
+        "sha256": {
+            "win": "ca3d89c370bf73dc33ef9ee87afea04834f21b129f499d4b645490fcb01cce22",            
+            "linux": "035ee04f91b1c7a0c02e13b2139ca2456e43b6bd6a80e3100e8c228556e07807",
+            "osx": "217423874b56da675cc9627d110bb3a05fdd3b26e025980d801189e2ae3684d1"
+        }
+    },
+    "ffmpeg": {
+        "version": "n8.1.2",
+        "majorVersion": "8.1",
+        "tag": "autobuild-2026-06-19-23-17",
+        "sha256": {
+            "gpl": {
+                "win": "270601cc0c110e6b7a247e86ee9d45ca984244e048f4328da633a9f3e6ff75c2",
+                "linux": "11e595ae2763aff867c500675159c196fb42af12851d6efd7397e2ee8992425b"
+            },
+            "lgpl": {
+                "win": "3fb338e544e4031d83f42dd52a0ff91ccfee5b9577762402e317fc3dcb7d433f",
+                "linux": "19323b13e5d6a04315e0859a4d383751b40802cdb47c9edff351f057e27031f8"
+            }
+        }
+    }
+}

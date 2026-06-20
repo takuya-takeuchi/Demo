@@ -1,33 +1,58 @@
 $current = $PSScriptRoot
 
-$target = "MediaMTX"
-$baseUrl = "https://github.com/bluenviron/mediamtx/releases/download"
-$tag = "v1.9.0"
-
-$urls = @{
-    "mediamtx_${tag}_windows_amd64.zip"="1F1AFDD922294E119B489D4AE7B5AE2483C055A4";
-    "mediamtx_${tag}_linux_amd64.tar.gz"="5B60F775D1B440ACC6A003EDCB63D5816160917C";
-    "mediamtx_${tag}_darwin_arm64.tar.gz"="A1A8F82613770004695AD858246E8083867D8E25";
+$configPath = Join-Path $current "build-config.json"
+if (!(Test-Path($configPath)))
+{
+    Write-Host "${configPath} is missing" -ForegroundColor Red
+    exit
 }
+
+$config = Get-Content -Path $configPath | ConvertFrom-Json
+
+# get os name
+if ($global:IsWindows)
+{
+    $os = "win"
+}
+elseif ($global:IsMacOS)
+{
+    $os = "osx"
+}
+elseif ($global:IsLinux)
+{
+    $os = "linux"
+}
+else
+{
+    Write-Host "This platform is not supported" -ForegroundColor Red
+    exit
+}
+
+$target = "mediamtx"
+$tag = $config.mediamtx.version
+$baseUrl = "https://github.com/bluenviron/mediamtx/releases/download"
 
 # get os name
 if ($global:IsWindows)
 {
     $os = "win"
     $baseName = "mediamtx_${tag}_windows_amd64"
-    $key = "${baseName}.zip"
+    $file = "${baseName}.zip"
+    $sha256 = $config.mediamtx.sha256.win
 }
 elseif ($global:IsMacOS)
 {
     $os = "osx"
     $baseName = "mediamtx_${tag}_darwin_arm64"
-    $key = "${baseName}.tar.gz"
+    $file = "${baseName}.tar.gz"
+    $sha256 = $config.mediamtx.sha256.osx
 }
 elseif ($global:IsLinux)
 {
     $os = "linux"
     $baseName = "mediamtx_${tag}_linux_amd64"
-    $key = "${baseName}.tar.gz"
+    $file = "${baseName}.tar.gz"
+    $sha256 = $config.mediamtx.sha256.linux
 }
 
 $installDir = Join-Path $current install | `
@@ -35,38 +60,29 @@ $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os
 
 $path = ""
-foreach($entry in $urls.GetEnumerator())
+$url = "${baseUrl}/${tag}/${file}"
+$sha256 = $entry.Value;
+
+$path = Join-Path $current $file
+$exist = Test-Path(${path})
+if ($exist)
 {
-    $file = $entry.Key
-    if ($file -ne $key)
-    {
-        continue
-    }
-
-    $url = "${baseUrl}/${tag}/${file}"
-    $sha1 = $entry.Value;
-
-    $path = Join-Path $current $file
-    $exist = Test-Path(${path})
+    $hash = (Get-FileHash ${file} -Algorithm SHA256).hash
+    $exist = $sha256 -eq $hash
     if ($exist)
     {
-        $hash = (Get-FileHash ${file} -Algorithm SHA1).hash
-        $exist = $sha1 -eq $hash
-        if ($exist)
-        {
-            Write-Host "File is already downloaded" -ForegroundColor Green
-        }
-        else
-        {
-            Write-Host "File is already downloaded but SHA1 is not matched (${hash})" -ForegroundColor Yellow
-        }
+        Write-Host "File is already downloaded" -ForegroundColor Green
     }
-    
-    if (!$exist)
+    else
     {
-        Write-Host "Download ${file} from ${url}" -ForegroundColor Blue
-        Invoke-WebRequest "${url}" -OutFile "${file}"
+        Write-Host "File is already downloaded but SHA1 is not matched (${hash})" -ForegroundColor Yellow
     }
+}
+
+if (!$exist)
+{
+    Write-Host "Download ${file} from ${url}" -ForegroundColor Blue
+    Invoke-WebRequest "${url}" -OutFile "${file}"
 }
 
 if ($path -eq "")
