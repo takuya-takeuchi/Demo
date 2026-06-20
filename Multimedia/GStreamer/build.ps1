@@ -95,40 +95,10 @@ $installDir = Join-Path $current install | `
               Join-Path -ChildPath $version | `
               Join-Path -ChildPath $Configuration
 
-$opencvVersion = $config.opencv.version
-if ($config.opencv.shared)
-{
-    $opencvShared = "dynamic"
-}
-else
-{
-    $opencvShared = "static"
-}
-$OPENCV_INSTALL_DIR = Join-Path $rootDir install | `
-                      Join-Path -ChildPath $os | `
-                      Join-Path -ChildPath opencv | `
-                      Join-Path -ChildPath $opencvVersion | `
-                      Join-Path -ChildPath $opencvShared | `
-                      Join-Path -ChildPath $Configuration
-$OPENCV_PKGCONFIG_DIR = Join-Path $OPENCV_INSTALL_DIR lib | `
-                        Join-Path -ChildPath pkgconfig
-
-$paths = @(
-    "${OPENCV_PKGCONFIG_DIR}"
-)
-foreach ($path in $paths)
-{
-    if (!(Test-Path($path)))
-    {
-        Write-Host "${path} is missing" -ForegroundColor Red
-        exit
-    }
-}
-
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 
-Push-Location $target
+Push-Location $sourceDir
 
 git fetch -ap
 git checkout $version
@@ -139,6 +109,10 @@ $Configuration = $Configuration.ToLower()
 $setupArgs = @()
 if ($global:IsWindows)
 {
+    # IMPORTANT!!!!
+    # https://github.com/mesonbuild/meson/issues/12979
+    chcp 65001
+
     $setupArgs += @(
         "--vsenv"
     )
@@ -199,8 +173,6 @@ $setupArgs += @(
 
 $configLogFile = Join-Path $buildDir cmake-config.log
 $buildLogFile = Join-Path $buildDir cmake-build.log
-
-# $env:PKG_CONFIG_PATH="${OPENCV_PKGCONFIG_DIR}:$PKG_CONFIG_PATH"
 
 meson subprojects update
 meson setup $buildDir @setupArgs 2>&1 | Tee-Object -FilePath $configLogFile

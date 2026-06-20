@@ -53,8 +53,36 @@ Kick [../../MediaMTX/01_StreamingServer/run.ps1](../../MediaMTX/01_StreamingServ
 #### Windows
 
 ````bat
-$ .\install\win\bin\Demo.exe
-GStreamer 1.26.11
+````bat
+$ set GSTREAMER_VERSION=1.28.2
+$ set GST_PLUGIN_SCANNER=..\install\win\gstreamer\%GSTREAMER_VERSION%\Release\libexec\gstreamer-1.0\gst-hotdoc-plugins-scanner.exe
+$ set GST_PLUGIN_SYSTEM_PATH=..\install\win\gstreamer\%GSTREAMER_VERSION%\Release\lib\gstreamer-1.0
+$ .\install\win\bin\Demo rtsp://192.168.11.102:12345/mystream
+Pipeline: rtspsrc name=src location=rtsp://192.168.11.102:12345/mystream protocols=tcp latency=500 src. ! application/x-rtp,media=video,encoding-name=H264 ! rtph264depay ! h264parse name=parser config-interval=-1 ! openh264dec ! videoconvert ! jpegenc quality=100 ! appsink name=mysink emit-signals=true sync=false max-buffers=1 drop=true
+Streaming started. Press Ctrl+C to stop.
+Drop delta frame before first keyframe
+Drop delta frame before first keyframe
+...
+Drop delta frame before first keyframe
+Drop delta frame before first keyframe
+Drop delta frame before first keyframe
+First keyframe detected
+on_new_sample
+Saved: output/frame_0.jpg (1656972 bytes)
+on_new_sample
+Saved: output/frame_1.jpg (1684625 bytes)
+on_new_sample
+Saved: output/frame_2.jpg (1713791 bytes)
+on_new_sample
+Saved: output/frame_3.jpg (1703287 bytes)
+on_new_sample
+Saved: output/frame_4.jpg (1744020 bytes)
+on_new_sample
+Saved: output/frame_5.jpg (1706627 bytes)
+on_new_sample
+Saved: output/frame_6.jpg (1718862 bytes)
+on_new_sample
+Saved: output/frame_7.jpg (1713308 bytes)
 ````
 
 #### Linux

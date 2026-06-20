@@ -50,22 +50,23 @@ $ pwsh build.ps1 <Debug/Release>
 
 ````bat
 $ .\install\win\bin\Demo.exe
-GStreamer 1.26.11
+GStreamer 1.28.2
 ````
 
 #### Linux
 
 ````bat
-$ export GST_PLUGIN_SCANNER=../install/linux/gstreamer/1.26.11/Release/libexec/gstreamer-1.0/gst-plugin-scanner
-$ export GST_PLUGIN_SYSTEM_PATH=../install/linux/gstreamer/1.26.11/Release/lib/x86_64-linux-gnu/gstreamer-1.0
-$ export LD_LIBRARY_PATH=../install/linux/gstreamer/1.26.11/Release/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
+$ export GSTREAMER_VERSION=1.28.2
+$ export GST_PLUGIN_SCANNER=../install/linux/gstreamer/${GSTREAMER_VERSION}$/Release/libexec/gstreamer-1.0/gst-plugin-scanner
+$ export GST_PLUGIN_SYSTEM_PATH=../install/linux/gstreamer/${GSTREAMER_VERSION}/Release/lib/x86_64-linux-gnu/gstreamer-1.0
+$ export LD_LIBRARY_PATH=../install/linux/gstreamer/${GSTREAMER_VERSION}/Release/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
 $ ./install/linux/bin/Demo
-GStreamer 1.26.11
+GStreamer 1.28.2
 ````
 
 #### OSX
 
 ````shell
 $ ./install/osx/bin/Demo
-GStreamer 1.26.11
+GStreamer 1.28.2
 ````
