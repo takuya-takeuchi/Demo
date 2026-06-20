@@ -117,7 +117,8 @@ int main(int argc, char* argv[])
         "h264parse name=parser config-interval=-1 ! "
 
         // Decode H.264 into raw video frames.
-        "avdec_h264 ! "
+        // Note: You can use "avdec_h264" instead of "openh264dec" if you prefer the FFmpeg decoder.
+        "openh264dec ! "
 
         // Convert the raw video pixel format to one accepted by jpegenc.
         "videoconvert ! "

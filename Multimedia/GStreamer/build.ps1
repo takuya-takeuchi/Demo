@@ -162,52 +162,23 @@ elseif ($global:IsLinux)
         "--prefix=$installDir"
         "-Dgpl=disabled"
 
+        "-Dpython=disabled"
+        "-Dlibav=disabled"
+        "-Dlibnice=disabled"
+        "-Ddevtools=disabled"
+        "-Dges=disabled"
+        "-Drtsp_server=disabled"
+        "-Dvaapi=disabled"
+        "-Dsharp=disabled"
+        "-Drs=disabled"
+        "-Dgst-examples=disabled"
+        "-Dtls=disabled"
+        "-Dqt5=disabled"
+
         "-Dgst-plugins-bad:opencv=disabled"
         "-Dgst-plugins-bad:openh264=enabled"
     )
-    # $setupArgs += @(
-    #     "--buildtype=$Configuration"
-    #     "--prefix=$installDir"
-    #     "-Dgpl=disabled"
-    #     "-Dauto_features=disabled"
-        
-    #     # "-Dgst-plugins-good=enabled"
-    #     # # "-Dgst-plugins-base:appsink=enabled"
-    #     # # "-Dgst-plugins-base:videoconvert=enabled"
-    #     # "-Dgst-plugins-good:rtspsrc=enabled"
-    #     # "-Dgst-plugins-good:rtph264depay=enabled"
-    #     # "-Dgst-plugins-good:jpegenc=enabled"
-    #     # "-Dgst-plugins-bad:h264parse=enabled"
-    #     # "-Dgst-plugins-bad:videoconvert=enabled"
-
-    #     "-Dpython=disabled"
-    #     "-Dlibav=disabled"
-    #     "-Dlibnice=disabled"
-    #     "-Ddevtools=disabled"
-    #     "-Dges=disabled"
-    #     "-Drtsp_server=disabled"
-    #     "-Dvaapi=disabled"
-    #     "-Dsharp=disabled"
-    #     "-Drs=disabled"
-    #     "-Dgst-examples=disabled"
-    #     "-Dtls=disabled"
-    #     "-Dqt5=disabled"
-
-    #     "-Dbase=enabled"
-    #     "-Dgood=enabled"
-    #     "-Dbad=enabled"
-    #     "-Dgst-plugins-bad:opencv=disabled"
-    #     "-Dgst-plugins-bad:openh264=enabled"
-    # )
 }
-    # "-Dgst-plugins-base:appsink=enabled"
-    # "-Dgst-plugins-base:videoconvert=enabled"
-    # "-Dgst-plugins-good:rtspsrc=enabled"
-    # "-Dgst-plugins-good:rtph264depay=enabled"
-    # "-Dgst-plugins-good:jpegenc=enabled"
-    # "-Dgst-plugins-bad:h264parse=enabled"
-    # "-Dgst-plugins-bad:openh264=enabled"
-    # "-Dgst-plugins-bad:videoconvert=enabled"
 
 $configLogFile = Join-Path $buildDir cmake-config.log
 $buildLogFile = Join-Path $buildDir cmake-build.log
