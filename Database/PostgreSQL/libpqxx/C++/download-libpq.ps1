@@ -61,10 +61,27 @@ elseif ($global:IsLinux)
 
     Push-Location $tmpDir
 
+    $version = $config.libpq.linux.version
+    $majorVersion = $version.Split(".")[0]
+
     if ($hasApt)
     {
-        apt download libpq-dev
-        $path = Get-ChildItem -Path "${tmpDir}" -Filter "*.deb" | Select-Object -First 1
+        $osReleaseContent = Get-Content -Path /etc/os-release -Raw
+        $osInfo = ConvertFrom-StringData -StringData $osReleaseContent
+        $codename = $osInfo.VERSION_CODENAME
+        $versionId = $osInfo.VERSION_ID.Replace("`"", "")
+
+        $urls = @(
+            "https://ftp.postgresql.org/pub/repos/apt/pool/main/p/postgresql-${majorVersion}/libpq-dev_${version}-1.pgdg${versionId}+1_amd64.deb",
+            "https://ftp.postgresql.org/pub/repos/apt/pool/main/p/postgresql-${majorVersion}/postgresql-server-dev-${majorVersion}_${version}-1.pgdg${versionId}+1_amd64.deb"
+        )
+
+        foreach ($url in $urls)
+        {
+            $deb = "${tmpDir}/$(Split-Path -Leaf ${url})"
+            Write-Host "Download ${url} to ${deb}" -ForegroundColor Blue
+            Invoke-WebRequest "${url}" -OutFile "${deb}"
+        }
     }
     elseif ($hasDnf)
     {
@@ -132,8 +149,12 @@ if ($global:IsLinux)
 
     if ($hasApt)
     {
-        ar x "${path}"
-        tar -xf "${tmpDir}/data.tar.zst" -C "${installDir}" --strip-components=2
+        $debs = Get-ChildItem -Path "${tmpDir}" -Filter "*.deb"
+        foreach ($deb in $debs)
+        {
+            ar x "${deb}"
+            tar -xf "data.tar.xz" -C "${installDir}" --strip-components=1
+        }
     }
     elseif ($hasDnf -or $hasYum)
     {

@@ -162,7 +162,8 @@ elseif ($global:IsLinux)
     {
         $libpqInstallDir = Join-Path $current install | `
                            Join-Path -ChildPath $os | `
-                           Join-Path -ChildPath libpq
+                           Join-Path -ChildPath libpq | `
+                           Join-Path -ChildPath usr
         if (!(Test-Path(${libpqInstallDir})))
         {
             Write-Host "[Error] ${libpqInstallDir} is missing" -ForegroundColor Red
