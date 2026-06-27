@@ -8,6 +8,7 @@
 
 ### Common
 
+* CMake 3.12 or higher
 * Powershell 7 or later
 * (Optional) The libpqxx 8.x versions require at least C++20. Make sure your compiler is up to date.
 
