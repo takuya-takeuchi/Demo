@@ -19,6 +19,8 @@
 ### Ubuntu
 
 * g++
+* `libssl-dev` and `libcurl3-dev`
+* pkg-config
 
 ### OSX
 
