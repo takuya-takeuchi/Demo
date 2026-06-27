@@ -73,7 +73,7 @@ elseif ($global:IsLinux)
     $installBinaryDir = Join-Path $installDir lib
     $env:GST_PLUGIN_SCANNER="../install/linux/gstreamer/${version}/Release/libexec/gstreamer-1.0/gst-plugin-scanner"
     $env:GST_PLUGIN_SYSTEM_PATH="../install/linux/gstreamer/${version}/Release/lib/x86_64-linux-gnu/gstreamer-1.0"
-    $env:LD_LIBRARY_PATH="../install/linux/gstreamer/${version}/Release/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH}"
+    # $env:LD_LIBRARY_PATH="../install/linux/gstreamer/${version}/Release/lib/x86_64-linux-gnu:${LD_LIBRARY_PATH}"
     $gstLaunch = Join-Path $targetInstallDir bin | Join-Path -ChildPath gst-launch-1.0
 }
 
