@@ -136,7 +136,7 @@ if ($global:IsWindows)
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
         "-D PostgreSQL_ROOT=${libpqInstallDir}"
-        "-D libpqxx_LIBRARY_DIR=${targetInstallDir}/lib"
+        "-D libpqxx_LIBRARY_DIR=${targetInstallDir}/bin"
     )
 }
 elseif ($global:IsMacOS)
