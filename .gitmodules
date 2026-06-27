@@ -272,3 +272,7 @@
 	path = Security/Cryptography/OpenSSL/openssl
 	url = https://github.com/openssl/openssl
 	ignore = dirty
+[submodule "Database/PostgreSQL/libpqxx/C++/libpqxx"]
+	path = Database/PostgreSQL/libpqxx/C++/libpqxx
+	url = https://github.com/jtv/libpqxx
+	ignore = dirty

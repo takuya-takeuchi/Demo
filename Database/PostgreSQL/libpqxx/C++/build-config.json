@@ -1,0 +1,22 @@
+{
+    "libpqxx": {
+        "version": "7.10.4",
+        "shared": false
+    },
+    "libpq": {
+        "win": {
+            "url": "https://get.enterprisedb.com/postgresql/postgresql-18.4-2-windows-x64-binaries.zip",
+            "sha256": "02e239529ed7833d169f98d915d3feffe0813264b08b3ae353e78e8b9c97e1a6"
+        },
+        "linux": {
+            "version": "18.4"
+        },
+        "osx": {
+            "url": "https://get.enterprisedb.com/postgresql/postgresql-18.4-2-osx-binaries.zip",
+            "sha256": "1a9717e31ed4b832dd5e84f5b81753ef17de33234e1b29f976254fa99dd6bae3"
+        }
+    },
+    "windows": {
+        "msvcStaticRuntime": true
+    }
+}

@@ -88,7 +88,6 @@ elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-          -D GSTREAMER_ROOT="${targetInstallDir}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
@@ -103,7 +102,6 @@ elseif ($global:IsLinux)
     cmake -E env PKG_CONFIG_PATH="${config}" `
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D PKG_CONFIG_USE_CMAKE_PREFIX_PATH=FALSE `
-          -D GSTREAMER_ROOT="${targetInstallDir}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
