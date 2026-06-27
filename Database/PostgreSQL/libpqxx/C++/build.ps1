@@ -135,10 +135,21 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
+    $libpqInstallDir = Join-Path $current install | `
+                       Join-Path -ChildPath $os | `
+                       Join-Path -ChildPath libpq | `
+                       Join-Path -ChildPath pgsql
+    if (!(Test-Path(${libpqInstallDir})))
+    {
+        Write-Host "[Error] ${libpqInstallDir} is missing" -ForegroundColor Red
+        return
+    }
+
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
+        "-D PostgreSQL_ROOT=$libpqInstallDir"
     )
 }
 elseif ($global:IsLinux)

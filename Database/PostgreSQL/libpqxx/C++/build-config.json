@@ -1,7 +1,7 @@
 {
     "libpqxx": {
         "version": "7.10.4",
-        "shared": true
+        "shared": false
     },
     "libpq": {
         "win": {
