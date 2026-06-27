@@ -63,7 +63,10 @@ Standard exception: connection to server on socket "/var/run/postgresql/.s.PGSQL
 #### OSX
 
 ````shell
+# If libpqxx is built as dynamic library
 $ export DYLD_LIBRARY_PATH=./install/osx/bin
 $ ./install/osx/bin/Demo 
-libpqxx Version: 7.10.4
+pqxx::connection
+Standard exception: connection to server on socket "/tmp/.s.PGSQL.5432" failed: No such file or directory
+        Is the server running locally and accepting connections on that socket?
 ````

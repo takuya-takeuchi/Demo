@@ -151,6 +151,7 @@ elseif ($global:IsMacOS)
         "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D PostgreSQL_ROOT=${libpqInstallDir}"
+        "-D libpqxx_LIBRARY_DIR=${targetInstallDir}/lib"
     )
 }
 elseif ($global:IsLinux)

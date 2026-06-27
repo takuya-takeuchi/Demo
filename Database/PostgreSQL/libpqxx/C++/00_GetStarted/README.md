@@ -61,6 +61,8 @@ libpqxx Version: 7.10.4
 #### OSX
 
 ````shell
+# If libpqxx is built as dynamic library
+$ export DYLD_LIBRARY_PATH=./install/osx/bin
 $ ./install/osx/bin/Demo
 libpqxx Version: 7.10.4
 ````

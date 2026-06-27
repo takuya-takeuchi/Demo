@@ -17,8 +17,11 @@ else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 endif()
 
-find_package(PkgConfig REQUIRED)
-pkg_check_modules(LIBPQ REQUIRED libpq)
+if (NOT (MSVC OR APPLE))
+    find_package(PkgConfig REQUIRED)
+    pkg_check_modules(LIBPQ REQUIRED libpq)
+endif()
+
 find_package(libpqxx REQUIRED)
 
 add_executable(${PROJ_NAME} main.cpp)
@@ -72,9 +75,17 @@ if (MSVC)
     add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
                     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${BINARY_DATA} ${CMAKE_INSTALL_PREFIX}/bin)
 elseif (APPLE)
-    file(GLOB libpqxx_LIBRARIES "${PostgreSQL_ROOT}/lib/*.dylib")
+    file(GLOB libpq_LIBRARIES "${PostgreSQL_ROOT}/lib/*.dylib")
     add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
-                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${libpqxx_LIBRARIES} ${CMAKE_INSTALL_PREFIX}/bin)
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${libpq_LIBRARIES} ${CMAKE_INSTALL_PREFIX}/bin)
+
+    # This command will copy static libraries to the bin directory, which is not necessary for static linking.
+    # install(FILES $<TARGET_FILE:libpqxx::pqxx> DESTINATION bin)
+    file(GLOB libpqxx_LIBRARIES "${libpqxx_LIBRARY_DIR}/*.dylib")
+    if(libpqxx_LIBRARIES)
+        add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${libpqxx_LIBRARIES} ${CMAKE_INSTALL_PREFIX}/bin)
+    endif()
 else()
     # This command will copy static libraries to the bin directory, which is not necessary for static linking.
     # install(FILES $<TARGET_FILE:libpqxx::pqxx> DESTINATION bin)
