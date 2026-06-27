@@ -52,6 +52,7 @@ $ pwsh build.ps1 <Debug/Release>
 #### Linux
 
 ````shell
+# If libpqxx is built as dynamic library
 $ export LD_LIBRARY_PATH=./install/linux/bin
 $ ./install/linux/bin/Demo 
 qxx::connection

@@ -51,12 +51,16 @@ $ pwsh build.ps1 <Debug/Release>
 
 #### Linux
 
-````bat
+````shell
+# If libpqxx is built as dynamic library
+$ export LD_LIBRARY_PATH=./install/linux/bin
+$ ./install/linux/bin/Demo
+libpqxx Version: 7.10.4
 ````
 
 #### OSX
 
 ````shell
-$ ./install/osx/bin/Demo 
+$ ./install/osx/bin/Demo
 libpqxx Version: 7.10.4
 ````

@@ -72,9 +72,15 @@ if (MSVC)
     add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
                     COMMAND ${CMAKE_COMMAND} -E copy_if_different ${BINARY_DATA} ${CMAKE_INSTALL_PREFIX}/bin)
 elseif (APPLE)
-    file(GLOB PostgreSQL_LIBRARIES "${PostgreSQL_ROOT}/lib/*.dylib")
+    file(GLOB libpqxx_LIBRARIES "${PostgreSQL_ROOT}/lib/*.dylib")
     add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
-                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${PostgreSQL_LIBRARIES} ${CMAKE_INSTALL_PREFIX}/bin)
+                    COMMAND ${CMAKE_COMMAND} -E copy_if_different ${libpqxx_LIBRARIES} ${CMAKE_INSTALL_PREFIX}/bin)
 else()
-    install(FILES $<TARGET_FILE:libpqxx::pqxx> DESTINATION bin)
+    # This command will copy static libraries to the bin directory, which is not necessary for static linking.
+    # install(FILES $<TARGET_FILE:libpqxx::pqxx> DESTINATION bin)
+    file(GLOB libpqxx_LIBRARIES "${libpqxx_LIBRARY_DIR}/*.so")
+    if(libpqxx_LIBRARIES)
+        add_custom_command(TARGET ${PROJ_NAME} POST_BUILD
+                        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${libpqxx_LIBRARIES} ${CMAKE_INSTALL_PREFIX}/bin)
+    endif()
 endif()
