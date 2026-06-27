@@ -6,11 +6,19 @@ int main()
 {
     try
     {
-        pqxx::connection c; 
-        pqxx::work w(c); 
+        std::cout << "pqxx::connection" << std::endl;
+        pqxx::connection c;
+        std::cout << "pqxx::work" << std::endl;
+        pqxx::work w(c);
     }
-    catch(...)
+    catch (const std::exception& e)
     {
+        std::cerr << "Standard exception: " << e.what() << std::endl;
+        return 1;
+    }
+    catch (...)
+    {
+        std::cerr << "Unknown exception occurred!" << std::endl;
         return 1;
     }
 
