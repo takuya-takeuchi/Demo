@@ -145,5 +145,7 @@ if ($global:IsLinux)
 }
 else
 {
-    Expand-Archive -Path "${path}" -DestinationPath "${installDir}" -Force
+    # Do NOT use Eapand-Archive to extract psotgresql zip because it could have symbolic links and Expand-Archive does not support symbolic links
+    unzip -o "${path}" -d "${installDir}"
+    #Expand-Archive -Path "${path}" -DestinationPath "${installDir}" -Force
 }
