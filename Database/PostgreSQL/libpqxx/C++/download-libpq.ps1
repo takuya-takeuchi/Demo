@@ -38,13 +38,14 @@ if ($global:IsWindows)
     $os = "win"
     $url = $config.libpq.win.url
     $sha256 = $config.libpq.win.sha256
-    $file = "${baseName}.zip"
+    $file = "postgresql-${os}-binaries.zip"
 }
 elseif ($global:IsMacOS)
 {
     $os = "osx"
     $url = $config.libpq.osx.url
     $sha256 = $config.libpq.osx.sha256
+    $file = "postgresql-${os}-binaries.zip"
 }
 elseif ($global:IsLinux)
 {
@@ -92,19 +93,18 @@ else
 if (!($global:IsLinux))
 {
     $path = Join-Path $current $file
-    $url = "${baseUrl}/${tag}/${file}"
     $exist = Test-Path(${path})
     if ($exist)
     {
         $hash = (Get-FileHash ${file} -Algorithm SHA256).hash
-        $exist = $sha1 -eq $hash
+        $exist = $sha256 -eq $hash
         if ($exist)
         {
             Write-Host "File is already downloaded" -ForegroundColor Green
         }
         else
         {
-            Write-Host "File is already downloaded but SHA1 is not matched (${hash})" -ForegroundColor Yellow
+            Write-Host "File is already downloaded but SHA256 is not matched (${hash})" -ForegroundColor Yellow
         }
     }
 
@@ -145,5 +145,5 @@ if ($global:IsLinux)
 }
 else
 {
-    Extract-Archive -Path "${path}" -DestinationPath "${installDir}" -Force
+    Expand-Archive -Path "${path}" -DestinationPath "${installDir}" -Force
 }

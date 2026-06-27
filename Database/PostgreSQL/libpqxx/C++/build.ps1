@@ -80,6 +80,16 @@ Push-Location $buildDir
 $cmakeArgs = @()
 if ($global:IsWindows)
 {
+    $libpqInstallDir = Join-Path $current install | `
+                       Join-Path -ChildPath $os | `
+                       Join-Path -ChildPath libpq | `
+                       Join-Path -ChildPath pgsql
+    if (!(Test-Path(${libpqInstallDir})))
+    {
+        Write-Host "[Error] ${libpqInstallDir} is missing" -ForegroundColor Red
+        return
+    }
+
     function CallVisualStudioDeveloperConsole()
     {
         $vs = "C:\Program Files\Microsoft Visual Studio\2022"
@@ -103,6 +113,7 @@ if ($global:IsWindows)
         }
     }
     CallVisualStudioDeveloperConsole
+    chcp 65001
 
     if ($config.windows.msvcStaticRuntime)
     {
@@ -117,7 +128,9 @@ if ($global:IsWindows)
         "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
+        "-D PostgreSQL_ROOT=$libpqInstallDir"
     )
 }
 elseif ($global:IsMacOS)
@@ -125,6 +138,7 @@ elseif ($global:IsMacOS)
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D BUILD_SHARED_LIBS=$sharedFlag"
     )
 }
 elseif ($global:IsLinux)
@@ -138,10 +152,9 @@ elseif ($global:IsLinux)
         $libpqInstallDir = Join-Path $current install | `
                            Join-Path -ChildPath $os | `
                            Join-Path -ChildPath libpq
-        $pkgConfigPath = "${libpqInstallDir}/lib/x86_64-linux-gnu/pkgconfig"
-        if (!(Test-Path(${pkgConfigPath})))
+        if (!(Test-Path(${libpqInstallDir})))
         {
-            Write-Host "[Error] ${pkgConfigPath} is missing" -ForegroundColor Red
+            Write-Host "[Error] ${libpqInstallDir} is missing" -ForegroundColor Red
             return
         }
     }
@@ -152,6 +165,7 @@ elseif ($global:IsLinux)
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D PostgreSQL_ROOT=$libpqInstallDir"
     )
 }
@@ -159,7 +173,6 @@ elseif ($global:IsLinux)
 # standard
 $cmakeArgs += @(
     "-D SKIP_BUILD_TEST=ON"
-    "-D SKIP_BUILD_EXAMPLES=ON"
 )
 
 $cmakeArgs += @(
