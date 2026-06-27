@@ -180,6 +180,7 @@ elseif ($global:IsLinux)
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D PostgreSQL_ROOT=${libpqInstallRootDir}/usr"
         "-D PostgreSQL_SERVER_DEV_DIR=${libdir}"
+        "-D PostgreSQL_SERVER_DEV_DIR=${libdir}"
     )
 }
 

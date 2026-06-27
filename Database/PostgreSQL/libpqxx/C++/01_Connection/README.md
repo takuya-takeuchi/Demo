@@ -1,9 +1,9 @@
-# Get started
+# Establish connection
 
 ## Abstracts
 
 * Link libpqxx binary
-* Show libpqxx version
+* Establish connection to local PostgreSQL server
 
 ## Requirements
 
@@ -51,7 +51,12 @@ $ pwsh build.ps1 <Debug/Release>
 
 #### Linux
 
-````bat
+````shell
+$ export LD_LIBRARY_PATH=./install/linux/bin
+$ ./install/linux/bin/Demo 
+qxx::connection
+Standard exception: connection to server on socket "/var/run/postgresql/.s.PGSQL.5432" failed: No such file or directory
+        Is the server running locally and accepting connections on that socket?
 ````
 
 #### OSX
