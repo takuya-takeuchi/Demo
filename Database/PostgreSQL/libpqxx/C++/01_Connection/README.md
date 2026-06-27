@@ -47,6 +47,12 @@ $ pwsh build.ps1 <Debug/Release>
 #### Windows
 
 ````bat
+$ .\install\win\bin\Demo.exe
+pqxx::connection
+Standard exception: connection to server at "localhost" (::1), port 5432 failed: Connection refused (0x0000274D/10061)
+        Is the server running on that host and accepting TCP/IP connections?
+connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused (0x0000274D/10061)
+        Is the server running on that host and accepting TCP/IP connections?
 ````
 
 #### Linux

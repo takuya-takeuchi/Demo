@@ -47,6 +47,8 @@ $ pwsh build.ps1 <Debug/Release>
 #### Windows
 
 ````bat
+$ .\install\win\bin\Demo.exe
+libpqxx Version: 7.10.4
 ````
 
 #### Linux
