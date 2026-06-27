@@ -19,6 +19,7 @@
 ### Ubuntu
 
 * g++
+* `krb5-user`, `libgssapi-krb5-2`, `libkrb5-dev` and `libldap-dev`
 
 ### OSX
 

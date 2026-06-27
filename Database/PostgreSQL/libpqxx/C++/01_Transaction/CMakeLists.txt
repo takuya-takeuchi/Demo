@@ -15,9 +15,10 @@ if (MSVC)
 elseif (APPLE)
 else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -ldl")
 endif()
 
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(LIBPQ REQUIRED libpq)
 find_package(libpqxx REQUIRED)
 
 add_executable(${PROJ_NAME} main.cpp)
@@ -31,9 +32,36 @@ elseif (APPLE)
                           PRIVATE
                           libpqxx::pqxx)
 else()
+    target_include_directories(${PROJ_NAME}
+        PRIVATE
+        ${LIBPQ_INCLUDE_DIRS})
+
+    link_directories(${LIBPQ_STATIC_LIBRARY_DIRS})
+
+    file(GLOB POSTGRES_OAUTH_LIBS "${LIBPQ_STATIC_LIBRARY_DIRS}/libpq-oauth.a")
+    file(GLOB POSTGRES_SERVER_DEV_STATIC_LIBS "${PostgreSQL_SERVER_DEV_DIR}/*.a")
+
+    if(LIBPQ_LIBRARIES STREQUAL "pq" OR LIBPQ_LIBRARIES STREQUAL "-lpq")
+        set(LIBPQ_LIBRARIES "${LIBPQ_LIBRARY_DIRS}/libpq.a")
+        message(STATUS "Converted -lpq to full path: ${LIBPQ_LIBRARIES}")
+    endif()
+
     target_link_libraries(${PROJ_NAME}
-                          PRIVATE
-                          libpqxx::pqxx)
+        PRIVATE
+        libpqxx::pqxx
+
+        -Wl,--start-group
+        ${POSTGRES_SERVER_DEV_STATIC_LIBS}
+        ${POSTGRES_OAUTH_LIBS}
+        ${LIBPQ_LIBRARIES}
+        -Wl,--end-group
+
+        curl
+        ssl
+        crypto
+        gssapi_krb5
+        ldap
+    )
 endif()
 
 install(TARGETS ${PROJ_NAME} RUNTIME DESTINATION bin)

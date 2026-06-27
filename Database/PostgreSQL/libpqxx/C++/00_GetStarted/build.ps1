@@ -150,17 +150,36 @@ elseif ($global:IsMacOS)
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D PostgreSQL_LIBRARY=${libpqInstallDir}/lib/libpq.a"
-        "-D PostgreSQL_INCLUDE_DIR=${libpqInstallDir}/include"
-        "-D PostgreSQL_LIBRARY_DIR=${libpqInstallDir}/lib"
+        "-D PostgreSQL_ROOT=${libpqInstallDir}"
     )
 }
 elseif ($global:IsLinux)
 {
+    $pkgconfig = "${libpqInstallRootDir}/usr/lib/x86_64-linux-gnu/pkgconfig"
+    if (!(Test-Path(${pkgconfig})))
+    {
+        Write-Host "[Error] ${pkgconfig} is missing" -ForegroundColor Red
+        return
+    }
+
+    $version = $config.libpq.linux.version
+    $majorVersion = $version.Split(".")[0]
+
+    $libdir = "${libpqInstallRootDir}/usr/lib/postgresql/${majorVersion}/lib"
+    if (!(Test-Path(${libdir})))
+    {
+        Write-Host "[Error] ${libdir} is missing" -ForegroundColor Red
+        return
+    }
+    
+    $env:PKG_CONFIG_PATH="${pkgconfig}"
+    $env:PKG_CONFIG_SYSROOT_DIR="${libpqInstallRootDir}"
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D PostgreSQL_ROOT=${libpqInstallRootDir}/usr"
+        "-D PostgreSQL_SERVER_DEV_DIR=${libdir}"
     )
 }
 
@@ -171,7 +190,6 @@ $cmakeArgs += @(
 $configLogFile = Join-Path $buildDir cmake-config.log
 $buildLogFile = Join-Path $buildDir cmake-build.log
 
-# $env:PKG_CONFIG_PATH = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
 cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
 cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
