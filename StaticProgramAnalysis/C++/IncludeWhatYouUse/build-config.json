@@ -1,0 +1,45 @@
+{
+    "include-what-you-use": {
+        "version": "clang_22",
+        "mapping": {
+            "clang_3.6": "0.4",
+            "clang_3.7": "0.5",
+            "clang_3.8": "0.6",
+            "clang_3.9": "0.7",
+            "clang_4.0-r2": "0.8",
+            "clang_5.0": "0.9",
+            "clang_6.0": "0.10",
+            "clang_7.0": "0.11",
+            "clang_8.0": "0.12",
+            "clang_9.0": "0.13",
+            "clang_10": "0.14",
+            "clang_11": "0.15",
+            "clang_12": "0.16",
+            "clang_13": "0.17",
+            "clang_14": "0.18",
+            "clang_15": "0.19",
+            "clang_16": "0.20",
+            "clang_17": "0.21",
+            "clang_18": "0.22",
+            "clang_19": "0.23",
+            "clang_20": "0.24",
+            "clang_21": "0.25",
+            "clang_22": "0.26"
+        }
+    },
+    "llvm": {
+        "version": "18.1.8",
+        "win": {
+            "sha256": "02e239529ed7833d169f98d915d3feffe0813264b08b3ae353e78e8b9c97e1a6"
+        },
+        "linux": {
+            "sha256": "7E99D1F5D0DEF8F00C7F0898BC1255B4E5884A6A2D941983EFB688B6D0D905B1"
+        },
+        "osx": {
+            "sha256": "1a9717e31ed4b832dd5e84f5b81753ef17de33234e1b29f976254fa99dd6bae3"
+        }
+    },
+    "windows": {
+        "msvcStaticRuntime": true
+    }
+}
