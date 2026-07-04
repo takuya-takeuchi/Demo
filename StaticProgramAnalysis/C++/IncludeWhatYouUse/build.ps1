@@ -37,6 +37,7 @@ if (!(Test-Path($configPath)))
 $config = Get-Content -Path $configPath | ConvertFrom-Json
 $target = "include-what-you-use"
 $version = $config."${target}".version
+$version = $config."${target}".mapping."${version}"
 if ($config."${target}".shared)
 {
     $shared = "dynamic"
@@ -66,6 +67,23 @@ elseif ($global:IsLinux)
 $sourceDir = Join-Path $current $target
 $buildDir = Join-PathArray -PathElements @($current, "build", $os, $target, $version, $shared, $Configuration)
 $installDir = Join-PathArray -PathElements @($current, "install", $os, $target, $version, $shared, $Configuration)
+
+$llvmVersion = $config.llvm.version
+$CMAKE_C_COMPILER = Join-PathArray -PathElements @($current, "install", $os, "llvm", $llvmVersion, "bin", "clang")
+$CMAKE_CXX_COMPILER = Join-PathArray -PathElements @($current, "install", $os, "llvm", $llvmVersion, "bin", "clang++")
+
+$paths = @(
+    "${CMAKE_C_COMPILER}"
+    "${CMAKE_CXX_COMPILER}"
+)
+foreach ($path in $paths)
+{
+    if (!(Test-Path(${path})))
+    {
+        Write-Host "[Error] ${path} is missing" -ForegroundColor Red
+        return
+    }
+}
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -142,14 +160,10 @@ elseif ($global:IsLinux)
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
-        "-D PostgreSQL_ROOT=$libpqInstallDir"
+        "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
+        "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     )
 }
-
-# standard
-$cmakeArgs += @(
-    "-D SKIP_BUILD_TEST=ON"
-)
 
 $cmakeArgs += @(
     "-B ${buildDir}"
@@ -158,10 +172,6 @@ $cmakeArgs += @(
 
 $configLogFile = Join-PathArray -PathElements @($buildDir, "cmake-config.log")
 $buildLogFile = Join-PathArray -PathElements @($buildDir, "cmake-build.log")
-
-Write-Host "buildDir: ${buildDir}" -ForegroundColor Green
-Write-Host "installDir: ${installDir}" -ForegroundColor Green
-exit
 
 # $env:PKG_CONFIG_PATH = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
 cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile

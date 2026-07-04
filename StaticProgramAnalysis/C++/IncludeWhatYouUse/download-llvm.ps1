@@ -39,7 +39,7 @@ $config = Get-Content -Path $configPath | ConvertFrom-Json
 
 $target = "llvm"
 $version = $config.llvm.version
-$installDir = Join-PathArray -PathElements @($current, "install", $os, $target)
+$installDir = Join-PathArray -PathElements @($current, "install", $os, $target, $version)
 if (Test-Path(${installDir}))
 {
     Remove-Item $installDir -Force -Recurse | Out-Null

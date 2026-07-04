@@ -1,6 +1,7 @@
 {
     "include-what-you-use": {
-        "version": "clang_22",
+        "version": "clang_18",
+        // https://github.com/include-what-you-use/include-what-you-use#caveat
         "mapping": {
             "clang_3.6": "0.4",
             "clang_3.7": "0.5",
