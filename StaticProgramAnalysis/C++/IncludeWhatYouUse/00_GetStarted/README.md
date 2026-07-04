@@ -41,7 +41,9 @@ $ pwsh download-libpq.ps1
 $ pwsh build.ps1 <Debug/Release>
 ````
 
-## How to test?
+## How to do?
+
+This demo lists unnecessary `#include` when build.
 
 #### Windows
 
@@ -53,10 +55,18 @@ libpqxx Version: 7.10.4
 #### Linux
 
 ````shell
-# If libpqxx is built as dynamic library
-$ export LD_LIBRARY_PATH=./install/linux/bin
-$ ./install/linux/bin/Demo
-libpqxx Version: 7.10.4
+$ pwsh build.ps1 <Debug/Release>
+-- Install configuration: "Release"
+-- Up-to-date: /data/work/oss/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/install/linux/bin/Demo
+
+/data/work/oss/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp should add these lines:
+
+/data/work/oss/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp should remove these lines:
+- #include <fstream>  // lines 1-1
+
+The full include-list for /data/work/oss/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp:
+#include <iostream>  // for char_traits, basic_ostream, cout, endl, operator<<
+---
 ````
 
 #### OSX
