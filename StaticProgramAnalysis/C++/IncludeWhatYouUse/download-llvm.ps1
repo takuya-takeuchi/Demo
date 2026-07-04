@@ -83,8 +83,6 @@ elseif ($global:IsLinux)
     $url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/${baseName}.tar.xz"
     $sha256 = $config.llvm.linux.sha256
     $file = Split-Path -Leaf ${url}
-    Write-Host "${baseName}" -ForegroundColor Red
-    exit
 }
 else
 {
@@ -121,6 +119,7 @@ if (!$exist)
         $statusCode = $_.Exception.Response.StatusCode.value__
         Write-Error "[Error] StatusCode: ${statusCode}, $($_.Exception.Message)"
         if (Test-Path $file) { Remove-Item $file }
+        exit
     }
 }
 
@@ -137,6 +136,6 @@ if (Test-Path(${installDir}))
 {
     Remove-Item $installDir -Force -Recurse | Out-Null
 }
-New-ITem -Type Directory ${installDir} -Force | Out-Null
+New-Item -Type Directory ${installDir} -Force | Out-Null
 Move-Item "${outputDir}/*" "${installDir}" -Force | Out-Null
 Remove-Item $outputDir -Force -Recurse | Out-Null

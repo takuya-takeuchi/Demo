@@ -26,8 +26,10 @@ function Join-PathArray {
     }
 }
 
+
 $current = $PSScriptRoot
-$configPath = Join-Path $current "build-config.json"
+$rootDir = Split-Path $current -Parent
+$configPath = Join-Path $rootDir "build-config.json"
 if (!(Test-Path($configPath)))
 {
     Write-Host "${configPath} is missing" -ForegroundColor Red
@@ -35,19 +37,6 @@ if (!(Test-Path($configPath)))
 }
 
 $config = Get-Content -Path $configPath | ConvertFrom-Json
-$target = "include-what-you-use"
-$version = $config."${target}".version
-$version = $config."${target}".mapping."${version}"
-if ($config."${target}".shared)
-{
-    $shared = "dynamic"
-    $sharedFlag = "ON"
-}
-else
-{
-    $shared = "static"
-    $sharedFlag = "OFF"
-}
 
 # get os name
 if ($global:IsWindows)
@@ -63,13 +52,38 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
+$target = "include-what-you-use"
+$version = $config."${target}".version
+$version = $config."${target}".mapping."${version}"
+if ($config."${target}".shared)
+{
+    $shared = "dynamic"
+}
+else
+{
+    $shared = "static"
+}
+
 # build
-$sourceDir = Join-Path $current $target
-$buildDir = Join-PathArray -PathElements @($current, "build", $os, $target, $version, $shared, $Configuration)
-$installDir = Join-PathArray -PathElements @($current, "install", $os, $target, $version, $shared, $Configuration)
+$sourceDir = $current
+$buildDir = Join-PathArray -PathElements @($current, "build", $os, "program", $Configuration)
+$installDir = Join-PathArray -PathElements @($current, "install", $os)
+
+$targetInstallDir = Join-PathArray -PathElements @($rootDir, "install", $os, $target, $version, $shared, $Configuration)
+if (!(Test-Path(${targetInstallDir})))
+{
+    Write-Host "[Error] ${targetInstallDir} is missing" -ForegroundColor Red
+    return
+}
+$IWYU_TOOL = Get-ChildItem -Path "${targetInstallDir}" -Filter "iwyu_tool.py" -Recurse -File
+if (!(Test-Path(${IWYU_TOOL})))
+{
+    Write-Host "[Error] ${IWYU_TOOL} is missing" -ForegroundColor Red
+    return
+}
 
 $llvmVersion = $config.llvm.version
-$LLVM_INSTALL_DIR = Join-PathArray -PathElements @($current, "install", $os, "llvm", $llvmVersion)
+$LLVM_INSTALL_DIR = Join-PathArray -PathElements @($rootDir, "install", $os, "llvm", $llvmVersion)
 $CMAKE_C_COMPILER = Get-ChildItem -Path "${LLVM_INSTALL_DIR}" -Filter "clang" -Recurse -File
 $CMAKE_CXX_COMPILER = Get-ChildItem -Path "${LLVM_INSTALL_DIR}" -Filter "clang++" -Recurse -File
 
@@ -88,17 +102,6 @@ foreach ($path in $paths)
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
-
-# reset submodules
-Push-Location $current
-git submodule update --init --recursive .
-Pop-Location
-
-Push-Location $sourceDir
-git fetch --all --prune
-git checkout $version
-git submodule update --init --recursive .
-Pop-Location
 
 $cmakeArgs = @()
 if ($global:IsWindows)
@@ -140,19 +143,22 @@ if ($global:IsWindows)
     $cmakeArgs += @(
         "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
+        "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
-        "-D PostgreSQL_ROOT=$libpqInstallDir"
+        "-D PostgreSQL_ROOT=${libpqInstallDir}"
+        "-D libpqxx_LIBRARY_DIR=${targetInstallDir}/bin"
     )
 }
 elseif ($global:IsMacOS)
 {
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
+        "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
-        "-D PostgreSQL_ROOT=$libpqInstallDir"
+        "-D PostgreSQL_ROOT=${libpqInstallDir}"
+        "-D libpqxx_LIBRARY_DIR=${targetInstallDir}/lib"
     )
 }
 elseif ($global:IsLinux)
@@ -160,12 +166,14 @@ elseif ($global:IsLinux)
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D CMAKE_PREFIX_PATH=$LLVM_INSTALL_DIR"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
         "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     )
 }
+
+$cmakeArgs += @(
+    "-D CMAKE_EXPORT_COMPILE_COMMANDS=ON"
+)
 
 $cmakeArgs += @(
     "-B ${buildDir}"
@@ -175,7 +183,8 @@ $cmakeArgs += @(
 $configLogFile = Join-PathArray -PathElements @($buildDir, "cmake-config.log")
 $buildLogFile = Join-PathArray -PathElements @($buildDir, "cmake-build.log")
 
-# $env:PKG_CONFIG_PATH = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
 cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
 cmake --build "${buildDir}" --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
+
+python3 "${IWYU_TOOL}" -p "${buildDir}"
