@@ -10,6 +10,7 @@
 
 * CMake 3.20 or higher
 * Powershell 7 or later
+* `tar.exe` supppot `*.tar.xz`
 
 ### Windows
 

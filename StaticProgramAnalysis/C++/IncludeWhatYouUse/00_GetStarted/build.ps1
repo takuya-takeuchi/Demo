@@ -42,14 +42,20 @@ $config = Get-Content -Path $configPath | ConvertFrom-Json
 if ($global:IsWindows)
 {
     $os = "win"
+    $clang = "clang.exe"
+    $clangcxx = "clang++.exe"
 }
 elseif ($global:IsMacOS)
 {
     $os = "osx"
+    $clang = "clang"
+    $clangcxx = "clang++"
 }
 elseif ($global:IsLinux)
 {
     $os = "linux"
+    $clang = "clang"
+    $clangcxx = "clang++"
 }
 
 $target = "include-what-you-use"
@@ -84,18 +90,20 @@ if (!(Test-Path(${IWYU_TOOL})))
 
 $llvmVersion = $config.llvm.version
 $LLVM_INSTALL_DIR = Join-PathArray -PathElements @($rootDir, "install", $os, "llvm", $llvmVersion)
-$CMAKE_C_COMPILER = Get-ChildItem -Path "${LLVM_INSTALL_DIR}" -Filter "clang" -Recurse -File
-$CMAKE_CXX_COMPILER = Get-ChildItem -Path "${LLVM_INSTALL_DIR}" -Filter "clang++" -Recurse -File
+$CMAKE_C_COMPILER = Get-ChildItem -Path "${LLVM_INSTALL_DIR}" -Filter "${clang}" -Recurse -File
+$CMAKE_CXX_COMPILER = Get-ChildItem -Path "${LLVM_INSTALL_DIR}" -Filter "${clangcxx}" -Recurse -File
 
-$paths = @(
-    "${CMAKE_C_COMPILER}"
-    "${CMAKE_CXX_COMPILER}"
-)
-foreach ($path in $paths)
+$paths = @{
+    "CMAKE_C_COMPILER"  = "${CMAKE_C_COMPILER}"
+    "CMAKE_CXX_COMPILER" = "${CMAKE_CXX_COMPILER}"
+}
+
+foreach ($key in $paths.Keys)
 {
-    if (!(Test-Path(${path})))
+    $targetPath = $paths[$key]
+    if (!(Test-Path(${targetPath})))
     {
-        Write-Host "[Error] ${path} is missing" -ForegroundColor Red
+        Write-Host "[Error] ${key}: ${targetPath} is missing" -ForegroundColor Red
         return
     }
 }

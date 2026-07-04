@@ -129,6 +129,20 @@ if ($path -eq "")
     exit
 }
 
+# Windows 10 may fail to extract .tar.xz file, so we use 7zip to extract it
+if ($global:IsWindows)
+{
+    $oldPath = $env:Path
+    $env:Path = "C:\Program Files\Git\mingw64\bin"
+    xz -d -k -qq "${path}"
+    $env:Path = $oldPath
+    $path = $path -replace ".xz$", ""
+    if (!(Test-Path(${path})))
+    {
+        Write-Host "'${path}' is missing" -ForegroundColor Red
+        exit
+    }
+}
 tar -xvf "${path}"
 $outputDir = Join-Path $current "${baseName}"
 

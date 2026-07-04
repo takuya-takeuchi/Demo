@@ -31,7 +31,7 @@
     "llvm": {
         "version": "22.1.8",
         "win": {
-            "sha256": "02e239529ed7833d169f98d915d3feffe0813264b08b3ae353e78e8b9c97e1a6"
+            "sha256": "d96c2cc1736f4eb7fa43cb9bbdf56d93551a9ae0a9aadb9c99c3c3b2b712a234"
         },
         "linux": {
             "sha256": "DF0E1ECF16CAF3489A272A5EEA4EEC9B0D82878F6477FA309504F918A0006384"
