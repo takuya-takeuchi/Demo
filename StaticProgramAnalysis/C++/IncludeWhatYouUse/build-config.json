@@ -1,6 +1,6 @@
 {
     "include-what-you-use": {
-        "version": "clang_18",
+        "version": "clang_22",
         // https://github.com/include-what-you-use/include-what-you-use#caveat
         "mapping": {
             "clang_3.6": "0.4",
@@ -29,7 +29,7 @@
         }
     },
     "llvm": {
-        "version": "18.1.8",
+        "version": "22.1.8",
         "win": {
             "sha256": "02e239529ed7833d169f98d915d3feffe0813264b08b3ae353e78e8b9c97e1a6"
         },

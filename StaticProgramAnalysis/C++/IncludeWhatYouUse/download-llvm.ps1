@@ -56,17 +56,35 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    $baseName = "clang+llvm-${version}-arm64-apple-macos11"
+    if ($version -lt "19.0.0")
+    {
+        $baseName = "clang+llvm-${version}-arm64-apple-macos11"
+    }
+    else
+    {
+        $baseName = "LLVM-${version}-macOS-ARM64"
+    }
+
     $url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/${baseName}.tar.xz"
     $sha256 = $config.llvm.osx.sha256
     $file = Split-Path -Leaf ${url}
 }
 elseif ($global:IsLinux)
 {
-    $baseName = "clang+llvm-${version}-x86_64-linux-gnu-ubuntu-18.04"
+    if ($version -lt "19.0.0")
+    {
+        $baseName = "clang+llvm-${version}-x86_64-linux-gnu-ubuntu-18.04"
+    }
+    else
+    {
+        $baseName = "LLVM-${version}-Linux-X64"
+    }
+    
     $url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/${baseName}.tar.xz"
     $sha256 = $config.llvm.linux.sha256
     $file = Split-Path -Leaf ${url}
+    Write-Host "${baseName}" -ForegroundColor Red
+    exit
 }
 else
 {
@@ -94,7 +112,16 @@ if ($exist)
 if (!$exist)
 {
     Write-Host "Download ${file} from ${url}" -ForegroundColor Blue
-    Invoke-WebRequest "${url}" -OutFile "${file}"
+    try
+    {
+        Invoke-WebRequest "${url}" -OutFile "${file}"    
+    }
+    catch
+    {
+        $statusCode = $_.Exception.Response.StatusCode.value__
+        Write-Error "[Error] StatusCode: ${statusCode}, $($_.Exception.Message)"
+        if (Test-Path $file) { Remove-Item $file }
+    }
 }
 
 if ($path -eq "")

@@ -69,8 +69,9 @@ $buildDir = Join-PathArray -PathElements @($current, "build", $os, $target, $ver
 $installDir = Join-PathArray -PathElements @($current, "install", $os, $target, $version, $shared, $Configuration)
 
 $llvmVersion = $config.llvm.version
-$CMAKE_C_COMPILER = Join-PathArray -PathElements @($current, "install", $os, "llvm", $llvmVersion, "bin", "clang")
-$CMAKE_CXX_COMPILER = Join-PathArray -PathElements @($current, "install", $os, "llvm", $llvmVersion, "bin", "clang++")
+$LLVM_INSTALL_DIR = Join-PathArray -PathElements @($current, "install", $os, "llvm", $llvmVersion)
+$CMAKE_C_COMPILER = Join-PathArray -PathElements @($LLVM_INSTALL_DIR, "bin", "clang")
+$CMAKE_CXX_COMPILER = Join-PathArray -PathElements @($LLVM_INSTALL_DIR, "bin", "clang++")
 
 $paths = @(
     "${CMAKE_C_COMPILER}"
@@ -159,9 +160,10 @@ elseif ($global:IsLinux)
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=$LLVM_INSTALL_DIR"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
-        "-DCMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
-        "-DCMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
+        "-D CMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
+        "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     )
 }
 
