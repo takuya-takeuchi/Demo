@@ -49,19 +49,22 @@ New-Item -Type Directory ${installDir} -Force | Out-Null
 # get os name
 if ($global:IsWindows)
 {
-    $url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/clang+llvm-${version}-x86_64-pc-windows-msvc.tar.xz"
+    $baseName = "clang+llvm-${version}-x86_64-pc-windows-msvc"
+    $url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/${baseName}.tar.xz"
     $sha256 = $config.llvm.win.sha256
     $file = Split-Path -Leaf ${url}
 }
 elseif ($global:IsMacOS)
 {
-    $url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/clang+llvm-${version}-arm64-apple-macos11.tar.xz"
+    $baseName = "clang+llvm-${version}-arm64-apple-macos11"
+    $url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/${baseName}.tar.xz"
     $sha256 = $config.llvm.osx.sha256
     $file = Split-Path -Leaf ${url}
 }
 elseif ($global:IsLinux)
 {
-    $url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/clang+llvm-${version}-x86_64-linux-gnu-ubuntu-18.04.tar.xz"
+    $baseName = "clang+llvm-${version}-x86_64-linux-gnu-ubuntu-18.04"
+    $url = "https://github.com/llvm/llvm-project/releases/download/llvmorg-${version}/${baseName}.tar.xz"
     $sha256 = $config.llvm.linux.sha256
     $file = Split-Path -Leaf ${url}
 }
