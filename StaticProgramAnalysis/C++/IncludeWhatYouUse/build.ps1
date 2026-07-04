@@ -149,9 +149,10 @@ if ($global:IsWindows)
         "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=$LLVM_INSTALL_DIR"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
-        "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
-        "-D PostgreSQL_ROOT=$libpqInstallDir"
+        "-D CMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
+        "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     )
 }
 elseif ($global:IsMacOS)
@@ -159,8 +160,10 @@ elseif ($global:IsMacOS)
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=$LLVM_INSTALL_DIR"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
-        "-D PostgreSQL_ROOT=$libpqInstallDir"
+        "-D CMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
+        "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     )
 }
 elseif ($global:IsLinux)
