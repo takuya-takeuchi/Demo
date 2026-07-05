@@ -101,7 +101,7 @@ The full include-list for /data/work/oss/Demo/StaticProgramAnalysis/C++/IncludeW
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>
-585 warnings generated.
+590 warnings generated.
 /Users/t-takeuchi/Work/OpenSource/Demo/StaticProgramAnalysis/C++/clang-tidy/00_GetStarted/main.cpp:4:5: warning: use a trailing return type for this function[modernize-use-trailing-return-type]
     4 | int main() {
       | ~~~ ^
@@ -127,6 +127,6 @@ $ pwsh build.ps1 <Debug/Release>
       |                                                 {
    13 |         std::cout << numbers[i] << " ";
       |                                        
-Suppressed 579 warnings (579 in non-user code).
+Suppressed 584 warnings (584 in non-user code).
 Use -header-filter=.* or leave it as default to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
 ````

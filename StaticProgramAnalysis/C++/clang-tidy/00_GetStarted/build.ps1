@@ -134,11 +134,10 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
+    # Need not to use clang and clang++ in macOS
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D CMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
-        "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     )
 }
 elseif ($global:IsLinux)
