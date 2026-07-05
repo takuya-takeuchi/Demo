@@ -125,6 +125,8 @@ if ($global:IsWindows)
     }
 
     # CMAKE_EXPORT_COMPILE_COMMANDS is not supported by Microsoft Visual C++ Generator, so we use Ninja generator instead.
+    # Need not to use clang and clang++
+    # clang-tidy checks only source code and header files, so build artifacts are not required.
     $cmakeArgs += @(
         "-G", "Ninja"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
@@ -134,7 +136,8 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
-    # Need not to use clang and clang++ in macOS
+    # Need not to use clang and clang++
+    # clang-tidy checks only source code and header files, so build artifacts are not required.
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
