@@ -160,10 +160,9 @@ elseif ($global:IsMacOS)
 {
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
-        "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D PostgreSQL_ROOT=${libpqInstallDir}"
-        "-D libpqxx_LIBRARY_DIR=${targetInstallDir}/lib"
+        "-D CMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
+        "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     )
 }
 elseif ($global:IsLinux)

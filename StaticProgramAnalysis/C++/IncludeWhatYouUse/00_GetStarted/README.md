@@ -87,8 +87,17 @@ The full include-list for /data/work/oss/Demo/StaticProgramAnalysis/C++/IncludeW
 #### OSX
 
 ````shell
-# If libpqxx is built as dynamic library
-$ export DYLD_LIBRARY_PATH=./install/osx/bin
-$ ./install/osx/bin/Demo
-libpqxx Version: 7.10.4
+$ pwsh build.ps1 <Debug/Release>
+Install the project...
+-- Install configuration: "Release"
+-- Up-to-date: /Users/t-takeuchi/Work/OpenSource/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/install/osx/bin/Demo
+
+/Users/t-takeuchi/Work/OpenSource/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp should add these lines:
+
+/Users/t-takeuchi/Work/OpenSource/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp should remove these lines:
+- #include <fstream>  // lines 1-1
+
+The full include-list for /Users/t-takeuchi/Work/OpenSource/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp:
+#include <iostream>  // for char_traits, basic_ostream, cout, endl, operator<<
+---
 ````
