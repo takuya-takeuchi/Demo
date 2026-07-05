@@ -58,35 +58,10 @@ elseif ($global:IsLinux)
     $clangcxx = "clang++"
 }
 
-$target = "include-what-you-use"
-$version = $config."${target}".version
-$version = $config."${target}".mapping."${version}"
-if ($config."${target}".shared)
-{
-    $shared = "dynamic"
-}
-else
-{
-    $shared = "static"
-}
-
 # build
 $sourceDir = $current
 $buildDir = Join-PathArray -PathElements @($current, "build", $os, "program", $Configuration)
 $installDir = Join-PathArray -PathElements @($current, "install", $os)
-
-$targetInstallDir = Join-PathArray -PathElements @($rootDir, "install", $os, $target, $version, $shared, $Configuration)
-if (!(Test-Path(${targetInstallDir})))
-{
-    Write-Host "[Error] ${targetInstallDir} is missing" -ForegroundColor Red
-    return
-}
-$IWYU_TOOL = Get-ChildItem -Path "${targetInstallDir}" -Filter "iwyu_tool.py" -Recurse -File
-if (!(Test-Path(${IWYU_TOOL})))
-{
-    Write-Host "[Error] ${IWYU_TOOL} is missing" -ForegroundColor Red
-    return
-}
 
 $llvmVersion = $config.llvm.version
 $LLVM_INSTALL_DIR = Join-PathArray -PathElements @($rootDir, "install", $os, "llvm", $llvmVersion)
@@ -150,6 +125,8 @@ if ($global:IsWindows)
     }
 
     # CMAKE_EXPORT_COMPILE_COMMANDS is not supported by Microsoft Visual C++ Generator, so we use Ninja generator instead.
+    # Need not to use clang and clang++
+    # clang-tidy checks only source code and header files, so build artifacts are not required.
     $cmakeArgs += @(
         "-G", "Ninja"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
@@ -159,20 +136,20 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
+    # Need not to use clang and clang++
+    # clang-tidy checks only source code and header files, so build artifacts are not required.
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D CMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
-        "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     )
 }
 elseif ($global:IsLinux)
 {
+    # Need not to use clang and clang++
+    # clang-tidy checks only source code and header files, so build artifacts are not required.
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D CMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
-        "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     )
 }
 
@@ -192,4 +169,5 @@ cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
 cmake --build "${buildDir}" --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
 
-python "${IWYU_TOOL}" -p "${buildDir}"
+$clangTidy = Join-PathArray -PathElements @($LLVM_INSTALL_DIR, "bin", "clang-tidy")
+& "${clangTidy}" -checks='-*,modernize-*,google-*' -p "${buildDir}" main.cpp
