@@ -50,18 +50,34 @@ This demo checks source code after build.
 
 ````bat
 $ pwsh build.ps1 <Debug/Release>
-[0/1] Install the project...
-
-E:/Works/OpenSource/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp should add these lines:
-#include <__msvc_ostream.hpp>  // for basic_ostream, endl, operator<<
-
-E:/Works/OpenSource/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp should remove these lines:
-- #include <fstream>  // lines 1-1
-
-The full include-list for E:/Works/OpenSource/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp:
-#include <__msvc_ostream.hpp>  // for basic_ostream, endl, operator<<
-#include <iostream>            // for char_traits, cout
----
+404 warnings generated.
+E:\Works\OpenSource\Demo\StaticProgramAnalysis\C++\clang-tidy\00_GetStarted\main.cpp:4:5: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+    4 | int main() {
+      | ~~~ ^
+      | auto       -> int
+E:\Works\OpenSource\Demo\StaticProgramAnalysis\C++\clang-tidy\00_GetStarted\main.cpp:5:16: warning: use nullptr [modernize-use-nullptr]
+    5 |     int* ptr = 0; 
+      |                ^
+      |                nullptr
+E:\Works\OpenSource\Demo\StaticProgramAnalysis\C++\clang-tidy\00_GetStarted\main.cpp:8:17: warning: C-style casts are discouraged; use static_cast [google-readability-casting,modernize-avoid-c-style-cast]
+    8 |     int intPi = (int)pi; 
+      |                 ^~~~~  
+      |                 static_cast<int>( )
+E:\Works\OpenSource\Demo\StaticProgramAnalysis\C++\clang-tidy\00_GetStarted\main.cpp:12:5: warning: use range-based for loop instead [modernize-loop-convert]
+   12 |     for (size_t i = 0; i < numbers.size(); ++i)
+      |     ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         (int number : numbers)
+   13 |         std::cout << numbers[i] << " ";
+      |                      ~~~~~~~~~~
+      |                      number
+E:\Works\OpenSource\Demo\StaticProgramAnalysis\C++\clang-tidy\00_GetStarted\main.cpp:12:48: warning: statement should be inside braces [google-readability-braces-around-statements]
+   12 |     for (size_t i = 0; i < numbers.size(); ++i)
+      |                                                ^
+      |                                                 {
+   13 |         std::cout << numbers[i] << " ";
+      |                                        
+Suppressed 398 warnings (396 in non-user code, 2 with check filters).
+Use -header-filter=.* or leave it as default to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
 ````
 
 #### Linux
