@@ -124,6 +124,7 @@ if ($global:IsWindows)
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
 
+    # CMAKE_EXPORT_COMPILE_COMMANDS is not supported by Microsoft Visual C++ Generator, so we use Ninja generator instead.
     $cmakeArgs += @(
         "-G", "Ninja"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
