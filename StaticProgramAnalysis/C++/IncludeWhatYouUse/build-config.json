@@ -1,0 +1,48 @@
+{
+    "include-what-you-use": {
+        "version": "clang_22",
+        // https://github.com/include-what-you-use/include-what-you-use#clang-compatibility
+        "mapping": {
+            "clang_3.6": "0.4",
+            "clang_3.7": "0.5",
+            "clang_3.8": "0.6",
+            "clang_3.9": "0.7",
+            "clang_4.0-r2": "0.8",
+            "clang_5.0": "0.9",
+            "clang_6.0": "0.10",
+            "clang_7.0": "0.11",
+            "clang_8.0": "0.12",
+            "clang_9.0": "0.13",
+            "clang_10": "0.14",
+            "clang_11": "0.15",
+            "clang_12": "0.16",
+            "clang_13": "0.17",
+            "clang_14": "0.18",
+            "clang_15": "0.19",
+            "clang_16": "0.20",
+            "clang_17": "0.21",
+            "clang_18": "0.22",
+            "clang_19": "0.23",
+            "clang_20": "0.24",
+            "clang_21": "0.25",
+            "clang_22": "0.26"
+        }
+    },
+    "llvm": {
+        "version": "22.1.8",
+        "win": {
+            "sha256": "d96c2cc1736f4eb7fa43cb9bbdf56d93551a9ae0a9aadb9c99c3c3b2b712a234"
+        },
+        "linux": {
+            "sha256": "DF0E1ECF16CAF3489A272A5EEA4EEC9B0D82878F6477FA309504F918A0006384"
+        },
+        "osx": {
+            "sha256": "1a9717e31ed4b832dd5e84f5b81753ef17de33234e1b29f976254fa99dd6bae3"
+        }
+    },
+    "windows": {
+        "msvcStaticRuntime": true,
+        "visualStudioVersion": "2022",
+        "visualStudioInternalVersion": "17"
+    }
+}

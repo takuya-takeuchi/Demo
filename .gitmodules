@@ -276,3 +276,7 @@
 	path = Database/PostgreSQL/libpqxx/C++/libpqxx
 	url = https://github.com/jtv/libpqxx
 	ignore = dirty
+[submodule "StaticProgramAnalysis/C++/IncludeWhatYouUse/include-what-you-use"]
+	path = StaticProgramAnalysis/C++/IncludeWhatYouUse/include-what-you-use
+	url = https://github.com/include-what-you-use/include-what-you-use
+	ignore = dirty

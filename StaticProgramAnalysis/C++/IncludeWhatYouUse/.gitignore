@@ -1,0 +1,6 @@
+build
+install
+*.zip
+*.tar
+*.tar.xz
+*.tar.gz
