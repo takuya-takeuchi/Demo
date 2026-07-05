@@ -116,7 +116,8 @@ if ($global:IsWindows)
 {
     function CallVisualStudioDeveloperConsole()
     {
-        $vs = "C:\Program Files\Microsoft Visual Studio\2022"
+        $vsVersion = $config.windows.visualStudioVersion
+        $vs = "C:\Program Files\Microsoft Visual Studio\${vsVersion}"
         $path = "${vs}\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         if (!(Test-Path($path)))
         {
@@ -149,14 +150,10 @@ if ($global:IsWindows)
     }
 
     $cmakeArgs += @(
-        "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
+        "-G", "Ninja"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
-        "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
-        "-D PostgreSQL_ROOT=${libpqInstallDir}"
-        "-D libpqxx_LIBRARY_DIR=${targetInstallDir}/bin"
     )
 }
 elseif ($global:IsMacOS)
@@ -195,4 +192,4 @@ cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
 cmake --build "${buildDir}" --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
 
-python3 "${IWYU_TOOL}" -p "${buildDir}"
+python "${IWYU_TOOL}" -p "${buildDir}"

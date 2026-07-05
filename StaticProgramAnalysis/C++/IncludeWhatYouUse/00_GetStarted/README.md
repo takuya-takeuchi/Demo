@@ -10,10 +10,14 @@
 
 * Powershell 7 or later
 * CMake 3.12 or higher
+* Python 3
+  * Alias of python 3 shall be `python`
 
 ### Windows
 
 * Visual Studio 2022
+* Ninja
+  * Ninja should be installed since Visual Studio 2017
 
 ### Ubuntu
 
@@ -48,8 +52,19 @@ This demo lists unnecessary `#include` when build.
 #### Windows
 
 ````bat
-$ .\install\win\bin\Demo.exe
-libpqxx Version: 7.10.4
+$ pwsh build.ps1 <Debug/Release>
+[0/1] Install the project...
+
+E:/Works/OpenSource/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp should add these lines:
+#include <__msvc_ostream.hpp>  // for basic_ostream, endl, operator<<
+
+E:/Works/OpenSource/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp should remove these lines:
+- #include <fstream>  // lines 1-1
+
+The full include-list for E:/Works/OpenSource/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp:
+#include <__msvc_ostream.hpp>  // for basic_ostream, endl, operator<<
+#include <iostream>            // for char_traits, cout
+---
 ````
 
 #### Linux

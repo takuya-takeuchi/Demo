@@ -113,7 +113,8 @@ if ($global:IsWindows)
 {
     function CallVisualStudioDeveloperConsole()
     {
-        $vs = "C:\Program Files\Microsoft Visual Studio\2022"
+        $vsVersion = $config.windows.visualStudioVersion
+        $vs = "C:\Program Files\Microsoft Visual Studio\${vsVersion}"
         $path = "${vs}\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         if (!(Test-Path($path)))
         {
@@ -145,12 +146,14 @@ if ($global:IsWindows)
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
 
+    $vsVersion = $config.windows.visualStudioVersion
+    $vsInternalVersion = $config.windows.visualStudioInternalVersion
+
     $cmakeArgs += @(
-        "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
+        "-G", "Visual Studio ${vsInternalVersion} ${vsVersion}", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D CMAKE_PREFIX_PATH=$LLVM_INSTALL_DIR"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
         "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     )
@@ -186,7 +189,34 @@ $cmakeArgs += @(
 $configLogFile = Join-PathArray -PathElements @($buildDir, "cmake-config.log")
 $buildLogFile = Join-PathArray -PathElements @($buildDir, "cmake-build.log")
 
-# $env:PKG_CONFIG_PATH = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
 cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
+
+# https://github.com/include-what-you-use/include-what-you-use/issues/684
+# For windows, porject files ignore location of Visual Studio
+if ($global:IsWindows)
+{
+    $vsVersion = $config.windows.visualStudioVersion
+    $orgVs = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise"
+    $vs = "C:\Program Files\Microsoft Visual Studio\${vsVersion}\Enterprise"
+    if (!(Test-Path($vs)))
+    {
+        $vs = "C:\Program Files\Microsoft Visual Studio\${vsVersionn}\Professional"
+    }
+    if (!(Test-Path($vs)))
+    {
+        $vs = "C:\Program Files\Microsoft Visual Studio\${vsVersion}\Community"
+    }
+
+    $projects = Get-ChildItem -Path "${buildDir}" -Filter "*.vcxproj" -Recurse -File
+    foreach ($project in $projects)
+    {
+        if (Test-Path(${project}))
+        {
+            (Get-Content "${project}").Replace("${orgVs}",
+                                               "${vs}") | Set-Content "${project}"
+        }
+    }
+}
+
 $nproc = [Environment]::ProcessorCount
 cmake --build "${buildDir}" --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile

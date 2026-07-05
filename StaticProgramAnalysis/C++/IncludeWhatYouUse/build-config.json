@@ -41,6 +41,8 @@
         }
     },
     "windows": {
-        "msvcStaticRuntime": true
+        "msvcStaticRuntime": true,
+        "visualStudioVersion": "2022",
+        "visualStudioInternalVersion": "17"
     }
 }
