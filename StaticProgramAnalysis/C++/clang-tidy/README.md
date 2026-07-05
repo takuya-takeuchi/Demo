@@ -1,4 +1,4 @@
-# clang-format
+# clang-tidy
 
 ## Abstracts
 
