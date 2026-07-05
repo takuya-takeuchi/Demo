@@ -36,12 +36,12 @@
 
 ### GStreamer
 
-Go to [libpqxx](..).
+Go to [IncludeWhatYouUse](..).
 
-Once time you built `libpqxx`, you need not to do again.
+Once time you built `Include What You Use`, you need not to do again.
 
 ````shell
-$ pwsh download-libpq.ps1
+$ pwsh download-llvm.ps1
 $ pwsh build.ps1 <Debug/Release>
 ````
 

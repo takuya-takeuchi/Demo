@@ -1,0 +1,19 @@
+{
+    "llvm": {
+        "version": "22.1.8",
+        "win": {
+            "sha256": "d96c2cc1736f4eb7fa43cb9bbdf56d93551a9ae0a9aadb9c99c3c3b2b712a234"
+        },
+        "linux": {
+            "sha256": "DF0E1ECF16CAF3489A272A5EEA4EEC9B0D82878F6477FA309504F918A0006384"
+        },
+        "osx": {
+            "sha256": "1a9717e31ed4b832dd5e84f5b81753ef17de33234e1b29f976254fa99dd6bae3"
+        }
+    },
+    "windows": {
+        "msvcStaticRuntime": true,
+        "visualStudioVersion": "2022",
+        "visualStudioInternalVersion": "17"
+    }
+}
