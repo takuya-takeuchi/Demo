@@ -84,17 +84,34 @@ Use -header-filter=.* or leave it as default to display errors from all non-syst
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>
--- Install configuration: "Release"
--- Up-to-date: /data/work/oss/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/install/linux/bin/Demo
-
-/data/work/oss/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp should add these lines:
-
-/data/work/oss/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp should remove these lines:
-- #include <fstream>  // lines 1-1
-
-The full include-list for /data/work/oss/Demo/StaticProgramAnalysis/C++/IncludeWhatYouUse/00_GetStarted/main.cpp:
-#include <iostream>  // for char_traits, basic_ostream, cout, endl, operator<<
----
+145 warnings generated.
+/data/work/oss/Demo/StaticProgramAnalysis/C++/clang-tidy/00_GetStarted/main.cpp:4:5: warning: use a trailing return type for this function [modernize-use-trailing-return-type]
+    4 | int main()
+      | ~~~ ^     
+      | auto       -> int
+/data/work/oss/Demo/StaticProgramAnalysis/C++/clang-tidy/00_GetStarted/main.cpp:6:16: warning: use nullptr [modernize-use-nullptr]
+    6 |     int* ptr = 0;
+      |                ^
+      |                nullptr
+/data/work/oss/Demo/StaticProgramAnalysis/C++/clang-tidy/00_GetStarted/main.cpp:9:17: warning: C-style casts are discouraged; use static_cast [google-readability-casting,modernize-avoid-c-style-cast]
+    9 |     int intPi = (int)pi;
+      |                 ^~~~~  
+      |                 static_cast<int>( )
+/data/work/oss/Demo/StaticProgramAnalysis/C++/clang-tidy/00_GetStarted/main.cpp:13:5: warning: use range-based for loop instead [modernize-loop-convert]
+   13 |     for (size_t i = 0; i < numbers.size(); ++i)
+      |     ^   ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+      |         (int number : numbers)
+   14 |         std::cout << numbers[i] << " ";
+      |                      ~~~~~~~~~~
+      |                      number
+/data/work/oss/Demo/StaticProgramAnalysis/C++/clang-tidy/00_GetStarted/main.cpp:13:48: warning: statement should be inside braces [google-readability-braces-around-statements]
+   13 |     for (size_t i = 0; i < numbers.size(); ++i)
+      |                                                ^
+      |                                                 {
+   14 |         std::cout << numbers[i] << " ";
+      |                                        
+Suppressed 139 warnings (139 in non-user code).
+Use -header-filter=.* or leave it as default to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.
 ````
 
 #### OSX

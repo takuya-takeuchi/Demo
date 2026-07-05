@@ -145,11 +145,11 @@ elseif ($global:IsMacOS)
 }
 elseif ($global:IsLinux)
 {
+    # Need not to use clang and clang++
+    # clang-tidy checks only source code and header files, so build artifacts are not required.
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D CMAKE_C_COMPILER=${CMAKE_C_COMPILER}",
-        "-D CMAKE_CXX_COMPILER=${CMAKE_CXX_COMPILER}"
     )
 }
 
