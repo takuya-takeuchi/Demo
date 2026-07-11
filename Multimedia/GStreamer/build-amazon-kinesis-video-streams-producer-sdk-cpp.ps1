@@ -173,6 +173,7 @@ elseif ($global:IsMacOS)
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=${gstreamerInstallDir}"
     )
 }
 elseif ($global:IsLinux)
@@ -191,7 +192,6 @@ $cmakeArgs += @(
     "-D BUILD_GSTREAMER_PLUGIN=ON"
     "-D BUILD_DEPENDENCIES=ON"
     "-D BUILD_TEST=OFF"
-    # "-D OPENSSL_ROOT_DIR="
 )
 
 $cmakeArgs += @(
