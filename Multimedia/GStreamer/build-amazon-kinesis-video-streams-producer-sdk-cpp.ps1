@@ -66,6 +66,40 @@ $config = Get-Content -Path $configPath | ConvertFrom-Json
 if ($global:IsWindows)
 {
     $os = "win"
+
+    # Check windows support for long paths
+    $registryPath  = "HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem"
+    $valueName     = "LongPathsEnabled"
+    $expectedValue = 1
+
+    try
+    {
+        if (-not (Test-Path $registryPath)) {
+            throw "Registry Path Not Found: $registryPath"
+        }
+
+        $regKey = Get-Item -Path $registryPath
+        if (-not ($regKey.GetValueNames() -contains $valueName)) {
+            throw "Value '$valueName' does not exist in $registryPath"
+        }
+
+        $currentValue = Get-ItemPropertyValue -Path $registryPath -Name $valueName
+        if ($currentValue -ne $expectedValue) {
+            throw "Value mismatch: '$valueName' is $currentValue (Expected: $expectedValue)"
+        }
+    }
+    catch
+    {
+        Write-Host "[ERROR] $($_.Exception.Message)" -ForegroundColor Red
+        exit 1
+    }
+
+    # Check git config for long paths
+    if ((git config --global core.longpaths) -ne "true")
+    { 
+        Write-Host "[ERROR] core.longpaths is not true!" -ForegroundColor Red
+        exit 1 
+    } 
 }
 elseif ($global:IsMacOS)
 {
@@ -111,6 +145,20 @@ Push-Location $buildDir
 $cmakeArgs = @()
 if ($global:IsWindows)
 {
+    $perlDir = $env:PERLPATH
+    if (!$perlDir)
+    {
+        Write-Host "[Error] Environmental Variable: PERLPATH is missing" -ForegroundColor Red
+        exit
+    }
+
+    if (!(Test-Path("${perlDir}")))
+    {
+        Write-Host "[Error] '${perlDir}' is missing" -ForegroundColor Red
+        exit
+    }
+
+    $env:PATH="${perlDir};${env:PATH}"
     function CallVisualStudioDeveloperConsole()
     {
         $vsVersion = $config.windows.visualStudioVersion

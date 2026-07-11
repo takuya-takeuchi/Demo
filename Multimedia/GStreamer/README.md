@@ -15,6 +15,15 @@
 
 * Visual Studio 2022
 
+##### Amazon Kinesis Video Streams C++ Producer
+
+* Perl
+* Support long path (more than 260)
+  * OS
+    * `HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled`
+  * git
+    * `git config --global core.longpaths true`
+
 ### Ubuntu
 
 * g++
