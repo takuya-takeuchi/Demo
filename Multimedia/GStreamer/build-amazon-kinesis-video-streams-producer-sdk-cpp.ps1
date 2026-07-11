@@ -205,6 +205,7 @@ cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&
 # https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp/issues/978
 if ($global:IsMacOS)
 {
+    cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
     cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
 }
 
