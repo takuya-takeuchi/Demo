@@ -11,6 +11,21 @@ Param
    $Configuration
 )
 
+function Join-PathArray {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [string[]]$PathElements
+    )
+
+    process {
+        if ($PathElements.Count -eq 0) { return }
+        $result = $PathElements[0]
+        for ($i = 1; $i -lt $PathElements.Count; $i++) { $result = Join-Path -Path $result -ChildPath $PathElements[$i] }
+        return $result
+    }
+}
+
 $current = $PSScriptRoot
 $rootDir = $PSScriptRoot
 $configPath = Join-Path $current "build-config.json"
@@ -41,16 +56,17 @@ $version = $config."${target}".version
 
 # build
 $sourceDir = Join-Path $current $target
-$buildDir = Join-Path $current build | `
-            Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target | `
-            Join-Path -ChildPath $version | `
-            Join-Path -ChildPath $Configuration
-$installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target | `
-              Join-Path -ChildPath $version | `
-              Join-Path -ChildPath $Configuration
+$buildDir = Join-PathArray -PathElements @($current, "build", $os, $target, $version, $Configuration)
+$installDir = Join-PathArray -PathElements @($current, "install", $os, $target, $version, $Configuration)
+
+$gstreamerInstallDir = Join-PathArray -PathElements @($current, "install", $os, "gstreamer-kvs", $config.gstreamer.version, $Configuration)
+$GSTREAMER_PKGCONFIG_DIR = (Get-ChildItem -Path $gstreamerInstallDir -Recurse -Directory | Where-Object { $_.Name -eq "pkgconfig" } | Select-Object -First 1).FullName
+if (!(Test-Path(${GSTREAMER_PKGCONFIG_DIR})))
+{
+    Write-Host "[Error] ${GSTREAMER_PKGCONFIG_DIR} is missing" -ForegroundColor Red
+    return
+}
+$GSTREAMER_PKGCONFIG_DIR = $GSTREAMER_PKGCONFIG_DIR.Replace("`\", "/")
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -105,6 +121,17 @@ if ($global:IsWindows)
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
 
+    $pkgConfigExe = Join-Path $current install | `
+                    Join-Path -ChildPath $os | `
+                    Join-Path -ChildPath pkg-config | `
+                    Join-Path -ChildPath bin | `
+                    Join-Path -ChildPath pkg-config.exe
+    if (!(Test-Path(${pkgConfigExe})))
+    {
+        Write-Host "[Error] ${pkgConfigExe} is missing. Please run ../download-pkg-config.ps1" -ForegroundColor Red
+        return
+    }
+
     $vsVersion = $config.windows.visualStudioVersion
     $vsInternalVersion = $config.windows.visualStudioInternalVersion
 
@@ -112,9 +139,7 @@ if ($global:IsWindows)
         "-G", "Visual Studio ${vsInternalVersion} ${vsVersion}", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
-        "-D PostgreSQL_ROOT=$libpqInstallDir"
     )
 }
 elseif ($global:IsMacOS)
@@ -122,50 +147,25 @@ elseif ($global:IsMacOS)
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
-        "-D PostgreSQL_ROOT=$libpqInstallDir"
     )
 }
 elseif ($global:IsLinux)
 {
-    $hasApt = Get-Command apt -ErrorAction SilentlyContinue
-    $hasDnf = Get-Command dnf -ErrorAction SilentlyContinue
-    $hasYum = Get-Command yum -ErrorAction SilentlyContinue
-
-    if ($hasApt)
-    {
-        $libpqInstallDir = Join-Path $current install | `
-                           Join-Path -ChildPath $os | `
-                           Join-Path -ChildPath libpq | `
-                           Join-Path -ChildPath usr
-        if (!(Test-Path(${libpqInstallDir})))
-        {
-            Write-Host "[Error] ${libpqInstallDir} is missing" -ForegroundColor Red
-            return
-        }
-    }
-    elseif ($hasDnf -or $hasYum)
-    {
-    }
-
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
-        "-D PostgreSQL_ROOT=$libpqInstallDir"
+        "-D CMAKE_PREFIX_PATH=${gstreamerInstallDir}"
+        "-D CMAKE_C_FLAGS=-D_GNU_SOURCE"
+        "-D CMAKE_CXX_FLAGS=-D_GNU_SOURCE"
     )
 }
 
 # standard
-PKG_CONFIG_PATH = "${gstreamerInstallDir}/lib/pkgconfig"
 $cmakeArgs += @(
     "-D BUILD_GSTREAMER_PLUGIN=ON"
     "-D BUILD_DEPENDENCIES=ON"
     "-D BUILD_TEST=OFF"
-    "-D OPENSSL_ROOT_DIR="
-    "-D CMAKE_PREFIX_PATH=<gstreamer-install-dir>"
-    "-D CMAKE_C_FLAGS=-D_GNU_SOURCE"
-    "-D CMAKE_CXX_FLAGS=-D_GNU_SOURCE"
+    # "-D OPENSSL_ROOT_DIR="
 )
 
 $cmakeArgs += @(
@@ -175,7 +175,7 @@ $cmakeArgs += @(
 $configLogFile = Join-Path $buildDir cmake-config.log
 $buildLogFile = Join-Path $buildDir cmake-build.log
 
-# $env:PKG_CONFIG_PATH = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
+$env:PKG_CONFIG_PATH = "${GSTREAMER_PKGCONFIG_DIR}"
 cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
 cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile

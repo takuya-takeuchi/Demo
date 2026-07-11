@@ -11,6 +11,21 @@ Param
    $Configuration
 )
 
+function Join-PathArray {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [string[]]$PathElements
+    )
+
+    process {
+        if ($PathElements.Count -eq 0) { return }
+        $result = $PathElements[0]
+        for ($i = 1; $i -lt $PathElements.Count; $i++) { $result = Join-Path -Path $result -ChildPath $PathElements[$i] }
+        return $result
+    }
+}
+
 $current = $PSScriptRoot
 $rootDir = $PSScriptRoot
 $configPath = Join-Path $current "build-config.json"
@@ -41,16 +56,8 @@ $version = $config.gstreamer.version
 
 # build
 $sourceDir = Join-Path $current $target
-$buildDir = Join-Path $current build | `
-            Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target-kvs | `
-            Join-Path -ChildPath $version | `
-            Join-Path -ChildPath $Configuration
-$installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target-kvs | `
-              Join-Path -ChildPath $version | `
-              Join-Path -ChildPath $Configuration
+$buildDir = Join-PathArray -PathElements @($current, "build", $os, "${target}-kvs", $version, $Configuration)
+$installDir = Join-PathArray -PathElements @($current, "install", $os, "${target}-kvs", $version, $Configuration)
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
