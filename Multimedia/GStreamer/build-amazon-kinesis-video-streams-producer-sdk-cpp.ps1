@@ -202,6 +202,12 @@ cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
 cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
 
+# https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp/issues/978
+if ($global:IsMacOS)
+{
+    cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
+}
+
 # copy dependency files
 $source = Join-PathArray -PathElements @($sourceDir, "open-source", "local", "lib")
 if ($global:IsWindows)
