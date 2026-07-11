@@ -283,3 +283,4 @@
 [submodule "Multimedia/GStreamer/amazon-kinesis-video-streams-producer-sdk-cpp"]
 	path = Multimedia/GStreamer/amazon-kinesis-video-streams-producer-sdk-cpp
 	url = https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp/
+	ignore = dirty

@@ -250,6 +250,13 @@ cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
 cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
 
+# https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp/issues/978
+if ($global:IsMacOS)
+{
+    cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
+    cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
+}
+
 # copy dependency files
 $source = Join-PathArray -PathElements @($sourceDir, "open-source", "local", "lib")
 if ($global:IsWindows)
@@ -257,9 +264,13 @@ if ($global:IsWindows)
 }
 elseif ($global:IsMacOS)
 {
+    Copy-FilesAndLinksFlat "${buildDir}" "${installDir}/lib" ".*\.a(\.\d+)*$"
+    Copy-FilesAndLinksFlat "${buildDir}" "${installDir}/lib" ".*\.dylib(\.\d+)*$"
+    Copy-FilesAndLinksFlat "${source}" "${installDir}/lib" ".*\.dylib(\.\d+)*$"
 }
 elseif ($global:IsLinux)
 {
+    Copy-FilesAndLinksFlat "${buildDir}" "${installDir}/lib" ".*\.a(\.\d+)*$"
     Copy-FilesAndLinksFlat "${buildDir}" "${installDir}/lib" ".*\.so(\.\d+)*$"
     Copy-FilesAndLinksFlat "${source}" "${installDir}/lib" ".*\.so(\.\d+)*$"
 }
