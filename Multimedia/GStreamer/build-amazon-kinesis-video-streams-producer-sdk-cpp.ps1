@@ -26,6 +26,32 @@ function Join-PathArray {
     }
 }
 
+function Copy-FilesAndLinksFlat {
+    param (
+        [Parameter(Mandatory=$true)]
+        [string]$SourceDir,
+        [Parameter(Mandatory=$true)]
+        [string]$DestDir,
+        [Parameter(Mandatory=$false)]
+        [string]$ExtensionPattern = ".*" 
+    )
+    if (!(Test-Path $DestDir)) { New-Item -ItemType Directory -Path $DestDir | Out-Null }
+    Get-ChildItem -Path $SourceDir -Recurse -File | ForEach-Object {
+        if ($_.Name -match $ExtensionPattern)
+        {
+            $targetPath = Join-Path $DestDir $_.Name
+            if ($_.Attributes -match "ReparsePoint") {
+                $linkTarget = (Get-Item $_.FullName).Target
+                New-Item -ItemType SymbolicLink -Path $targetPath -Value $linkTarget -Force | Out-Null
+            } 
+            else
+            {
+                Copy-Item $_.FullName -Destination $targetPath -Force
+            }
+        }
+    }
+}
+
 $current = $PSScriptRoot
 $rootDir = $PSScriptRoot
 $configPath = Join-Path $current "build-config.json"
@@ -179,5 +205,19 @@ $env:PKG_CONFIG_PATH = "${GSTREAMER_PKGCONFIG_DIR}"
 cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
 cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
+
+# copy dependency files
+$source = Join-PathArray -PathElements @($sourceDir, "open-source", "local", "lib")
+if ($global:IsWindows)
+{
+}
+elseif ($global:IsMacOS)
+{
+}
+elseif ($global:IsLinux)
+{
+    Copy-FilesAndLinksFlat "${buildDir}" "${installDir}/lib" ".*\.so(\.\d+)*$"
+    Copy-FilesAndLinksFlat "${source}" "${installDir}/lib" ".*\.so(\.\d+)*$"
+}
 
 Pop-Location
