@@ -18,6 +18,10 @@
 ### Ubuntu
 
 * g++
+* Packages
+  * `flex`
+  * `bison`
+  * `nasm`
 
 ### OSX
 

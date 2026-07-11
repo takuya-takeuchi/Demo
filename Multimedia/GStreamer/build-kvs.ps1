@@ -43,12 +43,12 @@ $version = $config.gstreamer.version
 $sourceDir = Join-Path $current $target
 $buildDir = Join-Path $current build | `
             Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target | `
+            Join-Path -ChildPath $target-kvs | `
             Join-Path -ChildPath $version | `
             Join-Path -ChildPath $Configuration
 $installDir = Join-Path $current install | `
               Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target | `
+              Join-Path -ChildPath $target-kvs | `
               Join-Path -ChildPath $version | `
               Join-Path -ChildPath $Configuration
 
@@ -204,6 +204,14 @@ $setupArgs += @(
     "-Dgst-plugins-bad:nvcodec=disabled"
     "-Dgst-plugins-bad:vulkan=disabled"
     "-Dgst-plugins-bad:vulkan-video=disabled"
+
+    # for amazon-kinesis-video-streams-producer-sdk-cpp
+    "-Dgst-plugins-bad:codectimestamper=enabled"
+    "-Dgst-plugins-bad:hls=enabled"
+    "-Dgst-plugins-bad:mpegtsmux=enabled"
+    "-Dgst-plugins-base:videorate=enabled"
+    "-Dgst-plugins-good:multifile=enabled"
+    "-Dgstreamer:tools=enabled"
 )
 
 $configLogFile = Join-Path $buildDir cmake-config.log

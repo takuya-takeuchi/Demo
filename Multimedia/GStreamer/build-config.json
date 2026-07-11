@@ -13,5 +13,13 @@
     "gettext": {
         "version": "0.18.1.1-2",
         "sha256": "1f4269c0e021076d60a54e98da6f978a3195013f6de21674ba0edbc339c5b079"
+    },
+    "amazon-kinesis-video-streams-producer-sdk-cpp": {
+        "version": "v3.6.0"
+    },
+    "windows": {
+        "msvcStaticRuntime": true,
+        "visualStudioVersion": "2022",
+        "visualStudioInternalVersion": "17"
     }
 }
