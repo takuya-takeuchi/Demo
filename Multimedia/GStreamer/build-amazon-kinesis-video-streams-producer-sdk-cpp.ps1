@@ -53,7 +53,6 @@ function Copy-FilesAndLinksFlat {
 }
 
 $current = $PSScriptRoot
-$rootDir = $PSScriptRoot
 $configPath = Join-Path $current "build-config.json"
 if (!(Test-Path($configPath)))
 {
@@ -147,14 +146,10 @@ if ($global:IsWindows)
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
 
-    $pkgConfigExe = Join-Path $current install | `
-                    Join-Path -ChildPath $os | `
-                    Join-Path -ChildPath pkg-config | `
-                    Join-Path -ChildPath bin | `
-                    Join-Path -ChildPath pkg-config.exe
+    $pkgConfigExe = Join-PathArray -PathElements @($current, "install", $os, "pkg-config", "bin", "pkg-config.exe")
     if (!(Test-Path(${pkgConfigExe})))
     {
-        Write-Host "[Error] ${pkgConfigExe} is missing. Please run ../download-pkg-config.ps1" -ForegroundColor Red
+        Write-Host "[Error] ${pkgConfigExe} is missing. Please run download-pkg-config.ps1" -ForegroundColor Red
         return
     }
 
@@ -166,6 +161,7 @@ if ($global:IsWindows)
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
+        "-D PKG_CONFIG_EXECUTABLE=${pkgConfigExe}" `
     )
 }
 elseif ($global:IsMacOS)
