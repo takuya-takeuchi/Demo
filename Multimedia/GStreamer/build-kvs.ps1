@@ -189,6 +189,8 @@ $setupArgs += @(
     "-Dgst-plugins-good:rtpmanager=enabled"
     "-Dgst-plugins-good:rtsp=enabled"
     "-Dgst-plugins-good:jpeg=enabled"
+    "-Dgst-plugins-good:isomp4=enabled" # qtdemux
+
 
     "-Dgst-plugins-base:app=enabled" # appsink
     "-Dgst-plugins-base:videoconvertscale=enabled" # videoconvert
