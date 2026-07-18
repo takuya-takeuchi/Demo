@@ -56,7 +56,7 @@ $version = $config.gstreamer.version
 
 # build
 $sourceDir = $current
-$buildDir = Join-PathArray -PathElements @($current, "build", $os, $target, "program", $Configuration)
+$buildDir = Join-PathArray -PathElements @($current, "build", $os, "program", $Configuration)
 $installDir = Join-PathArray -PathElements @($current, "install", $os)
 $installBinaryDir = Join-PathArray -PathElements @($installDir, "bin")
 $targetInstallDir = Join-PathArray -PathElements @($rootDir, "install", $os, $target, $version, $Configuration)
