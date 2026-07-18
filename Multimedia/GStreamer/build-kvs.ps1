@@ -192,6 +192,7 @@ $setupArgs += @(
 
     "-Dgst-plugins-base:app=enabled" # appsink
     "-Dgst-plugins-base:videoconvertscale=enabled" # videoconvert
+    "-Dgst-plugins-base:playback=enabled"
 
     "-Dgst-plugins-good:soup=disabled"
     "-Dgst-plugins-bad:webrtc=disabled"

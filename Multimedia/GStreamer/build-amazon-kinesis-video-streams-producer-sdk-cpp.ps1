@@ -253,7 +253,6 @@ $cmakeArgs += @(
 )
 
 $cmakeArgs += @(
-    "--debug-trycompile"
     "${sourceDir}"
 )
 

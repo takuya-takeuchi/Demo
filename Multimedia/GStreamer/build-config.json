@@ -18,7 +18,7 @@
         "version": "v3.6.0"
     },
     "windows": {
-        "msvcStaticRuntime": true,
+        "msvcStaticRuntime": false,
         "visualStudioVersion": "2022",
         "visualStudioInternalVersion": "17"
     }
