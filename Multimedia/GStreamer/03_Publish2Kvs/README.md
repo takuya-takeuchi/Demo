@@ -1,9 +1,8 @@
-# Recerive Stream
+# Publish vidoe stream to AWS KVS
 
 ## Abstracts
 
-* How to recerive stream like RTSP and persist every frame into storage as jpeg
-  * And drop corrupted frame until key frame come.
+* How to publis video stream from mp4 file
 
 ## Requirements
 
@@ -31,6 +30,8 @@
 
 * [GStreamer](https://gstreamer.freedesktop.org/)
   * GNU General Public License (GPL) version 2.1
+* [Amazon Kinesis Video Streams C++ Producer, kvssink GStreamer Plugin](https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp/)
+  * Apache-2.0 license
 
 ## TestData
 
@@ -68,29 +69,19 @@ $ aws kinesisvideo create-stream --stream-name "MyKVSStream" --data-retention-in
 ````bat
 $ set AWS_ACCESS_KEY_ID=<your-aws-access-key>
 $ set AWS_SECRET_ACCESS_KEY=<your-aws-secret-access-key>
-$ set GSTREAMER_VERSION=1.28.2
-$ set GST_BASE=..\install\win\gstreamer-kvs\%GSTREAMER_VERSION%\Release
-$ set GST_PLUGIN_SCANNER=%GST_BASE%\libexec\gstreamer-1.0\gst-hotdoc-plugins-scanner.exe
-$ set GST_PLUGIN_PATH=%GST_BASE%\lib\gstreamer-1.0
-$ set PATH=%GST_BASE%\bin;%PATH%
-$ .\install\win\bin\Demo sample-5s.mp4 MyKVSStream
+$ set AWS_DEFAULT_REGION=<your-kvs-region>
 
+$ pwsh run.ps1 Release MyKVSStream
 ````
 
 #### Linux
 
 ````bat
-$ export GSTREAMER_VERSION=1.28.2
-$ export GST_BASE=../install/linux/gstreamer-kvs/${GSTREAMER_VERSION}/Release
-$ export GST_PLUGIN_SCANNER=${GST_BASE}/libexec/gstreamer-1.0/gst-plugin-scanner
-$ export GST_PLUGIN_PATH=${GST_BASE}/lib/x86_64-linux-gnu/gstreamer-1.0
-$ export LD_LIBRARY_PATH=${GST_BASE}/lib/x86_64-linux-gnu:$LD_LIBRARY_PATH
-$ export PATH=${GST_BASE}/bin:$PATH
+$ export AWS_ACCESS_KEY_ID=<your-aws-access-key>
+$ export AWS_SECRET_ACCESS_KEY=<your-aws-secret-access-key>
+$ export AWS_DEFAULT_REGION=<your-kvs-region>
 
-
-export GST_PLUGIN_SYSTEM_PATH={GST_BASE}/lib/x86_64-linux-gnu/gstreamer-1.0
-
-$ ./install/linux/bin/Demo rtsp://192.168.11.102:12345/mystream
+$ pwsh run.ps1 Release MyKVSStream
 Launching pipeline: filesrc location="sample-5s.mp4" ! qtdemux name=demux demux.video_0 ! queue ! h264parse ! openh264dec ! videoconvert ! video/x-raw,format=I420 ! openh264enc rate-control=bitrate bitrate=2000000 gop-size=60 ! h264parse config-interval=-1 ! video/x-h264,stream-format=avc,alignment=au ! identity sync=true ! kvssink stream-name="MyKVSStream" log-config="./kvs_log_configuration" framerate=30 fragment-duration=2000
 log4cplus:ERROR PropertyConfigurator::configureLogger()- Invalid appender: WARN
 2026-07-18 18:17:32 INFO  - Logger config being used: ./kvs_log_configuration

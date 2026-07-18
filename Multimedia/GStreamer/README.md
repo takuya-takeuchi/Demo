@@ -46,6 +46,9 @@ Refere to https://developercommunity.visualstudio.com/t/Allow-building-running-a
   * 1.28.2
     * Build error 'ERROR: Requested variable "plugins_cache_generator" not found' occurs since 1.28.3
   * GNU General Public License (GPL) version 2.1
+* [Amazon Kinesis Video Streams C++ Producer, kvssink GStreamer Plugin](https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp/)
+  * 3.6.0
+  * Apache-2.0 license
 
 ### Dependencies for development
 
