@@ -33,7 +33,7 @@ function Copy-FilesAndLinksFlat {
         [Parameter(Mandatory=$true)]
         [string]$DestDir,
         [Parameter(Mandatory=$false)]
-        [string]$ExtensionPattern = ".*" 
+        [string]$ExtensionPattern = ".*"
     )
     if (!(Test-Path $DestDir)) { New-Item -ItemType Directory -Path $DestDir | Out-Null }
     Get-ChildItem -Path $SourceDir -Recurse -File | ForEach-Object {
@@ -43,7 +43,7 @@ function Copy-FilesAndLinksFlat {
             if ($_.Attributes -match "ReparsePoint") {
                 $linkTarget = (Get-Item $_.FullName).Target
                 New-Item -ItemType SymbolicLink -Path $targetPath -Value $linkTarget -Force | Out-Null
-            } 
+            }
             else
             {
                 Copy-Item $_.FullName -Destination $targetPath -Force
@@ -96,10 +96,10 @@ if ($global:IsWindows)
 
     # Check git config for long paths
     if ((git config --global core.longpaths) -ne "true")
-    { 
+    {
         Write-Host "[ERROR] core.longpaths is not true!" -ForegroundColor Red
-        exit 1 
-    } 
+        exit 1
+    }
 }
 elseif ($global:IsMacOS)
 {
@@ -112,6 +112,9 @@ elseif ($global:IsLinux)
 
 $target = "amazon-kinesis-video-streams-producer-sdk-cpp"
 $version = $config."${target}".version
+# Fucking Visual Studio cannot handle long paths, so we use a shorter name for the build and install directories!!!!
+# https://developercommunity.visualstudio.com/t/Allow-building-running-and-debugging-a/351628
+$target = "kvs-sdk-cpp"
 
 # build
 $sourceDir = Join-Path $current $target
@@ -125,7 +128,7 @@ if (!(Test-Path(${GSTREAMER_PKGCONFIG_DIR})))
     Write-Host "[Error] ${GSTREAMER_PKGCONFIG_DIR} is missing" -ForegroundColor Red
     return
 }
-$GSTREAMER_PKGCONFIG_DIR = $GSTREAMER_PKGCONFIG_DIR.Replace("`\", "/")
+$gstreamerInstallDir = $gstreamerInstallDir.Replace("`\", "/")
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -139,6 +142,16 @@ git fetch --all --prune
 git checkout $version
 git submodule update --init --recursive .
 Pop-Location
+
+# apply patch
+$patch = Join-Path $current patch |
+         Join-Path -ChildPath $target |
+         Join-Path -ChildPath $version |
+         Join-Path -ChildPath $os
+if (Test-Path($patch))
+{
+    Copy-Item -Recurse $patch/* $sourceDir -Force
+}
 
 Push-Location $buildDir
 
@@ -208,8 +221,9 @@ if ($global:IsWindows)
         "-G", "Visual Studio ${vsInternalVersion} ${vsVersion}", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D CMAKE_PREFIX_PATH=${gstreamerInstallDir}"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
-        "-D PKG_CONFIG_EXECUTABLE=${pkgConfigExe}" `
+        "-D PKG_CONFIG_EXECUTABLE=${pkgConfigExe}"
     )
 }
 elseif ($global:IsMacOS)
@@ -239,6 +253,7 @@ $cmakeArgs += @(
 )
 
 $cmakeArgs += @(
+    "--debug-trycompile"
     "${sourceDir}"
 )
 

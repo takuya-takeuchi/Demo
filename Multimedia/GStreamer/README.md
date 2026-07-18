@@ -17,6 +17,10 @@
 
 ##### Amazon Kinesis Video Streams C++ Producer
 
+For Windows user, you SHALL move this repo to shallow directory!!
+Otherwise, you would face to build error due to long path issue.
+Refere to https://developercommunity.visualstudio.com/t/Allow-building-running-and-debugging-a/351628
+
 * Perl
 * Support long path (more than 260)
   * OS
