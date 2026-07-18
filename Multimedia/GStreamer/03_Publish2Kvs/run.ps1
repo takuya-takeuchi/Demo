@@ -86,14 +86,14 @@ elseif ($global:IsMacOS)
     $env:GST_BASE = $targetInstallDir
     $lib = Join-PathArray -PathElements @($env:GST_BASE, "lib")
     $bin = Join-PathArray -PathElements @($env:GST_BASE, "bin")
-    
+    $pluginDir = Join-PathArray -PathElements @($lib, "gstreamer-1.0")
+    $kvsPluginDir = Join-PathArray -PathElements @($rootDir, "install", $os, $kvsTarget, $kvsVersion, $Configuration, "lib")
+
     $env:GSTREAMER_VERSION = $version
     $env:GST_PLUGIN_SCANNER = Join-PathArray -PathElements @($env:GST_BASE, "libexec", "gstreamer-1.0", "gst-plugin-scanner")
-    $pluginDir = Join-PathArray -PathElements @($lib, "gstreamer-1.0")
-    $depenenciesDir = Join-PathArray -PathElements @($rootDir, $kvsTarget, "open-source", "local", "lib")
-    $env:GST_PLUGIN_PATH = "${pluginDir}:"
-    $env:DYLD_LIBRARY_PATH = "${lib}:${depenenciesDir}:${rootDir}/build/osx/kvs-sdk-cpp/v3.6.0/Release:${rootDir}/build/osx/kvs-sdk-cpp/v3.6.0/Release/dependency/libkvscproducer/kvscproducer-src:${env:DYLD_LIBRARY_PATH}"
-    $env:PATH = "${bin}:${env:PATH}"
+    $env:GST_PLUGIN_PATH = "${pluginDir}:${kvsPluginDir}"
+    $env:LD_LIBRARY_PATH = "${lib}:${env:LD_LIBRARY_PATH}"
+    $env:PATH = "${env:GST_BASE}/bin:${env:PATH}"
 
     $demo = Join-PathArray -PathElements @($installBinaryDir, "Demo")
 }
