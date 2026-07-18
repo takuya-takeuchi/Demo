@@ -92,7 +92,7 @@ elseif ($global:IsMacOS)
     $env:GSTREAMER_VERSION = $version
     $env:GST_PLUGIN_SCANNER = Join-PathArray -PathElements @($env:GST_BASE, "libexec", "gstreamer-1.0", "gst-plugin-scanner")
     $env:GST_PLUGIN_PATH = "${pluginDir}:${kvsPluginDir}"
-    $env:LD_LIBRARY_PATH = "${lib}:${env:LD_LIBRARY_PATH}"
+    $env:DYLD_LIBRARY_PATH = "${lib}:${env:DYLD_LIBRARY_PATH}"
     $env:PATH = "${env:GST_BASE}/bin:${env:PATH}"
 
     $demo = Join-PathArray -PathElements @($installBinaryDir, "Demo")

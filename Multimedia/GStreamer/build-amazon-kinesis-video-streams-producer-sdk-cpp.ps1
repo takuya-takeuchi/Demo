@@ -280,6 +280,7 @@ elseif ($global:IsMacOS)
 {
     Copy-FilesAndLinksFlat "${buildDir}" "${installDir}/lib" ".*\.a(\.\d+)*$"
     Copy-FilesAndLinksFlat "${buildDir}" "${installDir}/lib" ".*\.dylib(\.\d+)*$"
+    Copy-FilesAndLinksFlat "${buildDir}" "${installDir}/lib" ".*\.so(\.\d+)*$"
     Copy-FilesAndLinksFlat "${source}" "${installDir}/lib" ".*\.dylib(\.\d+)*$"
 }
 elseif ($global:IsLinux)
