@@ -51,7 +51,7 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "gstreamer"
+$target = "gstreamer-kvs"
 $version = $config.gstreamer.version
 
 # build
