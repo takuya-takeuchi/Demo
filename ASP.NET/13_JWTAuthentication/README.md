@@ -92,7 +92,26 @@ Note: Unnecessary use of -X or --request, GET is already inferred.
 ##### Linux or OSX
 
 ````bash
-$ curl -X "GET" "http://localhost:5234/api/Test" -H "accept: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyLTAwMSIsImp0aSI6IjIxNmI1ODFkZmFmOTQwMTRiYTUyZGVmMDFkZGRlN2ZlIiwiaWF0IjoxNzg0OTkyNTAzLCJuYmYiOjE3ODQ5OTI1MDMsImV4cCI6MTc4NDk5MjU2MywiaXNzIjoiVGh1bmRlcmluZ0hlcmREZW1vIiwiYXVkIjoiVGh1bmRlcmluZ0hlcmREZW1vQ2xpZW50In0.Wr5EKcaZ9PdOc34GR7s5l39ap-usZh3vpVMaSwXZibA"
+$ curl -v -X "GET" "http://localhost:5234/api/Test" -H "accept: application/json" -H "Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyLTAwMSIsImp0aSI6ImUxNGI1N2E1ODgwYTRjMjBhNmEzNmMxOGQ5NjExYTA1IiwiaWF0IjoxNzg0OTk4NTEzLCJuYmYiOjE3ODQ5OTg1MTMsImV4cCI6MTc4NDk5ODgxMywiaXNzIjoiVGh1bmRlcmluZ0hlcmREZW1vIiwiYXVkIjoiVGh1bmRlcmluZ0hlcmREZW1vQ2xpZW50In0.Gv1qs1jwgGzdhKN4Hm9IdZWL8ulGEsOVMk77AaeAsMs"
+Note: Unnecessary use of -X or --request, GET is already inferred.
+* Host localhost:5234 was resolved.
+* IPv6: ::1
+* IPv4: 127.0.0.1
+*   Trying [::1]:5234...
+* Connected to localhost (::1) port 5234
+> GET /api/Test HTTP/1.1
+> Host: localhost:5234
+> User-Agent: curl/8.7.1
+> accept: application/json
+> Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ1c2VyLTAwMSIsImp0aSI6ImUxNGI1N2E1ODgwYTRjMjBhNmEzNmMxOGQ5NjExYTA1IiwiaWF0IjoxNzg0OTk4NTEzLCJuYmYiOjE3ODQ5OTg1MTMsImV4cCI6MTc4NDk5ODgxMywiaXNzIjoiVGh1bmRlcmluZ0hlcmREZW1vIiwiYXVkIjoiVGh1bmRlcmluZ0hlcmREZW1vQ2xpZW50In0.Gv1qs1jwgGzdhKN4Hm9IdZWL8ulGEsOVMk77AaeAsMs
+> 
+* Request completely sent off
+< HTTP/1.1 200 OK
+< Content-Length: 0
+< Date: Sat, 25 Jul 2026 16:55:35 GMT
+< Server: Kestrel
+< 
+* Connection #0 to host localhost left intact
 ````
 
 ### via Swagger UI
