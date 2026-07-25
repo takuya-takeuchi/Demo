@@ -280,3 +280,7 @@
 	path = StaticProgramAnalysis/C++/IncludeWhatYouUse/include-what-you-use
 	url = https://github.com/include-what-you-use/include-what-you-use
 	ignore = dirty
+[submodule "Multimedia/GStreamer/amazon-kinesis-video-streams-producer-sdk-cpp"]
+	path = Multimedia/GStreamer/kvs-sdk-cpp
+	url = https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp/
+	ignore = dirty

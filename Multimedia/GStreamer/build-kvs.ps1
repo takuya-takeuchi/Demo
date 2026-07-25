@@ -56,8 +56,8 @@ $version = $config.gstreamer.version
 
 # build
 $sourceDir = Join-Path $current $target
-$buildDir = Join-PathArray -PathElements @($current, "build", $os, $target, $version, $Configuration)
-$installDir = Join-PathArray -PathElements @($current, "install", $os, $target, $version, $Configuration)
+$buildDir = Join-PathArray -PathElements @($current, "build", $os, "${target}-kvs", $version, $Configuration)
+$installDir = Join-PathArray -PathElements @($current, "install", $os, "${target}-kvs", $version, $Configuration)
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -189,9 +189,12 @@ $setupArgs += @(
     "-Dgst-plugins-good:rtpmanager=enabled"
     "-Dgst-plugins-good:rtsp=enabled"
     "-Dgst-plugins-good:jpeg=enabled"
+    "-Dgst-plugins-good:isomp4=enabled" # qtdemux
+
 
     "-Dgst-plugins-base:app=enabled" # appsink
     "-Dgst-plugins-base:videoconvertscale=enabled" # videoconvert
+    "-Dgst-plugins-base:playback=enabled"
 
     "-Dgst-plugins-good:soup=disabled"
     "-Dgst-plugins-bad:webrtc=disabled"
@@ -211,6 +214,14 @@ $setupArgs += @(
     "-Dgst-plugins-bad:nvcodec=disabled"
     "-Dgst-plugins-bad:vulkan=disabled"
     "-Dgst-plugins-bad:vulkan-video=disabled"
+
+    # for amazon-kinesis-video-streams-producer-sdk-cpp
+    "-Dgst-plugins-bad:codectimestamper=enabled"
+    "-Dgst-plugins-bad:hls=enabled"
+    "-Dgst-plugins-bad:mpegtsmux=enabled"
+    "-Dgst-plugins-base:videorate=enabled"
+    "-Dgst-plugins-good:multifile=enabled"
+    "-Dgstreamer:tools=enabled"
 )
 
 $configLogFile = Join-Path $buildDir cmake-config.log

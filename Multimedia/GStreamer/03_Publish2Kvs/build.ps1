@@ -51,12 +51,12 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$target = "gstreamer"
+$target = "gstreamer-kvs"
 $version = $config.gstreamer.version
 
 # build
 $sourceDir = $current
-$buildDir = Join-PathArray -PathElements @($current, "build", $os,  "program", $Configuration)
+$buildDir = Join-PathArray -PathElements @($current, "build", $os, "program", $Configuration)
 $installDir = Join-PathArray -PathElements @($current, "install", $os)
 $installBinaryDir = Join-PathArray -PathElements @($installDir, "bin")
 $targetInstallDir = Join-PathArray -PathElements @($rootDir, "install", $os, $target, $version, $Configuration)
@@ -91,7 +91,6 @@ elseif ($global:IsMacOS)
 {
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D CMAKE_PREFIX_PATH="${targetInstallDir}" `
-          -D GSTREAMER_ROOT="${targetInstallDir}" `
           $sourceDir
 }
 elseif ($global:IsLinux)
@@ -106,7 +105,6 @@ elseif ($global:IsLinux)
     cmake -E env PKG_CONFIG_PATH="${config}" `
     cmake -D CMAKE_INSTALL_PREFIX=${installDir} `
           -D PKG_CONFIG_USE_CMAKE_PREFIX_PATH=FALSE `
-          -D GSTREAMER_ROOT="${targetInstallDir}" `
           $sourceDir
 }
 cmake --build . --config ${Configuration} --target install
