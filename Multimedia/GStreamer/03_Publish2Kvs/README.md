@@ -16,6 +16,10 @@
 
 * Visual Studio 2022
 
+##### Note
+
+For now, thid demo does not support for Windows because gstkvssink is not regonized from program.
+
 ### Ubuntu
 
 * g++
