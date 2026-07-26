@@ -11,7 +11,6 @@ namespace Demo.Controllers
     /// </summary>
     [ApiController]
     [Route("api/[controller]")]
-    [Produces("application/json")]
     public sealed class TestController : ControllerBase
     {
 
