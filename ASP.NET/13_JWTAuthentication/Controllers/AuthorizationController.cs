@@ -68,7 +68,7 @@ namespace Demo.Controllers
         [HttpPost("login")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public IActionResult Login([FromBody] LoginRequest request)
+        public ActionResult<TokenResponse> Login([FromBody] LoginRequest request)
         {
             // This is for demo!!!!!!
             if (request.UserName != "test" ||
@@ -92,8 +92,8 @@ namespace Demo.Controllers
         [HttpPost("refresh")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        public async Task<IActionResult> Refresh([FromBody] RefreshRequest request,
-                                                 CancellationToken cancellationToken)
+        public async Task<ActionResult<TokenResponse>> Refresh([FromBody] RefreshRequest request,
+                                                               CancellationToken cancellationToken)
         {
             int activeRequests = _Metrics.Enter();
             _Logger.LogWarning("Refresh started. Active={Active}, Peak={Peak}, Token={Token}",
