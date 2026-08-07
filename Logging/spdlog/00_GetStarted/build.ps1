@@ -53,16 +53,8 @@ elseif ($global:IsLinux)
 
 $target = "spdlog"
 $version = $config.${target}.version
-if ($config.${target}.shared)
-{
-    $shared = "dynamic"
-}
-else
-{
-    $shared = "static"
-}
+$shared = $config.$target.shared ? "dynamic" : "static"
 
-# build
 $sourceDir = $current
 $buildDir = Join-PathArray -PathElements @($current, "build", $os,  "program", $Configuration)
 $installDir = Join-PathArray -PathElements @($current, "install", $os)
@@ -79,6 +71,7 @@ New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
 New-Item -Type Directory $installBinaryDir -Force | Out-Null
 
+# build
 Push-Location $buildDir
 
 $cmakeArgs = @()

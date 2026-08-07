@@ -170,6 +170,7 @@ elseif ($global:IsLinux)
 }
 
 $cmakeArgs += @(
+    "-D CMAKE_POLICY_VERSION_MINIMUM=3.5"
     "${sourceDir}"
 )
 

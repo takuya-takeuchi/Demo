@@ -17,11 +17,6 @@ else ()
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -pthread")
 endif()
 
-if (NOT (MSVC OR APPLE))
-    find_package(PkgConfig REQUIRED)
-    pkg_check_modules(LIBPQ REQUIRED libpq)
-endif()
-
 find_package(spdlog REQUIRED)
 find_package(spdlog_setup REQUIRED)
 

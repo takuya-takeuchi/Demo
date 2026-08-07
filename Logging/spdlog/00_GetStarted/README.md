@@ -53,10 +53,8 @@ $ .\install\win\bin\Demo.exe
 #### Linux
 
 ````shell
-# If libpqxx is built as dynamic library
-$ export LD_LIBRARY_PATH=./install/linux/bin
-$ ./install/linux/bin/Demo
-libpqxx Version: 7.10.4
+$ ./install/linux/bin/Demo 
+[2026-08-07 21:49:21.892] [info] spdlog Version: 11700
 ````
 
 #### OSX
