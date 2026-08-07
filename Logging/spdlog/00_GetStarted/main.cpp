@@ -1,9 +1,7 @@
-#include <iostream>
-
 #include <spdlog/spdlog.h>
 
 int main()
 {
-    std::cout << "spdlog Version: " << SPDLOG_VERSION << std::endl;
+    spdlog::info("spdlog Version: {}", SPDLOG_VERSION);
     return 0;
 }

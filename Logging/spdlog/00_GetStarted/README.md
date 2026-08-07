@@ -47,7 +47,7 @@ $ pwsh build.ps1 <Debug/Release>
 
 ````bat
 $ .\install\win\bin\Demo.exe
-spdlog Version: 11700
+[2026-08-07 14:29:42.291] [info] spdlog Version: 11700
 ````
 
 #### Linux

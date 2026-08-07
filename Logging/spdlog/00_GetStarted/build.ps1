@@ -126,7 +126,6 @@ if ($global:IsWindows)
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
     )
 }

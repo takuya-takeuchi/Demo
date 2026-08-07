@@ -1,30 +1,70 @@
-# spdlog with configuration toml file
+# Get started
 
 ## Abstracts
 
-* How to control behavior of spdlog by toml configuration file
+* Use spdlog via toml file
 
 ## Requirements
 
+### Common
+
+* Powershell 7 or later
+* CMake 3.12 or higher
+
+### Windows
+
 * Visual Studio 2022
-* Windows 10
-* CMake version 3.10 or newer
-  * You can install it via `winget install -e --id Kitware.CMake`
+
+### Ubuntu
+
+* g++
+
+### OSX
+
+* Xcode
 
 ## Dependencies
 
 * [spdlog](https://github.com/gabime/spdlog)
-  * MIT License
+  * MIT license
 * [spdlog_setup](https://github.com/guangie88/spdlog_setup)
-  * MIT License
+  * MIT license
 
-## How to usage?
+## How to build?
 
-You must execute `Build.ps1` to build dependencies and demo program.<br>
-This script builds all project and you need not to launch Visual Studio.
+### GStreamer
 
-````cmd
-$ cd sources\Demo\bin\x64\Release
-$ Demo.exe
-[2022-06-18 22:32:55.047] [root] [info] Hello World!
+Go to [spdlog](..).
+
+Once time you built `spdlog` and `spdlog_setup`, you need not to do again.
+
+````shell
+$ pwsh build.ps1 <Debug/Release>
+````
+
+## How to test?
+
+#### Windows
+
+````bat
+$ .\install\win\bin\Demo.exe
+[2026-08-07 15:28:28.750] [root] [info] Hello World!
+````
+
+#### Linux
+
+````shell
+# If libpqxx is built as dynamic library
+$ export LD_LIBRARY_PATH=./install/linux/bin
+$ ./install/linux/bin/Demo
+libpqxx Version: 7.10.4
+````
+
+#### OSX
+
+````shell
+# If libpqxx is built as dynamic library
+$ export DYLD_LIBRARY_PATH=./install/osx/bin
+$ ./install/osx/bin/Demo
+libpqxx Version: 7.10.4
 ````

@@ -27,8 +27,7 @@ function Join-PathArray {
 }
 
 $current = $PSScriptRoot
-$rootDir = Split-Path $current -Parent
-$configPath = Join-Path $rootDir "build-config.json"
+$configPath = Join-Path $current "build-config.json"
 if (!(Test-Path($configPath)))
 {
     Write-Host "${configPath} is missing" -ForegroundColor Red
@@ -36,6 +35,18 @@ if (!(Test-Path($configPath)))
 }
 
 $config = Get-Content -Path $configPath | ConvertFrom-Json
+$target = "spdlog_setup"
+$version = $config.${target}.version
+if ($config.${target}.shared)
+{
+    $shared = "dynamic"
+    $sharedFlag = "ON"
+}
+else
+{
+    $shared = "static"
+    $sharedFlag = "OFF"
+}
 
 # get os name
 if ($global:IsWindows)
@@ -51,18 +62,12 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$sourceDir = $current
-$buildDir = Join-PathArray -PathElements @($current, "build", $os,  "program", $Configuration)
-$installDir = Join-PathArray -PathElements @($current, "install", $os)
-$installBinaryDir = Join-PathArray -PathElements @($installDir, "bin")
-
-$target = "spdlog"
-$version = $config.${target}.version
-$shared = $config.$target.shared ? "dynamic" : "static"
+$sourceDir = Join-Path $current $target
+$buildDir = Join-PathArray -PathElements @($current, "build", $os, $target, $version, $shared, $Configuration)
+$installDir = Join-PathArray -PathElements @($current, "install", $os, $target, $version, $shared, $Configuration)
 
 $installDirs = @{}
-$installDirs[$target]        = Join-PathArray -PathElements @($rootDir, "install", $os, $target, $config.${target}.version, ($config.$target.shared ? "dynamic" : "static"), $Configuration)
-$installDirs["spdlog_setup"] = Join-PathArray -PathElements @($rootDir, "install", $os, "spdlog_setup", $config.spdlog_setup.version, ($config.spdlog_setup.shared ? "dynamic" : "static"), $Configuration)
+$installDirs["spdlog"] = Join-PathArray -PathElements @($current, "install", $os, "spdlog", $config.spdlog.version, ($config.spdlog.shared ? "dynamic" : "static"), $Configuration)
 
 foreach ($key in $installDirs.Keys)
 {
@@ -79,10 +84,22 @@ $cmakePrefixPath = $installDirs.Values -join ";"
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
-New-Item -Type Directory $installBinaryDir -Force | Out-Null
+
+Push-Location $current
+git submodule update --init --recursive .
+Pop-Location
+
+Push-Location $sourceDir
+git fetch --all --prune
+git checkout $version
+git submodule update --init --recursive .
+Pop-Location
 
 # build
 Push-Location $buildDir
+
+# skip use spdlog in spdlog_setup repo
+Remove-Item -Path (Join-PathArray -PathElements @($sourceDir, "deps", "spdlog", "CMakeLists.txt")) -Recurse -Force -ErrorAction SilentlyContinue
 
 $cmakeArgs = @()
 if ($global:IsWindows)
@@ -139,6 +156,7 @@ elseif ($global:IsMacOS)
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_PREFIX_PATH=${cmakePrefixPath}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D BUILD_SHARED_LIBS=$sharedFlag"
     )
 }
 elseif ($global:IsLinux)
@@ -147,6 +165,7 @@ elseif ($global:IsLinux)
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
         "-D CMAKE_PREFIX_PATH=${cmakePrefixPath}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
+        "-D BUILD_SHARED_LIBS=$sharedFlag"
     )
 }
 
@@ -157,6 +176,7 @@ $cmakeArgs += @(
 $configLogFile = Join-Path $buildDir cmake-config.log
 $buildLogFile = Join-Path $buildDir cmake-build.log
 
+# $env:PKG_CONFIG_PATH = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
 cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
 cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile
