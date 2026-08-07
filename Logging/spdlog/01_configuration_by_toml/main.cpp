@@ -1,7 +1,8 @@
 #include <iostream>
+#include <limits> // cpptoml forget to include
 
 // It occurs compile error
-//#define SPDLOG_WCHAR_FILENAMES
+// #define SPDLOG_WCHAR_FILENAMES
 // enable std::wstring
 #if defined(_WIN32) || defined(_WIN64)
 #define SPDLOG_WCHAR_TO_UTF8_SUPPORT

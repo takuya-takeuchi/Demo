@@ -1,4 +1,4 @@
-# Get started
+# Configuration by toml file
 
 ## Abstracts
 
@@ -54,10 +54,8 @@ $ .\install\win\bin\Demo.exe
 #### Linux
 
 ````shell
-# If libpqxx is built as dynamic library
-$ export LD_LIBRARY_PATH=./install/linux/bin
-$ ./install/linux/bin/Demo
-libpqxx Version: 7.10.4
+$ ./install/linux/bin/Demo 
+[2026-08-07 23:07:16.253] [root] [info] Hello World!
 ````
 
 #### OSX
