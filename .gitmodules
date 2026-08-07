@@ -284,3 +284,7 @@
 	path = Multimedia/GStreamer/kvs-sdk-cpp
 	url = https://github.com/awslabs/amazon-kinesis-video-streams-producer-sdk-cpp/
 	ignore = dirty
+[submodule "Logging/spdlog/spdlog"]
+	path = Logging/spdlog/spdlog
+	url = https://github.com/gabime/spdlog
+	ignore = dirty
