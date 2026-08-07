@@ -1,8 +1,9 @@
-# Configuration by toml file
+# Get started
 
 ## Abstracts
 
-* Use spdlog via toml file
+* Link spdlog binary
+* Show spdlog version
 
 ## Requirements
 
@@ -27,8 +28,6 @@
 
 * [spdlog](https://github.com/gabime/spdlog)
   * MIT license
-* [spdlog_setup](https://github.com/guangie88/spdlog_setup)
-  * MIT license
 
 ## How to build?
 
@@ -36,7 +35,7 @@
 
 Go to [spdlog](..).
 
-Once time you built `spdlog` and `spdlog_setup`, you need not to do again.
+Once time you built `spdlog`, you need not to do again.
 
 ````shell
 $ pwsh build.ps1 <Debug/Release>
@@ -48,19 +47,19 @@ $ pwsh build.ps1 <Debug/Release>
 
 ````bat
 $ .\install\win\bin\Demo.exe
-[2026-08-07 15:28:28.750] [root] [info] Hello World!
+[2026-08-07 14:29:42.291] [info] spdlog Version: 11700
 ````
 
 #### Linux
 
 ````shell
 $ ./install/linux/bin/Demo 
-[2026-08-07 23:07:16.253] [root] [info] Hello World!
+[2026-08-07 21:49:21.892] [info] spdlog Version: 11700
 ````
 
 #### OSX
 
 ````shell
 $ ./install/osx/bin/Demo 
-[2026-08-07 22:53:24.531] [root] [info] Hello World
+[2026-08-07 22:48:15.160] [info] spdlog Version: 11700
 ````

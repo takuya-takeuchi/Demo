@@ -1,0 +1,15 @@
+{
+    "spdlog": {
+        "version": "v1.17.0",
+        "shared": false
+    },
+    "spdlog_setup": {
+        "version": "v0.3.2",
+        "shared": false
+    },
+    "windows": {
+        "msvcStaticRuntime": false,
+        "visualStudioVersion": "2022",
+        "visualStudioInternalVersion": "17"
+    }
+}
