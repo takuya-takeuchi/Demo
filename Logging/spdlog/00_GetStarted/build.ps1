@@ -27,7 +27,8 @@ function Join-PathArray {
 }
 
 $current = $PSScriptRoot
-$configPath = Join-Path $current "build-config.json"
+$rootDir = Split-Path $current -Parent
+$configPath = Join-Path $rootDir "build-config.json"
 if (!(Test-Path($configPath)))
 {
     Write-Host "${configPath} is missing" -ForegroundColor Red
@@ -35,18 +36,6 @@ if (!(Test-Path($configPath)))
 }
 
 $config = Get-Content -Path $configPath | ConvertFrom-Json
-$target = "spdlog"
-$version = $config.${target}.version
-if ($config.${target}.shared)
-{
-    $shared = "dynamic"
-    $sharedFlag = "ON"
-}
-else
-{
-    $shared = "static"
-    $sharedFlag = "OFF"
-}
 
 # get os name
 if ($global:IsWindows)
@@ -62,23 +51,33 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
+$target = "spdlog"
+$version = $config.${target}.version
+if ($config.${target}.shared)
+{
+    $shared = "dynamic"
+}
+else
+{
+    $shared = "static"
+}
+
 # build
-$sourceDir = Join-Path $current $target
-$buildDir = Join-PathArray -PathElements @($current, "build", $os, $target, $version, $shared, $Configuration)
-$installDir = Join-PathArray -PathElements @($current, "install", $os, $target, $version, $shared, $Configuration)
+$sourceDir = $current
+$buildDir = Join-PathArray -PathElements @($current, "build", $os,  "program", $Configuration)
+$installDir = Join-PathArray -PathElements @($current, "install", $os)
+$installBinaryDir = Join-PathArray -PathElements @($installDir, "bin")
+$targetInstallDir = Join-PathArray -PathElements @($rootDir, "install", $os, $target, $version, $shared, $Configuration)
+
+if (!(Test-Path(${targetInstallDir})))
+{
+    Write-Host "[Error] ${targetInstallDir} is missing" -ForegroundColor Red
+    return
+}
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
-
-Push-Location $current
-git submodule update --init --recursive .
-Pop-Location
-
-Push-Location $sourceDir
-git fetch --all --prune
-git checkout $version
-git submodule update --init --recursive .
-Pop-Location
+New-Item -Type Directory $installBinaryDir -Force | Out-Null
 
 Push-Location $buildDir
 
@@ -125,6 +124,7 @@ if ($global:IsWindows)
     $cmakeArgs += @(
         "-G", "Visual Studio ${vsInternalVersion} ${vsVersion}", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
+        "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D BUILD_SHARED_LIBS=$sharedFlag"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
@@ -134,16 +134,16 @@ elseif ($global:IsMacOS)
 {
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
+        "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
     )
 }
 elseif ($global:IsLinux)
 {
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
+        "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
-        "-D BUILD_SHARED_LIBS=$sharedFlag"
     )
 }
 
@@ -154,7 +154,6 @@ $cmakeArgs += @(
 $configLogFile = Join-Path $buildDir cmake-config.log
 $buildLogFile = Join-Path $buildDir cmake-build.log
 
-# $env:PKG_CONFIG_PATH = "${pkgConfigPath}:/usr/local/lib/pkgconfig"
 cmake @cmakeArgs 2>&1 | Tee-Object -FilePath $configLogFile
 $nproc = [Environment]::ProcessorCount
 cmake --build . --config ${Configuration} --target install --parallel $nproc 2>&1 | Tee-Object -FilePath $buildLogFile

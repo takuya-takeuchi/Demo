@@ -288,3 +288,6 @@
 	path = Logging/spdlog/spdlog
 	url = https://github.com/gabime/spdlog
 	ignore = dirty
+[submodule "Logging/spdlog/spdlog_setup"]
+	path = Logging/spdlog/spdlog_setup
+	url = https://github.com/guangie88/spdlog_setup
