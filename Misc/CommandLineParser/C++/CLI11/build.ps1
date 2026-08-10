@@ -35,7 +35,7 @@ if (!(Test-Path($configPath)))
 }
 
 $config = Get-Content -Path $configPath | ConvertFrom-Json
-$target = "cxxopts"
+$target = "cli11"
 $version = $config.${target}.version
 if ($config.${target}.shared)
 {

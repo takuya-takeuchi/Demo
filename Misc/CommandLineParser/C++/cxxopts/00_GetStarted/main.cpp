@@ -1,9 +1,10 @@
 #include <algorithm>
 #include <cctype>
-#include <cxxopts.hpp>
 #include <iostream>
 #include <string>
 #include <vector>
+
+#include <cxxopts.hpp>
 
 enum class Color
 {

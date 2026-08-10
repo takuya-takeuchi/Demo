@@ -1,10 +1,10 @@
 {
-    "cxxopts": {
-        "version": "v3.3.1",
+    "cli11": {
+        "version": "v2.7.2",
         "shared": false
     },
     "windows": {
-        "msvcStaticRuntime": true,
+        "msvcStaticRuntime": false,
         "visualStudioVersion": "2022",
         "visualStudioInternalVersion": "17"
     }

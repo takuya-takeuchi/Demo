@@ -11,6 +11,21 @@ Param
    $Configuration
 )
 
+function Join-PathArray {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [string[]]$PathElements
+    )
+
+    process {
+        if ($PathElements.Count -eq 0) { return }
+        $result = $PathElements[0]
+        for ($i = 1; $i -lt $PathElements.Count; $i++) { $result = Join-Path -Path $result -ChildPath $PathElements[$i] }
+        return $result
+    }
+}
+
 $current = $PSScriptRoot
 $rootDir = Split-Path $current -Parent
 $configPath = Join-Path $rootDir "build-config.json"
@@ -36,66 +51,27 @@ elseif ($global:IsLinux)
     $os = "linux"
 }
 
-$cxxoptsVersion = $config.cxxopts.version
-if ($config.cxxopts.shared)
-{
-    $cxxoptsShared = "dynamic"
-}
-else
-{
-    $cxxoptsShared = "static"
-}
+$target = "cxxopts"
+$version = $config.${target}.version
+$shared = $config.$target.shared ? "dynamic" : "static"
 
-# get os name
-if ($global:IsWindows)
-{
-    $os = "win"
-}
-elseif ($global:IsMacOS)
-{
-    $os = "osx"
-}
-elseif ($global:IsLinux)
-{
-    $os = "linux"
-}
-
-# build
 $sourceDir = $current
-$buildDir = Join-Path $current build | `
-            Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $version | `
-            Join-Path -ChildPath $Configuration
-$installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $version | `
-              Join-Path -ChildPath $shared | `
-              Join-Path -ChildPath $Configuration
+$buildDir = Join-PathArray -PathElements @($current, "build", $os,  "program", $Configuration)
+$installDir = Join-PathArray -PathElements @($current, "install", $os)
+$installBinaryDir = Join-PathArray -PathElements @($installDir, "bin")
+$targetInstallDir = Join-PathArray -PathElements @($rootDir, "install", $os, $target, $version, $shared, $Configuration)
 
-$CXXOPTS_INSTALL_DIR = Join-Path $rootDir install | `
-                      Join-Path -ChildPath $os | `
-                      Join-Path -ChildPath cxxopts | `
-                      Join-Path -ChildPath $cxxoptsVersion | `
-                      Join-Path -ChildPath $cxxoptsShared | `
-                      Join-Path -ChildPath $Configuration
-$CXXOPTS_CMAKECONFIG_FILE = (Get-ChildItem -Path $CXXOPTS_INSTALL_DIR -Recurse -File | Where-Object { $_.Name -eq "cxxopts-config.cmake" } | Select-Object -First 1).FullName
-$CXXOPTS_CMAKE_DIR = Split-Path -Parent $CXXOPTS_CMAKECONFIG_FILE
-
-$paths = @(
-    "${CXXOPTS_CMAKE_DIR}"
-)
-foreach ($path in $paths)
+if (!(Test-Path(${targetInstallDir})))
 {
-    if (!(Test-Path($path)))
-    {
-        Write-Host "${path} is missing" -ForegroundColor Red
-        exit
-    }
+    Write-Host "[Error] ${targetInstallDir} is missing" -ForegroundColor Red
+    return
 }
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
+New-Item -Type Directory $installBinaryDir -Force | Out-Null
 
+# build
 Push-Location $buildDir
 
 $cmakeArgs = @()
@@ -103,7 +79,8 @@ if ($global:IsWindows)
 {
     function CallVisualStudioDeveloperConsole()
     {
-        $vs = "C:\Program Files\Microsoft Visual Studio\2022"
+        $vsVersion = $config.windows.visualStudioVersion
+        $vs = "C:\Program Files\Microsoft Visual Studio\${vsVersion}"
         $path = "${vs}\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
         if (!(Test-Path($path)))
         {
@@ -134,10 +111,13 @@ if ($global:IsWindows)
     {
         $CMAKE_MSVC_RUNTIME_LIBRARY = "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL"
     }
+    $vsVersion = $config.windows.visualStudioVersion
+    $vsInternalVersion = $config.windows.visualStudioInternalVersion
 
     $cmakeArgs += @(
-        "-G", "Visual Studio 17 2022", "-A", "x64", "-T", "host=x64"
+        "-G", "Visual Studio ${vsInternalVersion} ${vsVersion}", "-A", "x64", "-T", "host=x64"
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
+        "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
         "-D CMAKE_MSVC_RUNTIME_LIBRARY=${CMAKE_MSVC_RUNTIME_LIBRARY}"
     )
@@ -146,6 +126,7 @@ elseif ($global:IsMacOS)
 {
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
+        "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
     )
 }
@@ -153,14 +134,10 @@ elseif ($global:IsLinux)
 {
     $cmakeArgs += @(
         "-D CMAKE_INSTALL_PREFIX=${installDir}"
+        "-D CMAKE_PREFIX_PATH=${targetInstallDir}"
         "-D CMAKE_BUILD_TYPE=${Configuration}"
     )
 }
-
-$cmakeArgs += @(
-    "-D CMAKE_PREFIX_PATH=${CXXOPTS_INSTALL_DIR}"
-    "-D cxxopts_DIR=${CXXOPTS_CMAKECONFIG_FILE}"
-)
 
 $cmakeArgs += @(
     "${sourceDir}"
