@@ -292,3 +292,7 @@
 	path = Logging/spdlog/spdlog_setup
 	url = https://github.com/guangie88/spdlog_setup
 	ignore = dirty
+[submodule "Misc/CommandLineParser/C++/CLI11/cli11"]
+	path = Misc/CommandLineParser/C++/CLI11/cli11
+	url = https://github.com/cliutils/cli11
+	ignore = dirty
