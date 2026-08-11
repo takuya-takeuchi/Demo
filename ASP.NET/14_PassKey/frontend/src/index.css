@@ -163,7 +163,7 @@ ul.todos label {
   cursor: pointer;
 }
 
-/* Hanko の Web Component の色をアプリに合わせる（全変数は公式ドキュメント参照） */
+/* Match the colors of Hanko's web components to the app (see the official docs for every variable) */
 hanko-auth,
 hanko-profile {
   --color: var(--text);

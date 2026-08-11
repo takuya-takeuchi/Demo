@@ -23,7 +23,6 @@ namespace Demo.Data
             b.Entity<AppUser>(e =>
             {
                 e.HasKey(x => x.Id);
-                // Hanko の user_id は UUID 文字列
                 e.Property(x => x.Id).HasMaxLength(64);
                 e.Property(x => x.Email).HasMaxLength(320);
                 e.Property(x => x.DisplayName).HasMaxLength(100);

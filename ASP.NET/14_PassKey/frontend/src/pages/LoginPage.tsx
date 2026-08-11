@@ -16,8 +16,8 @@ export default function LoginPage() {
     registerHankoElements();
   }, []);
 
-  // ログイン成功は SessionProvider の onSessionCreated が拾うので、
-  // ここでは status の変化を見て遷移するだけでよい。
+  // A successful login is picked up by onSessionCreated in SessionProvider,
+  // so all this has to do is watch status and navigate when it changes.
   useEffect(() => {
     if (status === "authenticated") {
       const from = (location.state as LocationState | null)?.from ?? "/todos";
@@ -31,7 +31,7 @@ export default function LoginPage() {
       <p className="muted">
         パスキー（生体認証・端末 PIN）またはメールに届くコードでログインできます。
       </p>
-      {/* Hanko が提供する Web Component。ログイン UI 一式がこの 1 行に入っている */}
+      {/* Web component provided by Hanko. The entire login UI fits in this one line. */}
       <hanko-auth />
     </div>
   );

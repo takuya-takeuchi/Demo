@@ -14,13 +14,13 @@ namespace Demo.Auth
 
         #region Fields
 
-        /// <summary>LastSeenAt を書き戻す間隔。毎リクエスト UPDATE すると SQLite の書き込みが無駄に増える。</summary>
+        /// <summary>How often LastSeenAt is written back. Updating it on every request would waste SQLite writes.</summary>
         private static readonly TimeSpan LastSeenPrecision = TimeSpan.FromMinutes(5);
 
         /// <summary>
-        /// ログイン直後はフロントから複数の API 呼び出しが同時に飛ぶため、
-        /// 同じユーザーの初回 INSERT が競合する。ユーザー単位で直列化して衝突を防ぐ。
-        /// （プロセスをまたぐ競合は下の DbUpdateException 側で吸収する）
+        /// Right after login the frontend fires several API calls at once, so the first INSERT for the
+        /// same user can race. Serialize per user to avoid the collision.
+        /// (Races across processes are absorbed by the DbUpdateException handler below.)
         /// </summary>
         private static readonly ConcurrentDictionary<string, SemaphoreSlim> ProvisionLocks = new();
 
@@ -29,7 +29,7 @@ namespace Demo.Auth
         #region Properties
 
         private ClaimsPrincipal User =>
-            accessor.HttpContext?.User ?? throw new InvalidOperationException("HttpContext がありません。");
+            accessor.HttpContext?.User ?? throw new InvalidOperationException("No HttpContext is available.");
 
         public string UserId => User.GetHankoUserId();
 
@@ -78,9 +78,9 @@ namespace Demo.Auth
                 }
                 catch (DbUpdateException)
                 {
-                    // ログイン直後は複数の API 呼び出しが同時に走るため、
-                    // 初回作成の INSERT が衝突しうる（UNIQUE constraint failed: Users.Id）。
-                    // 先に挿入された行を読み直して続行する。
+                    // Several API calls run concurrently right after login, so the INSERT that
+                    // provisions the user can collide (UNIQUE constraint failed: Users.Id).
+                    // Re-read the row that won the race and carry on.
                     db.Entry(user).State = EntityState.Detached;
                     user = await db.Users.FirstAsync(u => u.Id == id, ct);
                 }
@@ -89,7 +89,7 @@ namespace Demo.Auth
             var dirty = false;
             if (email is not null && user.Email != email)
             {
-                // Hanko 側でメールアドレスが変わった場合に追従する
+                // Follow along when the email address is changed on the Hanko side
                 user.Email = email;
                 dirty = true;
             }

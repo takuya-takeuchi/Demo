@@ -18,7 +18,7 @@ export function SessionProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     let cancelled = false;
 
-    // 初回：既にログイン済みかを Hanko に問い合わせる（リロード対応）
+    // First run: ask Hanko whether we are already logged in (handles page reloads)
     hanko
       .validateSession()
       .then((res) => {
@@ -30,8 +30,8 @@ export function SessionProvider({ children }: { children: ReactNode }) {
         if (!cancelled) setStatus("anonymous");
       });
 
-    // 以降：ログイン／失効はイベントで受け取る。
-    // これらは他のタブでの操作でも発火するので、タブ間で状態が揃う。
+    // After that: login and expiry arrive as events.
+    // They also fire for actions taken in other tabs, which keeps every tab in sync.
     const offCreated = hanko.onSessionCreated((detail) => {
       setStatus("authenticated");
       setUserId(detail.claims?.subject ?? null);

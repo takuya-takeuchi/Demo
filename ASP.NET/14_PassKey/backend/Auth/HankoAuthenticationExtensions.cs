@@ -25,7 +25,7 @@ namespace Demo.Auth
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                     .AddJwtBearer(options =>
             {
-                // 開発時は http の Hanko を見に行くので RequireHttps を落とす
+                // In development Hanko is reached over http, so RequireHttps has to be relaxed
                 var documentRetriever = new HttpDocumentRetriever
                 {
                     RequireHttps = jwksUri.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
@@ -38,11 +38,11 @@ namespace Demo.Auth
                     RefreshInterval = TimeSpan.FromMinutes(5),
                 };
 
-                options.MapInboundClaims = false; // sub を ClaimTypes.NameIdentifier に化けさせない
+                options.MapInboundClaims = false; // keep sub as-is instead of renaming it to ClaimTypes.NameIdentifier
 
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    // Hanko の JWT は iss を含まないため検証しない
+                    // Hanko's JWT carries no iss claim, so there is nothing to validate
                     ValidateIssuer = false,
 
                     ValidateAudience = hanko.ValidateAudience,
@@ -58,7 +58,7 @@ namespace Demo.Auth
 
                 options.Events = new JwtBearerEvents
                 {
-                    // Authorization ヘッダが無ければ Hanko の Cookie からトークンを拾う
+                    // Fall back to Hanko's cookie when there is no Authorization header
                     OnMessageReceived = context =>
                     {
                         if (string.IsNullOrEmpty(context.Token) &&
@@ -71,7 +71,7 @@ namespace Demo.Auth
                         return Task.CompletedTask;
                     },
 
-                    // 署名検証を通った後、必要ならサーバー側のセッション生存も確認する
+                    // Once the signature checks out, optionally confirm the session is still alive server-side
                     OnTokenValidated = async context =>
                     {
                         if (!hanko.ValidateSessionRemotely)
@@ -111,7 +111,7 @@ namespace Demo.Auth
         public static string GetHankoUserId(this ClaimsPrincipal principal)
         {
             return principal.FindFirstValue("sub") ?? principal.FindFirstValue(ClaimTypes.NameIdentifier)
-                                                   ?? throw new InvalidOperationException("JWT に sub クレームがありません。");
+                                                   ?? throw new InvalidOperationException("The JWT has no sub claim.");
         }
 
         public static string? GetEmail(this ClaimsPrincipal principal)

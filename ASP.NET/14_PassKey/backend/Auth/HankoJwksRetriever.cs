@@ -6,13 +6,13 @@ namespace Demo.Auth
 {
 
     /// <summary>
-    /// Hanko は OIDC ディスカバリ文書（/.well-known/openid-configuration）を公開していないため、
-    /// 標準の OpenIdConnectConfigurationRetriever は使えない。
-    /// 代わりに JWKS（/.well-known/jwks.json）を直接読み、署名鍵だけを持つ
-    /// OpenIdConnectConfiguration を組み立てて ConfigurationManager に渡す。
+    /// Hanko does not publish an OIDC discovery document (/.well-known/openid-configuration),
+    /// so the standard OpenIdConnectConfigurationRetriever cannot be used.
+    /// Instead, read the JWKS (/.well-known/jwks.json) directly, build an OpenIdConnectConfiguration
+    /// that carries only the signing keys, and hand it to the ConfigurationManager.
     ///
-    /// ConfigurationManager 側が自動でキャッシュ・定期更新してくれるので、
-    /// Hanko 側で鍵がローテーションされても追従できる。
+    /// The ConfigurationManager caches and refreshes it automatically, so key rotation on the
+    /// Hanko side is picked up without any extra work here.
     /// </summary>
     public sealed class HankoJwksRetriever : IConfigurationRetriever<OpenIdConnectConfiguration>
     {

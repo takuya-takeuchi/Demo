@@ -9,27 +9,27 @@ namespace Demo.Auth
         public const string SectionName = "Hanko";
 
         /// <summary>
-        /// このサーバーから Hanko に到達するための URL。JWKS の取得とセッション検証に使う。
-        /// ブラウザはここを直接叩かず、必ず /auth 経由（YARP のプロキシ）で通るため、
-        /// Hanko は内部ネットワークにだけ公開されていればよい。
-        /// docker compose 内で動かす場合はサービス名（http://hanko:8000）を指定する。
+        /// URL used by this server to reach Hanko. Used for fetching the JWKS and validating sessions.
+        /// The browser never calls it directly; it always goes through /auth (the YARP proxy), so Hanko
+        /// only needs to be exposed on the internal network.
+        /// When running inside docker compose, point this at the service name (http://hanko:8000).
         /// </summary>
         public string InternalApiUrl { get; set; } = "http://localhost:8000";
 
-        /// <summary>セッショントークンを載せる Cookie 名。Hanko の既定値は "hanko"。</summary>
+        /// <summary>Name of the cookie carrying the session token. Hanko's default is "hanko".</summary>
         public string CookieName { get; set; } = "hanko";
 
         /// <summary>
-        /// aud クレームを検証するか。Hanko Cloud では App URL が aud に入るので true 推奨。
-        /// セルフホストでは config.yaml の session.audience を設定していない限り false のままにする。
+        /// Whether to validate the aud claim. Hanko Cloud puts the App URL in aud, so true is recommended there.
+        /// When self-hosting, leave it false unless session.audience is set in config.yaml.
         /// </summary>
         public bool ValidateAudience { get; set; }
 
         public string[] ValidAudiences { get; set; } = [];
 
         /// <summary>
-        /// true にすると、JWT 署名検証に加えて Hanko の /sessions/validate を呼び、
-        /// サーバー側でセッションが失効していないかを確認する（ログアウトの即時反映用）。
+        /// When true, calls Hanko's /sessions/validate in addition to verifying the JWT signature, so that
+        /// server-side revocation is honoured (i.e. logout takes effect immediately).
         /// </summary>
         public bool ValidateSessionRemotely { get; set; }
 

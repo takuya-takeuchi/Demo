@@ -1,51 +1,51 @@
 # ---------------------------------------------------------------------------
-# Hanko セルフホスト用の設定（開発環境向け）
-# 公式サンプル: https://github.com/teamhanko/hanko/blob/main/deploy/docker-compose/config.yaml
-# 全設定項目: https://docs.hanko.io/setup/deployment
+# Configuration for self-hosted Hanko (development)
+# Official sample: https://github.com/teamhanko/hanko/blob/main/deploy/docker-compose/config.yaml
+# Full reference:  https://docs.hanko.io/setup/deployment
 # ---------------------------------------------------------------------------
 
 database:
   user: hanko
   password: hanko
-  host: postgres          # docker compose のサービス名
+  host: postgres          # the docker compose service name
   port: 5432
   database: hanko
-  dialect: postgres       # Hanko は postgres / mysql のみ対応（sqlite は不可）
+  dialect: postgres       # Hanko supports postgres / mysql only (sqlite is not an option)
 
 secrets:
   keys:
-    # !!! 本番では必ず 16 文字以上のランダム文字列に差し替える !!!
-    # 例: openssl rand -hex 32
+    # !!! Always replace this with a random string of at least 16 characters in production !!!
+    # e.g. openssl rand -hex 32
     - change-me-to-a-random-secret-at-least-16-chars
 
 service:
   name: Hanko Auth (dev)
 
-# --- WebAuthn / パスキー ---------------------------------------------------
+# --- WebAuthn / passkeys ---------------------------------------------------
 webauthn:
   relying_party:
-    id: localhost                 # パスキーはこの id にひも付く。変えると既存パスキーが無効になる
+    id: localhost                 # Passkeys are bound to this id; changing it invalidates existing passkeys
     display_name: Hanko Sample App
     origins:
-      - http://localhost:5173     # React 開発サーバー
+      - http://localhost:5173     # React development server
 
-# --- セッション -------------------------------------------------------------
+# --- Session ----------------------------------------------------------------
 session:
   lifespan: 12h
   cookie:
     name: hanko
-    # localhost + http で動かすため false。本番では必ず true。
+    # false because this runs on localhost over http. Always true in production.
     secure: false
     http_only: true
     same_site: lax
-    # ポートが違っても localhost 同士は同じドメイン扱いなので、
-    # :5173 のフロントから :5080 の API にも Cookie が送られる。
+    # Different ports still count as the same domain on localhost, so the cookie is
+    # sent from the frontend on :5173 to the API on :5080 as well.
     domain: localhost
-  # フロントが別ドメインに置かれる構成では、Cookie ではなく
-  # X-Auth-Token ヘッダでトークンを受け取れるようにする。
+  # For setups where the frontend lives on a different domain, allow the token to be
+  # received via the X-Auth-Token header instead of a cookie.
   enable_auth_token_header: true
 
-# --- ログイン方式 -----------------------------------------------------------
+# --- Login methods ----------------------------------------------------------
 email:
   enabled: true
   optional: false
@@ -58,9 +58,9 @@ passkey:
   acquire_on_registration: always
 
 password:
-  enabled: false      # パスキー中心にするため無効。true にすればパスワードも使える
+  enabled: false      # Disabled to keep the focus on passkeys. Set to true to allow passwords as well.
 
-# --- メール送信（開発用のダミー SMTP: mailslurper）--------------------------
+# --- Mail delivery (mailslurper, a dummy SMTP server for development) -------
 email_delivery:
   enabled: true
   from_address: noreply@localhost

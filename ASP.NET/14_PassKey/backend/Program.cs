@@ -24,37 +24,35 @@ namespace Demo
             builder.Services.AddDbContext<AppDbContext>(o =>
                 o.UseSqlite(builder.Configuration.GetConnectionString("Default") ?? "Data Source=app.db"));
 
-            // --- Hanko 認証（JWKS による JWT 検証）--------------------------------
+            // --- Hanko authentication (JWT verification via JWKS) -----------------
             builder.Services.AddHankoAuthentication(builder.Configuration);
 
             builder.Services.AddHttpContextAccessor();
             builder.Services.AddScoped<CurrentUserService>();
 
-            // --- Hanko へのリバースプロキシ ---------------------------------------
-            // ブラウザは Hanko に直接アクセスせず、常に /auth/* 経由でここを通る。
-            // これによりブラウザから見えるオリジンが 1 つになり、CORS が不要になる。
-            // ルートと転送先は appsettings.json の ReverseProxy セクションで定義している。
-            builder.Services.AddReverseProxy()
-                .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
-
+            // --- Reverse proxy to Hanko -------------------------------------------
+            // The browser never talks to Hanko directly; it always goes through /auth/* here.
+            // That leaves the browser with a single visible origin, which removes the need for CORS.
+            // Routes and destinations are defined in the ReverseProxy section of appsettings.json.
+            builder.Services.AddReverseProxy().LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"));
             builder.Services.AddOpenApi();
             builder.Services.AddProblemDetails();
 
             var app = builder.Build();
 
-            // --- 起動時にスキーマを作成 -------------------------------------------
-            // サンプルなので EnsureCreated。実運用では dotnet ef migrations を使う。
+            // --- Create the schema on startup -------------------------------------
+            // EnsureCreated is fine for a sample; use dotnet ef migrations in production.
             using (var scope = app.Services.CreateScope())
             {
                 var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
                 db.Database.EnsureCreated();
 
-                // SQLite の既定（journal_mode=delete）は読み書きが互いをブロックする。
-                // WAL にすると読み込みと書き込みが同時に走れるようになる。
+                // SQLite's default (journal_mode=delete) makes reads and writes block each other.
+                // WAL lets reads and writes proceed at the same time.
                 db.Database.ExecuteSqlRaw("PRAGMA journal_mode=WAL;");
             }
 
-            // 例外時も 500 の JSON（ProblemDetails）を返す
+            // Return JSON (ProblemDetails) for 500s as well
             app.UseExceptionHandler();
 
             if (app.Environment.IsDevelopment())
@@ -62,28 +60,28 @@ namespace Demo
                 app.MapOpenApi();
             }
 
-            // --- SPA の静的ファイル -----------------------------------------------
-            // frontend の `npm run build` が wwwroot に出力する。
+            // SPA static files
+            // `npm run build` in frontend emits into wwwroot.
             app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseAuthentication();
             app.UseAuthorization();
 
-            // --- ルーティング -----------------------------------------------------
+            // Routing
             app.MapGet("/health", () => Results.Ok(new { status = "ok" })).AllowAnonymous();
 
-            // /auth/* を Hanko に転送する（PathRemovePrefix で /auth を落としてから渡す）
+            // Forward /auth/* to Hanko (PathRemovePrefix strips /auth before forwarding)
             app.MapReverseProxy();
 
             app.MapAppEndpoints();
 
-            // 存在しない API パスは 404 を返す。
-            // これが無いと下の MapFallbackToFile が拾ってしまい、
-            // API のタイプミスに対して index.html（200）が返るという分かりにくい挙動になる。
+            // Return 404 for API paths that do not exist.
+            // Without this, MapFallbackToFile below would catch them and answer a mistyped
+            // API path with index.html (200), which is confusing to debug.
             app.Map("/api/{**rest}", () => Results.NotFound()).AllowAnonymous();
 
-            // それ以外は SPA に渡す（クライアントサイドルーティング用）
+            // Everything else goes to the SPA (for client-side routing)
             app.MapFallbackToFile("index.html");
 
             app.Run();

@@ -16,14 +16,12 @@ namespace Demo.Endpoints
         {
             var api = app.MapGroup("/api").RequireAuthorization();
 
-            // --- 自分の情報 -------------------------------------------------
             api.MapGet("/me", async (CurrentUserService current, CancellationToken ct) =>
             {
                 var user = await current.GetOrCreateAsync(ct);
                 return Results.Ok(new MeDto(user.Id, user.Email, user.DisplayName, user.CreatedAt));
             });
 
-            // --- Todo CRUD --------------------------------------------------
             var todos = api.MapGroup("/todos");
 
             todos.MapGet("/", async (AppDbContext db, CurrentUserService current, CancellationToken ct) =>
@@ -39,8 +37,7 @@ namespace Demo.Endpoints
                 return Results.Ok(items);
             });
 
-            todos.MapPost("/", async (
-                CreateTodoRequest body, AppDbContext db, CurrentUserService current, CancellationToken ct) =>
+            todos.MapPost("/", async (CreateTodoRequest body, AppDbContext db, CurrentUserService current, CancellationToken ct) =>
             {
                 if (string.IsNullOrWhiteSpace(body.Title))
                 {
@@ -65,7 +62,7 @@ namespace Demo.Endpoints
             {
                 var userId = current.UserId;
 
-                // 所有者チェックを WHERE に含めることで、他人の Todo は「存在しない」扱いになる
+                // Putting the ownership check in the WHERE clause makes someone else's todo look nonexistent
                 var todo = await db.Todos.FirstOrDefaultAsync(t => t.Id == id && t.OwnerId == userId, ct);
                 if (todo is null) return Results.NotFound();
 

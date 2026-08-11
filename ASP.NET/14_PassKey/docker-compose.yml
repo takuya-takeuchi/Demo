@@ -33,14 +33,14 @@ services:
       - ./hanko/config.yaml:/etc/config/config.yaml:ro
     ports:
       - "127.0.0.1:8000:8000"   # Public API
-      - "127.0.0.1:8001:8001"   # Admin API（Do not expose!!）
+      - "127.0.0.1:8001:8001"   # Admin API (Do not expose!!)
     depends_on:
       hanko-migrate:
         condition: service_completed_successfully
     restart: unless-stopped
     networks: [hanko-net]
 
-  # 開発用のダミー SMTP。届いたメール（確認コード）は http://localhost:8080 で読める。
+  # Dummy SMTP server for development. Read the delivered mails (passcodes) at http://localhost:8080.
   mailslurper:
     image: marcopas/docker-mailslurper:latest
     ports:

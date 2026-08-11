@@ -7,12 +7,12 @@ namespace Demo.Auth
 {
 
     /// <summary>
-    /// Hanko の POST /sessions/validate を叩いてセッションの生存を確認する。
+    /// Checks that a session is still alive by calling Hanko's POST /sessions/validate.
     ///
-    /// JWT の署名検証だけだと、ユーザーがログアウトしたり管理者がセッションを失効させても
-    /// exp まではトークンが通ってしまう。即時失効が必要な場合のみ有効にする
-    /// （Hanko:ValidateSessionRemotely = true）。毎リクエスト HTTP が1本増えるので、
-    /// 重要な操作のみ手動で呼ぶ運用でもよい。
+    /// Verifying the JWT signature alone lets a token keep working until exp even after the user
+    /// logs out or an administrator revokes the session. Enable this only when immediate revocation
+    /// is required (Hanko:ValidateSessionRemotely = true). It costs one extra HTTP call per request,
+    /// so calling it by hand for sensitive operations only is a reasonable alternative.
     /// </summary>
     public class HankoSessionValidator(HttpClient http, IOptions<HankoOptions> options, ILogger<HankoSessionValidator> logger)
     {
@@ -43,7 +43,7 @@ namespace Demo.Auth
             }
             catch (Exception ex)
             {
-                // Hanko に到達できない場合は「無効」として扱う（fail closed）
+                // Treat an unreachable Hanko as "not valid" (fail closed)
                 logger.LogError(ex, "Failed to reach Hanko session validation endpoint");
                 return false;
             }
