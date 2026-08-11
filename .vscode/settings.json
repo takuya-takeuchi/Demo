@@ -125,8 +125,24 @@
     },    
     "C_Cpp.clang_format_path": "",
     "C_Cpp.default.cppStandard": "c++17",
-    "C_Cpp.intelliSenseEngine": "disabled",
+    // "C_Cpp.intelliSenseEngine": "disabled", # Formaztting is disabled when this is set to "disabled"
     "C_Cpp.loggingLevel": "Error",
     "C_Cpp.workspaceParsingPriority": "low",
-    "C_Cpp.default.browse.databaseFilename": "null"
+    "C_Cpp.default.browse.databaseFilename": "null",
+
+    "[csharp]": {
+        "editor.defaultFormatter": "ms-dotnettools.csharp",
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": false
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": false
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode",
+        "editor.formatOnSave": true,
+        "editor.formatOnPaste": false
+    },
 }
