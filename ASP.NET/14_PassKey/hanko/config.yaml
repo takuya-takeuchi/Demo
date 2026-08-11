@@ -1,0 +1,84 @@
+# ---------------------------------------------------------------------------
+# Hanko セルフホスト用の設定（開発環境向け）
+# 公式サンプル: https://github.com/teamhanko/hanko/blob/main/deploy/docker-compose/config.yaml
+# 全設定項目: https://docs.hanko.io/setup/deployment
+# ---------------------------------------------------------------------------
+
+database:
+  user: hanko
+  password: hanko
+  host: postgres          # docker compose のサービス名
+  port: 5432
+  database: hanko
+  dialect: postgres       # Hanko は postgres / mysql のみ対応（sqlite は不可）
+
+secrets:
+  keys:
+    # !!! 本番では必ず 16 文字以上のランダム文字列に差し替える !!!
+    # 例: openssl rand -hex 32
+    - change-me-to-a-random-secret-at-least-16-chars
+
+service:
+  name: Hanko Auth (dev)
+
+# --- WebAuthn / パスキー ---------------------------------------------------
+webauthn:
+  relying_party:
+    id: localhost                 # パスキーはこの id にひも付く。変えると既存パスキーが無効になる
+    display_name: Hanko Sample App
+    origins:
+      - http://localhost:5173     # React 開発サーバー
+
+# --- セッション -------------------------------------------------------------
+session:
+  lifespan: 12h
+  cookie:
+    name: hanko
+    # localhost + http で動かすため false。本番では必ず true。
+    secure: false
+    http_only: true
+    same_site: lax
+    # ポートが違っても localhost 同士は同じドメイン扱いなので、
+    # :5173 のフロントから :5080 の API にも Cookie が送られる。
+    domain: localhost
+  # フロントが別ドメインに置かれる構成では、Cookie ではなく
+  # X-Auth-Token ヘッダでトークンを受け取れるようにする。
+  enable_auth_token_header: true
+
+# --- ログイン方式 -----------------------------------------------------------
+email:
+  enabled: true
+  optional: false
+  acquire_on_registration: true
+  use_for_authentication: true
+
+passkey:
+  enabled: true
+  optional: true
+  acquire_on_registration: always
+
+password:
+  enabled: false      # パスキー中心にするため無効。true にすればパスワードも使える
+
+# --- メール送信（開発用のダミー SMTP: mailslurper）--------------------------
+email_delivery:
+  enabled: true
+  from_address: noreply@localhost
+  from_name: Hanko Sample App
+  smtp:
+    host: mailslurper
+    port: "2500"
+
+# --- CORS -------------------------------------------------------------------
+server:
+  public:
+    address: :8000
+    cors:
+      allow_origins:
+        - http://localhost:5173
+      allow_credentials: true
+  admin:
+    address: :8001
+
+log:
+  log_health_and_metrics: false

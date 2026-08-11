@@ -1,0 +1,55 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: hanko
+      POSTGRES_PASSWORD: hanko
+      POSTGRES_DB: hanko
+    volumes:
+      - hanko-db:/var/lib/postgresql/18/docker
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hanko -d hanko"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks: [hanko-net]
+
+  hanko-migrate:
+    image: ghcr.io/teamhanko/hanko:latest
+    command: --config /etc/config/config.yaml migrate up
+    volumes:
+      - ./hanko/config.yaml:/etc/config/config.yaml:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+    networks: [hanko-net]
+
+  hanko:
+    image: ghcr.io/teamhanko/hanko:latest
+    command: serve --config /etc/config/config.yaml all
+    volumes:
+      - ./hanko/config.yaml:/etc/config/config.yaml:ro
+    ports:
+      - "127.0.0.1:8000:8000"   # Public API
+      - "127.0.0.1:8001:8001"   # Admin API（Do not expose!!）
+    depends_on:
+      hanko-migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    networks: [hanko-net]
+
+  # 開発用のダミー SMTP。届いたメール（確認コード）は http://localhost:8080 で読める。
+  mailslurper:
+    image: marcopas/docker-mailslurper:latest
+    ports:
+      - "8080:8080"   # Web UI
+      - "8085:8085"
+    networks: [hanko-net]
+
+volumes:
+  hanko-db:
+
+networks:
+  hanko-net:
