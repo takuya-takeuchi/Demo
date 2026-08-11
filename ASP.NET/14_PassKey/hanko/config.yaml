@@ -16,12 +16,21 @@ service:
   name: Hanko Auth (dev)
 
 # WebAuthn / passkeys
+#
+# These two are what WebAuthn checks, and both have to describe the origin the browser is on:
+#   id      - the host, without scheme or port. It has to equal the origin's host or be a
+#             registrable suffix of it. A bare IP address is NOT a valid id, which is why testing
+#             from a phone needs a hostname (see scripts/setup-dev-https.sh).
+#   origins - the full origins, scheme and port included. Checked server-side when the passkey
+#             is registered.
+# docker-compose.yml overrides both with WEBAUTHN_RELYING_PARTY_ID / _ORIGINS, so the values here
+# are only the defaults for running on localhost.
 webauthn:
   relying_party:
     id: localhost                 # Passkeys are bound to this id; changing it invalidates existing passkeys
     display_name: Hanko Sample App
     origins:
-      - http://localhost:5173     # React development server
+      - http://localhost:5080     # ASP.NET Core serves the SPA, the API and /auth from this one origin
 
 # Session
 session:
@@ -32,14 +41,15 @@ session:
     secure: false
     http_only: true
     same_site: lax
-    # Different ports still count as the same domain on localhost, so the cookie is
-    # sent from the frontend on :5173 to the API on :5080 as well.
+    # Has to match the host the browser is on, or the cookie is dropped. Overridden by
+    # SESSION_COOKIE_DOMAIN from docker-compose.yml when the app is served under a hostname.
     domain: localhost
   # For setups where the frontend lives on a different domain, allow the token to be
   # received via the X-Auth-Token header instead of a cookie.
   enable_auth_token_header: true
 
 # Login methods
+email:
   enabled: true
   optional: false
   acquire_on_registration: true
@@ -74,12 +84,15 @@ email_delivery:
     port: "2500"
 
 # CORS
+# Unused in the default setup: the browser reaches Hanko through /auth on the app's own origin
+# (YARP), so the requests Hanko sees are not cross-origin. It only matters if a browser is pointed
+# at :8000 directly.
 server:
   public:
     address: :8000
     cors:
       allow_origins:
-        - http://localhost:5173
+        - http://localhost:5080
       allow_credentials: true
   admin:
     address: :8001

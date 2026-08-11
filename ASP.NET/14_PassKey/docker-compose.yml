@@ -31,6 +31,13 @@ services:
     command: serve --config /etc/config/config.yaml all
     volumes:
       - ./hanko/config.yaml:/etc/config/config.yaml:ro
+    # Hanko applies environment variables on top of config.yaml, so the host-specific values stay
+    # out of the committed file. scripts/setup-dev-https.(sh|ps1) writes .env, which docker compose
+    # reads on its own; without it the defaults below keep the plain localhost setup working.
+    environment:
+      WEBAUTHN_RELYING_PARTY_ID: ${DEV_HOST:-localhost}
+      WEBAUTHN_RELYING_PARTY_ORIGINS: ${DEV_ORIGIN:-http://localhost:5080}
+      SESSION_COOKIE_DOMAIN: ${DEV_HOST:-localhost}
     ports:
       - "127.0.0.1:8000:8000"   # Public API
       - "127.0.0.1:8001:8001"   # Admin API (Do not expose!!)
