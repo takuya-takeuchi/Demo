@@ -1,9 +1,3 @@
-# ---------------------------------------------------------------------------
-# Configuration for self-hosted Hanko (development)
-# Official sample: https://github.com/teamhanko/hanko/blob/main/deploy/docker-compose/config.yaml
-# Full reference:  https://docs.hanko.io/setup/deployment
-# ---------------------------------------------------------------------------
-
 database:
   user: hanko
   password: hanko
@@ -21,7 +15,7 @@ secrets:
 service:
   name: Hanko Auth (dev)
 
-# --- WebAuthn / passkeys ---------------------------------------------------
+# WebAuthn / passkeys
 webauthn:
   relying_party:
     id: localhost                 # Passkeys are bound to this id; changing it invalidates existing passkeys
@@ -29,7 +23,7 @@ webauthn:
     origins:
       - http://localhost:5173     # React development server
 
-# --- Session ----------------------------------------------------------------
+# Session
 session:
   lifespan: 12h
   cookie:
@@ -45,8 +39,7 @@ session:
   # received via the X-Auth-Token header instead of a cookie.
   enable_auth_token_header: true
 
-# --- Login methods ----------------------------------------------------------
-email:
+# Login methods
   enabled: true
   optional: false
   acquire_on_registration: true
@@ -56,11 +49,22 @@ passkey:
   enabled: true
   optional: true
   acquire_on_registration: always
+  acquire_on_login: conditional
 
 password:
   enabled: false      # Disabled to keep the focus on passkeys. Set to true to allow passwords as well.
 
-# --- Mail delivery (mailslurper, a dummy SMTP server for development) -------
+mfa:
+  enabled: true
+  optional: true
+  acquire_on_registration: true
+  acquire_on_login: false
+  totp:
+    enabled: true     # Authentication app. Since it doesn't require WebAuthn, it works on any device.
+  security_keys:
+    enabled: false    # If set to `true`, the second factor via an external key or smartphone can be used.
+
+# Mail delivery (mailslurper, a dummy SMTP server for development)
 email_delivery:
   enabled: true
   from_address: noreply@localhost
@@ -69,7 +73,7 @@ email_delivery:
     host: mailslurper
     port: "2500"
 
-# --- CORS -------------------------------------------------------------------
+# CORS
 server:
   public:
     address: :8000
