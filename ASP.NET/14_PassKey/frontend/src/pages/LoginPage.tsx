@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { registerHankoElements } from "../lib/hanko";
 import { useSession } from "../auth/SessionProvider";
 
@@ -11,6 +12,7 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const location = useLocation();
   const { status } = useSession();
+  const { t, i18n } = useTranslation();
 
   useEffect(() => {
     registerHankoElements();
@@ -27,12 +29,11 @@ export default function LoginPage() {
 
   return (
     <div className="card narrow">
-      <h1>ログイン / 新規登録</h1>
-      <p className="muted">
-        パスキー（生体認証・端末 PIN）またはメールに届くコードでログインできます。
-      </p>
+      <h1>{t("login.title")}</h1>
+      <p className="muted">{t("login.description")}</p>
       {/* Web component provided by Hanko. The entire login UI fits in this one line. */}
-      <hanko-auth />
+      {/* `lang` is what tells the element which translation set to use. */}
+      <hanko-auth lang={i18n.resolvedLanguage} />
     </div>
   );
 }

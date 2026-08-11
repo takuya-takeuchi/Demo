@@ -1,12 +1,22 @@
 import { useCallback, useEffect, useState } from "react";
+import { Trans, useTranslation } from "react-i18next";
 import { api, ApiError, type Me, type Todo } from "../lib/api";
 
 export default function TodosPage() {
+  const { t } = useTranslation();
   const [me, setMe] = useState<Me | null>(null);
   const [todos, setTodos] = useState<Todo[]>([]);
   const [title, setTitle] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
+
+  // Errors from the API arrive as a translation key, so they are rendered in the
+  // language that is active when they are caught.
+  const describe = useCallback(
+    (e: unknown, fallback: string) =>
+      e instanceof ApiError ? t(e.messageKey, e.messageValues) : fallback,
+    [t],
+  );
 
   const load = useCallback(async () => {
     try {
@@ -15,9 +25,9 @@ export default function TodosPage() {
       setMe(meRes);
       setTodos(todosRes);
     } catch (e) {
-      setError(e instanceof ApiError ? e.message : "読み込みに失敗しました。");
+      setError(describe(e, t("errors.load")));
     }
-  }, []);
+  }, [describe, t]);
 
   useEffect(() => {
     void load();
@@ -33,7 +43,7 @@ export default function TodosPage() {
       setTodos((prev) => [created, ...prev]);
       setTitle("");
     } catch (e) {
-      setError(e instanceof ApiError ? e.message : "追加に失敗しました。");
+      setError(describe(e, t("errors.add")));
     } finally {
       setBusy(false);
     }
@@ -51,10 +61,15 @@ export default function TodosPage() {
 
   return (
     <div className="card">
-      <h1>Todo</h1>
+      <h1>{t("todos.title")}</h1>
       {me && (
         <p className="muted">
-          {me.email} としてログイン中（Hanko user_id: <code>{me.id}</code>）
+          {/* <Trans> keeps the <code> markup in the component and out of the translations. */}
+          <Trans
+            i18nKey="todos.signedInAs"
+            values={{ email: me.email, userId: me.id }}
+            components={{ code: <code /> }}
+          />
         </p>
       )}
 
@@ -64,16 +79,16 @@ export default function TodosPage() {
         <input
           value={title}
           onChange={(e) => setTitle(e.target.value)}
-          placeholder="やることを入力"
+          placeholder={t("todos.placeholder")}
           maxLength={500}
         />
         <button type="submit" disabled={busy || !title.trim()}>
-          追加
+          {t("todos.add")}
         </button>
       </form>
 
       {todos.length === 0 ? (
-        <p className="muted">まだ何もありません。</p>
+        <p className="muted">{t("todos.empty")}</p>
       ) : (
         <ul className="todos">
           {todos.map((todo) => (
@@ -82,8 +97,12 @@ export default function TodosPage() {
                 <input type="checkbox" checked={todo.isDone} onChange={() => void toggle(todo)} />
                 <span>{todo.title}</span>
               </label>
-              <button className="link" onClick={() => void remove(todo)} aria-label="削除">
-                削除
+              <button
+                className="link"
+                onClick={() => void remove(todo)}
+                aria-label={t("todos.delete")}
+              >
+                {t("todos.delete")}
               </button>
             </li>
           ))}

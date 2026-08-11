@@ -13,6 +13,7 @@ namespace Demo.Models
         public string? DisplayName { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+
         public DateTime LastSeenAt { get; set; } = DateTime.UtcNow;
 
         public List<TodoItem> Todos { get; set; } = [];

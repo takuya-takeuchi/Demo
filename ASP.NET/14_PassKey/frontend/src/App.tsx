@@ -1,24 +1,27 @@
 import { BrowserRouter, Link, Navigate, Route, Routes, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { SessionProvider, useSession } from "./auth/SessionProvider";
 import { ProtectedRoute } from "./auth/ProtectedRoute";
+import { LanguageSwitcher } from "./components/LanguageSwitcher";
 import LoginPage from "./pages/LoginPage";
 import TodosPage from "./pages/TodosPage";
 import ProfilePage from "./pages/ProfilePage";
 
 function Header() {
   const { status, logout } = useSession();
+  const { t } = useTranslation();
   const navigate = useNavigate();
 
   return (
     <header>
       <Link to="/" className="brand">
-        Hanko Sample
+        {t("app.name")}
       </Link>
       <nav>
         {status === "authenticated" ? (
           <>
-            <Link to="/todos">Todo</Link>
-            <Link to="/profile">アカウント</Link>
+            <Link to="/todos">{t("nav.todos")}</Link>
+            <Link to="/profile">{t("nav.account")}</Link>
             <button
               className="link"
               onClick={async () => {
@@ -26,12 +29,13 @@ function Header() {
                 navigate("/login", { replace: true });
               }}
             >
-              ログアウト
+              {t("nav.logout")}
             </button>
           </>
         ) : (
-          <Link to="/login">ログイン</Link>
+          <Link to="/login">{t("nav.login")}</Link>
         )}
+        <LanguageSwitcher />
       </nav>
     </header>
   );

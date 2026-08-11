@@ -1,4 +1,5 @@
 import { Navigate, Outlet, useLocation } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 import { useSession } from "./SessionProvider";
 
 /**
@@ -8,10 +9,11 @@ import { useSession } from "./SessionProvider";
  */
 export function ProtectedRoute() {
   const { status } = useSession();
+  const { t } = useTranslation();
   const location = useLocation();
 
   if (status === "loading") {
-    return <p className="muted">セッションを確認中…</p>;
+    return <p className="muted">{t("session.checking")}</p>;
   }
 
   if (status === "anonymous") {

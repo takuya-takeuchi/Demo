@@ -31,8 +31,7 @@ namespace Demo.Auth
                     RequireHttps = jwksUri.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
                 };
 
-                options.ConfigurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(
-                    jwksUri, new HankoJwksRetriever(), documentRetriever)
+                options.ConfigurationManager = new ConfigurationManager<OpenIdConnectConfiguration>(jwksUri, new HankoJwksRetriever(), documentRetriever)
                 {
                     AutomaticRefreshInterval = TimeSpan.FromHours(12),
                     RefreshInterval = TimeSpan.FromMinutes(5),
@@ -80,7 +79,7 @@ namespace Demo.Auth
                         }
 
                         var rawToken = context.Request.Headers.Authorization.ToString()
-                            .Replace("Bearer ", string.Empty, StringComparison.OrdinalIgnoreCase);
+                                              .Replace("Bearer ", string.Empty, StringComparison.OrdinalIgnoreCase);
 
                         if (string.IsNullOrWhiteSpace(rawToken))
                         {
