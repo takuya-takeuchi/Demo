@@ -85,9 +85,4 @@ And finally, launch backed server.
 $ dotnet run -c Release
 ````
 
-### Login
-
-
-### via Swagger UI
-
 <img src="images/hanko.gif" />
