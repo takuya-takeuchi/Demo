@@ -1,0 +1,193 @@
+:root {
+  --bg: #0f1115;
+  --panel: #181b22;
+  --border: #272c37;
+  --text: #e6e8ec;
+  --muted: #9aa2b1;
+  --accent: #6c8cff;
+  --danger: #ff6b6b;
+
+  color-scheme: dark;
+  font-family: system-ui, "Hiragino Sans", "Noto Sans JP", sans-serif;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.9rem 1.25rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  font-weight: 650;
+  letter-spacing: 0.01em;
+}
+
+nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+main {
+  max-width: 720px;
+  margin: 2.5rem auto;
+  padding: 0 1.25rem;
+}
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 1.5rem;
+}
+
+.card.narrow {
+  max-width: 440px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin: 0 0 0.4rem;
+  font-size: 1.35rem;
+}
+
+.muted {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.error {
+  color: var(--danger);
+  font-size: 0.9rem;
+}
+
+code {
+  font-size: 0.8em;
+  color: var(--muted);
+}
+
+.row {
+  display: flex;
+  gap: 0.6rem;
+  margin: 1.25rem 0;
+}
+
+input[type="text"],
+.row input {
+  flex: 1;
+  padding: 0.6rem 0.75rem;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: #10131a;
+  color: var(--text);
+  font: inherit;
+}
+
+button {
+  padding: 0.6rem 1rem;
+  border-radius: 9px;
+  border: 1px solid transparent;
+  background: var(--accent);
+  color: #0b0e14;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+button.link {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-weight: 400;
+  padding: 0;
+}
+
+button.link:hover {
+  color: var(--accent);
+}
+
+/* Language picker in the header */
+select.lang {
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  color: var(--muted);
+  font: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+select.lang:hover {
+  color: var(--text);
+}
+
+ul.todos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.5rem;
+}
+
+ul.todos li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+
+ul.todos li.done span {
+  text-decoration: line-through;
+  color: var(--muted);
+}
+
+ul.todos label {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  cursor: pointer;
+}
+
+/* Match the colors of Hanko's web components to the app (see the official docs for every variable) */
+hanko-auth,
+hanko-profile {
+  --color: var(--text);
+  --color-shade-1: var(--muted);
+  --color-shade-2: var(--border);
+  --brand-color: var(--accent);
+  --brand-contrast-color: #0b0e14;
+  --background-color: transparent;
+  --border-radius: 9px;
+  --font-family: inherit;
+}

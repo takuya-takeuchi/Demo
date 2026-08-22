@@ -1,0 +1,2 @@
+# Written by scripts/setup-dev-https.(sh|ps1): host-specific and machine-local.
+.env

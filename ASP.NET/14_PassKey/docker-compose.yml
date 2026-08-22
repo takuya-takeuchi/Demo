@@ -1,0 +1,62 @@
+services:
+  postgres:
+    image: postgres:18-alpine
+    environment:
+      POSTGRES_USER: hanko
+      POSTGRES_PASSWORD: hanko
+      POSTGRES_DB: hanko
+    volumes:
+      - hanko-db:/var/lib/postgresql/18/docker
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U hanko -d hanko"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks: [hanko-net]
+
+  hanko-migrate:
+    image: ghcr.io/teamhanko/hanko:latest
+    command: --config /etc/config/config.yaml migrate up
+    volumes:
+      - ./hanko/config.yaml:/etc/config/config.yaml:ro
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: on-failure
+    networks: [hanko-net]
+
+  hanko:
+    image: ghcr.io/teamhanko/hanko:latest
+    command: serve --config /etc/config/config.yaml all
+    volumes:
+      - ./hanko/config.yaml:/etc/config/config.yaml:ro
+    # Hanko applies environment variables on top of config.yaml, so the host-specific values stay
+    # out of the committed file. scripts/setup-dev-https.(sh|ps1) writes .env, which docker compose
+    # reads on its own; without it the defaults below keep the plain localhost setup working.
+    environment:
+      WEBAUTHN_RELYING_PARTY_ID: ${DEV_HOST:-localhost}
+      WEBAUTHN_RELYING_PARTY_ORIGINS: ${DEV_ORIGIN:-http://localhost:5080}
+      SESSION_COOKIE_DOMAIN: ${DEV_HOST:-localhost}
+    ports:
+      - "127.0.0.1:8000:8000"   # Public API
+      - "127.0.0.1:8001:8001"   # Admin API (Do not expose!!)
+    depends_on:
+      hanko-migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+    networks: [hanko-net]
+
+  # Dummy SMTP server for development. Read the delivered mails (passcodes) at http://localhost:8080.
+  mailslurper:
+    image: marcopas/docker-mailslurper:latest
+    ports:
+      - "8080:8080"   # Web UI
+      - "8085:8085"
+    networks: [hanko-net]
+
+volumes:
+  hanko-db:
+
+networks:
+  hanko-net:
