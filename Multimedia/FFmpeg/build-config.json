@@ -161,6 +161,9 @@
                 { "option": "--disable-zlib",             "flag": false                      } // disable zlib [autodetect]
             ]
         },
+        "nv-code-headers": {
+            "version": "n13.1.15.0"
+        },
         "linkStaticRuntime": true
     }
 }

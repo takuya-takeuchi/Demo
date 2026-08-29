@@ -296,3 +296,7 @@
 	path = Misc/CommandLineParser/C++/CLI11/cli11
 	url = https://github.com/cliutils/cli11
 	ignore = dirty
+[submodule "Multimedia/FFmpeg/nv-codec-headers"]
+	path = Multimedia/FFmpeg/nv-codec-headers
+	url = https://github.com/FFmpeg/nv-codec-headers.git
+	ignore = dirty
