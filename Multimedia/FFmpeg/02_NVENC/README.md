@@ -71,6 +71,8 @@ $ nvidia-smi dmon -s u
 
 ##### Encode
 
+..\install\win\ffmpeg\n8.1\dynamic\Release\bin\ffmpeg.exe -f lavfi -i testsrc2=size=3840x2160:rate=30 -t 300 -pix_fmt yuv420p -c:v h264_nvenc -f null -
+
 ````bat
 $ ..\install\win\ffmpeg\n8.1\dynamic\Release\bin\ffmpeg.exe -f lavfi -i testsrc2=size=1920x1080:rate=30 -t 30 ^
                                                             -pix_fmt yuv420p -c:v h264_nvenc -y test.mp4
