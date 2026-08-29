@@ -55,15 +55,7 @@ Sat Aug 29 21:58:57 2026
 +-----------------------------------------+------------------------+----------------------+
 ````
 
-````bat
-        "libiconv-2.dll"
-        "zlib1.dll"
-        "libgcc_s_seh-1.dll"
-        "libwinpthread-1.dll"
-        "libstdc++-6.dll"
-````
-
-First, launch `nvidia-smi` to check usage of gpu
+First, launch `nvidia-smi` to check usage of gpu.
 
 ````bat
 $ nvidia-smi dmon -s u
@@ -204,7 +196,7 @@ Sat Aug 29 20:39:02 2026
 +-----------------------------------------+------------------------+----------------------+
 ````
 
-First, launch `nvidia-smi` to check usage of gpu
+First, launch `nvidia-smi` to check usage of gpu.
 
 ````bash
 $ nvidia-smi dmon -s u
