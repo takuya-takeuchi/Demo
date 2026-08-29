@@ -37,11 +37,149 @@ $ pwsh build.ps1 <Debug/Release>
 
 ### Windows
 
+This is our environmentals.
+
 ````bat
-$ set OPENCV_FFMPEG_CAPTURE_OPTIONS="video_codec;libopenh264" 
-$ \install\win\Release\bin\Demo.exe .\install\win\Release\bin\bun33s.mp4
-[Info] Video has finished.
-[Info] Total frame count: 812
+$ nvidia-smi
+Sat Aug 29 21:58:57 2026       
++-----------------------------------------------------------------------------------------+
+| NVIDIA-SMI 571.96                 Driver Version: 571.96         CUDA Version: 12.8     |
+|-----------------------------------------+------------------------+----------------------+
+| GPU  Name                  Driver-Model | Bus-Id          Disp.A | Volatile Uncorr. ECC |
+| Fan  Temp   Perf          Pwr:Usage/Cap |           Memory-Usage | GPU-Util  Compute M. |
+|                                         |                        |               MIG M. |
+|=========================================+========================+======================|
+|   0  NVIDIA GeForce GTX 1080      WDDM  |   00000000:01:00.0 Off |                  N/A |
+| 28%   40C    P8              7W /  180W |     920MiB /   8192MiB |      0%      Default |
+|                                         |                        |                  N/A |
++-----------------------------------------+------------------------+----------------------+
+````
+
+````bat
+        "libiconv-2.dll"
+        "zlib1.dll"
+        "libgcc_s_seh-1.dll"
+        "libwinpthread-1.dll"
+        "libstdc++-6.dll"
+````
+
+First, launch `nvidia-smi` to check usage of gpu
+
+````bat
+$ nvidia-smi dmon -s u
+````
+
+##### Encode
+
+````bat
+$ ..\install\win\ffmpeg\n8.1\dynamic\Release\bin\ffmpeg.exe -f lavfi -i testsrc2=size=1920x1080:rate=30 -t 30 ^
+                                                            -pix_fmt yuv420p -c:v h264_nvenc -y test.mp4
+
+ffmpeg version n8.1 Copyright (c) 2000-2026 the FFmpeg developers
+  built with gcc 16.2.0 (Rev3, Built by MSYS2 project)
+  configuration: --enable-optimizations --disable-debug --enable-shared --disable-static --disable-logging --fatal-warnings --enable-pic --disable-doc --disable-htmlpages --disable-manpages --disable-podpages --disable-txtpages --disable-gpl --enable-cuda-llvm --enable-nvenc --enable-cuvid --enable-cross-compile --prefix=/e/Works/OpenSource/Demo/Multimedia/FFmpeg/install/win/ffmpeg/n8.1/dynamic/Release --strip=/c/msys64/mingw64/bin/strip.exe
+  libavutil      60. 26.100 / 60. 26.100
+  libavcodec     62. 28.100 / 62. 28.100
+  libavformat    62. 12.100 / 62. 12.100
+  libavdevice    62.  3.100 / 62.  3.100
+  libavfilter    11. 14.100 / 11. 14.100
+  libswscale      9.  5.100 /  9.  5.100
+  libswresample   6.  3.100 /  6.  3.100
+Input #0, lavfi, from 'testsrc2=size=1920x1080:rate=30':
+  Duration: N/A, start: 0.000000, bitrate: N/A
+  Stream #0:0: Video: wrapped_avframe, yuv420p, 1920x1080 [SAR 1:1 DAR 16:9], 30 fps, 30 tbr, 30 tbn
+Stream mapping:
+  Stream #0:0 -> #0:0 (wrapped_avframe (native) -> h264 (h264_nvenc))
+Press [q] to stop, [?] for help
+Output #0, mp4, to 'test.mp4':
+  Metadata:
+    encoder         : Lavf62.12.100
+  Stream #0:0: Video: h264 (Main) (avc1 / 0x31637661), yuv420p(tv, progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 2000 kb/s, 30 fps, 15360 tbn
+    Metadata:
+      encoder         : Lavc62.28.100 h264_nvenc
+    Side data:
+      CPB properties: bitrate max/min/avg: 0/0/2000000 buffer size: 4000000 vbv_delay: N/A
+[out#0/mp4 @ 000001812d522d80] video:7883KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: 0.145957%
+frame=  900 fps=257 q=37.0 Lsize=    7895KiB time=00:00:29.90 bitrate=2162.9kbits/s speed=8.55x elapsed=0:00:03.49 
+````
+
+When running `ffmpeg`, you will see stats of gpu like that
+
+````bat
+nvidia-smi dmon -s u
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    0      2      1      0      0      -      - 
+    0      1      0      0      0      -      - 
+    0     11      3      0      0      -      - 
+    0      2      0      0      0      -      - 
+    0      2      0      0      0      -      - 
+    0      1      0      0      0      -      - 
+    0      7      3      0      0      -      - 
+    0      8      2      0      0      -      - 
+    0      1      0      0      0      -      - 
+    0     11      3      0      0      -      - 
+    0      4      0      0      0      -      - 
+    0     27      5     48      0      -      - 
+    0     24      5     48      0      -      - 
+    0      1      0      0      0      -      - 
+    0      1      0      0      0      -      - 
+````
+
+##### Decode
+
+````bat
+$ ..\install\win\ffmpeg\n8.1\dynamic\Release\bin\ffmpeg.exe -hwaccel cuda -hwaccel_output_format cuda ^
+                                                            -i test.mp4 -an -f null -
+
+ffmpeg version n8.1 Copyright (c) 2000-2026 the FFmpeg developers
+  built with gcc 16.2.0 (Rev3, Built by MSYS2 project)
+  configuration: --enable-optimizations --disable-debug --enable-shared --disable-static --disable-logging --fatal-warnings --enable-pic --disable-doc --disable-htmlpages --disable-manpages --disable-podpages --disable-txtpages --disable-gpl --enable-cuda-llvm --enable-nvenc --enable-cuvid --enable-cross-compile --prefix=/e/Works/OpenSource/Demo/Multimedia/FFmpeg/install/win/ffmpeg/n8.1/dynamic/Release --strip=/c/msys64/mingw64/bin/strip.exe
+  libavutil      60. 26.100 / 60. 26.100
+  libavcodec     62. 28.100 / 62. 28.100
+  libavformat    62. 12.100 / 62. 12.100
+  libavdevice    62.  3.100 / 62.  3.100
+  libavfilter    11. 14.100 / 11. 14.100
+  libswscale      9.  5.100 /  9.  5.100
+  libswresample   6.  3.100 /  6.  3.100
+Input #0, mov,mp4,m4a,3gp,3g2,mj2, from 'test.mp4':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.12.100
+  Duration: 00:00:30.00, start: 0.000000, bitrate: 2155 kb/s
+  Stream #0:0[0x1](und): Video: h264 (Main) (avc1 / 0x31637661), yuv420p(progressive), 1920x1080 [SAR 1:1 DAR 16:9], 2152 kb/s, 30 fps, 30 tbr, 15360 tbn (default)
+    Metadata:
+      handler_name    : VideoHandler
+      encoder         : Lavc62.28.100 h264_nvenc
+Stream mapping:
+  Stream #0:0 -> #0:0 (h264 (native) -> wrapped_avframe (native))
+Press [q] to stop, [?] for help
+Output #0, null, to 'pipe:':
+  Metadata:
+    major_brand     : isom
+    minor_version   : 512
+    compatible_brands: isomiso2avc1mp41
+    encoder         : Lavf62.12.100
+  Stream #0:0(und): Video: wrapped_avframe, cuda(progressive), 1920x1080 [SAR 1:1 DAR 16:9], q=2-31, 200 kb/s, 30 fps, 30 tbn (default)
+    Metadata:
+      encoder         : Lavc62.28.100 wrapped_avframe
+      handler_name    : VideoHandler
+[out#0/null @ 00000178329a30c0] video:373KiB audio:0KiB subtitle:0KiB other streams:0KiB global headers:0KiB muxing overhead: unknown
+frame=  900 fps=726 q=-0.0 Lsize=N/A time=00:00:30.00 bitrate=N/A speed=24.2x elapsed=0:00:01.23
+````
+
+When running `ffmpeg`, you will see stats of gpu like that
+
+````bat
+$ nvidia-smi dmon -s u
+# gpu     sm    mem    enc    dec    jpg    ofa 
+# Idx      %      %      %      %      %      % 
+    0      2      1      0      0      -      - 
+    0     10      3      0      0      -      - 
+    0      7      9      0     99      -      - 
+    0      0      0      0      0      -      -
 ````
 
 ### Linux
@@ -62,20 +200,12 @@ Sat Aug 29 20:39:02 2026
 | 25%   43C    P8             17W /  250W |       4MiB /  24576MiB |      0%      Default |
 |                                         |                        |                  N/A |
 +-----------------------------------------+------------------------+----------------------+
-
-+-----------------------------------------------------------------------------------------+
-| Processes:                                                                              |
-|  GPU   GI   CI              PID   Type   Process name                        GPU Memory |
-|        ID   ID                                                               Usage      |
-|=========================================================================================|
-|  No running processes found                                                             |
-+-----------------------------------------------------------------------------------------+
 ````
 
 First, launch `nvidia-smi` to check usage of gpu
 
 ````bash
-$  nvidia-smi dmon -s u
+$ nvidia-smi dmon -s u
 ````
 
 ##### Encode
@@ -116,7 +246,7 @@ frame=  900 fps=196 q=37.0 Lsize=    7911KiB time=00:00:29.90 bitrate=2167.4kbit
 When running `ffmpeg`, you will see stats of gpu like that
 
 ````bash
-$  nvidia-smi dmon -s u
+$ nvidia-smi dmon -s u
 # gpu     sm    mem    enc    dec    jpg    ofa 
 # Idx      %      %      %      %      %      % 
     0      0      0      0      0      -      - 

@@ -11,6 +11,21 @@ Param
    $Configuration
 )
 
+function Join-PathArray {
+    [CmdletBinding()]
+    param (
+        [Parameter(Mandatory = $true, ValueFromPipeline = $true)]
+        [string[]]$PathElements
+    )
+
+    process {
+        if ($PathElements.Count -eq 0) { return }
+        $result = $PathElements[0]
+        for ($i = 1; $i -lt $PathElements.Count; $i++) { $result = Join-Path -Path $result -ChildPath $PathElements[$i] }
+        return $result
+    }
+}
+
 $ConfigurationArray =
 @(
    "Debug",
@@ -36,7 +51,7 @@ if (!(Test-Path($configPath)))
 
 $config = Get-Content -Path $configPath | ConvertFrom-Json
 $target = "ffmpeg"
-$version = $config.ffmpeg.version
+$version = $config.$target.version
 if ($config.ffmpeg.shared)
 {
     $shared = "dynamic"
@@ -68,18 +83,8 @@ elseif ($global:IsLinux)
 
 # build
 $sourceDir = Join-Path $current $target
-$buildDir = Join-Path $current build | `
-            Join-Path -ChildPath $os | `
-            Join-Path -ChildPath $target | `
-            Join-Path -ChildPath $version | `
-            Join-Path -ChildPath $shared | `
-            Join-Path -ChildPath $Configuration
-$installDir = Join-Path $current install | `
-              Join-Path -ChildPath $os | `
-              Join-Path -ChildPath $target | `
-              Join-Path -ChildPath $version | `
-              Join-Path -ChildPath $shared | `
-              Join-Path -ChildPath $Configuration
+$buildDir = Join-PathArray -PathElements @($current, "build", $os, $target, $version, $shared, $Configuration)
+$installDir = Join-PathArray -PathElements @($current, "install", $os, $target, $version, $shared, $Configuration)
 
 New-Item -Type Directory $buildDir -Force | Out-Null
 New-Item -Type Directory $installDir -Force | Out-Null
@@ -95,10 +100,7 @@ git submodule update --init --recursive .
 Pop-Location
 
 # apply patch
-$patch = Join-Path $current patch |
-         Join-Path -ChildPath ffmpeg |
-         Join-Path -ChildPath $version |
-         Join-Path -ChildPath $os
+$patch = Join-PathArray -PathElements @($current, "patch", $target, $version, $os)
 if (Test-Path($patch))
 {
     Copy-Item -Recurse $patch/* $sourceDir -Force
@@ -166,14 +168,8 @@ foreach ($item in $config.ffmpeg.options.externalLibrarySupport)
         if (Test-Path($scriptPath))
         {
             $version = $item.version
-            $buildExternalDir = Join-Path $current build | `
-                                Join-Path -ChildPath $os | `
-                                Join-Path -ChildPath $name | `
-                                Join-Path -ChildPath $version
-            $installExternalDir = Join-Path $current install | `
-                                  Join-Path -ChildPath $os | `
-                                  Join-Path -ChildPath $name | `
-                                  Join-Path -ChildPath $version
+            $buildExternalDir = Join-PathArray -PathElements @($current, "build", $os, $name, $version)
+            $installExternalDir = Join-PathArray -PathElements @($current, "install", $os, $name, $version)
             New-Item -Type Directory $installExternalDir -Force | Out-Null
             New-Item -Type Directory $buildExternalDir -Force | Out-Null
             Write-Host "[Info] Start build ${name}..." -ForegroundColor Green
@@ -211,6 +207,22 @@ if ($global:IsWindows)
     & $shell -defterm -no-start -ucrt64 -here -c "pacman --needed -Sy bash pacman pacman-mirrors msys2-runtime --noconfirm"
     & $shell -defterm -no-start -ucrt64 -here -c "pacman -Syuu --noconfirm"
     & $shell -defterm -no-start -ucrt64 -here -c "pacman -S mingw-w64-x86_64-gcc mingw-w64-x86_64-yasm mingw-w64-x86_64-pkg-config git make diffutils --noconfirm"
+ 
+    foreach ($item in $config.ffmpeg.options.externalLibrarySupport)
+    {
+        $flag = $item.flag
+        $option = $item.option
+        if (!$flag)
+        {
+            continue
+        }
+
+        if ($option -eq "--enable-cuda-llvm")
+        {
+            & $shell -defterm -no-start -ucrt64 -here -c "pacman -S mingw-w64-x86_64-clang --noconfirm"
+            break
+        }
+    }
 
     function Convert-ToMsys2Path {
         param(
@@ -315,4 +327,26 @@ else
     make install
 }
 
+$version = $config.$target.version
+$installDir = Join-PathArray -PathElements @($current, "install", $os, $target, $version, $shared, $Configuration, "bin")
+if ($global:IsWindows)
+{
+    $dependencies = @(
+        "libiconv-2.dll"
+        "zlib1.dll"
+        "libgcc_s_seh-1.dll"
+        "libwinpthread-1.dll"
+        "libstdc++-6.dll"
+    )
+
+    foreach ($fileName in $dependencies) {
+        $src = Join-Path "C:\msys64\mingw64\bin" $fileName
+        if (!(Test-Path($src)))
+        {
+            Write-Host "${src} is missing" -ForegroundColor Red
+            exit
+        }
+        Copy-Item "${src}" (Join-Path $installDir $fileName) -Force
+    }
+}
 Pop-Location
