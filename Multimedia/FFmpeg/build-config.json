@@ -160,7 +160,7 @@
                 { "option": "--disable-xlib",             "flag": false                          }, // disable xlib [autodetect]
                 { "option": "--disable-zlib",             "flag": false                          }, // disable zlib [autodetect]
                 { "option": "--enable-cuda-llvm",         "flag": false                          }, // compiles the CUDA filter kernels with clang instead of nvcc, so no CUDA Toolkit is required
-                { "option": "--enable-nvenc",             "flag": false, "version": "n13.1.15.0" }, // enables hardware-accelerated encoders backed by NVENC.
+                { "option": "--enable-nvenc",             "flag": false, "version": "n13.0.19.0" }, // enables hardware-accelerated encoders backed by NVENC.
                 { "option": "--enable-cuvid",             "flag": false                          }  // enables the standalone CUVID-based decoders.
             ]
         },
