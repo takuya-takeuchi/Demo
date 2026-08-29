@@ -242,7 +242,7 @@ if ($global:IsWindows)
             exit
         }
         Copy-Item "${src}" (Join-Path $installDir $fileName) -Force
-    }    
+    }
 }
 elseif ($global:IsMacOS)
 {

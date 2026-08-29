@@ -20,6 +20,8 @@
 * g++
 * `nasm`
   * install by `apt install nasm`
+* `clang`
+  * If you want to use `nvenc`  
 
 ### OSX
 
