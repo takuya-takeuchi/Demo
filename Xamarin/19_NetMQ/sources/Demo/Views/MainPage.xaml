@@ -21,35 +21,49 @@
         </ToolbarItem>
     </ContentPage.ToolbarItems>
 
-    <StackLayout Padding="10"
-                 HorizontalOptions="CenterAndExpand"
-                 VerticalOptions="CenterAndExpand">
-        <Grid HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="Auto" />
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <Entry Grid.Row="0" Text="{Binding Address}" />
-            <StackLayout Grid.Row="1" Orientation="Horizontal">
-                <Button Command="{Binding ConnectCommand}"
-                        CommandParameter="{Binding Address}"
-                        Text="Connect" />
-                <Button Command="{Binding DisconnectCommand}" Text="Disconnect" />
-            </StackLayout>
-            <CollectionView Grid.Row="2"
-                            HorizontalOptions="CenterAndExpand"
-                            ItemsSource="{Binding Messages}"
-                            VerticalOptions="CenterAndExpand">
-                <CollectionView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Label Text="{Binding}" />
-                        </Grid>
-                    </DataTemplate>
-                </CollectionView.ItemTemplate>
-            </CollectionView>
-        </Grid>
-    </StackLayout>
+    <Grid Padding="10" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        <Entry Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2" Text="{Binding Address}" />
+        <StackLayout Grid.Row="1"
+                     Orientation="Horizontal"
+                     HorizontalOptions="FillAndExpand">
+            <Button Command="{Binding ConnectCommand}"
+                    CommandParameter="{Binding Address}"
+                    Text="Connect"
+                    HorizontalOptions="Start" />
+            <Button Command="{Binding DisconnectCommand}"
+                    Text="Disconnect"
+                    HorizontalOptions="Start" />
+        </StackLayout>
+        <StackLayout Grid.Column="1"
+                     Grid.Row="1"
+                     Orientation="Horizontal"
+                     HorizontalOptions="End">
+            <Button Command="{Binding ClearCommand}"
+                    Text="Clear" />
+        </StackLayout>
+        <CollectionView Grid.Row="2"
+                        Grid.Column="0"
+                        Grid.ColumnSpan="2"
+                        HorizontalOptions="CenterAndExpand"
+                        ItemsSource="{Binding Messages}"
+                        VerticalOptions="CenterAndExpand">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <Label Text="{Binding}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </Grid>
 
 </ContentPage>
